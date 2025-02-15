@@ -1,0 +1,289 @@
+body {
+    font-family: 'inter';
+    color: #535862;
+}
+
+:root {
+    --main-blue: #0F91D2;
+}
+
+.font-inter {
+    font-family: 'inter';
+}
+
+.text-blue {
+    color: var(--main-blue);
+}
+
+.bg-blue {
+    background: var(--main-blue);
+}
+
+input::placeholder {
+    color: #717680;
+}
+
+select option {
+    color: #717680;
+
+}
+
+.focus-none {
+    box-shadow: none;
+    outline: none;
+}
+
+.myblack {
+    color: #535862;
+}
+
+.myhead {
+    color: #181D27;
+}
+
+.mycontainer {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.custom-list li::marker {
+    color: #000000;
+    content: '● ';
+    font-size: 20px;
+}
+
+.btn-blue {
+    background: #0F91D2;
+}
+
+.selected-flag {
+    background: transparent !important;
+}
+
+.scroll-0::-webkit-scrollbar {
+    width: 0px;
+}
+
+/* 
+  #simple-tabpanel-0 .css-19kzrtu{
+    padding: 0 !important;
+  } */
+.css-1v5u2yv {
+    padding: 24px !important;
+    width: calc(100% - 48px)
+}
+
+.def-switch.switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+}
+
+.def-switch.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.def-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.def-switch input:checked+.slider {
+    background-color: #2196F3;
+}
+
+.def-switch input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+.def-switch input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.def-switch .slider.round {
+    border-radius: 34px;
+}
+
+.def-switch .slider.round:before {
+    border-radius: 50%;
+}
+
+/* .MuiToolbar-root {
+    min-height: 0 !important;
+  } */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 50px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.navv {
+    height: 100px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.btm {
+    height: calc(100dvh - 135px);
+    overflow: auto;
+    padding: 0 10px;
+    ;
+}
+
+.css-1csaadc {
+    margin-top: 0 !important;
+}
+
+.MuiBox-root.css-p0oxrk,
+.css-noghqw {
+    padding: 12px 12px !important;
+}
+
+.css-19kzrtu {
+    padding: 24px 0px 0px !important;
+}
+
+.css-1aap3sj {
+    padding: 0 !important;
+}
+
+.mycontainer {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.custom-list li::marker {
+    color: #000000;
+    content: '● ';
+    font-size: 20px;
+}
+
+.myinput {
+    border: solid #cdcdcd 1px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.myselect {
+    border: solid #cdcdcd 1px;
+    padding: 10px;
+    border-radius: 10px;
+    background-image: url(../img/chevron.svg);
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+    appearance: none;
+}
+
+textarea {
+    resize: none !important;
+}
+
+.additional .css-1ltxtvo-MuiButtonBase-root-MuiAccordionSummary-root {
+    padding: 0 !important;
+}
+
+.scroll-x-hidden::-webkit-scrollbar {
+    width: 0;
+}
+
+/* From Uiverse.io by adamgiebl */
+.dots-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    width: 100%;
+}
+
+.dot {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #b3d4fc;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot:last-child {
+    margin-right: 0;
+}
+
+.dot:nth-child(1) {
+    animation-delay: -0.3s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: -0.1s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.1s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        background-color: #b3d4fc;
+        box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+
+    50% {
+        transform: scale(1.2);
+        background-color: #6793fb;
+        box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+    }
+
+    100% {
+        transform: scale(0.8);
+        background-color: #b3d4fc;
+        box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+}
