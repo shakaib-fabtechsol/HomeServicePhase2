@@ -33,103 +33,103 @@ const Sidebar = ({ isSidebarOpen }) => {
       } md:translate-x-0`}
     >
       <div className="left-mid">
-        <div className="list flex flex-col">
-         <div>
-         <ul className="">
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/dashboard"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <IoHomeOutline className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Home</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <FiBarChart2 className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">My Services/ Deals</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <AiOutlineDollar className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Pro Bucks</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <RiBarChartHorizontalLine className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Orders</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <CiCreditCard1 className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Payments/Payout</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <FaRegHeart className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Favorites</p>
-                </div>
-              </NavLink>
-            </li>
-            <li className="mx-1">
-              <NavLink
-                to="serviceprovider/test"
-                className={({ isActive }) =>
-                  isActive ? "sidelink active" : "sidelink"
-                }
-              >
-                <div className="flex items-center">
-                  <PiFiles className="me-2 text-xl" />
-                  <p className="mb-0 font-medium">Reports</p>
-                </div>
-              </NavLink>
-            </li>
-          </ul>
-         </div>
-          <div className="mt-auto">
+        <div className="list flex flex-col h-full justify-between">
+          <div>
+            <ul className="">
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/dashboard"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <IoHomeOutline className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Home</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <FiBarChart2 className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">My Services/ Deals</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <AiOutlineDollar className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Pro Bucks</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <RiBarChartHorizontalLine className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Orders</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <CiCreditCard1 className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Payments/Payout</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <FaRegHeart className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Favorites</p>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="mx-1">
+                <NavLink
+                  to="serviceprovider/test"
+                  className={({ isActive }) =>
+                    isActive ? "sidelink active" : "sidelink"
+                  }
+                >
+                  <div className="flex items-center">
+                    <PiFiles className="me-2 text-xl" />
+                    <p className="mb-0 font-medium">Reports</p>
+                  </div>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+          <div>
             <ul>
               <li className="mx-1">
                 <NavLink
@@ -184,25 +184,29 @@ const Sidebar = ({ isSidebarOpen }) => {
                 </NavLink>
               </li>
             </ul>
-            <div className="flex items-center px-4  border-t-2 pt-3">
-              <Link to="/customer/ProfileDetails">
-                <img
-                  src={user}
-                  alt="logo"
-                  className="rounded-full pe-2 max-w-[70px]"
-                />
-              </Link>
-              <NavLink to="user/signin" className="logouts">
-                  <div className="flex justify-between items-center">
-                    <p className="font-bold text-black">Mike Bird</p>
-                    <button>
-                      <MdLogout className="text-2xl text-black" />
-                    </button>
-                  </div>
-                  <p className="mb-0 font-medium text-sm text-black">mikebird@untitledui.com</p>
-              </NavLink>
-            </div>
           </div>
+        </div>
+      </div>
+      <div className="left-bottom">
+        <div className="flex items-center px-4 border-t-2 pt-3">
+          <Link to="/customer/ProfileDetails">
+            <img
+              src={user}
+              alt="logo"
+              className="rounded-full pe-2 max-w-[70px]"
+            />
+          </Link>
+          <NavLink to="user/signin" className="logouts">
+            <div className="flex justify-between items-center">
+              <p className="font-bold text-black">Mike Bird</p>
+              <button>
+                <MdLogout className="text-2xl text-black" />
+              </button>
+            </div>
+            <p className="mb-0 font-medium text-sm text-black">
+              mikebird@untitledui.com
+            </p>
+          </NavLink>
         </div>
       </div>
     </div>

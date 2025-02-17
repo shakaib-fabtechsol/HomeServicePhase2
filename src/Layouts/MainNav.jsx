@@ -25,7 +25,7 @@ const MainNav = ({ toggleSidebar }) => {
             <input
               type="text"
               placeholder="Search for any service..."
-              className="py-[7px] bg-transparent focus-none border-r px-3"
+              className="py-[6px] bg-transparent focus-none border-r px-3"
             />
           </div>
           <div className="flex items-center px-3">
@@ -33,11 +33,11 @@ const MainNav = ({ toggleSidebar }) => {
             <input
               type="text"
               placeholder="Location for the service..."
-              className="py-[7px] bg-transparent focus-none"
+              className="py-[6px] bg-transparent focus-none"
             />
           </div>
         </div>
-        <div className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-2">
+        <div className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1">
           <FaSearch />
         </div>
       </div>

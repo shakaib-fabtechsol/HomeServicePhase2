@@ -59,7 +59,7 @@ textarea {
 
 .left {
   height: calc(100dvh -131px);
-  width: 270px;
+  width: 250px;
   z-index: 9999;
   border-right: 1px solid #E9EAEB;
   border-top: 1px solid #E9EAEB;
@@ -74,7 +74,7 @@ textarea {
 }
 
 .left-mid {
-  height: calc(100dvh - 135px);
+  height: calc(100dvh - 200px);
   padding: 10px;
 }
 
@@ -113,7 +113,7 @@ textarea {
 }
 
 .right {
-  width: calc(100% - 270px);
+  width: calc(100% - 250px);
   height: calc(100dvh - 134px);
   padding: 10px;
 }
