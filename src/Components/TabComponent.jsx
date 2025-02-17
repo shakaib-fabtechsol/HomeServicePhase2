@@ -66,7 +66,7 @@ export default function TabComponent({ tabs }) {
         </Tabs>
       </Box>
       {tabs.map((tab, index) => (
-        <CustomTabPanel key={index} value={value} index={index}>
+        <CustomTabPanel sx={{fontFamily:"inter"}} key={index} value={value} index={index}>
           {tab.content}
         </CustomTabPanel>
       ))}
