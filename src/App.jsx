@@ -8,6 +8,7 @@ import Reports from "./Pages/SuperAdmin/Reports";
 import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./Pages/Home";
+import Login from "./Pages/Auth/Login";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/home" element={<Home />} />
         </Route>
-
+        <Route path="/" element={<Login />} />
         <Route path="/test" element={<Test />} />
         <Route path="/clients" element={<Clients />} />
         <Route path="/sales" element={<Sales />} />
