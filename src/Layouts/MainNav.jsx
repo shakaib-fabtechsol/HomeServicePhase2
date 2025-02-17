@@ -1,28 +1,31 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { IoMdNotifications } from "react-icons/io";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import logo from "../assets/img/logo.png";
 import profile from "../assets/img/profile.png";
+import { FaRegHeart } from "react-icons/fa6";
+import { GrNotification } from "react-icons/gr";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const MainNav = ({ toggleSidebar }) => {
   return (
-    <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white shadow-md">
+    <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
       <div className="flex items-center justify-between">
-        <NavLink to="user/dashboard" className="logodiv">
+        <NavLink to="serviceprovider/dashboard" className="logodiv w-full h-full ">
           <img src={logo} alt="logo" className="w-[60px]" />
         </NavLink>
       </div>
       
-      <div className="flex">
+      <div className="lg:flex hidden">
         <div className="flex me-3 rounded-lg border-[#E4E4E4] border-2 py-1">
           <div>
             <input
               type="text"
               placeholder="Search for any service..."
-              className="py-2 bg-transparent border-r px-3"
+              className="py-[7px] bg-transparent focus-none border-r px-3"
             />
           </div>
           <div className="flex items-center px-3">
@@ -30,7 +33,7 @@ const MainNav = ({ toggleSidebar }) => {
             <input
               type="text"
               placeholder="Location for the service..."
-              className="py-2 bg-transparent"
+              className="py-[7px] bg-transparent focus-none"
             />
           </div>
         </div>
@@ -38,16 +41,21 @@ const MainNav = ({ toggleSidebar }) => {
           <FaSearch />
         </div>
       </div>
-
       <div className="flex items-center">
         <button className="text-2xl md:hidden" onClick={toggleSidebar}>
-          <GiHamburgerMenu className="me-2 pointer" />
+          <RxHamburgerMenu className="me-3 sm:me-5 pointer" />
         </button>
-        <NavLink to="user/notification">
-          <IoMdNotifications className="text-2xl cursor-pointer me-2" />
+        <NavLink to="#">
+        <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
+        </NavLink>
+        <NavLink to="#">
+           <FaRegHeart className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
+        </NavLink>
+        <NavLink to="#">
+          <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
         </NavLink>
         <Link to="#">
-          <img src={profile} alt="Profile" className="img-wade mr-2" />
+          <img src={profile} alt="Profile" className="img-wade" />
         </Link>
       </div>
     </div>
