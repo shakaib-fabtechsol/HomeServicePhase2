@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import UserLayout from "./Layouts/UserLayout";
-import Dashboard from "./Pages/User/Dashboard";
+import ProviderLayout from "./Layouts/ProviderLayout";
+import Dashboard from "./Pages/ServiceProvider/Dashboard";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<UserLayout />}>
-          <Route path="/user/dashboard" element={<Dashboard />} />
+        <Route element={<ProviderLayout />}>
+          <Route path="/serviceprovider/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </Router>

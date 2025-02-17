@@ -6,10 +6,11 @@ import profile from "../assets/img/profile.png";
 import logo from "../assets/img/logo.png";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import Sidebar from "./Sidebar"; 
+import Sidebar from "./Sidebar";
 import MainNav from "./MainNav";
+import FilterNav from "./FilterNav";
 
-function UserLayout() {
+function ProviderLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Toggle sidebar visibility
@@ -19,19 +20,14 @@ function UserLayout() {
 
   return (
     <div className="mainpage">
-      {/* Main Content */}
       <MainNav toggleSidebar={toggleSidebar} />
-      {/* Main Content */}
+      <FilterNav />
       <div className="main flex">
         <Sidebar isSidebarOpen={isSidebarOpen} />
-        <div className="right flex-1 min-h-screen">
-          <div className="right-bottom p-4">
-            <div className="bottom-main">
-              <div className="content">
-                <div className="container-fluid">
-                  <Outlet />
-                </div>
-              </div>
+        <div className="right">
+          <div className="right-bottom px-2">
+            <div className="container-fluid">
+              <Outlet />
             </div>
           </div>
         </div>
@@ -40,4 +36,4 @@ function UserLayout() {
   );
 }
 
-export default UserLayout;
+export default ProviderLayout;
