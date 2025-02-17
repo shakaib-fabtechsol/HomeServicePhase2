@@ -29,7 +29,7 @@ const MainNav = ({ toggleSidebar }) => {
             />
           </div>
           <div className="flex items-center px-3">
-            <IoLocationOutline className="me-2 text-2xl" />
+            <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
             <input
               type="text"
               placeholder="Location for the service..."

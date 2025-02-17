@@ -23,8 +23,7 @@ function HomeLayout() {
       <MainNav toggleSidebar={toggleSidebar} />
       <FilterNav />
       <div className="main flex">
-        <Sidebar isSidebarOpen={isSidebarOpen} />
-        <div className="right">
+        <div className="right w-full">
           <div className="right-bottom px-2">
             <div className="container-fluid">
               <Outlet />

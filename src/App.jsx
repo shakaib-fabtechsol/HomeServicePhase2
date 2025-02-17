@@ -6,6 +6,8 @@ import Clients from "./Pages/SuperAdmin/Clients";
 import Sales from "./Pages/SuperAdmin/Sales";
 import Reports from "./Pages/SuperAdmin/Reports";
 import Notification from "./Pages/User/Notification";
+import HomeLayout from "./Layouts/HomeLayout";
+import Home from "./Pages/Home";
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
         <Route element={<ProviderLayout />}>
           <Route path="/serviceprovider/dashboard" element={<Dashboard />} />
           <Route path="/user/notification" element={<Notification />} />
+        </Route>
+        <Route element={<HomeLayout />}>
+          <Route path="/home" element={<Home />} />
         </Route>
 
         <Route path="/test" element={<Test />} />
