@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import MyDetail from "../../Components/ProviderSetting/MyDetail";
 import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
+import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";
 
 function TabPanel(props) {
   useEffect(() => {
@@ -84,7 +85,7 @@ function Settings() {
             <ServiceArea />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {/* <BusinessProfile /> */}
+            <BusinessProfile />
           </TabPanel>
           <TabPanel value={value} index={3}>
             {/* <CertificationHour /> */}
