@@ -9,6 +9,7 @@ import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./Pages/LandingPage";
 import Login from "./Pages/Auth/Login";
+import Settings from "./Pages/ServiceProvider/Settings";
 import Register from "./Pages/Auth/Register";
 import Signup from "./Pages/Auth/Signup";
 import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<ProviderLayout />}>
+          <Route path="/provider/settings" element={<Settings />} />
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
