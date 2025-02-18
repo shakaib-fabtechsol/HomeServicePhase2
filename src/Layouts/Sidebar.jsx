@@ -38,7 +38,7 @@ const Sidebar = ({ isSidebarOpen }) => {
             <ul className="">
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/dashboard"
+                  to="provider/dashboard"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -51,7 +51,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -64,7 +64,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -77,7 +77,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -90,7 +90,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -103,7 +103,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -116,7 +116,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -133,7 +133,7 @@ const Sidebar = ({ isSidebarOpen }) => {
             <ul>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -146,7 +146,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -159,7 +159,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }
@@ -172,7 +172,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="serviceprovider/test"
+                  to="provider/test"
                   className={({ isActive }) =>
                     isActive ? "sidelink active" : "sidelink"
                   }

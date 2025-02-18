@@ -19,7 +19,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<ProviderLayout />}>
-          <Route path="/serviceprovider/dashboard" element={<Dashboard />} />
+          <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/user/notification" element={<Notification />} />
         </Route>
         <Route element={<HomeLayout />}>
