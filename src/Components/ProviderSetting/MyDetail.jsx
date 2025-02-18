@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { MenuItem, Select, TextField, Button } from "@mui/material";
 import SettingsPreview from "../MUI/SettingsPreview";
 import profileImg from "../../assets/img/service3.png";
+import InputMask from "react-input-mask";
 
-const phoneRegExp = /^\+1\(\d{3}\) \d{3}-\d{4}$/; // Corrected phone format: +1(123) 456-7890
+const phoneRegExp = /^\\+1\\(\\d{3}\\) \\d{3}-\\d{4}$/; 
 
 const MyDetail = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [referredBySales, setReferredBySales] = useState(""); // Track referral selection
+  const [referredBySales, setReferredBySales] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const options = [
     { value: "1", label: "John Doe", avatar: profileImg },
@@ -15,13 +17,8 @@ const MyDetail = () => {
     { value: "3", label: "Chris Evans", avatar: profileImg },
   ];
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleReferralChange = (event) => {
-    setReferredBySales(event.target.value);
-  };
+  const handleSelectChange = (event) => setSelectedOption(event.target.value);
+  const handleReferralChange = (event) => setReferredBySales(event.target.value);
 
   return (
     <>
@@ -73,17 +70,26 @@ const MyDetail = () => {
                 </label>
               </div>
               <div className="sm:col-span-2">
-                <TextField
-                  fullWidth
-                  id="phone"
-                  name="phone"
-                  variant="outlined"
-                  placeholder="+1(123) 456-7890"
-                  inputProps={{
-                    pattern: phoneRegExp.source,
-                    title: "Phone number must be in the format +1(123) 456-7890",
-                  }}
-                />
+                <InputMask
+                  mask="+1(999) 999-9999"
+                  maskChar={null}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                >
+                  {() => (
+                    <TextField
+                      fullWidth
+                      id="phone"
+                      name="phone"
+                      variant="outlined"
+                      placeholder="+1(123) 456-7890"
+                      inputProps={{
+                        pattern: phoneRegExp.source,
+                        title:
+                          "Phone number must be in the format +1(123) 456-7890",
+                      }}
+                    />
+                  )}
+                </InputMask>
               </div>
             </div>
 
