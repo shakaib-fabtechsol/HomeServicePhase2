@@ -42,37 +42,47 @@ export default function TabComponent({ tabs }) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-        <Tabs indicatorColor='transparent'
-        sx={{fontFamily:"inter", minHeight: "32px",}} value={value} onChange={handleChange} aria-label="custom tabs example">
+      <Box sx={{ borderBottom: 0, borderColor: 'divider', overflowX: 'auto' }}>
+        <Tabs
+          indicatorColor='transparent'
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{ fontFamily: "Inter", minHeight: "32px" }}
+          value={value}
+          onChange={handleChange}
+          aria-label="custom tabs example"
+        >
           {tabs.map((tab, index) => (
-            <Tab sx={{
-                fontFamily:"inter",
+            <Tab
+              sx={{
+                fontFamily: "Inter",
                 textTransform: "capitalize",
-                fontSize: "16px",
+                fontSize: { xs: "14px", sm: "16px" },
                 fontWeight: "400",
                 color: "#000",
                 minWidth: "42px",
-                marginRight: "15px",
+                marginRight: { xs: "8px", sm: "15px" },
                 position: "relative",
                 minHeight: "32px",
-                padding: "5px 14px",
+                padding: { xs: "5px 10px", sm: "5px 14px" },
                 '&.Mui-selected': {
-                  borderBottom: "2px solid #0F91D2",
-                  fontWeight: "600",
+                  color: "#0F91D2 !important",
+                  borderBottom: "solid 4px #0F91D2",
+                  fontFamily: "Inter",
                 },
-            }} key={index} label={tab.label} {...a11yProps(index)} />
+              }}
+              key={index}
+              label={tab.label}
+              {...a11yProps(index)}
+            />
           ))}
         </Tabs>
       </Box>
       {tabs.map((tab, index) => (
-        <CustomTabPanel sx={{fontFamily:"inter"}} key={index} value={value} index={index}>
+        <CustomTabPanel key={index} value={value} index={index}>
           {tab.content}
         </CustomTabPanel>
       ))}
     </Box>
   );
 }
-
-
-
