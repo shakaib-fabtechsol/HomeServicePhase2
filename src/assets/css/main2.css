@@ -143,8 +143,8 @@ select option {
 }
 
 .btm {
-    height: calc(100dvh - 135px);
-    overflow: auto;
+    /* height: calc(100dvh - 135px);
+    overflow: auto; */
     padding: 0 10px;
 }
 
