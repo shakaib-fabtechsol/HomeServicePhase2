@@ -1,11 +1,8 @@
 import React from "react";
 import SettingsPreview from "../MUI/SettingsPreview";
-import profileImg from "../../assets/img/service3.png";
 import PreviewVideo from "../MUI/PreviewVideo";
 
 const AdditionalInfo = () => {
-  const userId = localStorage.getItem("id");
-
   const handleFileChange = (e, fieldName) => {
     const uploadedFile = e.target.files[0];
     setFormData((prevState) => ({

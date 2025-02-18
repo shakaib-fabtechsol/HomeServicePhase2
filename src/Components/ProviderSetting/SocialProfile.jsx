@@ -5,7 +5,7 @@ import Youtube from "../../assets/img/Youtube-icon.png";
 import Twitter from "../../assets/img/Twitter-icon.png";
 import Instagram from "../../assets/img/Instagram-icon.png";
 import Linkedin from "../../assets/img/Linkdin-icon.png";
-import Business from "../../assets/img/Business-icon.png"
+import Business from "../../assets/img/Business-icon.png";
 import { Link } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 
@@ -17,13 +17,13 @@ const SocialProfile = () => {
     const urlPattern = /^(https?:\/\/)?(www\.)?[\w-]+(\.[a-z]{2,})+\/?.*$/i;
     return urlPattern.test(url);
   };
-  
+
   const handleChange = (e) => {
     const socialKey = selectedSocial.name.toLowerCase().replace(" ", "_");
     const value = e.target.value;
-  
+
     setFormData({ ...formData, [socialKey]: value });
-   
+
     if (value && !validateUrl(value)) {
       setErrors({
         ...errors,

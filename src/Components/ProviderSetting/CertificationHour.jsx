@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import SettingsPreview from "../MUI/SettingsPreview";
 import { FaTrash } from "react-icons/fa6";
-import profileImg from "../../assets/img/service3.png";
 
 const CertificationHour = () => {
-  const userId = localStorage.getItem("id");
-
   const days = [
     "Monday",
     "Tuesday",
@@ -37,7 +34,7 @@ const CertificationHour = () => {
     const uploadedFile = e.target.files[0];
     setFormData((prevState) => ({
       ...prevState,
-      [fieldName]: uploadedFile, 
+      [fieldName]: uploadedFile,
     }));
   };
 
@@ -63,7 +60,6 @@ const CertificationHour = () => {
       prev.map((item, i) => (i === dayIndex ? { ...item, ...update } : item))
     );
   };
-
 
   return (
     <div>

@@ -9,6 +9,8 @@ import CertificationHour from "../../Components/ProviderSetting/CertificationHou
 import AdditionalInfo from "../../Components/ProviderSetting/AdditionalInfo";
 import SocialProfile from "../../Components/ProviderSetting/SocialProfile";
 import Password from "../../Components/ProviderSetting/Password";
+import ChannelConversation from "../../Components/ProviderSetting/ChannelConversation";
+import Payment from "../../Components/ProviderSetting/Payment";
 
 function TabPanel(props) {
   useEffect(() => {
@@ -104,10 +106,10 @@ function Settings() {
             <Password />
           </TabPanel>
           <TabPanel value={value} index={7}>
-            {/* <ChannelConversation /> */}
+            <ChannelConversation />
           </TabPanel>
           <TabPanel value={value} index={8}>
-            {/* <Payment /> */}
+            <Payment />
           </TabPanel>
         </Box>
       </div>

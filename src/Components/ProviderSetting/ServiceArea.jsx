@@ -339,7 +339,7 @@ const ServiceArea = () => {
                       strokeWeight: 2,
                       fillColor: "#FF0000",
                       fillOpacity: 0.35,
-                      radius: value2 * 1609.34, // Convert miles to meters
+                      radius: value2 * 1609.34,
                     }}
                   />
                 </GoogleMap>

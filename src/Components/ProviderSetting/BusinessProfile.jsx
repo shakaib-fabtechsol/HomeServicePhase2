@@ -1,13 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import SettingsPreview from "../MUI/SettingsPreview";
 import { FaPlus } from "react-icons/fa6";
-import profileImg from "../../assets/img/service3.png";
 import { Autocomplete, TextField } from "@mui/material";
 
 const BusinessProfile = () => {
-  const userId = localStorage.getItem("id");
-
   const handlereset = () => {
     setFormData({
       business_name: "",
