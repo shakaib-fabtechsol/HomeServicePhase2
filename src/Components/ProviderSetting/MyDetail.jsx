@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { MenuItem, Select, TextField, Button } from "@mui/material";
 import SettingsPreview from "../MUI/SettingsPreview";
 import profileImg from "../../assets/img/service3.png";
-import InputMask from "react-input-mask";
-
-const phoneRegExp = /^\\+1\\(\\d{3}\\) \\d{3}-\\d{4}$/; 
+import MaskedInput from "react-text-mask";
 
 const MyDetail = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -18,7 +16,27 @@ const MyDetail = () => {
   ];
 
   const handleSelectChange = (event) => setSelectedOption(event.target.value);
-  const handleReferralChange = (event) => setReferredBySales(event.target.value);
+  const handleReferralChange = (event) =>
+    setReferredBySales(event.target.value);
+
+  const phoneMask = [
+    "+",
+    "1",
+    "(",
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    ")",
+    " ",
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
 
   return (
     <>
@@ -33,7 +51,6 @@ const MyDetail = () => {
             </p>
           </div>
           <div className="max-w-[1000px]">
-            {/* Full Name */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="name">
@@ -45,7 +62,6 @@ const MyDetail = () => {
               </div>
             </div>
 
-            {/* Email Address */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="email">
@@ -62,7 +78,6 @@ const MyDetail = () => {
               </div>
             </div>
 
-            {/* Phone Number */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="phone">
@@ -70,30 +85,25 @@ const MyDetail = () => {
                 </label>
               </div>
               <div className="sm:col-span-2">
-                <InputMask
-                  mask="+1(999) 999-9999"
-                  maskChar={null}
+                <TextField
+                  fullWidth
+                  id="phone"
+                  name="phone"
+                  variant="outlined"
+                  placeholder="+1(123) 456-7890"
+                  value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                >
-                  {() => (
-                    <TextField
-                      fullWidth
-                      id="phone"
-                      name="phone"
-                      variant="outlined"
-                      placeholder="+1(123) 456-7890"
-                      inputProps={{
-                        pattern: phoneRegExp.source,
-                        title:
-                          "Phone number must be in the format +1(123) 456-7890",
-                      }}
-                    />
-                  )}
-                </InputMask>
+                  InputProps={{
+                    inputComponent: MaskedInput,
+                    inputProps: {
+                      mask: phoneMask,
+                      guide: false,
+                    },
+                  }}
+                />
               </div>
             </div>
 
-            {/* Personal Profile Photo */}
             <div className="grid md:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <p className="text-sm font-semibold text-[#414651]">
@@ -111,7 +121,6 @@ const MyDetail = () => {
               </div>
             </div>
 
-            {/* Sales Representative Referral */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label
@@ -136,7 +145,6 @@ const MyDetail = () => {
               </div>
             </div>
 
-            {/* Show this section only if "Yes" is selected */}
             {referredBySales === "Yes" && (
               <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
                 <div>
@@ -210,7 +218,6 @@ const MyDetail = () => {
             )}
           </div>
 
-          {/* Form Buttons */}
           <div className="flex justify-end mt-4">
             <Button
               type="reset"
