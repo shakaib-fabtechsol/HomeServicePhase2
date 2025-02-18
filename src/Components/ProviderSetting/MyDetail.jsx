@@ -3,16 +3,20 @@ import { MenuItem, Select, TextField, Button } from "@mui/material";
 import SettingsPreview from "../MUI/SettingsPreview";
 import profileImg from "../../assets/img/service3.png";
 
-const phoneRegExp = /^\+1\(\d{3}\) \d{3} \d{4}$/;
+const phoneRegExp = /^\+1\(\d{3}\) \d{3}-\d{4}$/; // Corrected phone format: +1(123) 456-7890
 
 const MyDetail = () => {
-  const [selectedOption, setSelectedOption] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const options = [
     { value: "1", label: "John Doe", avatar: profileImg },
     { value: "2", label: "Jane Smith", avatar: profileImg },
     { value: "3", label: "Chris Evans", avatar: profileImg },
   ];
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   return (
     <>
@@ -55,6 +59,8 @@ const MyDetail = () => {
                 />
               </div>
             </div>
+
+            {/* Phone Number */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="phone">
@@ -67,10 +73,16 @@ const MyDetail = () => {
                   id="phone"
                   name="phone"
                   variant="outlined"
-                  placeholder="+1(000) 000 0000"
+                  placeholder="+1(123) 456-7890"
+                  inputProps={{
+                    pattern: phoneRegExp.source,
+                    title: "Phone number must be in the format +1(123) 456-7890",
+                  }}
                 />
               </div>
             </div>
+
+            {/* Personal Profile Photo */}
             <div className="grid md:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <p className="text-sm font-semibold text-[#414651]">
@@ -88,6 +100,7 @@ const MyDetail = () => {
               </div>
             </div>
 
+            {/* Sales Representative Referral */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label
@@ -109,6 +122,7 @@ const MyDetail = () => {
               </div>
             </div>
 
+            {/* Select Sales Representative */}
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label
@@ -121,6 +135,8 @@ const MyDetail = () => {
               <div className="sm:col-span-2">
                 <Select
                   labelId="sales_representative"
+                  value={selectedOption}
+                  onChange={handleSelectChange}
                   renderValue={(selected) => {
                     const selectedOpt = options.find(
                       (option) => option.value === selected
