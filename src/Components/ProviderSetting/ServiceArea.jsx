@@ -7,6 +7,7 @@ import {
   LoadScript,
   GoogleMap,
   Marker,
+  Circle,
   Autocomplete,
 } from "@react-google-maps/api";
 const GOOGLE_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0";
@@ -38,14 +39,12 @@ const ServiceArea = () => {
           { types: ["geocode"] }
         );
 
-  
         autocompleteRef.current.addListener("place_changed", onPlaceSelected);
       }
     }, 500);
-  
+
     return () => clearInterval(checkGoogle);
   }, []);
-  
 
   const onPlaceSelected = () => {
     if (!autocompleteRef.current) return;
@@ -122,7 +121,9 @@ const ServiceArea = () => {
         <div>
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">Service Area</p>
-            <p className="text-[#535862] text-sm">Choose service area for your deals.</p>
+            <p className="text-[#535862] text-sm">
+              Choose service area for your deals.
+            </p>
           </div>
           <div className="lg:max-w-[65%] xl:max-w-[45%]">
             <div className="flex flex-wrap gap-4 py-4 items-center mb-4">
@@ -203,22 +204,21 @@ const ServiceArea = () => {
 
                   {isBulk ? (
                     <div className="relative flex flex-col mb-2 border rounded-lg px-3 py-2">
-                      <textarea
-                        id="bulkLoc"
-                        rows="4"
-                        onKeyDown={handleAddLocation}
-                        placeholder="Enter locations, one per line."
-                        className="w-full bg-transparent outline-none pt-[40px] resize-none"
-                        value={bulkText}
-                        onChange={handleBulkTextChange}
-                      ></textarea>
+                      <Autocomplete>
+                        <textarea
+                          id="bulkLoc"
+                          rows="4"
+                          onKeyDown={handleAddLocation}
+                          placeholder="Enter locations, one per line."
+                          className="w-full bg-transparent outline-none pt-[40px] resize-none"
+                          value={bulkText}
+                          onChange={handleBulkTextChange}
+                        ></textarea>
+                      </Autocomplete>
                     </div>
                   ) : (
                     <div className="flex items-center border py-2 rounded-lg px-3 mb-2">
-                      <Autocomplete
-                        onLoad={(auto) => (autocompleteRef.current = auto)}
-                        onPlaceChanged={onPlaceSelected}
-                      >
+                      <Autocomplete>
                         <input
                           type="text"
                           placeholder="Enter service location..."
@@ -237,17 +237,19 @@ const ServiceArea = () => {
                   <label htmlFor="restrict">
                     <img src={location} alt="" className="max-w-20px me-2" />
                   </label>
-                  <input
-                    type="text"
-                    id="restrict"
-                    className="w-full focus-none rounded-lg px-3 py-4"
-                    placeholder="Restrict locations within a country (optional)"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleAdd}
-                  />
+                  <Autocomplete>
+                    <input
+                      type="text"
+                      id="restrict"
+                      className="w-full focus-none rounded-lg px-3 py-4"
+                      placeholder="Restrict locations within a country (optional)"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={handleAdd}
+                    />
+                  </Autocomplete>
                 </div>
-                <div className="border rounded-lg py-3">
+                <div className="border rounded-lg py-3 mb-6">
                   {locationsList.map((loc, index) => (
                     <div
                       key={index}
@@ -310,26 +312,26 @@ const ServiceArea = () => {
             )}
 
             {lat && lng && (
-              <div className="text-sm hidden">
-                <p>Latitude: {lat}</p>
-                <p>Longitude: {lng}</p>
+              <div className="map-container">
+                <GoogleMap
+                  center={{ lat, lng }}
+                  zoom={12}
+                  mapContainerStyle={{ width: "100%", height: "400px" }}
+                >
+                  <Marker position={{ lat, lng }} />
+                  <Circle
+                    center={{ lat, lng }}
+                     options={{
+                      strokeColor: "#FF0000",
+                      strokeOpacity: 0.8,
+                      strokeWeight: 2,
+                      fillColor: "#FF0000",
+                      fillOpacity: 0.35,
+                    }}
+                  />
+                </GoogleMap>
               </div>
             )}
-
-            {console.log("value", mapUrl)}
-            <div>
-              {mapUrl && (
-                <iframe
-                  title="Google Map"
-                  width="100%"
-                  height="400"
-                  frameBorder="0"
-                  style={{ border: 0 }}
-                  src={mapUrl}
-                  allowFullScreen
-                ></iframe>
-              )}
-            </div>
 
             <div className="flex justify-end mt-12">
               <button
