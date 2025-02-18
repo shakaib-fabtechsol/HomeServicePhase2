@@ -51,9 +51,12 @@ const Sidebar = ({ isSidebarOpen }) => {
               </li>
               <li className="mx-1">
                 <NavLink
-                  to="provider/services"
+                  to="/provider/services" // Keep this the same for the general link
                   className={({ isActive }) =>
-                    isActive ? "sidelink active" : "sidelink"
+                    isActive ||
+                    window.location.pathname.includes("/provider/newDeals")
+                      ? "sidelink active"
+                      : "sidelink"
                   }
                 >
                   <div className="flex items-center">

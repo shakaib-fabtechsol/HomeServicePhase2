@@ -7,7 +7,7 @@ import Sales from "./Pages/SuperAdmin/Sales";
 import Reports from "./Pages/SuperAdmin/Reports";
 import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
-import Home from "./Pages/Home";
+import Home from "./Pages/LandingPage";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import Signup from "./Pages/Auth/Signup";
@@ -15,7 +15,7 @@ import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
 import Services from "./Pages/ServiceProvider/Services";
 import NewDeals from "./Pages/ServiceProvider/NewDeals";
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
-
+import LandingPage from "./Pages/LandingPage";
 
 function App() {
   return (
@@ -33,9 +33,9 @@ function App() {
           <Route path="/superAdmin/reports" element={<Reports />} />
         </Route>
         <Route element={<HomeLayout />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<LandingPage />} />
         </Route>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
