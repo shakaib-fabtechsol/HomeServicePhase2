@@ -2,22 +2,10 @@ import React, { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import SettingsPreview from "../MUI/SettingsPreview";
 import { FaTrash } from "react-icons/fa6";
-import axios from "axios";
 import profileImg from "../../assets/img/service3.png";
-import Loader from "../../Components/MUI/Loader";
-import { toast } from "react-toastify";
 
 const CertificationHour = () => {
   const userId = localStorage.getItem("id");
-  console.log("userID", userId);
-  const [loading, setLoading] = useState(false);
-
-  const [formData, setFormData] = useState({
-    user_id: userId,
-    insurance_certificate: null,
-    license_certificate: null,
-    award_certificate: null,
-  });
 
   const days = [
     "Monday",
@@ -77,150 +65,9 @@ const CertificationHour = () => {
   };
 
 
-
-  useEffect(() => {
-    if (!userId) return;
-  
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("No token found. Please log in.");
-        return;
-      }
-  
-      try {
-        const response = await axios.get(
-          `https://homeservice.thefabulousshow.com/api/UserDetails/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-  
-        const businessProfile = response.data?.businessProfile;
-        if (businessProfile && businessProfile.length > 0) {
-          const profile = businessProfile[0];
-          let formattedSchedule = [];
-          if (profile.regular_hour) {
-            if (typeof profile.regular_hour === "string") {
-              formattedSchedule = JSON.parse(profile.regular_hour);
-            } else {
-              formattedSchedule = profile.regular_hour;
-            }
-          }
- 
-          const transformedSchedule = formattedSchedule.map((item) => ({
-            day: item.day_name, // e.g., "Monday"
-            closed: item.day_status === "closed",
-            slots:
-              item.day_status === "closed"
-                ? []
-                : item.regular_hour.map((slot) => ({
-                    start: slot.start_time,
-                    end: slot.end_time,
-                  })),
-          }));
-          const insuranceCertificate = profile.insurance_certificate
-            ? `https://homeservice.thefabulousshow.com/uploads/${profile.insurance_certificate}`
-            : "/default.png";
-          const licenseCertificate = profile.license_certificate
-            ? `https://homeservice.thefabulousshow.com/uploads/${profile.license_certificate}`
-            : "/default.png";
-          const awardCertificate = profile.award_certificate
-            ? `https://homeservice.thefabulousshow.com/uploads/${profile.award_certificate}`
-            : "/default.png";
-  
-          setFormData({
-            user_id: profile.user_id,
-            insurance_certificate: insuranceCertificate,
-            license_certificate: licenseCertificate,
-            award_certificate: awardCertificate,
-           
-          });
-          setSchedule(transformedSchedule);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Failed to fetch user details.");
-      }
-    };
-  
-    fetchData();
-  }, [userId]);
-  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (loading) return;
-
-    const token = localStorage.getItem("token");
-    console.log("token:", token);
-
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const formattedSchedule = schedule.map((item) => ({
-        day_name: item.day,
-        day_status: item.closed ? "closed" : "open",
-        regular_hour: item.closed
-          ? []
-          : item.slots.map((slot) => ({
-              start_time: slot.start,
-              end_time: slot.end,
-            })),
-      }));
-
-      const formattedSpecialSchedule = specialSchedule.map((item) => ({
-        day_name: item.day,
-        day_status: item.closed ? "closed" : "open",
-        special_hour: item.closed
-          ? []
-          : item.slots.map((slot) => ({
-              special_start_time: slot.start,
-              special_end_time: slot.end,
-            })),
-      }));
-      const data = new FormData();
-
-      data.append("regular_hour", JSON.stringify(formattedSchedule));
-      data.append("special_hour", JSON.stringify(formattedSpecialSchedule));
-
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          data.append(key, value);
-        }
-      });
-
-      const response = await axios.post(
-        "https://homeservice.thefabulousshow.com/api/AddCertificateHours",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Success:", response.data);
-      toast.success("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Failed to update profile. Please try again.");
-    } finally {
-      setLoading(false); 
-    }
-  };
-
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
@@ -241,7 +88,6 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="insurance_certificate"
-                  existingImage={formData.insurance_certificate ||profileImg} 
                 />
               </div>
             </div>
@@ -257,7 +103,6 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="license_certificate"
-                    existingImage={formData.license_certificate ||profileImg} 
                 />
               </div>
             </div>
@@ -273,7 +118,6 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="award_certificate"
-                  existingImage={formData.award_certificate ||profileImg} 
                 />
               </div>
             </div>
@@ -463,12 +307,9 @@ const CertificationHour = () => {
             </button>
             <button
               type="submit"
-              className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={loading}
+              className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2]`}
             >
-              {loading ? "Saving..." : "Save"}
+              Save
             </button>
           </div>
         </div>
