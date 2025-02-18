@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import MyDetail from "../../Components/ProviderSetting/MyDetail";
+import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
 
 function TabPanel(props) {
   useEffect(() => {
@@ -80,7 +81,7 @@ function Settings() {
             <MyDetail />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            {/* <ServiceArea /> */}
+            <ServiceArea />
           </TabPanel>
           <TabPanel value={value} index={2}>
             {/* <BusinessProfile /> */}

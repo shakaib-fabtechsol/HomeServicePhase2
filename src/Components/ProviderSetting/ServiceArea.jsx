@@ -214,7 +214,7 @@ const ServiceArea = () => {
                       ></textarea>
                     </div>
                   ) : (
-                    <div className="flex items-center mb-2">
+                    <div className="flex items-center border py-2 rounded-lg px-3 mb-2">
                       <Autocomplete
                         onLoad={(auto) => (autocompleteRef.current = auto)}
                         onPlaceChanged={onPlaceSelected}
@@ -310,7 +310,7 @@ const ServiceArea = () => {
             )}
 
             {lat && lng && (
-              <div className="text-sm">
+              <div className="text-sm hidden">
                 <p>Latitude: {lat}</p>
                 <p>Longitude: {lng}</p>
               </div>
