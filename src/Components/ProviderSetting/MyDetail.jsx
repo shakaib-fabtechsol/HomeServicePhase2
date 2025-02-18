@@ -7,6 +7,7 @@ const phoneRegExp = /^\+1\(\d{3}\) \d{3}-\d{4}$/; // Corrected phone format: +1(
 
 const MyDetail = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [referredBySales, setReferredBySales] = useState(""); // Track referral selection
 
   const options = [
     { value: "1", label: "John Doe", avatar: profileImg },
@@ -16,6 +17,10 @@ const MyDetail = () => {
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+
+  const handleReferralChange = (event) => {
+    setReferredBySales(event.target.value);
   };
 
   return (
@@ -115,83 +120,88 @@ const MyDetail = () => {
                   className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
                   id="sales_referred"
                   name="sales_referred"
+                  value={referredBySales}
+                  onChange={handleReferralChange}
                 >
+                  <option value="">Select Sales Representative</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
               </div>
             </div>
 
-            {/* Select Sales Representative */}
-            <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
-              <div>
-                <label
-                  className="text-sm font-semibold"
-                  htmlFor="sales_representative"
-                >
-                  Select Sales Representative
-                </label>
+            {/* Show this section only if "Yes" is selected */}
+            {referredBySales === "Yes" && (
+              <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
+                <div>
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="sales_representative"
+                  >
+                    Select Sales Representative
+                  </label>
+                </div>
+                <div className="sm:col-span-2">
+                  <Select
+                    labelId="sales_representative"
+                    value={selectedOption}
+                    onChange={handleSelectChange}
+                    renderValue={(selected) => {
+                      const selectedOpt = options.find(
+                        (option) => option.value === selected
+                      );
+                      return (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          {selectedOpt && (
+                            <img
+                              src={selectedOpt.avatar}
+                              alt="img"
+                              style={{
+                                width: "24px",
+                                height: "24px",
+                                borderRadius: "50%",
+                                marginRight: "8px",
+                              }}
+                            />
+                          )}
+                          {selectedOpt ? selectedOpt.label : ""}
+                        </div>
+                      );
+                    }}
+                    sx={{
+                      border: "1px solid #D5D7DA !important",
+                      borderRadius: "8px",
+                      boxShadow: "0px 1px 2px 0px #0A0D120D",
+                      outline: "none",
+                      width: "100%",
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        border: "1px solid #D5D7DA",
+                      },
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#D5D7DA !important",
+                      },
+                    }}
+                  >
+                    {options.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        <img
+                          className="me-2 size-8 rounded-full object-cover"
+                          src={option.avatar}
+                          alt="img"
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            marginRight: "8px",
+                          }}
+                        />
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
               </div>
-              <div className="sm:col-span-2">
-                <Select
-                  labelId="sales_representative"
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                  renderValue={(selected) => {
-                    const selectedOpt = options.find(
-                      (option) => option.value === selected
-                    );
-                    return (
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        {selectedOpt && (
-                          <img
-                            src={selectedOpt.avatar}
-                            alt="img"
-                            style={{
-                              width: "24px",
-                              height: "24px",
-                              borderRadius: "50%",
-                              marginRight: "8px",
-                            }}
-                          />
-                        )}
-                        {selectedOpt ? selectedOpt.label : ""}
-                      </div>
-                    );
-                  }}
-                  sx={{
-                    border: "1px solid #D5D7DA !important",
-                    borderRadius: "8px",
-                    boxShadow: "0px 1px 2px 0px #0A0D120D",
-                    outline: "none",
-                    width: "100%",
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      border: "1px solid #D5D7DA",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#D5D7DA !important",
-                    },
-                  }}
-                >
-                  {options.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      <img
-                        className="me-2 size-8 rounded-full object-cover"
-                        src={option.avatar}
-                        alt="img"
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          borderRadius: "50%",
-                          marginRight: "8px",
-                        }}
-                      />
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Form Buttons */}
