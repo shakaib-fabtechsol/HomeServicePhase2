@@ -7,6 +7,7 @@ import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
 import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";
 import CertificationHour from "../../Components/ProviderSetting/CertificationHour";
 import AdditionalInfo from "../../Components/ProviderSetting/AdditionalInfo";
+import SocialProfile from "../../Components/ProviderSetting/SocialProfile";
 
 function TabPanel(props) {
   useEffect(() => {
@@ -96,7 +97,7 @@ function Settings() {
             <AdditionalInfo />
           </TabPanel>
           <TabPanel value={value} index={5}>
-            {/* <SocialProfile /> */}
+            <SocialProfile />
           </TabPanel>
           <TabPanel value={value} index={6}>
             {/* <Password /> */}

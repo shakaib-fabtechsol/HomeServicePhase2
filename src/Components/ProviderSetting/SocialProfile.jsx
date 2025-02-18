@@ -5,15 +5,12 @@ import Youtube from "../../assets/img/Youtube-icon.png";
 import Twitter from "../../assets/img/Twitter-icon.png";
 import Instagram from "../../assets/img/Instagram-icon.png";
 import Linkedin from "../../assets/img/Linkdin-icon.png";
-import Business from "../../assets/img/Business-icon.png";
-import { toast } from "react-toastify";
-import axios from "axios";
+import Business from "../../assets/img/Business-icon.png"
 import { Link } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 
 const SocialProfile = () => {
   const [selectedSocial, setSelectedSocial] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const validateUrl = (url) => {
@@ -34,75 +31,6 @@ const SocialProfile = () => {
       });
     } else {
       setErrors({ ...errors, [socialKey]: "" });
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (loading) return;
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      return;
-    }
-
-    const socialKey = selectedSocial.name.toLowerCase().replace(" ", "_");
-    const userInputUrl = formData[socialKey];
-
-    setLoading(true);
-
-    try {
-      const payload = {
-        user_id: localStorage.getItem("id"),
-        [socialKey]: userInputUrl,
-      };
-
-      const response = await axios.post(
-        "https://homeservice.thefabulousshow.com/api/Social",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Full response:", response.data); 
-
-      const errorMessages = {
-        "Invalid Facebook URL":
-          "The provided Facebook URL is invalid. Please enter a valid URL.",
-        "Invalid Instagram URL":
-          "The provided Instagram URL is invalid. Please enter a valid URL.",
-        "Invalid LinkedIn URL":
-          "The provided LinkedIn URL is invalid. Please enter a valid URL.",
-        "Invalid Google Business URL":
-          "The provided Google Business URL is invalid. Please enter a valid URL.",
-        "Invalid YouTube URL":
-          "The provided YouTube URL is invalid. Please enter a valid URL.",
-        "Invalid Twitter URL":
-          "The provided Twitter URL is invalid. Please enter a valid URL.",
-      };
-
-      const backendMessage = response.data?.message || response.data?.error;
-
-      if (backendMessage && errorMessages[backendMessage]) {
-        toast.error(errorMessages[backendMessage]);
-      } else if (backendMessage) {
-        toast.success(backendMessage);
-        setSelectedSocial(null);
-      } else {
-        toast.success(`${selectedSocial.name} URL submitted successfully!`);
-        setSelectedSocial(null);
-      }
-    } catch (error) {
-      console.error("Submission error:", error.response?.data?.message);
-      toast.error(
-        error.response?.data?.message || "Failed to submit. Please try again."
-      );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -171,7 +99,7 @@ const SocialProfile = () => {
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
             <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto">
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="flex flex-col items-center mt-5 gap-5">
                   <img
                     className="size-12 max-w-12"
@@ -217,12 +145,9 @@ const SocialProfile = () => {
 
                   <button
                     type="submit"
-                    className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
-                      loading ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    disabled={loading}
+                    className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2]`}
                   >
-                    {loading ? "Saving..." : "Save"}
+                    Save
                   </button>
                 </div>
               </form>
