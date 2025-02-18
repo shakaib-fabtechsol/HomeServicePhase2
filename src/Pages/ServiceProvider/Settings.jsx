@@ -42,13 +42,9 @@ function Settings() {
 
   return (
     <div>
-      <div className="navv">
-        <div className="flex items-center">
-          <h2 className="text-2xl font-semibold">Settings</h2>
-        </div>
-        <p className="text-[#535862] mt-4">
-          Track, manage and forecast your customers and orders.
-        </p>
+      <div className="my-2">
+        <h2 className="font-semibold text-3xl myhead">Settings</h2>
+        <p className="myblack">Track, manage and forecast your customers and orders.</p>
       </div>
       <div>
         <Box sx={{ width: "100%", typography: "body1", marginTop: "20px" }}>
