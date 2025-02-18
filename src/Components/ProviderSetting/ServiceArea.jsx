@@ -232,7 +232,6 @@ const ServiceArea = () => {
                     {locations.length} / 1000
                   </p>
                 </div>
-
                 <div className="mb-6 border rounded-lg px-3 text-sm font-medium flex items-center">
                   <label htmlFor="restrict">
                     <img src={location} alt="" className="max-w-20px me-2" />
@@ -243,25 +242,31 @@ const ServiceArea = () => {
                       id="restrict"
                       className="w-full focus-none rounded-lg px-3 py-4"
                       placeholder="Restrict locations within a country (optional)"
-                      value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
+                      value={inputValue}
                       onKeyDown={handleAdd}
                     />
                   </Autocomplete>
                 </div>
-                <div className="border rounded-lg py-3 mb-6">
-                  {locationsList.map((loc, index) => (
-                    <div
-                      key={index}
-                      className="px-3 py-1 flex items-center justify-between"
-                    >
-                      <p className="myblack">{loc}</p>
-                      <Link to="#" onClick={() => handleRemoveLocation(index)}>
-                        ×
-                      </Link>
-                    </div>
-                  ))}
-                </div>
+                {locationsList.length > 0 && (
+                  <div className="border rounded-lg py-3 mb-6">
+                    {locationsList.map((loc, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-1 flex items-center justify-between"
+                      >
+                        <p className="myblack">{loc}</p>
+                        <Link
+                          to="#"
+                          onClick={() => handleRemoveLocation(index)}
+                          className="text-red-500"
+                        >
+                          ×
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -276,12 +281,19 @@ const ServiceArea = () => {
                   </label>
                   <div className="flex items-center border py-2 rounded-lg px-3">
                     <img src={location} alt="" className="max-w-20px me-2" />
-                    <input
-                      id="bloc"
-                      type="text"
-                      placeholder="Enter your State and Zip code service address."
-                      className="w-full py-2 focus-none"
-                    />
+                    <Autocomplete
+                      onLoad={(auto) => (autocompleteRef.current = auto)}
+                      onPlaceChanged={onPlaceSelected}
+                      className="w-full"
+                    >
+                      <input
+                        type="text"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="Enter your service location..."
+                        className="w-full py-2 px-3 focus-none pr-10"
+                      />
+                    </Autocomplete>
                     <FaPencilAlt />
                   </div>
                 </div>
@@ -315,18 +327,19 @@ const ServiceArea = () => {
               <div className="map-container">
                 <GoogleMap
                   center={{ lat, lng }}
-                  zoom={12}
+                  zoom={10}
                   mapContainerStyle={{ width: "100%", height: "400px" }}
                 >
                   <Marker position={{ lat, lng }} />
                   <Circle
                     center={{ lat, lng }}
-                     options={{
+                    options={{
                       strokeColor: "#FF0000",
                       strokeOpacity: 0.8,
                       strokeWeight: 2,
                       fillColor: "#FF0000",
                       fillOpacity: 0.35,
+                      radius: value2 * 1609.34,
                     }}
                   />
                 </GoogleMap>

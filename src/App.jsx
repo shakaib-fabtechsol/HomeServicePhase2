@@ -5,9 +5,7 @@ import Test from "./Pages/SuperAdmin/Test";
 import Clients from "./Pages/SuperAdmin/Clients";
 import Sales from "./Pages/SuperAdmin/Sales";
 import Reports from "./Pages/SuperAdmin/Reports";
-import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
-import Home from "./Pages/LandingPage";
 import Login from "./Pages/Auth/Login";
 import Settings from "./Pages/ServiceProvider/Settings";
 import Register from "./Pages/Auth/Register";
@@ -15,6 +13,8 @@ import Signup from "./Pages/Auth/Signup";
 import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
 import Services from "./Pages/ServiceProvider/Services";
 import NewDeals from "./Pages/ServiceProvider/NewDeals";
+import Notification from "./Pages/ServiceProvider/Notification";
+
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
 
@@ -27,7 +27,7 @@ function App() {
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
-          <Route path="/user/notification" element={<Notification />} />
+          <Route path="/provider/notification" element={<Notification />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superAdmin/clients" element={<Clients />} />

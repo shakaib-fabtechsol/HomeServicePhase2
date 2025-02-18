@@ -4,6 +4,13 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import MyDetail from "../../Components/ProviderSetting/MyDetail";
 import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
+import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";
+import CertificationHour from "../../Components/ProviderSetting/CertificationHour";
+import AdditionalInfo from "../../Components/ProviderSetting/AdditionalInfo";
+import SocialProfile from "../../Components/ProviderSetting/SocialProfile";
+import Password from "../../Components/ProviderSetting/Password";
+import ChannelConversation from "../../Components/ProviderSetting/ChannelConversation";
+import Payment from "../../Components/ProviderSetting/Payment";
 
 function TabPanel(props) {
   useEffect(() => {
@@ -35,13 +42,9 @@ function Settings() {
 
   return (
     <div>
-      <div className="navv">
-        <div className="flex items-center">
-          <h2 className="text-2xl font-semibold">Settings</h2>
-        </div>
-        <p className="text-[#535862] mt-4">
-          Track, manage and forecast your customers and orders.
-        </p>
+      <div className="my-2">
+        <h2 className="font-semibold text-3xl myhead">Settings</h2>
+        <p className="myblack">Track, manage and forecast your customers and orders.</p>
       </div>
       <div>
         <Box sx={{ width: "100%", typography: "body1", marginTop: "20px" }}>
@@ -84,25 +87,25 @@ function Settings() {
             <ServiceArea />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {/* <BusinessProfile /> */}
+            <BusinessProfile />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            {/* <CertificationHour /> */}
+            <CertificationHour />
           </TabPanel>
           <TabPanel value={value} index={4}>
-            {/* <AdditionalPhoto /> */}
+            <AdditionalInfo />
           </TabPanel>
           <TabPanel value={value} index={5}>
-            {/* <SocialProfile /> */}
+            <SocialProfile />
           </TabPanel>
           <TabPanel value={value} index={6}>
-            {/* <Password /> */}
+            <Password />
           </TabPanel>
           <TabPanel value={value} index={7}>
-            {/* <ChannelConversation /> */}
+            <ChannelConversation />
           </TabPanel>
           <TabPanel value={value} index={8}>
-            {/* <Payment /> */}
+            <Payment />
           </TabPanel>
         </Box>
       </div>
