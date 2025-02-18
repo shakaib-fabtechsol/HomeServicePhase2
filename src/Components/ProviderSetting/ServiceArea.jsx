@@ -276,12 +276,19 @@ const ServiceArea = () => {
                   </label>
                   <div className="flex items-center border py-2 rounded-lg px-3">
                     <img src={location} alt="" className="max-w-20px me-2" />
-                    <input
-                      id="bloc"
-                      type="text"
-                      placeholder="Enter your State and Zip code service address."
-                      className="w-full py-2 focus-none"
-                    />
+                    <Autocomplete
+                      onLoad={(auto) => (autocompleteRef.current = auto)}
+                      onPlaceChanged={onPlaceSelected}
+                      className="w-full"
+                    >
+                      <input
+                        type="text"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="Enter your service location..."
+                        className="w-full py-2 px-3 focus-none pr-10"
+                      />
+                    </Autocomplete>
                     <FaPencilAlt />
                   </div>
                 </div>
