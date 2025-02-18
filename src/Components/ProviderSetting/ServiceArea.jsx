@@ -315,7 +315,7 @@ const ServiceArea = () => {
               <div className="map-container">
                 <GoogleMap
                   center={{ lat, lng }}
-                  zoom={12}
+                  zoom={10}
                   mapContainerStyle={{ width: "100%", height: "400px" }}
                 >
                   <Marker position={{ lat, lng }} />
@@ -327,6 +327,7 @@ const ServiceArea = () => {
                       strokeWeight: 2,
                       fillColor: "#FF0000",
                       fillOpacity: 0.35,
+                      radius: value2 * 1609.34, // Convert miles to meters
                     }}
                   />
                 </GoogleMap>
