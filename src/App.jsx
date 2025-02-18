@@ -9,6 +9,10 @@ import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
+import Signup from "./Pages/Auth/Signup";
+import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
+
 
 function App() {
   return (
@@ -22,6 +26,9 @@ function App() {
           <Route path="/home" element={<Home />} />
         </Route>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/test" element={<Test />} />
         <Route path="/clients" element={<Clients />} />
         <Route path="/sales" element={<Sales />} />
