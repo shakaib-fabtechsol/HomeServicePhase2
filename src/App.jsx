@@ -9,6 +9,7 @@ import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
+import Settings from "./Pages/ServiceProvider/Settings";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route element={<ProviderLayout />}>
           <Route path="/serviceprovider/dashboard" element={<Dashboard />} />
+          <Route path="/provider/settings" element={<Settings />} />
           <Route path="/user/notification" element={<Notification />} />
         </Route>
         <Route element={<HomeLayout />}>

@@ -142,12 +142,6 @@ select option {
     padding: 0 10px;
 }
 
-.btm {
-    height: calc(100dvh - 135px);
-    overflow: auto;
-    padding: 0 10px;
-}
-
 .css-1csaadc {
     margin-top: 0 !important;
 }
