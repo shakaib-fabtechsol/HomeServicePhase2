@@ -12,6 +12,9 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import Signup from "./Pages/Auth/Signup";
 import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
+import Services from "./Pages/ServiceProvider/Services";
+import NewDeals from "./Pages/ServiceProvider/NewDeals";
+import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 
 
 function App() {
@@ -20,7 +23,14 @@ function App() {
       <Routes>
         <Route element={<ProviderLayout />}>
           <Route path="/provider/dashboard" element={<Dashboard />} />
+          <Route path="/provider/services" element={<Services />} />
+          <Route path="/provider/newDeals" element={<NewDeals />} />
           <Route path="/user/notification" element={<Notification />} />
+        </Route>
+        <Route element={<SuperAdminLayout />}>
+          <Route path="/superAdmin/clients" element={<Clients />} />
+          <Route path="/superAdmin/sales" element={<Sales />} />
+          <Route path="/superAdmin/reports" element={<Reports />} />
         </Route>
         <Route element={<HomeLayout />}>
           <Route path="/home" element={<Home />} />
@@ -30,9 +40,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/clients" element={<Clients />} />
-        <Route path="/sales" element={<Sales />} />
-        <Route path="/reports" element={<Reports />} />
+       
       </Routes>
     </Router>
   );
