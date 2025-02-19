@@ -459,20 +459,20 @@ export default function Payments() {
             </table>
           </div>
           <div className="flex justify-end mt-4">
-              <button
-                type="reset"
-                className="border border-[#cdcdcd] rounded-lg w-full py-[10px] me-4 font-semibold bg-[#ffffff]"
-              >
-                {" "}
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className={`border rounded-lg w-full py-[10px] text-white font-semibold bg-[#0F91D2]`}
-              >
-                Confirm
-              </button>
-            </div>
+            <button
+              type="reset"
+              className="border border-[#cdcdcd] rounded-lg w-full py-[10px] me-4 font-semibold bg-[#ffffff]"
+            >
+              {" "}
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className={`border rounded-lg w-full py-[10px] text-white font-semibold bg-[#0F91D2]`}
+            >
+              Confirm
+            </button>
+          </div>
         </Box>
       </Modal>
     </div>
