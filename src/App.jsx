@@ -17,6 +17,7 @@ import Notification from "./Pages/ServiceProvider/Notification";
 
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
+import Dashboardc from "./Pages/Customer/Dashboard";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
           <Route path="/provider/notification" element={<Notification />} />
+        </Route>
+        <Route element={<ProviderLayout />}>
+          <Route path="/customer/dashboard" element={<Dashboardc />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superAdmin/clients" element={<Clients />} />
