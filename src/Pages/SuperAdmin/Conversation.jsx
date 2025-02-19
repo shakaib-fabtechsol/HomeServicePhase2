@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TabComponent from "../../Components/TabComponent";
 import Channels from "../../Components/SuperAdmin/Conversation/Channels";
 import ReferralCom from "../../Components/SuperAdmin/Conversation/ReferralCom";
@@ -7,6 +7,9 @@ import CustomerServiceFee from "../../Components/SuperAdmin/Conversation/Custome
 import ProServiceFee from "../../Components/SuperAdmin/Conversation/ProServiceFee";
 
 export default function Conversation() {
+  useEffect(() => {
+    document.title = "Pricing";
+  }, []);
   const tabData = [
     { label: "Conversation Channels", content: <Channels /> },
     { label: "Referral commission ", content: <ReferralCom /> },
@@ -16,6 +19,12 @@ export default function Conversation() {
   ];
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Pricing</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <TabComponent tabs={tabData} />
     </div>
   );

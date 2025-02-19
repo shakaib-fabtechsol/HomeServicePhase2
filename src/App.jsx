@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ProviderLayout from "./Layouts/ProviderLayout";
 import Dashboard from "./Pages/ServiceProvider/Dashboard";
-import Test from "./Pages/SuperAdmin/Test";
 import Clients from "./Pages/SuperAdmin/Clients";
 import Sales from "./Pages/SuperAdmin/Sales";
 import Reports from "./Pages/SuperAdmin/Reports";
@@ -98,7 +97,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );

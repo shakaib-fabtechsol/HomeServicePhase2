@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,6 +16,9 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 export default function Sales() {
+  useEffect(() => {
+    document.title = "Sales Reps";
+  }, []);
   const serviceProviders = [
     {
       logo: client1,
@@ -164,6 +167,12 @@ export default function Sales() {
   ]);
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Sales</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">
           <label

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -17,6 +17,9 @@ import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
 export default function Providers() {
+  useEffect(() => {
+    document.title = "Providers";
+  }, []);
   const serviceProviders = [
     {
       logo: pro1,
@@ -182,6 +185,12 @@ export default function Providers() {
   ]);
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Providers</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">
           <label

@@ -19,7 +19,7 @@ function SuperAdminLayout() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  const logolink = "/superadmin/dashboard";
   const sidebarData = [
     {
       items: [
@@ -80,7 +80,7 @@ function SuperAdminLayout() {
 
   return (
     <div className="mainpage">
-      <MainNav toggleSidebar={toggleSidebar} />
+      <MainNav logolink={logolink} toggleSidebar={toggleSidebar} />
       <FilterNav />
       <div className="main flex">
         <Sidebar

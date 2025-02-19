@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TabComponent from "../../Components/TabComponent";
 import { FaUser } from "react-icons/fa";
 import { SlLock } from "react-icons/sl";
@@ -8,6 +8,9 @@ import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 
 export default function Settingsa() {
+  useEffect(() => {
+    document.title = "Settings";
+  }, []);
   const tabData = [
     {
       label: (
@@ -38,8 +41,16 @@ export default function Settingsa() {
     },
   ];
   return (
-    <div className="border border-[#A2A1A833] rounded-[10px] p-3">
-      <TabComponent tabs={tabData} />
-    </div>
+    <>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Settings</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
+      <div className="border border-[#A2A1A833] rounded-[10px] p-3">
+        <TabComponent tabs={tabData} />
+      </div>
+    </>
   );
 }

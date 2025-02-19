@@ -275,13 +275,13 @@ function ProDetails() {
 
   return (
     <div>
-      <div className="flex items-center">
-        <Link to="#">
-          <FaArrowLeft className="me-4 text-xl" />
-        </Link>
-        <h2 className="text-2xl font-semibold">Profile Details</h2>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Pro Details</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
       </div>
-      <div className="flex flex-col lg:flex-row justify-between mt-4 lg:items-start">
+      <div className="flex flex-col lg:flex-row justify-between lg:items-start">
         <div className="flex flex-wrap items-center">
           <img
             src={provider}
