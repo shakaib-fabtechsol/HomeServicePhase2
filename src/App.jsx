@@ -19,6 +19,7 @@ import Notification from "./Pages/ServiceProvider/Notification";
 
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
+import Payments from "./Pages/ServiceProvider/Payments";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/provider/notification" element={<Notification />} />
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
+          <Route path="/provider/payments" element={<Payments />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superAdmin/clients" element={<Clients />} />

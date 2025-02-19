@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, NavLink, Link } from "react-router-dom";
-import { IoMdNotifications } from "react-icons/io";
-import { GiHamburgerMenu } from "react-icons/gi";
-import profile from "../assets/img/profile.png";
-import logo from "../assets/img/logo.png";
-import { IoLocationOutline } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import MainNav from "./MainNav";
 import FilterNav from "./FilterNav";
