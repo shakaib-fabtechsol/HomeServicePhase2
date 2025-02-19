@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
 
-
 function Services() {
+  useEffect(() => {
+    document.title = "Services";
+  }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const services = [
     {
