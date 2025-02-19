@@ -3,6 +3,8 @@ import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
 import chevron from "../../assets/img/chevronDown.png";
+import TableBlue from "../../Components/TableBlue";
+import userimg from "../../assets/img/client1.png";
 
 export default function Dashboardsr() {
   const cardsdata = [
@@ -18,16 +20,71 @@ export default function Dashboardsr() {
   ];
 
   const chartData = {
-    labels: ["Number of Deals", "Number of Providers", "Number of Customers"],
+    labels: ["Cleaning", "Home Repair", "Electrical", "Plumbing"],
     datasets: [
       {
-        label: "# of Votes",
-        data: [550, 400, 1500],
-        backgroundColor: ["#0F91D2B2", "#FB8603B2", "#43B442B2"],
+        label: "Revenue",
+        data: [550, 400, 1500, 1500],
+        backgroundColor: ["#0F91D2B2", "#43B442B2", "#FB8603B2", "#535862"],
         borderWidth: 1,
       },
     ],
   };
+
+  const serviceHeader = [
+    <p className="text-sm font-medium text-wrap">Name</p>,
+    <p className="text-sm font-medium text-wrap">Email</p>,
+    <p className="text-sm font-medium text-wrap">Phone</p>,
+    <p className="text-sm font-medium text-wrap">Services Provided</p>,
+    <p className="text-sm font-medium text-wrap">Revenue($)</p>,
+    <p className="text-sm font-medium text-wrap">Rating</p>,
+  ];
+
+  const servicedata = [
+    {
+      img: userimg,
+      name: "Myra Baker",
+      email: "robin_mckinney@icloud.com",
+      phone: "+8069452674047",
+      services: "07",
+      revenue: 20000,
+      rating: "4.9",
+    },
+    {
+      img: userimg,
+      name: "Leland Huang",
+      email: "willie_wheeler@yahoo.com",
+      phone: "+8069452674047",
+      services: "09",
+      revenue: 10000,
+      rating: "4.8",
+    },
+    {
+      img: userimg,
+      name: "Douglas Ford",
+      email: "melody_castillo@icloud.com",
+      phone: "+8069452674047",
+      services: "10",
+      revenue: 30000,
+      rating: "4.7",
+    },
+  ];
+
+  const serviceRows = servicedata.map((row) => [
+    <div className="flex items-center gap-2">
+      <img
+        className="size-8 max-w-8 rounded-full object-cover"
+        src={row.img}
+        alt="img"
+      />
+      <p className="font-normal text-sm">{row.name}</p>
+    </div>,
+    <p className="font-normal text-sm">{row.email}</p>,
+    <p className="font-normal text-sm">{row.phone}</p>,
+    <p className="font-normal text-sm">{row.services}</p>,
+    <p className="font-normal text-sm">{row.revenue}</p>,
+    <p className="font-normal text-sm">{row.rating}</p>,
+  ]);
 
   const linelabels = [
     "Jan",
@@ -78,7 +135,9 @@ export default function Dashboardsr() {
       </div>
       <div className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">
         <div className="border p-3 rounded-[24px] border-[#0000001A] bg-[#F9F9FA]">
-          <p className="font-semibold text-sm">Active Users</p>
+          <p className="font-semibold text-sm">
+            Revenue Breakdown by Top Service Category
+          </p>
           <div className="mt-4">
             <DoughnutChart chartData={chartData} />
           </div>
@@ -96,8 +155,8 @@ export default function Dashboardsr() {
               </button>
             </div>
           </div>
-          <div className="mt-4 h-full w-[99%]">
-            <LineChart chartData={linechartData} />
+          <div className="mt-4">
+            <TableBlue headers={serviceHeader} rows={serviceRows} />
           </div>
         </div>
       </div>
