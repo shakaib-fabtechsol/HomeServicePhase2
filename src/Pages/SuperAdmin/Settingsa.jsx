@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TabComponent from "../../Components/TabComponent";
 import { FaUser } from "react-icons/fa";
 import { SlLock } from "react-icons/sl";
@@ -8,6 +8,9 @@ import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 
 export default function Settingsa() {
+  useEffect(() => {
+    document.title = "Settings";
+  }, []);
   const tabData = [
     {
       label: (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
@@ -7,6 +7,9 @@ import chevronblue from "../../assets/img/chevronblue.png";
 import DoubleBarChart from "../../Components/SuperAdmin/DoubleBarChart";
 
 export default function Dashboardsa() {
+  useEffect(() => {
+    document.title = "Dashboard";
+  }, []);
   const cardsdata = [
     { title: "Revenue Generated", value: "$3,318", percent: "+6.08%" },
     {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import provider from "../../assets/img/provider.png";
 import { Link } from "react-router-dom";
@@ -6,6 +6,9 @@ import { LuChevronLeft, LuPhone } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
 
 export default function SalesRepd() {
+  useEffect(() => {
+    document.title = "Sales Rep details";
+  }, []);
   const permissions = ["Permissions 1", "Permissions 2", "Permissions 3"];
   return (
     <div>

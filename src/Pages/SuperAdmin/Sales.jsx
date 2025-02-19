@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,6 +16,9 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 export default function Sales() {
+  useEffect(() => {
+    document.title = "Sales Reps";
+  }, []);
   const serviceProviders = [
     {
       logo: client1,

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TableBlue from "../../Components/TableBlue";
 import { BsDownload } from "react-icons/bs";
 
 export default function Reports() {
+  useEffect(() => {
+    document.title = "Reports";
+  }, []);
   const proHeader = [
     "Period",
     "New Providers (Monthly)",
