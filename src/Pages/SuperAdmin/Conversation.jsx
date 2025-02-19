@@ -19,6 +19,12 @@ export default function Conversation() {
   ];
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Pricing</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <TabComponent tabs={tabData} />
     </div>
   );

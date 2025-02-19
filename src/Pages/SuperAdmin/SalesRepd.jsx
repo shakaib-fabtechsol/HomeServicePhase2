@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import provider from "../../assets/img/provider.png";
-import { Link } from "react-router-dom";
-import { LuChevronLeft, LuPhone } from "react-icons/lu";
+import { LuPhone } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
 
 export default function SalesRepd() {
@@ -12,13 +11,13 @@ export default function SalesRepd() {
   const permissions = ["Permissions 1", "Permissions 2", "Permissions 3"];
   return (
     <div>
-      <div className="flex items-center gap-2">
-        <Link to="#">
-          <LuChevronLeft className="text-xl" />
-        </Link>
-        <h2 className="text-lg">Back</h2>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Sales Rep details</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
       </div>
-      <div className="flex flex-wrap gap-2 justify-between mt-4 items-start">
+      <div className="flex flex-wrap gap-2 justify-between  items-start">
         <div className="flex flex-wrap items-center">
           <img
             src={provider}

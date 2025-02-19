@@ -120,6 +120,12 @@ export default function Reports() {
   ];
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Reports</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {summaries.map((summary, index) => (
           <div className="flex flex-col justify-between" key={index}>

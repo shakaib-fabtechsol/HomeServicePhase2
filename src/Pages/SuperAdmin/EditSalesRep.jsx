@@ -30,8 +30,16 @@ export default function EditSalesRep() {
     },
   ];
   return (
-    <div className="border border-[#A2A1A833] rounded-[10px] p-3">
-      <TabComponent tabs={tabData} />
-    </div>
+    <>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Edit Sales Rep</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
+      <div className="border border-[#A2A1A833] rounded-[10px] p-3">
+        <TabComponent tabs={tabData} />
+      </div>
+    </>
   );
 }

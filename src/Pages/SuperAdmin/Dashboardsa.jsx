@@ -81,6 +81,12 @@ export default function Dashboardsa() {
 
   return (
     <div>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Dashboard</h2>
+        <p className="text-gray-600">
+          Track and manage your favorite services.
+        </p>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {cardsdata.map((card, index) => (
           <div
