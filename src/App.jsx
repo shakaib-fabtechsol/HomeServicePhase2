@@ -14,6 +14,7 @@ import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
 import Services from "./Pages/ServiceProvider/Services";
 import NewDeals from "./Pages/ServiceProvider/NewDeals";
 import Notification from "./Pages/ServiceProvider/Notification";
+import Support from "./Pages/ServiceProvider/Support";
 
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
           <Route path="/provider/notification" element={<Notification />} />
+          <Route path="/provider/support" element={<Support />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superAdmin/clients" element={<Clients />} />
