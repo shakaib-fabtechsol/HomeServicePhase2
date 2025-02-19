@@ -1,36 +1,73 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+import { FiPaperclip } from "react-icons/fi";
+import { MdCircle } from "react-icons/md";
+import { CiCircleInfo } from "react-icons/ci";
 
 const ChatApp = () => {
   const [chats, setChats] = useState([
     {
       id: 1,
       name: "Elmer Laverty",
+      online: true,
       messages: [
-        { id: 1, text: "Hey, how’s it going?", sender: "other" },
-        { id: 2, text: "Good, how about you?", sender: "self" },
+        {
+          id: 1,
+          text: "Hey, how’s it going?",
+          sender: "other",
+          timestamp: "12m ago",
+        },
+        {
+          id: 2,
+          text: "Good, how about you?",
+          sender: "self",
+          timestamp: "10m ago",
+        },
       ],
     },
     {
       id: 2,
       name: "Omar Dias",
+      online: false,
       messages: [
-        { id: 1, text: "Did you finish the project?", sender: "other" },
-        { id: 2, text: "Almost, just a few tweaks left.", sender: "self" },
+        {
+          id: 1,
+          text: "Did you finish the project?",
+          sender: "other",
+          timestamp: "24m ago",
+        },
+        {
+          id: 2,
+          text: "Almost, just a few tweaks left.",
+          sender: "self",
+          timestamp: "22m ago",
+        },
       ],
     },
     {
       id: 3,
       name: "Lavern Laboy",
+      online: true,
       messages: [
-        { id: 1, text: "Let's catch up soon!", sender: "other" },
-        { id: 2, text: "Yes, definitely!", sender: "self" },
+        {
+          id: 1,
+          text: "Let's catch up soon!",
+          sender: "other",
+          timestamp: "1h ago",
+        },
+        {
+          id: 2,
+          text: "Yes, definitely!",
+          sender: "self",
+          timestamp: "50m ago",
+        },
       ],
     },
   ]);
 
   const [activeChat, setActiveChat] = useState(chats[0]);
   const [input, setInput] = useState("");
+  const [file, setFile] = useState(null);
   const chatEndRef = useRef(null);
 
   useEffect(() => {
@@ -38,58 +75,81 @@ const ChatApp = () => {
   }, [activeChat.messages]);
 
   const sendMessage = () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" && !file) return;
+    const timestamp = "Just now";
+    const newMessage = {
+      id: activeChat.messages.length + 1,
+      text: input,
+      sender: "self",
+      timestamp,
+    };
+    if (file) newMessage.file = file.name;
+
     const updatedChats = chats.map((chat) =>
       chat.id === activeChat.id
-        ? {
-            ...chat,
-            messages: [
-              ...chat.messages,
-              { id: chat.messages.length + 1, text: input, sender: "self" },
-            ],
-          }
+        ? { ...chat, messages: [...chat.messages, newMessage] }
         : chat
     );
     setChats(updatedChats);
     setActiveChat(updatedChats.find((chat) => chat.id === activeChat.id));
     setInput("");
+    setFile(null);
   };
 
   return (
-    <div className="flex h-[calc(100dvh-238px)] w-full md:flex-row flex-col border rounded-lg">
-      {/* Sidebar */}
-      <div className="w-full md:w-1/3 bg-transparent p-4 border-r overflow-auto">
+    <div className="flex h-[calc(100dvh-238px)] border rounded-xl w-full md:flex-row flex-col">
+      <div className="w-full md:w-1/3 bg-transparnt p-4 border-r overflow-auto">
         <input
           type="text"
           placeholder="Search messages"
           className="w-full p-2 border rounded-md mb-4"
         />
-        <div className="space-y-2">
+        <div className="space-y-2 w-full">
           {chats.map((chat) => (
             <div
               key={chat.id}
-              className={`flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-200 ${
+              className={`flex w-full items-center p-2 rounded-lg cursor-pointer hover:bg-gray-200 ${
                 activeChat.id === chat.id ? "bg-gray-300" : ""
               }`}
               onClick={() => setActiveChat(chat)}
             >
               <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
-              <div>
+              <div className="w-full">
                 <p className="font-semibold">{chat.name}</p>
-                <p className="text-sm text-gray-500">
-                  {chat.messages[chat.messages.length - 1].text}
-                </p>
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-sm text-gray-500">
+                    {chat.messages[chat.messages.length - 1].text}{" "}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {chat.messages[chat.messages.length - 1].timestamp}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Chat Section */}
       <div className="flex-1 flex flex-col bg-white">
-        <div className="p-4 border-b flex items-center">
-          <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
-          <p className="font-semibold">{activeChat.name}</p>
+        <div className="p-4 border-b flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
+            <div>
+              <p className="font-semibold">{activeChat.name}</p>
+              <p className="text-sm text-gray-500 flex items-center">
+                <MdCircle
+                  className={
+                    activeChat.online
+                      ? "text-green-500 me-2"
+                      : "text-gray-400 me-2"
+                  }
+                  size={10}
+                />
+                {activeChat.online ? " Online" : " Offline"}
+              </p>
+            </div>
+          </div>
+          <CiCircleInfo className="text-3xl" />
         </div>
         <div className="flex-1 p-4 overflow-auto">
           {activeChat.messages.map((msg) => (
@@ -109,7 +169,13 @@ const ChatApp = () => {
                     : "bg-gray-200"
                 }`}
               >
-                {msg.text}
+                {msg.text}{" "}
+                {msg.file && (
+                  <a href="#" className="text-sm underline">
+                    {msg.file}
+                  </a>
+                )}
+                <p className="text-xs text-gray-500">{msg.timestamp}</p>
               </div>
               {msg.sender === "self" && (
                 <div className="w-10 h-10 bg-gray-300 rounded-full ml-2"></div>
@@ -118,7 +184,7 @@ const ChatApp = () => {
           ))}
           <div ref={chatEndRef}></div>
         </div>
-        <div className="p-4 border-t flex items-center">
+        <div className="p-4 bg-transparent border-t flex items-center">
           <input
             type="text"
             className="flex-1 p-2 border rounded-md"
@@ -127,6 +193,15 @@ const ChatApp = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           />
+          <input
+            type="file"
+            className="hidden"
+            id="file-upload"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+          <label htmlFor="file-upload" className="ml-2 p-2 cursor-pointer">
+            <FiPaperclip size={20} />
+          </label>
           <button
             className="ml-2 p-2 bg-blue-500 text-white rounded-full"
             onClick={sendMessage}
