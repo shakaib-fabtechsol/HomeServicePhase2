@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ChatApp from "../../Components/SuperAdmin/ChatApp";
 
 export default function Suportsa() {
   useEffect(() => {
@@ -12,6 +13,7 @@ export default function Suportsa() {
           Track and manage your favorite services.
         </p>
       </div>
+      <ChatApp/>
     </div>
   );
 }
