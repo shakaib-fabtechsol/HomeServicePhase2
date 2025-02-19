@@ -16,8 +16,30 @@ import { RiEqualizerLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { IoCashSharp } from "react-icons/io5";
 import { IoMdDownload } from "react-icons/io";
+import PaymentCard from "../../Components/PaymentCard";
 
 export default function Payments() {
+  const cards = [
+    {
+      title: "Total Payouts",
+      trend: "up",
+      percentage: "10.0",
+      amount: "300,000",
+    },
+    {
+      title: "Total Receivables",
+      trend: "up",
+      percentage: "10.0",
+      amount: "150,000",
+    },
+    {
+      title: "Pending Payments",
+      trend: "down",
+      percentage: "8.2",
+      amount: "80,000",
+    },
+  ];
+
   const serviceProviders = [
     {
       logo: client1,
@@ -296,7 +318,22 @@ export default function Payments() {
           </div>
         </div>
       </div>
-      <div className="mt-4">
+      <div className="grid grid-cols-3 gap-4 mt-4">
+        {cards.length > 0 ? (
+          cards.map((card) => (
+            <PaymentCard
+              key={card.title}
+              title={card.title}
+              trend={card.trend}
+              percentage={card.percentage}
+              amount={card.amount}
+            />
+          ))
+        ) : (
+          <p>No favorites found</p>
+        )}
+      </div>
+      <div className="mt-6">
         <Table headers={tableheader} rows={tablebody} />
       </div>
     </div>
