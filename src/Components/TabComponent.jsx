@@ -44,6 +44,7 @@ export default function TabComponent({ tabs }) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
         <Tabs indicatorColor='transparent'
+        variant='scrollable'
         sx={{fontFamily:"inter", minHeight: "32px",}} value={value} onChange={handleChange} aria-label="custom tabs example">
           {tabs.map((tab, index) => (
             <Tab sx={{

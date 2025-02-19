@@ -162,8 +162,8 @@ export default function Sales() {
     </div>,
   ]);
   return (
-    <div className="px-5">
-      <div className="mt-[100px]">
+    <div>
+      <div>
         <div className="flex items-center justify-between flex-wrap gap-3">
           <label
             className="flex items-center border w-full sm:max-w-[300px] rounded-[8px] overflow-hidden"
