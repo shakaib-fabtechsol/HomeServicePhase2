@@ -10,11 +10,11 @@ import { FaRegHeart } from "react-icons/fa6";
 import { GrNotification } from "react-icons/gr";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
-const MainNav = ({ toggleSidebar }) => {
+const MainNav = ({ toggleSidebar ,logolink}) => {
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
       <div className="flex items-center justify-between">
-        <NavLink to="serviceprovider/dashboard" className="logodiv w-full h-full ">
+        <NavLink to={logolink} className="logodiv w-full h-full ">
           <img src={logo} alt="logo" className="w-[60px]" />
         </NavLink>
       </div>
