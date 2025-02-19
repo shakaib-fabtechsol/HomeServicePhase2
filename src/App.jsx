@@ -28,6 +28,18 @@ import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
 import Dashboardc from "./Pages/Customer/Dashboard";
 import Payments from "./Pages/ServiceProvider/Payments";
+import Chatsa from "./Pages/SuperAdmin/Chatsa";
+import Suportsa from "./Pages/SuperAdmin/Suportsa";
+import SalesLayout from "./Layouts/SalesLayout";
+import Servicessr from "./Pages/Sales/Servicessr";
+import ReportsSr from "./Pages/Sales/ReportsSr";
+import Notificationsr from "./Pages/Sales/Notificationsr";
+import SettingSr from "./Pages/Sales/SettingSr";
+import SupportSr from "./Pages/Sales/SupportSr";
+import Chatsr from "./Pages/Sales/Chatsr";
+import Clientssr from "./Pages/Sales/Clientssr";
+import Dashboardsr from "./Pages/Sales/Dashboardsr";
+import TaskListsr from "./Pages/Sales/TaskListsr";
 
 function App() {
   return (
@@ -56,11 +68,25 @@ function App() {
           <Route path="/superadmin/editsalesrep" element={<EditSalesRep />} />
           <Route path="/superadmin/reports" element={<Reports />} />
           <Route path="/superadmin/conversation" element={<Conversation />} />
+          <Route path="/superadmin/Chatsa" element={<Chatsa />} />
           <Route
             path="/superadmin/notifications"
             element={<Notificationssa />}
           />
           <Route path="/superadmin/setting" element={<Settingsa />} />
+          <Route path="/superadmin/suport" element={<Suportsa />} />
+        </Route>
+
+        <Route element={<SalesLayout />}>
+          <Route path="/sales/dashboard" element={<Dashboardsr />} />
+          <Route path="/sales/services" element={<Servicessr />} />
+          <Route path="/sales/reports" element={<ReportsSr />} />
+          <Route path="/sales/clients" element={<Clientssr />} />
+          <Route path="/sales/tasklist" element={<TaskListsr />} />
+          <Route path="/sales/notification" element={<Notificationsr />} />
+          <Route path="/sales/setting" element={<SettingSr />} />
+          <Route path="/sales/support" element={<SupportSr />} />
+          <Route path="/sales/chat" element={<Chatsr />} />
         </Route>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<LandingPage />} />

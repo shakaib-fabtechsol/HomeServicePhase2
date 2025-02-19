@@ -15,7 +15,7 @@ import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
-export default function Clients() {
+export default function Clientssr() {
   const serviceProviders = [
     {
       logo: client1,

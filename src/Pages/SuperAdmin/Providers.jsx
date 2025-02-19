@@ -12,6 +12,9 @@ import pro7 from "../../assets/img/pro7.png";
 import pro8 from "../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
+import { LuEye } from "react-icons/lu";
+import { SlPencil } from "react-icons/sl";
+import { Link } from "react-router-dom";
 
 export default function Providers() {
   const serviceProviders = [
@@ -135,6 +138,7 @@ export default function Providers() {
     "Phone",
     "Number of Services",
     "Rating",
+    "Action",
   ];
 
   const tablebody = serviceProviders.map((provider, index) => [
@@ -167,6 +171,14 @@ export default function Providers() {
     provider.phone,
     provider.services,
     provider.rating,
+    <div className="flex items-center gap-2">
+      <Link to="/superadmin/prodetails">
+        <LuEye className="text-[20px]" />
+      </Link>
+      <button>
+        <SlPencil className="text-[20px]" />
+      </button>
+    </div>,
   ]);
   return (
     <div>
