@@ -17,7 +17,6 @@ import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import Providers from "./Pages/SuperAdmin/Providers";
 import Conversation from "./Pages/SuperAdmin/Conversation";
 import Dashboardsa from "./Pages/SuperAdmin/Dashboardsa";
-import ProDetails from "./Pages/SuperAdmin/Prodetails";
 import SalesRepd from "./Pages/SuperAdmin/SalesRepd";
 import EditSalesRep from "./Pages/SuperAdmin/EditSalesRep";
 import Notificationssa from "./Pages/SuperAdmin/Notificationssa";
@@ -28,6 +27,9 @@ import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
 import Dashboardc from "./Pages/Customer/Dashboard";
 import Payments from "./Pages/ServiceProvider/Payments";
+import ProDetails from "./Pages/SuperAdmin/ProDetails";
+import CustomerLayout from "./Layouts/CustomerLayout";
+import OrderDetail from "./Pages/Customer/OrderDetail";
 
 function App() {
   return (
@@ -43,8 +45,9 @@ function App() {
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
         </Route>
-        <Route element={<ProviderLayout />}>
+        <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
+          <Route path="/customer/order-detail" element={<OrderDetail />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
