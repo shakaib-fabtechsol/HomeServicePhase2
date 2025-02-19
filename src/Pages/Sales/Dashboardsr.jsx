@@ -2,20 +2,19 @@ import React from "react";
 import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
-import { BsCalendar } from "react-icons/bs";
-import chevronblue from "../../assets/img/chevronblue.png";
+import chevron from "../../assets/img/chevronDown.png";
 
 export default function Dashboardsr() {
   const cardsdata = [
-    { title: "Revenue Generated", value: "$3,318", percent: "+6.08%" },
+    { title: "Total Revenue By Pro", value: "$3,318", percent: "+6.08%" },
     {
-      title: "Total Transactions Completed",
+      title: "Total Commissions",
       value: "3,318",
       percent: "+6.08%",
     },
-    { title: "Total Service Providers", value: "3,318", percent: "+6.08%" },
-    { title: "Total Client", value: "3,318", percent: "+6.08%" },
-    { title: "Total Services Listed", value: "3,318", percent: "+6.08%" },
+    { title: "Assigned Pros", value: "4,070", percent: "+6.08%" },
+    { title: "New Pros", value: "300", percent: "+6.08%" },
+    { title: "Recently Published Deals", value: "200", percent: "+6.08%" },
   ];
 
   const chartData = {
@@ -92,7 +91,7 @@ export default function Dashboardsr() {
               </p>
             </div>
             <div className="ms-auto">
-              <button className="bg-[#EFEFF0] flex items-center gap-1 text-xs font-semibold p-2 rounded-[8px]">
+              <button className="border border-[#0F91D2] flex items-center gap-1 text-xs font-semibold p-2 rounded-[8px] text-[#0F91D2]">
                 View All
               </button>
             </div>
@@ -110,11 +109,11 @@ export default function Dashboardsr() {
           <div className="ms-auto">
             <select
               style={{
-                backgroundImage: `url(${chevronblue})`,
+                backgroundImage: `url(${chevron})`,
                 backgroundPosition: "calc(100% - 10px)",
                 backgroundSize: "10px",
               }}
-              className="pe-7 text-sm bg-no-repeat appearance-none py-1 px-5 outline-none rounded-[8px] bg-[#0000000A] text-[#0F91D2]"
+              className="pe-7 text-sm bg-no-repeat appearance-none py-1 px-5 outline-none rounded-[8px] bg-[#0000000A] text-black"
               name=""
               id=""
             >
