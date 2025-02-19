@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -19,6 +19,9 @@ import { IoMdDownload } from "react-icons/io";
 import PaymentCard from "../../Components/PaymentCard";
 
 export default function Payments() {
+    useEffect(() => {
+      document.title = "Payments";
+    }, []);
   const cards = [
     {
       title: "Total Payouts",
@@ -313,7 +316,7 @@ export default function Payments() {
               <IoMdDownload /> <span>Download Statement</span>
             </button>
             <button className="bg-[#34A853] text-[#fff] border border-[#34A853] flex items-center gap-2 py-2 px-4 rounded-[8px]">
-              <IoCashSharp /> <span>Withdrawal Payment </span>
+              <IoCashSharp /> <span>Setup Auto Payouts </span>
             </button>
           </div>
         </div>

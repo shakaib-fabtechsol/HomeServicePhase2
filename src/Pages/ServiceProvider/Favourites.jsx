@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceBox from "../../Components/ServiceBox";
 import { FaTh, FaList } from "react-icons/fa";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 
 function Favourites() {
-  const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
+  useEffect(() => {
+    document.title = "Favourites";
+  }, []);
+  const [viewMode, setViewMode] = useState("grid"); 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const services = [
@@ -60,7 +63,12 @@ function Favourites() {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="p-2 flex items-center justify-center w-[135px] border rounded-xl"
           >
-            {viewMode === "grid" ? <CiGrid41 className="mr-2"/> : <CiBoxList className="mr-2"/>} {viewMode === "grid" ? "Grid View" : "List View"}
+            {viewMode === "grid" ? (
+              <CiGrid41 className="mr-2" />
+            ) : (
+              <CiBoxList className="mr-2" />
+            )}{" "}
+            {viewMode === "grid" ? "Grid View" : "List View"}
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-full">

@@ -8,8 +8,11 @@ import ReviewPublish from "../../Components/Services.jsx/ReviewPublish";
 import TabComponent from "../../Components/TabComponent";
 
 function NewDeals() {
+  useEffect(() => {
+    document.title = "New Deal";
+  }, []);
   const tabData = [
-    { label: "Basic Info", content: <BasicInfo/> },
+    { label: "Basic Info", content: <BasicInfo /> },
     { label: "Pricing & Packages", content: <PricingPackaging /> },
     { label: "Media Upload", content: <MediaUpload /> },
     { label: "Review & Publish", content: <ReviewPublish /> },
@@ -23,8 +26,10 @@ function NewDeals() {
         </Link>
         <h2 className="text-2xl font-semibold">Create New Deal</h2>
       </div>
-      <p className="text-[#535862] mt-4 ms-8">Create, manage, and organize your deals effortlessly.</p>
-      <TabComponent tabs={tabData}/>
+      <p className="text-[#535862] mt-4 ms-8">
+        Create, manage, and organize your deals effortlessly.
+      </p>
+      <TabComponent tabs={tabData} />
     </div>
   );
 }
