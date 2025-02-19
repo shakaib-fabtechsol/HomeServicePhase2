@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaTimes } from "react-icons/fa";
 import { FiPaperclip } from "react-icons/fi";
 import { MdCircle } from "react-icons/md";
 import { CiCircleInfo } from "react-icons/ci";
@@ -68,6 +68,7 @@ const ChatApp = () => {
   const [activeChat, setActiveChat] = useState(chats[0]);
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
+  const [filePreview, setFilePreview] = useState(null); // State for file preview
   const chatEndRef = useRef(null);
 
   useEffect(() => {
@@ -94,6 +95,25 @@ const ChatApp = () => {
     setActiveChat(updatedChats.find((chat) => chat.id === activeChat.id));
     setInput("");
     setFile(null);
+    setFilePreview(null); // Clear file preview after sending
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      // Generate a preview URL for the file
+      if (selectedFile.type.startsWith("image/")) {
+        setFilePreview(URL.createObjectURL(selectedFile));
+      } else {
+        setFilePreview(selectedFile.name);
+      }
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    setFilePreview(null);
   };
 
   return (
@@ -184,30 +204,54 @@ const ChatApp = () => {
           ))}
           <div ref={chatEndRef}></div>
         </div>
-        <div className="p-4 bg-transparent border-t flex items-center">
-          <input
-            type="text"
-            className="flex-1 p-2 border rounded-md"
-            placeholder="Type a message"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          />
-          <input
-            type="file"
-            className="hidden"
-            id="file-upload"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          <label htmlFor="file-upload" className="ml-2 p-2 cursor-pointer">
-            <FiPaperclip size={20} />
-          </label>
-          <button
-            className="ml-2 p-2 bg-blue-500 text-white rounded-full"
-            onClick={sendMessage}
-          >
-            <FaPaperPlane />
-          </button>
+        <div className="p-4 bg-transparent border-t flex flex-col">
+          {/* File Preview */}
+          {filePreview && (
+            <div className="relative mb-2">
+              {typeof filePreview === "string" && filePreview.startsWith("blob:") ? (
+                <img
+                  src={filePreview}
+                  alt="Preview"
+                  className="max-w-[200px] max-h-[200px] rounded-lg"
+                />
+              ) : (
+                <div className="p-2 bg-gray-200 rounded-lg">
+                  <p className="text-sm">{filePreview}</p>
+                </div>
+              )}
+              <button
+                className="absolute top-0 right-0 p-1 bg-gray-600 rounded-full text-white"
+                onClick={removeFile}
+              >
+                <FaTimes size={12} />
+              </button>
+            </div>
+          )}
+          <div className="flex items-center">
+            <input
+              type="text"
+              className="flex-1 p-2 border rounded-md"
+              placeholder="Type a message"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <input
+              type="file"
+              className="hidden"
+              id="file-upload"
+              onChange={handleFileChange}
+            />
+            <label htmlFor="file-upload" className="ml-2 p-2 cursor-pointer">
+              <FiPaperclip size={20} />
+            </label>
+            <button
+              className="ml-2 p-2 bg-blue-500 text-white rounded-full"
+              onClick={sendMessage}
+            >
+              <FaPaperPlane />
+            </button>
+          </div>
         </div>
       </div>
     </div>
