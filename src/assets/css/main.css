@@ -131,6 +131,7 @@ textarea {
 
 ::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -147,6 +148,12 @@ textarea {
 .filter-nav::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+input[type="number"].hide-number::-webkit-outer-spin-button,
+input[type="number"].hide-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 @media screen and (min-width:769px) {

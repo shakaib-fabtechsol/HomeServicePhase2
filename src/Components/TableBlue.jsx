@@ -22,7 +22,7 @@ export default function TableBlue({ headers, rows }) {
               <tr key={rowIndex}>
                 {row.map((cell, cellIndex) => (
                   <td
-                    className={`text-[#000000] shadow-[0px_-1px_0px_0px_#1111111A_inset] text-sm py-2 px-4 border-b border-[#0000001A] first:border-s last:border-e ${
+                    className={`text-[#000000] shadow-[0px_-1px_0px_0px_#1111111A_inset] text-xs py-2 px-4 border-b border-[#0000001A] first:border-s last:border-e ${
                       rowIndex === rows.length - 1
                         ? "first:rounded-bl-[12px] last:rounded-br-[12px]"
                         : ""

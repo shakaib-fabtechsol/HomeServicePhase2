@@ -52,7 +52,7 @@ export default function TabComponent({ tabs }) {
           onChange={handleChange}
           aria-label="custom tabs example"
         >
-          {tabs.map((tab, index) => (
+        {tabs.map((tab, index) => (
             <Tab
               sx={{
                 fontFamily: "Inter",

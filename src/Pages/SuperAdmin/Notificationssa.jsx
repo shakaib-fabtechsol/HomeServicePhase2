@@ -1,10 +1,10 @@
 import React from "react";
 import TabComponent from "../../Components/TabComponent";
-import All from "../../Components/Notification/All";
-import { Read } from "../../Components/Notification/Read";
 import Unread from "../../Components/Notification/Unread";
+import { Read } from "../../Components/Notification/Read";
+import All from "../../Components/Notification/All";
 
-const Notification = () => {
+export default function Notificationssa() {
   const tabData = [
     { label: "All", content: <All /> },
     { label: "Read", content: <Read /> },
@@ -15,6 +15,4 @@ const Notification = () => {
       <TabComponent tabs={tabData} />
     </div>
   );
-};
-
-export default Notification;
+}

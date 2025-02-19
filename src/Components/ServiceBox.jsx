@@ -1,12 +1,12 @@
 import React from "react";
 
 function ServiceBox({ tags = [], image, publish, title, price, description }) {
-  const defaultimg = "/vite.svg";
+  const defaultimg = "/service1.png";
   const imageToShow = image || defaultimg;
 
   return (
     <div className="border px-3 py-3 rounded-lg">
-      <div className="border px-3 py-3 rounded-lg">
+      <div>
         <img
           src={imageToShow}
           alt="Service Image"
