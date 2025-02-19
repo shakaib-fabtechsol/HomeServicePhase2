@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import client1 from "../../assets/img/client1.png";
 import client2 from "../../assets/img/client2.png";
@@ -11,6 +13,7 @@ import client6 from "../../assets/img/client6.png";
 import client7 from "../../assets/img/client7.png";
 import fileview from "../../assets/img/fileview.png";
 import download from "../../assets/img/download.png";
+import logo from "../../assets/img/logo.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -42,7 +45,19 @@ export default function Payments() {
       amount: "80,000",
     },
   ];
-
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 700,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    zIndex: 99999999,
+    borderRadius: "12px",
+    px: 2,
+    py: 4,
+  };
   const serviceProviders = [
     {
       logo: client1,
@@ -150,7 +165,9 @@ export default function Payments() {
     },
   ];
   const [isOpen, setIsOpen] = useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [checkedRows, setCheckedRows] = useState(
     new Array(serviceProviders.length).fill(false)
   );
@@ -249,7 +266,7 @@ export default function Payments() {
       </button>
     </div>,
     <div className="flex items-center gap-3" key={`name-${index}`}>
-      <Link>
+      <Link onClick={handleOpen}>
         <img
           className="w-[20px] h-auto object-cover"
           src={provider.view}
@@ -339,6 +356,125 @@ export default function Payments() {
       <div className="mt-6">
         <Table headers={tableheader} rows={tablebody} />
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ zIndex: 99999999 }}
+      >
+        <Box sx={style}>
+          <div className="flex justify-center">
+            <img
+              src={logo}
+              alt="logo"
+              className="w-[100px] h-auto object-scale-down"
+            />
+          </div>
+          <div className="p-3 bg-[#F8F8F8] mt-4 rounded-lg">
+            <div className="flex justify-between items-center">
+              <p className="text-2xl font-bold">Invoice</p>
+              <div className="block">
+                <p className="text-xs">Invoice No.</p>
+                <p className="text-sm font-semibold">#ID234</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <p className="text-xs font-semibold">Customer:</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center mt-2">
+                  <img
+                    src={client1}
+                    alt="client1"
+                    className="w-[40px] h-[40px] rounded-full me-2"
+                  />
+                  <div className="block">
+                    <p className="text-sm font-semibold">James Hall</p>
+                    <p className="text-xs">
+                      dennis416@gmail.com / (917) 339-6416
+                    </p>
+                  </div>
+                </div>
+                <div className="block">
+                  <p className="text-xs">Date of Payment</p>
+                  <p className="text-xs">Dec 4, 2024 2:27 pm</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <p className="text-xs font-semibold">Service Pro:</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center mt-2">
+                  <img
+                    src={client1}
+                    alt="client1"
+                    className="w-[40px] h-[40px] rounded-full me-2"
+                  />
+                  <div className="block">
+                    <p className="text-sm font-semibold">Condol</p>
+                    <p className="text-xs">
+                      dennis416@gmail.com / (917) 339-6416
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4">
+            <p className="font-semibold">Deliverables</p>
+            <div className="my-2">
+              <span className="text-[#0F91D2] bg-[#DDF0F9] px-3 py-1 rounded-full">
+                Cleaning
+              </span>
+            </div>
+            <p>Aliquam erat volutpat. Ut semper ipsum in vestibulum laoreet.</p>
+          </div>
+          <div className="mt-4 border-b">
+            <p className="font-semibold">Services</p>
+            <table className="w-full mt-4">
+              <thead className="text-xs ">
+                <tr className="align-middle">
+                  <td className="p-3">Service Name</td>
+                  <td className="p-3">Price</td>
+                  <td className="p-3">Total</td>
+                </tr>
+              </thead>
+              <tbody className="text-xs ">
+                <tr className="align-middle">
+                  <td className="p-3">Discription</td>
+                  <td className="p-3">4,000.00</td>
+                  <td className="p-3">4,000.00</td>
+                </tr>
+                <tr className="align-middle">
+                  <td className="p-3">Charges</td>
+                  <td className="p-3">5 %</td>
+                  <td className="p-3">3200.00</td>
+                </tr>
+                <tr className="align-middle">
+                  <td className="p-3"></td>
+                  <td className="p-3">Total(USD)</td>
+                  <td className="p-3 text-lg font-bold">3200.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-end mt-4">
+              <button
+                type="reset"
+                className="border border-[#cdcdcd] rounded-lg w-full py-[10px] me-4 font-semibold bg-[#ffffff]"
+              >
+                {" "}
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className={`border rounded-lg w-full py-[10px] text-white font-semibold bg-[#0F91D2]`}
+              >
+                Confirm
+              </button>
+            </div>
+        </Box>
+      </Modal>
     </div>
   );
 }
