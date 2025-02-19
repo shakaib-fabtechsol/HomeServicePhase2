@@ -20,7 +20,7 @@ function ProviderLayout() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  const logolink ='/provider/dashboard'
   const sidebarData = [
     {
       items: [
@@ -70,7 +70,7 @@ function ProviderLayout() {
 
   return (
     <div className="mainpage">
-      <MainNav toggleSidebar={toggleSidebar} />
+      <MainNav logolink={logolink} toggleSidebar={toggleSidebar} />
       <FilterNav />
       <div className="main flex">
         <Sidebar
