@@ -5,14 +5,13 @@ import Test from "./Pages/SuperAdmin/Test";
 import Clients from "./Pages/SuperAdmin/Clients";
 import Sales from "./Pages/SuperAdmin/Sales";
 import Reports from "./Pages/SuperAdmin/Reports";
-import Notification from "./Pages/User/Notification";
 import HomeLayout from "./Layouts/HomeLayout";
-import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
+import Settings from "./Pages/ServiceProvider/Settings";
 import Register from "./Pages/Auth/Register";
 import Signup from "./Pages/Auth/Signup";
+import Support from "./Pages/ServiceProvider/Support";
 import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
-import Services from "./Pages/ServiceProvider/Services";
 import NewDeals from "./Pages/ServiceProvider/NewDeals";
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import Providers from "./Pages/SuperAdmin/Providers";
@@ -23,16 +22,26 @@ import SalesRepd from "./Pages/SuperAdmin/SalesRepd";
 import EditSalesRep from "./Pages/SuperAdmin/EditSalesRep";
 import Notificationssa from "./Pages/SuperAdmin/Notificationssa";
 import Settingsa from "./Pages/SuperAdmin/Settingsa";
+import Services from "./Pages/ServiceProvider/Services";
+import Favourites from "./Pages/ServiceProvider/Favourites";
+import Notification from "./Pages/ServiceProvider/Notification";
+import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
+import LandingPage from "./Pages/LandingPage";
+import Payments from "./Pages/ServiceProvider/Payments";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<ProviderLayout />}>
+          <Route path="/provider/settings" element={<Settings />} />
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
-          <Route path="/user/notification" element={<Notification />} />
+          <Route path="/provider/notification" element={<Notification />} />
+          <Route path="/provider/support" element={<Support />} />
+          <Route path="/provider/favourites" element={<Favourites />} />
+          <Route path="/provider/payments" element={<Payments />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
@@ -51,9 +60,9 @@ function App() {
           <Route path="/superadmin/setting" element={<Settingsa />} />
         </Route>
         <Route element={<HomeLayout />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<LandingPage />} />
         </Route>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />

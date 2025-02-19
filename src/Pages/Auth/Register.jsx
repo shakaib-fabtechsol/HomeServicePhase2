@@ -52,7 +52,7 @@ function Register() {
 
               <p className="text-center block mt-5">
                 Already have an account?{" "}
-                <Link to="/" className="text-blue">
+                <Link to="/login" className="text-blue">
                   Login
                 </Link>{" "}
               </p>
