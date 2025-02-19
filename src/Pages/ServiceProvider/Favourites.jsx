@@ -58,9 +58,9 @@ function Favourites() {
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="p-2 w-[150px] border rounded-xl"
+            className="p-2 flex items-center justify-center w-[135px] border rounded-xl"
           >
-            {viewMode === "grid" ? "Grid View" : "List View"}
+            {viewMode === "grid" ? <CiGrid41 className="mr-2"/> : <CiBoxList className="mr-2"/>} {viewMode === "grid" ? "Grid View" : "List View"}
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-full">
@@ -69,18 +69,18 @@ function Favourites() {
                   setViewMode("grid");
                   setDropdownOpen(false);
                 }}
-                className="flex items-center px-4 py-2 w-full text-left hover:bg-gray-100"
+                className="flex justify-center items-center px-4 py-2 w-full text-left hover:bg-gray-100"
               >
-                <CiGrid41 className="inline mr-2" /> Grid View
+                <CiGrid41 className="mr-2" /> Grid View
               </button>
               <button
                 onClick={() => {
                   setViewMode("list");
                   setDropdownOpen(false);
                 }}
-                className="flex items-center px-4 py-2 w-full text-left hover:bg-gray-100"
+                className="flex justify-center items-center px-4 py-2 w-full text-left hover:bg-gray-100"
               >
-                <CiBoxList className="inline mr-2" /> List View
+                <CiBoxList className="mr-2" /> List View
               </button>
             </div>
           )}
