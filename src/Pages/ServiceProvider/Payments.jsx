@@ -19,9 +19,9 @@ import { IoMdDownload } from "react-icons/io";
 import PaymentCard from "../../Components/PaymentCard";
 
 export default function Payments() {
-    useEffect(() => {
-      document.title = "Payments";
-    }, []);
+  useEffect(() => {
+    document.title = "Payments";
+  }, []);
   const cards = [
     {
       title: "Total Payouts",
