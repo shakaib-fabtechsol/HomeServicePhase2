@@ -91,6 +91,37 @@ export default function ReportsSr() {
       rows: serviceRows,
     },
   ];
+
+  const comissionHeader = [
+    "Provider ID",
+    "Provider Name",
+    "Service",
+    "Commission %",
+    "Commission Earned",
+    "Date",
+  ];
+
+  const comissionRows = [
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+    ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
+  ];
+
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -115,6 +146,12 @@ export default function ReportsSr() {
         </p>
         <div className="mt-2">
           <TableBlue headers={revenueHeader} rows={revenueRows} />
+        </div>
+      </div>
+      <div className="mt-4">
+        <p className="font-bold text-sm sm:text-base">Commission History</p>
+        <div className="mt-2">
+          <TableBlue headers={comissionHeader} rows={comissionRows} />
         </div>
       </div>
     </div>

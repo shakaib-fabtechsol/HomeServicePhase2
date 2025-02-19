@@ -12,6 +12,7 @@ import pro7 from "../../../assets/img/pro7.png";
 import pro8 from "../../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 export default function All() {
   const serviceProviders = [
@@ -135,6 +136,7 @@ export default function All() {
     "Phone",
     "Number of Services",
     "Rating",
+    "Action",
   ];
 
   const tablebody = serviceProviders.map((provider, index) => [
@@ -167,6 +169,9 @@ export default function All() {
     provider.phone,
     provider.services,
     provider.rating,
+    <Link className="text-[#0F91D2] underline underline-offset-[3px]">
+      View Reviews
+    </Link>,
   ]);
   return (
     <div>

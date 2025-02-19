@@ -12,6 +12,7 @@ import pro7 from "../../../assets/img/pro7.png";
 import pro8 from "../../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 export default function Assigned() {
   const serviceProviders = [
@@ -20,8 +21,8 @@ export default function Assigned() {
       email: "dan_reid@icloud.com",
       phone: "+5997186491311",
       services: 10,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.2,
     },
     {
@@ -29,8 +30,8 @@ export default function Assigned() {
       email: "tracy_sullivan@yahoo.com",
       phone: "+3822981276772",
       services: 8,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.8,
     },
     {
@@ -38,8 +39,8 @@ export default function Assigned() {
       email: "delores_acosta@outlook.com",
       phone: "+2930285126591",
       services: 5,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 3.9,
     },
     {
@@ -47,8 +48,8 @@ export default function Assigned() {
       email: "myrna_wood@yahoo.com",
       phone: "+0852672848459",
       services: 8,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.5,
     },
     {
@@ -56,8 +57,8 @@ export default function Assigned() {
       email: "everett_wade@outlook.com",
       phone: "+5607223338746",
       services: 9,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.1,
     },
     {
@@ -65,8 +66,8 @@ export default function Assigned() {
       email: "vivian_morrison@yahoo.com",
       phone: "+3559590545722",
       services: 6,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.7,
     },
     {
@@ -74,8 +75,8 @@ export default function Assigned() {
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
       services: 44,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.7,
     },
     {
@@ -83,8 +84,8 @@ export default function Assigned() {
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
       services: 44,
-      compercent:"20%",
-      comtotal:"$200",
+      compercent: "20%",
+      comtotal: "$200",
       rating: 4.7,
     },
   ];
@@ -136,6 +137,7 @@ export default function Assigned() {
     "Percentage Commission",
     "Total Commission",
     "Rating",
+    "Action",
   ];
 
   const tablebody = serviceProviders.map((provider, index) => [
@@ -162,6 +164,9 @@ export default function Assigned() {
     provider.compercent,
     provider.comtotal,
     provider.rating,
+    <Link className="text-[#0F91D2] underline underline-offset-[3px]">
+      View Reviews
+    </Link>,
   ]);
   return (
     <div>
