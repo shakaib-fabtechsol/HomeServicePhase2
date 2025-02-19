@@ -25,7 +25,7 @@ function SuperAdminLayout() {
       <div className="main flex">
         <Sidebar isSidebarOpen={isSidebarOpen} />
         <div className="right">
-          <div className="right-bottom px-2">
+          <div className="right-bottom p-2">
             <div className="container-fluid">
               <Outlet />
             </div>

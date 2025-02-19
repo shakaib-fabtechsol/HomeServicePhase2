@@ -1,37 +1,73 @@
-import React from 'react'
-import Emily from "../../assets/img/emily.png"
+import React from "react";
+import Emily from "../../assets/img/emily.png";
+import NotificationComp from "./NotificationComp";
 
 export const Read = () => {
+  const notificationdata = [
+    {
+      avatar: Emily,
+      Name: "Emily Smith",
+      task: "message you",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+    {
+      avatar: Emily,
+      Name: "Alex Johnson",
+      task: "Edit Service Title",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+    {
+      avatar: Emily,
+      Name: "Emily Smith",
+      task: "message you",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+    {
+      avatar: Emily,
+      Name: "Emily Smith",
+      task: "message you",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+    {
+      avatar: Emily,
+      Name: "Alex Johnson",
+      task: "Edit Service Title",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+    {
+      avatar: Emily,
+      Name: "Emily Smith",
+      task: "message you",
+      comment:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
+      date: "Jan 22, 2025",
+      time: "6:34 am",
+      status: "read",
+    },
+  ];
   return (
-    <div className='p-2'>
-      <div className='flex gap-1 justify-between p-3 border-b border-[#F2F4F5]'>
-        <div className='flex items-center gap-2'>
-          <div>
-            <img src={Emily} alt="" className='size-14 max-w-14 ' />
-          </div>
-          <div>
-            <p className='text-lg font-extralight text-black flex gap-1'><strong className='text-lg font-semibold text-black'>Emily Smith </strong>message you: <span className='overflow-hidden whitespace-nowrap text-ellipsis block w-[300px]'>Lorem Ipsum is simply dummy text of the and</span></p>
-            <p className='text-[#0F91D2] bg-[#0F91D21A] w-[max-content] p-1 rounded-sm font-semibold text-sm'>Replay</p>
-          </div>
-        </div>
-        <div>
-          <p className='text-[#535862] text-xs'>Jan 22, 2025 6:34 am</p>
-        </div>
-      </div>
-      <div className='flex gap-1 justify-between p-3 border-b border-[#F2F4F5]'>
-        <div className='flex items-center gap-2'>
-          <div>
-            <img src={Emily} alt="" className='size-14 max-w-14 ' />
-          </div>
-          <div>
-            <p className='text-lg font-extralight text-black flex gap-1'><strong className='text-lg font-semibold text-black'>Emily Smith </strong>message you: <span className='overflow-hidden whitespace-nowrap text-ellipsis block w-[300px]'>Lorem Ipsum is simply dummy text of the and</span></p>
-            <p className='text-[#0F91D2] bg-[#0F91D21A] w-[max-content] p-1 rounded-sm font-semibold text-sm'>Replay</p>
-          </div>
-        </div>
-        <div>
-          <p className='text-[#535862] text-xs'>Jan 22, 2025 6:34 am</p>
-        </div>
-      </div>
+    <div className="p-2">
+      <NotificationComp data={notificationdata} />
     </div>
-  )
-}
+  );
+};
