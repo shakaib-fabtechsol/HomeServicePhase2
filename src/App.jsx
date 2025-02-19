@@ -10,11 +10,12 @@ import Login from "./Pages/Auth/Login";
 import Settings from "./Pages/ServiceProvider/Settings";
 import Register from "./Pages/Auth/Register";
 import Signup from "./Pages/Auth/Signup";
-import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
-import Services from "./Pages/ServiceProvider/Services";
-import NewDeals from "./Pages/ServiceProvider/NewDeals";
-import Notification from "./Pages/ServiceProvider/Notification";
 import Support from "./Pages/ServiceProvider/Support";
+import PrivacyPolicy from "./Pages/Auth/PrivacyPolicy";
+import NewDeals from "./Pages/ServiceProvider/NewDeals";
+import Services from "./Pages/ServiceProvider/Services";
+import Favourites from "./Pages/ServiceProvider/Favourites";
+import Notification from "./Pages/ServiceProvider/Notification";
 
 import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/provider/newDeals" element={<NewDeals />} />
           <Route path="/provider/notification" element={<Notification />} />
           <Route path="/provider/support" element={<Support />} />
+          <Route path="/provider/favourites" element={<Favourites />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superAdmin/clients" element={<Clients />} />
