@@ -7,7 +7,7 @@ import PersonalInfo from "../../Components/SuperAdmin/settings/PersonalInfo";
 import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 
-export default function Settingsa() {
+export default function SettingSr() {
   const tabData = [
     {
       label: (

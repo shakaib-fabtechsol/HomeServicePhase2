@@ -10,10 +10,9 @@ import { GrNotification } from "react-icons/gr";
 import { CgSupport } from "react-icons/cg";
 import { MdHomeRepairService } from "react-icons/md";
 import { LuUsersRound } from "react-icons/lu";
-import { LiaUsersCogSolid } from "react-icons/lia";
-import { HiOutlineCurrencyDollar } from "react-icons/hi";
+import { HiOutlineClipboardList } from "react-icons/hi";
 
-function SuperAdminLayout() {
+export default function SalesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -24,51 +23,46 @@ function SuperAdminLayout() {
     {
       items: [
         {
-          to: "/superadmin/dashboard",
+          to: "/sales/dashboard",
           icon: IoHomeOutline,
           label: "Dashboard",
         },
         {
-          to: "/superadmin/providers",
+          to: "/sales/services",
           icon: MdHomeRepairService,
-          label: "Service Providers",
+          label: "Service",
         },
+        { to: "/sales/reports", icon: PiFiles, label: "Reports" },
         {
-          to: "/superadmin/clients",
+          to: "/sales/clients",
           icon: LuUsersRound,
           label: "Clients",
         },
         {
-          to: "/superadmin/sales",
-          icon: LiaUsersCogSolid,
-          label: "Sales Reps",
-        },
-        { to: "/superadmin/reports", icon: PiFiles, label: "Reports" },
-        {
-          to: "/superadmin/conversation",
-          icon: HiOutlineCurrencyDollar,
-          label: "Pricing",
+          to: "sales/tasklist",
+          icon: HiOutlineClipboardList,
+          label: "Task List",
         },
       ],
     },
     {
       items: [
         {
-          to: "/superadmin/Chatsa",
+          to: "/sales/chat",
           icon: IoChatboxEllipsesOutline,
           label: "Conversations",
         },
         {
-          to: "/superadmin/notifications",
+          to: "/sales/notification",
           icon: GrNotification,
           label: "Notifications",
         },
         {
-          to: "/superadmin/setting",
+          to: "/sales/setting",
           icon: AiOutlineSetting,
           label: "Settings",
         },
-        { to: "/superadmin/suport", icon: CgSupport, label: "Support" },
+        { to: "/sales/support", icon: CgSupport, label: "Support" },
       ],
     },
   ];
@@ -77,7 +71,6 @@ function SuperAdminLayout() {
     name: "Mike Bird",
     email: "mikebird@untitledui.com",
   };
-
   return (
     <div className="mainpage">
       <MainNav toggleSidebar={toggleSidebar} />
@@ -99,5 +92,3 @@ function SuperAdminLayout() {
     </div>
   );
 }
-
-export default SuperAdminLayout;

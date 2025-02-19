@@ -1,85 +1,91 @@
 import React, { useState } from "react";
-import Table from "../../Components/Table";
+import Table from "../../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import client1 from "../../assets/img/client1.png";
-import client2 from "../../assets/img/client2.png";
-import client3 from "../../assets/img/client3.png";
-import client4 from "../../assets/img/client4.png";
-import client5 from "../../assets/img/client5.png";
-import client6 from "../../assets/img/client6.png";
-import client7 from "../../assets/img/client7.png";
+import pro1 from "../../../assets/img/pro1.png";
+import pro2 from "../../../assets/img/pro2.png";
+import pro3 from "../../../assets/img/pro3.png";
+import pro4 from "../../../assets/img/pro4.png";
+import pro5 from "../../../assets/img/pro5.png";
+import pro6 from "../../../assets/img/pro6.png";
+import pro7 from "../../../assets/img/pro7.png";
+import pro8 from "../../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
-import { LuEye } from "react-icons/lu";
-import { SlPencil } from "react-icons/sl";
-import { Link } from "react-router-dom";
 
-export default function Clients() {
+export default function Assigned() {
   const serviceProviders = [
     {
-      logo: client1,
       id: "#ID234",
-      name: "Ricky Smith",
       email: "dan_reid@icloud.com",
       phone: "+5997186491311",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
+      services: 10,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.2,
     },
     {
-      logo: client2,
       id: "#ID234",
-      name: "Frances Swann",
       email: "tracy_sullivan@yahoo.com",
       phone: "+3822981276772",
-      address: "591 Memorial Dr, Chicopee MA 1020",
+      services: 8,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.8,
     },
     {
-      logo: client3,
       id: "#ID234",
-      name: "James Hall",
       email: "delores_acosta@outlook.com",
       phone: "+2930285126591",
-      address: "5399 W Genesse St, Camillus NY 13031",
+      services: 5,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 3.9,
     },
     {
-      logo: client4,
       id: "#ID234",
-      name: "Mary Freund",
       email: "myrna_wood@yahoo.com",
       phone: "+0852672848459",
-      address: "30 Memorial Drive, Avon MA 2322",
+      services: 8,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.5,
     },
     {
-      logo: client5,
       id: "#ID234",
-      name: "David Elson",
       email: "everett_wade@outlook.com",
       phone: "+5607223338746",
-      address: "1400 County Rd 64, Horseheads NY 14845",
+      services: 9,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.1,
     },
     {
-      logo: client6,
       id: "#ID234",
-      name: "Patricia Sanders",
       email: "vivian_morrison@yahoo.com",
       phone: "+3559590545722",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
+      services: 6,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.7,
     },
     {
-      logo: client7,
       id: "#ID234",
-      name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
-      address: "121 Worcester Rd, Framingham MA 1701",
+      services: 44,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.7,
     },
     {
-      logo: client7,
       id: "#ID234",
-      name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
+      services: 44,
+      compercent:"20%",
+      comtotal:"$200",
+      rating: 4.7,
     },
   ];
 
@@ -123,12 +129,13 @@ export default function Clients() {
         />
       }
     />,
-    "Client ID",
-    "Client Name",
+    "Service Provider ID",
     "Email",
     "Phone",
-    "Address",
-    "Action",
+    "Number of Services",
+    "Percentage Commission",
+    "Total Commission",
+    "Rating",
   ];
 
   const tablebody = serviceProviders.map((provider, index) => [
@@ -149,25 +156,12 @@ export default function Clients() {
       }
     />,
     provider.id,
-    <div className="flex items-center gap-3" key={`name-${index}`}>
-      <img
-        className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
-        alt={provider.name}
-      />
-      <p>{provider.name}</p>
-    </div>,
     provider.email,
     provider.phone,
-    provider.address,
-    <div className="flex items-center gap-2">
-      <Link to="#">
-        <LuEye className="text-[20px]" />
-      </Link>
-      <button>
-        <SlPencil className="text-[20px]" />
-      </button>
-    </div>,
+    provider.services,
+    provider.compercent,
+    provider.comtotal,
+    provider.rating,
   ]);
   return (
     <div>

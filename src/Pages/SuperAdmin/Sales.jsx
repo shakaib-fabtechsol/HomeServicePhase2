@@ -13,6 +13,7 @@ import { FiSearch } from "react-icons/fi";
 import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function Sales() {
   const serviceProviders = [
@@ -150,12 +151,12 @@ export default function Sales() {
     provider.email,
     provider.phone,
     <div className="flex items-center gap-2">
-      <button>
+      <Link to="/superadmin/salesrepd">
         <LuEye className="text-[20px]" />
-      </button>
-      <button>
+      </Link>
+      <Link to="/superadmin/editsalesrep">
         <SlPencil className="text-[20px]" />
-      </button>
+      </Link>
       <button>
         <HiOutlineTrash className="text-[20px]" />
       </button>
