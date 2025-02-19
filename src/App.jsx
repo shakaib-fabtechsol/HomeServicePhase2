@@ -25,7 +25,6 @@ import Settingsa from "./Pages/SuperAdmin/Settingsa";
 import Services from "./Pages/ServiceProvider/Services";
 import Favourites from "./Pages/ServiceProvider/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
-import SuperAdminLayout from "./Layouts/SuperAdminLayout.";
 import LandingPage from "./Pages/LandingPage";
 import Payments from "./Pages/ServiceProvider/Payments";
 
