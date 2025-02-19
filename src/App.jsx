@@ -26,6 +26,7 @@ import Services from "./Pages/ServiceProvider/Services";
 import Favourites from "./Pages/ServiceProvider/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
+import Dashboardc from "./Pages/Customer/Dashboard";
 import Payments from "./Pages/ServiceProvider/Payments";
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
+        </Route>
+        <Route element={<ProviderLayout />}>
+          <Route path="/customer/dashboard" element={<Dashboardc />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
