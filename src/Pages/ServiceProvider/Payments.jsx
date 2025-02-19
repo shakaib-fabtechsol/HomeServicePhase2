@@ -267,7 +267,7 @@ export default function Payments() {
             <div className="relative">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-[#16151C] border flex items-center gap-2 py-2 px-4 rounded-[8px] bg-white shadow-md"
+                className="text-[#16151C] border flex items-center gap-2 py-2 px-4 rounded-[8px] bg-white"
               >
                 <RiEqualizerLine /> <span>More filters</span>
               </button>
