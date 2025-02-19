@@ -149,13 +149,25 @@ const OrderDetail = () => {
                 </div>
             </div>
             <div className='border rounded-xl p-4 mt-5'>
-                <div>
-                    <div className='border rounded'>
-                        <input type="text" className='w-full'/>
-                        <FaPaperclip/>
+                <div className='h-[400px] overflow-y-auto'>
+                    <div>
+                        <div>
+                            <img src={ClientTwo} alt="" className='rounded-full size-9 max-w-9 object-cover'/>
+                        </div>
+                        <div>
+                            <h6 className='font-medium'>Phoenix Baker</h6>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex items-center gap-2'>
+                    <div className='border rounded-xl flex justify-between gap-2 px-3 items-center w-full'>
+                        <input type="text" className='w-full rounded-xl bg-transparent p-2'placeholder='Message'/>
+                        <label htmlFor="fil"><FaPaperclip className='cursor-pointer'/></label>
+                        <input type="file" name="" id="fil" className='hidden'/>
                     </div>
                     <div>
-                        <button><IoPaperPlaneOutline/></button>
+                        <button className='bg-[#0F91D2] text-white text-xl py-3 2xl:px-6 px-3 shadow-lg rounded-md'><IoPaperPlaneOutline/></button>
                     </div>
                 </div>
             </div>
