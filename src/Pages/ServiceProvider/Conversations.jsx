@@ -16,6 +16,7 @@ import pro5 from "../../assets/img/pro5.png";
 import pro6 from "../../assets/img/pro6.png";
 import pro7 from "../../assets/img/pro7.png";
 import pro8 from "../../assets/img/pro8.png";
+import CallPro from '../../Components/Provider/CallPro';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,33 +58,14 @@ export default function Conversations() {
   };
 
   const tabs = [
-    // { label: "All Conversations", content: <Table /> },
-    { label: "Active", content: <p>Active conversations content</p> },
-    { label: "Archived", content: <p>Archived conversations content</p> },
+    { label: "Call Pro", content: <CallPro /> },
+    { label: "Text Pro", content: <p>Active conversations content</p> },
+    { label: "Email Pro", content: <p>Archived conversations content</p> },
   ];
 
   return (
     <div>
-      <div className="mb-2">
-        <h2 className="font-semibold text-3xl">Conversations</h2>
-        <p className="text-gray-600">Track and manage your favorite services.</p>
-      </div>
-      <div>
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <label
-            className="flex items-center border w-full sm:max-w-[300px] rounded-[8px] overflow-hidden"
-            htmlFor="search"
-          >
-            <FiSearch className="ms-2" />
-            <input className="w-full p-2 outline-none" type="search" name="search" id="search" />
-          </label>
-          <div className="ms-auto">
-            <button className="text-[#16151C] border flex items-center gap-2 py-2 px-4 rounded-[8px]">
-              <RiEqualizerLine /> <span>Filter</span>
-            </button>
-          </div>
-        </div>
-      </div>
+    
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider', overflowX: 'auto' }}>
           <Tabs
