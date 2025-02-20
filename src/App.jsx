@@ -45,16 +45,13 @@ import ProBucks from "./Pages/Customer/ProBucks";
 import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
-<<<<<<< HEAD
 import Ordersp from "./Pages/ServiceProvider/Ordersp";
-=======
 import CatalogResult from "./Pages/CatalogResult";
 import Conversations from "./Pages/ServiceProvider/Conversations";
 import Message from "./Pages/Customer/Message";
 import ExploreServices from "./Pages/Customer/ExploreServices";
 import Supportc from "./Pages/Customer/Support";
 import Notificationc from "./Layouts/Notificationc";
->>>>>>> 78fb8632deb1860a716ebd7c04d92359678d8745
 
 function App() {
   return (
@@ -69,11 +66,7 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
-<<<<<<< HEAD
           <Route path="/provider/orders" element={<Ordersp />} />
-=======
-          <Route path="/provider/conversations" element={<Conversations />} />
->>>>>>> 78fb8632deb1860a716ebd7c04d92359678d8745
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
