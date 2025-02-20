@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { IoMdNotifications } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoLocationOutline } from "react-icons/io5";
@@ -10,15 +10,18 @@ import { FaRegHeart } from "react-icons/fa6";
 import { GrNotification } from "react-icons/gr";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
-const MainNav = ({ toggleSidebar ,logolink}) => {
+const MainNav = ({ toggleSidebar, logolink }) => {
+  const location = useLocation();
+  const isHomeOrCatalog = location.pathname === "/" || location.pathname === "/catalogResult";
+
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
       <div className="flex items-center justify-between">
-        <NavLink to={logolink} className="logodiv w-full h-full ">
+        <NavLink to={logolink} className="logodiv w-full h-full">
           <img src={logo} alt="logo" className="w-[60px]" />
         </NavLink>
       </div>
-      
+
       <div className="lg:flex hidden">
         <div className="flex me-3 rounded-lg border-[#E4E4E4] border-2 py-1">
           <div>
@@ -41,22 +44,32 @@ const MainNav = ({ toggleSidebar ,logolink}) => {
           <FaSearch />
         </div>
       </div>
+
       <div className="flex items-center">
-        <button className="text-2xl md:hidden" onClick={toggleSidebar}>
-          <RxHamburgerMenu className="me-3 sm:me-5 pointer" />
-        </button>
-        <NavLink to="#">
-        <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-        </NavLink>
-        <NavLink to="#">
-           <FaRegHeart className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-        </NavLink>
-        <NavLink to="#">
-          <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-        </NavLink>
-        <Link to="#">
-          <img src={profile} alt="Profile" className="img-wade" />
-        </Link>
+        {isHomeOrCatalog ? (
+          <>
+            <Link to="/login" className="me-3">Sign In</Link>
+            <Link to="/register" className="border-2 rounded-lg px-4 py-2">Join Now</Link>
+          </>
+        ) : (
+          <>
+            <button className="text-2xl md:hidden" onClick={toggleSidebar}>
+              <RxHamburgerMenu className="me-3 sm:me-5 pointer" />
+            </button>
+            <NavLink to="#">
+              <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
+            </NavLink>
+            <NavLink to="#">
+              <FaRegHeart className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
+            </NavLink>
+            <NavLink to="#">
+              <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
+            </NavLink>
+            <Link to="#">
+              <img src={profile} alt="Profile" className="img-wade" />
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

@@ -45,6 +45,7 @@ import ProBucks from "./Pages/Customer/ProBucks";
 import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
+import CatalogResult from "./Pages/CatalogResult";
 import Message from "./Pages/Customer/Message";
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
         </Route>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/catalogResult" element={<CatalogResult />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
