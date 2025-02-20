@@ -67,6 +67,7 @@ function App() {
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
           <Route path="/provider/orders" element={<Ordersp />} />
+          <Route path="/provider/conversations" element={<Conversations />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
