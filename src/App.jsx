@@ -46,6 +46,7 @@ import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
 import CatalogResult from "./Pages/CatalogResult";
+import Message from "./Pages/Customer/Message";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           <Route path="/customer/order" element={<Order />} />
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
+          <Route path="/customer/message" element={<Message />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
