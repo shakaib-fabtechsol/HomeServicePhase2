@@ -23,7 +23,7 @@ function Login() {
             Welcome! Please enter your details.
           </p>
 
-          <form>
+          <form action="/provider/dashboard">
             <div className="my-3">
               <label
                 htmlFor="email"

@@ -39,26 +39,28 @@ function LandingPage() {
                 Hire vetted people you can trust
               </p>
               <div className="flex mt-12 justify-center">
-                <div className="flex flex-col sm:flex-row rounded-xl px-2 bg-white py-2">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Search for any service..."
-                      className="py-[10px] bg-transparent focus-none sm:border-r px-3"
-                    />
+                <form action="/catalogResult">
+                  <div className="flex flex-col sm:flex-row rounded-xl px-2 bg-white py-2">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Search for any service..."
+                        className="py-[10px] bg-transparent focus-none sm:border-r px-3"
+                      />
+                    </div>
+                    <div className="flex items-center px-3">
+                      <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
+                      <input
+                        type="text"
+                        placeholder="Location for the service..."
+                        className="py-[10px] bg-transparent focus-none"
+                      />
+                    </div>
+                    <button className="rounded-xl flex justify-center items-center bg-[#0F91D2] px-4 text-xl text-white py-2">
+                      <FaSearch />
+                    </button>
                   </div>
-                  <div className="flex items-center px-3">
-                    <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
-                    <input
-                      type="text"
-                      placeholder="Location for the service..."
-                      className="py-[10px] bg-transparent focus-none"
-                    />
-                  </div>
-                  <div className="rounded-xl flex justify-center items-center bg-[#0F91D2] px-4 text-xl text-white py-2">
-                    <FaSearch />
-                  </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -71,7 +73,7 @@ function LandingPage() {
             <div className="me-3 my-1">
               <select
                 name="budget"
-                className="border w-full border-[#E4E4E4] rounded-lg px-3 py-2"
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
               >
                 <option value="">Budget</option>
                 <option value="50">Up to $50</option>
@@ -81,7 +83,7 @@ function LandingPage() {
             <div className="me-3 my-1">
               <select
                 name="reviews"
-                className="border w-full border-[#E4E4E4] rounded-lg px-3 py-2"
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
               >
                 <option value="">Reviews</option>
                 <option value="5">5 stars</option>
@@ -91,7 +93,7 @@ function LandingPage() {
             <div className="me-3 my-1">
               <select
                 name="deliveryTime"
-                className="border w-full border-[#E4E4E4] rounded-lg px-3 py-2"
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
               >
                 <option value="">Delivery Time</option>
                 <option value="1">1 day</option>
@@ -101,7 +103,7 @@ function LandingPage() {
             <div className="me-3 my-1">
               <select
                 name="location"
-                className="border w-full border-[#E4E4E4] rounded-lg px-3 py-2"
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
               >
                 <option value="">Location/Distance</option>
                 <option value="10">Within 10 miles</option>
