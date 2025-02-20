@@ -46,6 +46,7 @@ import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
 import CatalogResult from "./Pages/CatalogResult";
+import Conversations from "./Pages/ServiceProvider/Conversations";
 import Message from "./Pages/Customer/Message";
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
+          <Route path="/provider/conversations" element={<Conversations />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
