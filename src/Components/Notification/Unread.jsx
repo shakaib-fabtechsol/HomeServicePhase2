@@ -66,7 +66,7 @@ const Unread = () => {
     },
   ];
   return (
-    <div className="p-2">
+    <div className="sm:p-2">
       <NotificationComp data={notificationdata} />
     </div>
   );

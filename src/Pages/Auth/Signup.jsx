@@ -33,7 +33,7 @@ function Signup () {
                   Welcome! Please enter your details.
                 </p>
 
-                <form >
+                <form action='/login'>
                   <div className="my-3 hidden">
                     <label
                       htmlFor="role"
