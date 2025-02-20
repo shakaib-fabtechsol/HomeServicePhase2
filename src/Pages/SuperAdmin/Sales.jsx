@@ -14,11 +14,18 @@ import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { Modal } from "@mui/material";
+import { HiXMark } from "react-icons/hi2";
 
 export default function Sales() {
   useEffect(() => {
     document.title = "Sales Reps";
   }, []);
+
+  const [addtaskopen, setaddtaskOpen] = React.useState(true);
+  const handleaddtaskOpen = () => setaddtaskOpen(true);
+  const handleaddtaskClose = () => setaddtaskOpen(false);
+
   const serviceProviders = [
     {
       logo: client1,
@@ -188,8 +195,12 @@ export default function Sales() {
             />
           </label>
           <div className="ms-auto">
-            <button className="text-white bg-[#0F91D2] border border-[#0F91D2] font-semibold text-sm flex items-center gap-2 py-2 px-4 rounded-[8px]">
-              <LuPlus className="text-lg" /> <span>Create New Sales Rep</span>
+            <button
+              onClick={handleaddtaskOpen}
+              className="text-white bg-[#0F91D2] border border-[#0F91D2] font-semibold text-sm flex items-center gap-2 py-2 px-4 rounded-[8px]"
+            >
+              <LuPlus className="text-lg" />
+              <span>Invite Sales Rep</span>
             </button>
           </div>
         </div>
@@ -197,6 +208,39 @@ export default function Sales() {
       <div className="mt-5">
         <Table headers={tableheader} rows={tablebody} />
       </div>
+      <Modal
+        open={addtaskopen}
+        onClose={handleaddtaskClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[400px] -translate-y-1/2 outline-none">
+          <div className="rounded-[12px] bg-white">
+            <div className="py-2 px-3 flex items-center justify-between border-b border-[#00000080]">
+              <p className="text-sm font-semibold">Invite Sales Rep</p>
+              <button>
+                <HiXMark />
+              </button>
+            </div>
+            <div className="p-3">
+              <label htmlFor="nameormail" className="text-sm text-black">
+                Name or Email
+              </label>
+              <input
+                className="border border-[#E5E0EB] block outline-none w-full p-2 rounded-[5px] mt-1"
+                type="text"
+                name="nameormail"
+                id="nameormail"
+                placeholder="Invite by name or email"
+              />
+              <div className="mt-3">
+                  <button></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
