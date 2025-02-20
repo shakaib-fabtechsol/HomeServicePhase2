@@ -45,6 +45,7 @@ import ProBucks from "./Pages/Customer/ProBucks";
 import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
+import Ordersp from "./Pages/ServiceProvider/Ordersp";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
+          <Route path="/provider/orders" element={<Ordersp />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
