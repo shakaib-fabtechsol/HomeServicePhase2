@@ -41,6 +41,10 @@ import TaskListsr from "./Pages/Sales/TaskListsr";
 import ProDetails from "./Pages/SuperAdmin/ProDetails";
 import CustomerLayout from "./Layouts/CustomerLayout";
 import OrderDetail from "./Pages/Customer/OrderDetail";
+import ProBucks from "./Pages/Customer/ProBucks";
+import Order from "./Pages/Customer/Order";
+import Setting from "./Pages/Customer/Setting";
+import Profile from "./Pages/Customer/Profile";
 
 function App() {
   return (
@@ -59,6 +63,10 @@ function App() {
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
           <Route path="/customer/order-detail" element={<OrderDetail />} />
+          <Route path="/customer/bucks" element={<ProBucks />} />
+          <Route path="/customer/order" element={<Order />} />
+          <Route path="/customer/setting" element={<Setting />} />
+          <Route path="/customer/profile" element={<Profile />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />

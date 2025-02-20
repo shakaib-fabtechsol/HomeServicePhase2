@@ -21,8 +21,8 @@ const CustomerLayout = () => {
         {
             items: [
                 { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
-                { to: "/customer/probucks", icon: AiOutlineDollar, label: "Pro Bucks" },
-                { to: "/customer/order-detail", icon: RiBarChartHorizontalLine, label: "Orders",},
+                { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
+                { to: "/customer/order", icon: RiBarChartHorizontalLine, label: "Orders",},
                 { to: "/provider/payments", icon: CiCreditCard1, label: "Payments/Payout",},
                 { to: "/provider/favourites", icon: FaRegHeart, label: "Favorites" },
                 { to: "/provider/reports", icon: PiFiles, label: "Reports" },
@@ -32,7 +32,7 @@ const CustomerLayout = () => {
             items: [
                 { to: "/provider/conversations",  icon: IoChatboxEllipsesOutline, label: "Conversations",},
                 { to: "/provider/notification", icon: GrNotification, label: "Notifications",},
-                { to: "/provider/settings", icon: AiOutlineSetting, label: "Settings" },
+                { to: "/customer/setting", icon: AiOutlineSetting, label: "Settings" },
                 { to: "/provider/support", icon: CgSupport, label: "Support" },
             ],
         },

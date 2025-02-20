@@ -40,7 +40,7 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0`}
     >
-      <div className="left-mid h-[calc(100dvh-134px)]">
+      <div className="left-mid h-[calc(100dvh-184px)]">
         <div className="list flex flex-col h-full justify-between">
           <div className="flex flex-col justify-between h-full">
             {sidebarData.map((section, index) => (
@@ -48,6 +48,8 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
             ))}
           </div>
 
+        </div>
+      </div>
           <div className="left-bottom border-t-2">
             <div className="flex items-center px-4 pt-3">
               <Link to="/customer/ProfileDetails">
@@ -70,8 +72,6 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
               </NavLink>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   );
 };
