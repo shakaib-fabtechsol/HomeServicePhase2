@@ -1,9 +1,8 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import ChatApp from '../../Components/SuperAdmin/ChatApp'
 
-const Message = () => {
+const ExploreServices = () => {
     return (
         <div>
             <div className='flex items-center sm:gap-4 gap-2 sm:mt-4'>
@@ -11,15 +10,12 @@ const Message = () => {
                     <Link to="#"><FaArrowLeft className='md:text-xl text-sm' /></Link>
                 </div>
                 <div>
-                    <p className='font-semibold 2xl:text-3xl sm:text-xl text-lg'>Messages</p>
-                    <p className='text-[#535862] md:text-base text-xs'>Manage and Respond to Messages Seamlessly</p>
+                    <p className='font-semibold 2xl:text-3xl sm:text-xl text-lg'>Explore Services</p>
+                    <p className='text-[#535862] md:text-base text-xs'>Browse Top-Rated Professionals for Every Need, Anytime.</p>
                 </div>
-            </div>
-            <div className='mt-2'>
-                <ChatApp/>
             </div>
         </div>
     )
 }
 
-export default Message
+export default ExploreServices
