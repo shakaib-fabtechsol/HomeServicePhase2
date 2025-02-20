@@ -1,280 +1,314 @@
-import React, { useState, useEffect, useRef } from "react";
-import { FaPaperPlane, FaTimes } from "react-icons/fa";
-import { FiPaperclip } from "react-icons/fi";
-import { MdCircle } from "react-icons/md";
-import { CiCircleInfo } from "react-icons/ci";
+import React, { useState, useRef } from 'react';
+import { CiSearch } from 'react-icons/ci';
+import { FaPaperclip } from 'react-icons/fa';
+import { IoCloseCircle, IoPaperPlaneOutline } from 'react-icons/io5';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import ClientTwo from '../../assets/img/client2.png';
 
 const ChatApp = () => {
-  const [chats, setChats] = useState([
-    {
-      id: 1,
-      name: "Elmer Laverty",
-      online: true,
-      messages: [
+    // Sidebar chats data
+    const initialChats = [
         {
-          id: 1,
-          text: "Hey, how’s it going?",
-          sender: "other",
-          timestamp: "12m ago",
+            id: 1,
+            name: 'James Hall',
+            lastMessage: 'Lorem ipsum dolor sit amet',
+            time: 'Now',
+            online: true,
         },
         {
-          id: 2,
-          text: "Good, how about you?",
-          sender: "self",
-          timestamp: "10m ago",
+            id: 2,
+            name: 'Phoenix Baker',
+            lastMessage: 'Consectetur adipiscing elit',
+            time: '1hr ago',
+            online: false,
         },
-      ],
-    },
-    {
-      id: 2,
-      name: "Omar Dias",
-      online: false,
-      messages: [
-        {
-          id: 1,
-          text: "Did you finish the project?",
-          sender: "other",
-          timestamp: "24m ago",
-        },
-        {
-          id: 2,
-          text: "Almost, just a few tweaks left.",
-          sender: "self",
-          timestamp: "22m ago",
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Lavern Laboy",
-      online: true,
-      messages: [
-        {
-          id: 1,
-          text: "Let's catch up soon!",
-          sender: "other",
-          timestamp: "1h ago",
-        },
-        {
-          id: 2,
-          text: "Yes, definitely!",
-          sender: "self",
-          timestamp: "50m ago",
-        },
-      ],
-    },
-  ]);
+    ];
 
-  const [activeChat, setActiveChat] = useState(chats[0]);
-  const [input, setInput] = useState("");
-  const [file, setFile] = useState(null);
-  const [filePreview, setFilePreview] = useState(null); // State for file preview
-  const chatEndRef = useRef(null);
+    const [chats, setChats] = useState(initialChats);
+    const [activeChat, setActiveChat] = useState(initialChats[0].id);
 
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [activeChat.messages]);
+    const [messages, setMessages] = useState([
+        {
+            text: 'Mauris vel metus ac.',
+            sender: 'Phoenix Baker',
+            time: 'Friday 2:20pm',
+            isUser: false,
+            file: null,
+        },
+        {
+            text: 'Mauris vel metus ac.',
+            sender: 'You',
+            time: 'Friday 2:20pm',
+            isUser: true,
+            file: null,
+        },
+    ]);
+    const [newMessage, setNewMessage] = useState('');
+    const [file, setFile] = useState(null);
+    const [filePreview, setFilePreview] = useState(null);
+    const [attachedFile, setAttachedFile] = useState(null);
+    // State to control chat area on small screens
+    const [open, setOpen] = useState(false);
 
-  const sendMessage = () => {
-    if (input.trim() === "" && !file) return;
-    const timestamp = "Just now";
-    const newMessage = {
-      id: activeChat.messages.length + 1,
-      text: input,
-      sender: "self",
-      timestamp,
+    const fileInputRef = useRef();
+
+    const handleSendMessage = () => {
+        if (newMessage.trim() || attachedFile) {
+            const message = {
+                text: newMessage,
+                sender: 'You',
+                time: new Date().toLocaleTimeString(),
+                isUser: true,
+                file: attachedFile,
+            };
+
+            setMessages([...messages, message]);
+            setNewMessage('');
+            setAttachedFile(null);
+            setFilePreview(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = null;
+            }
+        }
     };
-    if (file) {
-      newMessage.file = file.name;
-      newMessage.filePreview = filePreview; // Add file preview to the message
-    }
 
-    const updatedChats = chats.map((chat) =>
-      chat.id === activeChat.id
-        ? { ...chat, messages: [...chat.messages, newMessage] }
-        : chat
-    );
-    setChats(updatedChats);
-    setActiveChat(updatedChats.find((chat) => chat.id === activeChat.id));
-    setInput("");
-    setFile(null);
-    setFilePreview(null); // Clear file preview after sending
-  };
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setAttachedFile(selectedFile);
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      // Generate a preview URL for the file
-      if (selectedFile.type.startsWith("image/")) {
-        setFilePreview(URL.createObjectURL(selectedFile));
-      } else {
-        setFilePreview(selectedFile.name);
-      }
-    }
-  };
+            if (selectedFile.type.startsWith('image/')) {
+                setFilePreview(URL.createObjectURL(selectedFile));
+            } else if (selectedFile.type === 'application/pdf') {
+                setFilePreview(' '); // Replace with your PDF icon or logic
+            } else if (selectedFile.type.includes('word')) {
+                setFilePreview(' ');
+            } else {
+                setFilePreview(' ');
+            }
+        }
+    };
 
-  const removeFile = () => {
-    setFile(null);
-    setFilePreview(null);
-  };
-
-  return (
-    <div className="flex h-[calc(100dvh-238px)] border rounded-xl w-full md:flex-row flex-col">
-      <div className="w-full md:w-1/3 bg-transparnt p-4 border-r overflow-auto">
-        <input
-          type="text"
-          placeholder="Search messages"
-          className="w-full p-2 border rounded-md mb-4"
-        />
-        <div className="space-y-2 w-full">
-          {chats.map((chat) => (
-            <div
-              key={chat.id}
-              className={`flex w-full items-center p-2 rounded-lg cursor-pointer hover:bg-gray-200 ${
-                activeChat.id === chat.id ? "bg-gray-300" : ""
-              }`}
-              onClick={() => setActiveChat(chat)}
-            >
-              <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
-              <div className="w-full">
-                <p className="font-semibold">{chat.name}</p>
-                <div className="flex justify-between items-center w-full">
-                  <p className="text-sm text-gray-500">
-                    {chat.messages[chat.messages.length - 1].text}{" "}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {chat.messages[chat.messages.length - 1].timestamp}
-                  </p>
+    return (
+        <div className="lg:flex relative">
+            {/* Sidebar */}
+            <div className="w-full lg:max-w-[250px] border h-[calc(100dvh-240px)]">
+                <div className="p-2">
+                    <div className="flex items-center p-2 border rounded-lg w-full">
+                        <label>
+                            <CiSearch className="text-[#717680] text-xl" />
+                        </label>
+                        <input type="search" placeholder="Search" className="w-full px-2" />
+                    </div>
                 </div>
-              </div>
+                <div>
+                    {chats.map((chat) => (
+                        <div
+                            key={chat.id}
+                            onClick={() => {
+                                setActiveChat(chat.id);
+                                // On small screens, open chat area when a chat is selected.
+                                setOpen(true);
+                            }}
+                            className={`flex justify-between gap-2 border-b p-2 cursor-pointer ${activeChat === chat.id ? 'bg-blue-100' : ''
+                                }`}
+                        >
+                            <div className="flex gap-2 items-center relative">
+                                <div className="relative">
+                                    <img
+                                        src={ClientTwo}
+                                        alt=""
+                                        className="rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover"
+                                    />
+                                    {/* Green dot if online */}
+                                    {chat.online && (
+                                        <span className="absolute sm:bottom-0 -bottom-1 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                                    )}
+                                </div>
+                                <div>
+                                    <h4 className="text-sm text-[#181D27] font-semibold">{chat.name}</h4>
+                                    <p className="text-[#535862] text-xs truncate">{chat.lastMessage}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-[8px] text-[#181D27] whitespace-nowrap">{chat.time}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="flex-1 flex flex-col bg-white">
-        <div className="p-4 border-b flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
-            <div>
-              <p className="font-semibold">{activeChat.name}</p>
-              <p className="text-sm text-gray-500 flex items-center">
-                <MdCircle
-                  className={
-                    activeChat.online
-                      ? "text-green-500 me-2"
-                      : "text-gray-400 me-2"
-                  }
-                  size={10}
-                />
-                {activeChat.online ? " Online" : " Offline"}
-              </p>
-            </div>
-          </div>
-          <CiCircleInfo className="text-3xl" />
-        </div>
-        <div className="flex-1 p-4 overflow-auto">
-          {activeChat.messages.map((msg) => (
+            {/* Chat area */}
             <div
-              key={msg.id}
-              className={`flex ${
-                msg.sender === "self" ? "justify-end" : "justify-start"
-              } mb-2`}
+                className={`
+          lg:flex lg:w-[calc(100%-250px)] w-full border h-[calc(100dvh-240px)] flex-col justify-between lg:static absolute top-0 bg-white
+          ${open ? 'block' : 'hidden'}
+        `}
             >
-              {msg.sender === "other" && (
-                <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
-              )}
-              <div
-                className={`p-3 rounded-lg max-w-xs ${
-                  msg.sender === "self"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200"
-                }`}
-              >
-                {/* File Preview in Chat */}
-                {msg.filePreview && typeof msg.filePreview === "string" && (
-                  <div className="mb-2">
-                    {msg.filePreview.startsWith("blob:") ? (
-                      <img
-                        src={msg.filePreview}
-                        alt="Preview"
-                        className="w-[200px] h-[170px] object-cover rounded-lg"
-                      />
-                    ) : (
-                      <div className="p-2 bg-gray-100 rounded-lg">
-                        <p className="text-sm">{msg.filePreview}</p>
-                      </div>
+                {/* Back button for small screens */}
+                <div>
+                    <div className="flex justify-between gap-2 items-center border-b p-2">
+                        <div className="flex gap-2 items-center relative">
+                            <div className="relative">
+                                <img
+                                    src={ClientTwo}
+                                    alt=""
+                                    className="rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover"
+                                />
+                                {chats.find((chat) => chat.id === activeChat)?.online && (
+                                    <span className="absolute sm:bottom-0 -bottom-1 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                                )}
+                            </div>
+                            <div>
+                                <h4 className="text-base text-[#181D27]">
+                                    {chats.find((chat) => chat.id === activeChat)?.name}
+                                </h4>
+                                <p className="text-[#535862] text-xs">
+                                    {chats.find((chat) => chat.id === activeChat)?.online ? 'Online' : 'Offline'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <BsThreeDotsVertical />
+                            <div className="lg:hidden">
+                                <button onClick={() => setOpen(false)} className="text-red-500">
+                                    <IoCloseCircle className="text-lg" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-2 h-[calc(100dvh-360px)] overflow-y-auto">
+                        {messages.map((message, index) => (
+                            <div
+                                key={index}
+                                className={`flex gap-3 mb-3 ${message.isUser ? 'justify-end' : ''}`}
+                            >
+                                <img
+                                    src={ClientTwo}
+                                    alt=""
+                                    className={`rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover ${message.isUser ? 'hidden' : ''
+                                        }`}
+                                />
+                                <div className="max-w-[600px] w-full">
+                                    <div className="flex justify-between">
+                                        <h6
+                                            className={`font-medium ${message.isUser ? 'text-[#414651]' : 'text-[#181D27]'
+                                                } sm:text-sm text-xs`}
+                                        >
+                                            {message.sender}
+                                        </h6>
+                                        <p className="text-[#535862] text-xs">{message.time}</p>
+                                    </div>
+                                    <div
+                                        className={`p-4 rounded-xl mt-2 ${message.isUser ? 'bg-[#0F91D2]' : 'bg-[#F5F5F5]'
+                                            }`}
+                                    >
+                                        {message.text && (
+                                            <p
+                                                className={`${message.isUser ? 'text-white' : 'text-black'
+                                                    } sm:text-base text-xs`}
+                                            >
+                                                {message.text}
+                                            </p>
+                                        )}
+                                        {/* Render file preview if available */}
+                                        {message.file && (
+                                            <div className="mt-2">
+                                                {message.file.type.startsWith('image/') ? (
+                                                    <img
+                                                        src={URL.createObjectURL(message.file)}
+                                                        alt={message.file.name}
+                                                        className="max-w-[200px] rounded"
+                                                    />
+                                                ) : (
+                                                    <a
+                                                        href={URL.createObjectURL(message.file)}
+                                                        download={message.file.name}
+                                                        className="text-sm text-white underline"
+                                                    >
+                                                        {message.file.name}
+                                                    </a>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-2 p-2 border-t relative">
+                    {/* File preview section */}
+                    {filePreview && (
+                        <div className="flex items-center gap-2 p-2 border rounded-lg absolute bottom-16 bg-white">
+                            <div>
+                                {filePreview ? (
+                                    <img
+                                        src={filePreview}
+                                        alt=""
+                                        className="max-w-[100px] rounded"
+                                    />
+                                ) : (
+                                    <div className="w-[100px] h-[100px] bg-gray-200 flex justify-center items-center rounded">
+                                        <p className="text-xs text-center">{file?.name || 'File attached'}</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-sm">
+                                    {file?.name || 'File attached'}
+                                </p>
+                            </div>
+                            <button
+                                className="text-red-500 text-xs"
+                                onClick={() => {
+                                    setFile(null);
+                                    setFilePreview(null);
+                                    if (fileInputRef.current) {
+                                        fileInputRef.current.value = null;
+                                    }
+                                }}
+                            >
+                                <IoCloseCircle className="text-lg" />
+                            </button>
+                        </div>
                     )}
-                  </div>
-                )}
-                {msg.text}{" "}
-                {msg.file && (
-                  <a href="#" className="text-sm underline">
-                    {msg.file}
-                  </a>
-                )}
-                <p className="text-xs text-gray-500">{msg.timestamp}</p>
-              </div>
-              {msg.sender === "self" && (
-                <div className="w-10 h-10 bg-gray-300 rounded-full ml-2"></div>
-              )}
-            </div>
-          ))}
-          <div ref={chatEndRef}></div>
-        </div>
-        <div className="p-4 bg-transparent border-t flex flex-col">
-          {/* File Preview */}
-          {filePreview && (
-            <div className="relative mb-2">
-              {typeof filePreview === "string" && filePreview.startsWith("blob:") ? (
-                <img
-                  src={filePreview}
-                  alt="Preview"
-                  className="w-[200px] h-[170px] object-cover rounded-lg"
-                />
-              ) : (
-                <div className="p-2 bg-gray-200 rounded-lg">
-                  <p className="text-sm">{filePreview}</p>
+
+                    <div className="flex items-center gap-2">
+                        <div className="border rounded-xl flex justify-between gap-2 px-3 items-center w-full">
+                            <input
+                                type="text"
+                                className="w-full rounded-xl bg-transparent p-2"
+                                placeholder="Message"
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                            />
+                            <label htmlFor="fil">
+                                <FaPaperclip className="cursor-pointer" />
+                            </label>
+                            <input
+                                type="file"
+                                id="fil"
+                                className="hidden"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                        </div>
+                        <div>
+                            <button
+                                className="bg-[#0F91D2] text-white text-xl py-3 2xl:px-6 px-3 shadow-lg rounded-md"
+                                onClick={handleSendMessage}
+                            >
+                                <IoPaperPlaneOutline />
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              )}
-              <button
-                className="absolute top-0 right-0 p-1 bg-gray-600 rounded-full text-white"
-                onClick={removeFile}
-              >
-                <FaTimes size={12} />
-              </button>
             </div>
-          )}
-          <div className="flex items-center">
-            <input
-              type="text"
-              className="flex-1 p-2 border rounded-md"
-              placeholder="Type a message"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-            />
-            <input
-              type="file"
-              className="hidden"
-              id="file-upload"
-              onChange={handleFileChange}
-            />
-            <label htmlFor="file-upload" className="ml-2 p-2 cursor-pointer">
-              <FiPaperclip size={20} />
-            </label>
-            <button
-              className="ml-2 p-2 bg-blue-500 text-white rounded-full"
-              onClick={sendMessage}
-            >
-              <FaPaperPlane />
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ChatApp;

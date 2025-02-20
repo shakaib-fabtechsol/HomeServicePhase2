@@ -48,6 +48,9 @@ import Profile from "./Pages/Customer/Profile";
 import CatalogResult from "./Pages/CatalogResult";
 import Conversations from "./Pages/ServiceProvider/Conversations";
 import Message from "./Pages/Customer/Message";
+import ExploreServices from "./Pages/Customer/ExploreServices";
+import Supportc from "./Pages/Customer/Support";
+import Notificationc from "./Layouts/Notificationc";
 
 function App() {
   return (
@@ -72,6 +75,9 @@ function App() {
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
+          <Route path="/customer/explore-service" element={<ExploreServices />} />
+          <Route path="/customer/support" element={<Supportc />} />
+          <Route path="/customer/notification" element={<Notificationc />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />

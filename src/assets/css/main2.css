@@ -196,6 +196,10 @@ select option {
     appearance: none;
 }
 
+input:focus{
+    outline: none;
+}
+
 textarea {
     resize: none !important;
 }
