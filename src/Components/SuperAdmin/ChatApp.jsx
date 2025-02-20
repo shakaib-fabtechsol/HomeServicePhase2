@@ -84,7 +84,10 @@ const ChatApp = () => {
       sender: "self",
       timestamp,
     };
-    if (file) newMessage.file = file.name;
+    if (file) {
+      newMessage.file = file.name;
+      newMessage.filePreview = filePreview; // Add file preview to the message
+    }
 
     const updatedChats = chats.map((chat) =>
       chat.id === activeChat.id
@@ -189,6 +192,22 @@ const ChatApp = () => {
                     : "bg-gray-200"
                 }`}
               >
+                {/* File Preview in Chat */}
+                {msg.filePreview && typeof msg.filePreview === "string" && (
+                  <div className="mb-2">
+                    {msg.filePreview.startsWith("blob:") ? (
+                      <img
+                        src={msg.filePreview}
+                        alt="Preview"
+                        className="w-[200px] h-[170px] object-cover rounded-lg"
+                      />
+                    ) : (
+                      <div className="p-2 bg-gray-100 rounded-lg">
+                        <p className="text-sm">{msg.filePreview}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {msg.text}{" "}
                 {msg.file && (
                   <a href="#" className="text-sm underline">
@@ -212,7 +231,7 @@ const ChatApp = () => {
                 <img
                   src={filePreview}
                   alt="Preview"
-                  className="max-w-[200px] max-h-[200px] rounded-lg"
+                  className="w-[200px] h-[170px] object-cover rounded-lg"
                 />
               ) : (
                 <div className="p-2 bg-gray-200 rounded-lg">
