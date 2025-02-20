@@ -30,7 +30,7 @@ const CustomerLayout = () => {
         },
         {
             items: [
-                { to: "/provider/conversations",  icon: IoChatboxEllipsesOutline, label: "Conversations",},
+                { to: "/customer/message",  icon: IoChatboxEllipsesOutline, label: "Conversations",},
                 { to: "/provider/notification", icon: GrNotification, label: "Notifications",},
                 { to: "/customer/setting", icon: AiOutlineSetting, label: "Settings" },
                 { to: "/provider/support", icon: CgSupport, label: "Support" },
