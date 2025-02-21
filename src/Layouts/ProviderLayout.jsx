@@ -29,6 +29,7 @@ function ProviderLayout() {
           to: "/provider/services",
           icon: FiBarChart2,
           label: "My Services/Deals",
+          toChild: "/provider/dealDetails",
         },
         { to: "/provider/probucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {

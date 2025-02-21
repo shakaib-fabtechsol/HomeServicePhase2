@@ -5,7 +5,7 @@ import ServiceBox from "../../Components/ServiceBox";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
 
-const CommonDashboard = () => {
+const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => { 
   useEffect(() => {
     document.title = "Home";
   }, []);
@@ -80,7 +80,7 @@ const CommonDashboard = () => {
                 </div>
               ))}
               <div className="flex justify-end mt-4">
-                <Link className="underline text-[#000] flex items-cneter text-sm gap-x-1">
+                <Link to={orderto} className="underline text-[#000] flex items-cneter text-sm gap-x-1">
                   See Order History <FaArrowRight className="text-xs mt-1" />
                 </Link>
               </div>
@@ -89,7 +89,7 @@ const CommonDashboard = () => {
           <div className="border rounded-2xl p-4">
             <h4 className="font-medium text-xl">Recent Conversations</h4>
             <Link
-              to="#"
+             to={conversationto}
               className="flex justify-between items-center border p-3 rounded-xl mt-4"
             >
               <div>
@@ -115,6 +115,7 @@ const CommonDashboard = () => {
             description={service.description}
             tags={service.tags}
             image={service.image}
+            serviceDetailTo={serviceDetailTo}
             publish={service.publish}
           />
         ))}

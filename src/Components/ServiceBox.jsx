@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 import React from "react";
 
-function ServiceBox({ tags = [], image, publish, title, price, description }) {
+function ServiceBox({ tags = [], image, publish, title, price, description, serviceDetailTo }) {
   const defaultimg = "/service1.png";
   const imageToShow = image || defaultimg;
 
   return (
-    <div className="border px-3 py-3 rounded-lg">
+    <Link to={serviceDetailTo} className="border px-3 py-3 rounded-lg">
       <div>
         <img
           src={imageToShow}
@@ -37,7 +38,7 @@ function ServiceBox({ tags = [], image, publish, title, price, description }) {
           "No tags available"
         )}
       </div>
-    </div>
+    </Link>
   );
 }
 

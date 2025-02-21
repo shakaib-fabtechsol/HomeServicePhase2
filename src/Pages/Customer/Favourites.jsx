@@ -6,7 +6,7 @@ function Favourites() {
     document.title = "Favourites";
   }, []);
   return (
-      <CommonFavorites />
+      <CommonFavorites serviceDetailTo="/customer/dealDetails"/>
   )
 }
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function Favourites() {
   return (
-      <CommonFavorites />
+      <CommonFavorites serviceDetailTo="/provider/dealDetails"/>
   )
 }
 

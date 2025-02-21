@@ -11,7 +11,7 @@ const Profile = () => {
         <h2 className="text-2xl font-semibold">Profile Details</h2>
       </div>
       <div>
-        <ProfileComponent/>
+        <ProfileComponent serviceDetailTo="/customer/dealDetails"/>
       </div>
     </div>
   )

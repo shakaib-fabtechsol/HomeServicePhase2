@@ -57,6 +57,8 @@ import Profilep from "./Pages/ServiceProvider/Profile";
 import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
 import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 import RecentDeals from "./Pages/Sales/RecentDeals";
+import DealDetails from "./Pages/ServiceProvider/DealDetails";
+import DealDetailsC from "./Pages/Customer/DealDetails";
 
 function App() {
   return (
@@ -75,6 +77,7 @@ function App() {
           <Route path="/provider/orders" element={<Ordersp />} />
           <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
           <Route path="/provider/conversations" element={<Conversations />} />
+          <Route path="/provider/dealDetails" element={<DealDetails />} />
           <Route path="/provider/profile" element={<Profilep />} />
         </Route>
         <Route element={<CustomerLayout />}>
@@ -93,6 +96,7 @@ function App() {
           <Route path="/customer/notification" element={<Notificationc />} />
           <Route path="/customer/favourites" element={<Favourites />} />
           <Route path="/customer/payments" element={<Payments />} />
+          <Route path="/customer/dealDetails" element={<DealDetailsC />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
