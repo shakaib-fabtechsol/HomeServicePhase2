@@ -25,77 +25,98 @@ import Insurance from './AdditionalPhoto/Insurance'
 const ProfileComponent = () => {
     const services = [
         {
-          id: 1,
-          title: "Plumbing Service",
-          price: 50,
-          description: "Fix your leaking pipes and taps.",
-          tags: ["Plumbing", "Repair"],
-          image: "",
-          publish: 2,
+            id: 1,
+            title: "Plumbing Service",
+            price: 50,
+            description: "Fix your leaking pipes and taps.",
+            tags: ["Plumbing", "Repair"],
+            image: "",
+            publish: 2,
         },
         {
-          id: 2,
-          title: "House Cleaning",
-          price: 30,
-          description: "Professional house cleaning services.",
-          tags: ["Cleaning", "Home"],
-          image: "",
-          publish: 2,
+            id: 2,
+            title: "House Cleaning",
+            price: 30,
+            description: "Professional house cleaning services.",
+            tags: ["Cleaning", "Home"],
+            image: "",
+            publish: 2,
         },
         {
-          id: 2,
-          title: "House Cleaning",
-          price: 30,
-          description: "Professional house cleaning services.",
-          tags: ["Cleaning", "Home"],
-          image: "",
-          publish: 2,
+            id: 2,
+            title: "House Cleaning",
+            price: 30,
+            description: "Professional house cleaning services.",
+            tags: ["Cleaning", "Home"],
+            image: "",
+            publish: 2,
         },
         {
-          id: 2,
-          title: "House Cleaning",
-          price: 30,
-          description: "Professional house cleaning services.",
-          tags: ["Cleaning", "Home"],
-          image: "",
-          publish: 2,
+            id: 2,
+            title: "House Cleaning",
+            price: 30,
+            description: "Professional house cleaning services.",
+            tags: ["Cleaning", "Home"],
+            image: "",
+            publish: 2,
         },
         {
-          id: 2,
-          title: "House Cleaning",
-          price: 30,
-          description: "Professional house cleaning services.",
-          tags: ["Cleaning", "Home"],
-          image: "",
-          publish: 2,
+            id: 2,
+            title: "House Cleaning",
+            price: 30,
+            description: "Professional house cleaning services.",
+            tags: ["Cleaning", "Home"],
+            image: "",
+            publish: 2,
         },
-      ];
-      const accordionData = [
-        { title: 'Technician Photos', content: <TechnicalPhoto/> },
-        { title: 'Vehicle Photos', content: <VehiclePhoto/> },
-        { title: 'Facility Photos', content: <FacilityPhoto/> },
-        { title: 'Project Photos', content: <ProjectPhoto/> },
-        { title: 'Licences', content: <License/> },
-        { title: 'Awards', content: <Award/> },
-        { title: 'Insurance', content: <Insurance/> },
-        { title: 'Special Hours of Operation', content: <SpecialHour/> },
-      ];
-    
-    
-      const [contactopen, setcontactOpen] = React.useState(false);
-      const handlecontactOpen = () => setcontactOpen(true);
-      const handlecontactClose = () => setcontactOpen(false);
-    
-      const modalContacts = [
+    ];
+    const accordionData = [
+        { title: 'Technician Photos', content: <TechnicalPhoto /> },
+        { title: 'Vehicle Photos', content: <VehiclePhoto /> },
+        { title: 'Facility Photos', content: <FacilityPhoto /> },
+        { title: 'Project Photos', content: <ProjectPhoto /> },
+        { title: 'Licences', content: <License /> },
+        { title: 'Awards', content: <Award /> },
+        { title: 'Insurance', content: <Insurance /> },
+        { title: 'Special Hours of Operation', content: <SpecialHour /> },
+    ];
+
+
+    const [contactopen, setcontactOpen] = React.useState(false);
+    const handlecontactOpen = () => setcontactOpen(true);
+    const handlecontactClose = () => setcontactOpen(false);
+
+    const modalContacts = [
         { path: "#", Icon: <FiPhone />, title: "Call Pro: (785) 712-6532" },
-        { path: "#", Icon: <BiMessageSquareDetail />, title: "Text Pro: (708) 813-8989",},
-        { path: "#", Icon: <BiMessageAltDetail />, title: "Instant Chat",},
+        { path: "#", Icon: <BiMessageSquareDetail />, title: "Text Pro: (708) 813-8989", },
+        { path: "#", Icon: <BiMessageAltDetail />, title: "Instant Chat", },
         { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
         { path: "#", Icon: <PiChats />, title: "Direct Form" },
-        { path: "#", Icon: <IoLocationOutline />,
-          title: "Get Directions",
-        },
-      ];
+        { path: "#", Icon: <IoLocationOutline />, title: "Get Directions", },
+    ];
+
+    const [activeModal, setActiveModal] = React.useState(null);
+
+    // Opens a modal based on the contact data passed in
+    const handleContactClick = (contact) => {
+        // Only open modal for Text Pro, Email Pro, and Get Directions
+        if (
+            contact.title === "Text Pro: (708) 813-8989" ||
+            contact.title === "Email Pro" ||
+            contact.title === "Get Directions"
+        ) {
+            setActiveModal(contact.title);
+        } else {
+            // You can handle other actions for non-modal contacts here
+            console.log(`No modal for: ${contact.title}`);
+        }
+    };
+
+    const handleModalClose = () => {
+        setActiveModal(null);
+    };
+
+
     return (
         <div>
             <div className="flex flex-col lg:flex-row justify-between mt-4 lg:items-start">
@@ -168,14 +189,14 @@ const ProfileComponent = () => {
                             <p className="text-lg font-semibold">Contact Pro</p>
                             <div className="flex flex-col gap-3 mt-4">
                                 {modalContacts.map((contact, index) => (
-                                    <Link
+                                    <button onClick={() => handleContactClick(contact)}
                                         key={index}
                                         className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
                                         to={contact.path}
                                     >
                                         <span className="text-[24px]">{contact.Icon}</span>
                                         <span>{contact.title}</span>
-                                    </Link>
+                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -239,6 +260,81 @@ const ProfileComponent = () => {
             <div className='mt-5'>
                 <Review />
             </div>
+            <Modal
+                open={activeModal !== null}
+                onClose={handleModalClose}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                sx={{ m: 2 }}
+            >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
+                    <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto">
+                        <p className="text-lg font-semibold">
+                            {activeModal}
+                        </p>
+                        <div className="mt-4">
+                            {activeModal === "Text Pro: (708) 813-8989" && (
+                                <div>
+                                    <form action="">
+                                        <div>
+                                            <label htmlFor="">Description</label>
+                                            <textarea className='w-full p-2 rounded-lg bg-white border' rows={5} name="" id="" placeholder='Write here...'></textarea>
+                                        </div>
+                                        <div className='grid grid-cols-2 gap-1 mt-5'>
+                                            <div>
+                                                <button className='bg-[#fff] text-black py-2 rounded-lg w-full shadow-md border'>Cancel</button>
+                                            </div>
+                                            <div>
+                                                <button className='bg-[#0F91D2] text-white py-2 rounded-lg w-full shadow-md'>Send</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                            {activeModal === "Email Pro" && (
+                                <div>
+                                    <form action="">
+                                        <div>
+                                            <label htmlFor="">Subject</label>
+                                            <input type="text" className='w-full p-2 rounded-lg bg-white border' name="" id="" placeholder='Address' />
+                                        </div>
+                                        <div className='mt-3'>
+                                            <label htmlFor="">Description</label>
+                                            <textarea className='w-full p-2 rounded-lg bg-white border' rows={5} name="" id="" placeholder='Write here...'></textarea>
+                                        </div>
+                                        <div className='grid grid-cols-2 gap-1 mt-5'>
+                                            <div>
+                                                <button className='bg-[#fff] text-black py-2 rounded-lg w-full shadow-md border'>Cancel</button>
+                                            </div>
+                                            <div>
+                                                <button className='bg-[#0F91D2] text-white py-2 rounded-lg w-full shadow-md'>Send</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                            {activeModal === "Get Directions" && (
+                                <div>
+                                    <form action="">
+                                        <div>
+                                            <label htmlFor="">Location</label>
+                                            <input type="text" className='w-full p-2 rounded-lg bg-white border' name="" id="" placeholder='Address' />
+                                        </div>
+                                        <div className='grid grid-cols-2 gap-1 mt-5'>
+                                            <div>
+                                                <button className='bg-[#fff] text-black py-2 rounded-lg w-full shadow-md border'>Cancel</button>
+                                            </div>
+                                            <div>
+                                                <button className='bg-[#0F91D2] text-white py-2 rounded-lg w-full shadow-md'>Send</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
     )
 }
