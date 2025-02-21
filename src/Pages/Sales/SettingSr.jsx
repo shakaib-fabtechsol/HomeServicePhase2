@@ -6,8 +6,12 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import PersonalInfo from "../../Components/SuperAdmin/settings/PersonalInfo";
 import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
+import { useEffect, useState } from "react";
 
 export default function SettingSr() {
+  useEffect(() => {
+    document.title = "Settings";
+  }, []);
   const tabData = [
     {
       label: (

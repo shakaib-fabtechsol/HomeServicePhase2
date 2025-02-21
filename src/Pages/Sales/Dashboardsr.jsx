@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from 'react';
+import { useEffect, useState } from "react";
 import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
@@ -7,6 +8,9 @@ import TableBlue from "../../Components/TableBlue";
 import userimg from "../../assets/img/client1.png";
 
 export default function Dashboardsr() {
+  useEffect(() => {
+    document.title = "Dashboard";
+  }, []);
   const cardsdata = [
     { title: "Total Revenue By Pro", value: "$3,318", percent: "+6.08%" },
     {

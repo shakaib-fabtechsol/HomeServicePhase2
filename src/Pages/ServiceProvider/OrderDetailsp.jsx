@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaPaperclip } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ServiceDet from "../../assets/img/service-det.png";
@@ -28,6 +29,9 @@ const style = {
 };
 
 export default function OrderDetailsp() {
+  useEffect(() => {
+    document.title = "OrderDetails";
+  }, []);
   const [photosopen, setphotosOpen] = React.useState(false);
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { BsSliders } from 'react-icons/bs';
 import { CiLocationOn, CiSearch } from 'react-icons/ci';
 import { FiDownload } from 'react-icons/fi';
@@ -6,6 +6,7 @@ import { LuPhone } from 'react-icons/lu';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ServiceDet from '../../assets/img/service-det.png';
+
 
 const orders = [
     {
@@ -27,6 +28,10 @@ const orders = [
 ];
 
 const Order = () => {
+    useEffect(() => {
+        document.title = "Orders";
+      }, []);
+    
     return (
         <div>
             <div className='flex sm:flex-row flex-col sm:items-center justify-between gap-2'>
@@ -80,7 +85,7 @@ const Order = () => {
                                 </td>
                                 <td className='p-3 text-nowrap'>{order.date}</td>
                                 <td className='p-3'>
-                                    <Link to='/customer/order-detail' className='bg-white text-base py-2 px-4 border text-nowrap rounded-lg inline-block'>View Details</Link>
+                                    <Link to='/customer/orderdetails' className='bg-white text-base py-2 px-4 border text-nowrap rounded-lg inline-block'>View Details</Link>
                                     <div className='mt-3'>
                                         <Link to='#' className='bg-[#0F91D2] text-white text-base py-2 px-4 border text-nowrap rounded-lg block'>Mark as Complete</Link>
                                     </div>

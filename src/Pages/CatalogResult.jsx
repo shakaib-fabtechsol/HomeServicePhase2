@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 function CatalogResult() {
+  useEffect(() => {
+    document.title = "CatalogResults";
+  }, []);
   const services = [
     {
       id: 1,
