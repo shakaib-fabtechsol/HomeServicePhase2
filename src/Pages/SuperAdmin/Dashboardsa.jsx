@@ -8,7 +8,7 @@ import DoubleBarChart from "../../Components/SuperAdmin/DoubleBarChart";
 
 export default function Dashboardsa() {
   useEffect(() => {
-    document.title = "Dashboard";
+    document.title = "Home";
   }, []);
   const cardsdata = [
     { title: "Revenue Generated", value: "$3,318", percent: "+6.08%" },

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import CommonFavorites from '../../Components/Common/CommonFavorites'
-import { useEffect, useState } from "react";
 
 function Favourites() {
+  useEffect(() => {
+    document.title = "Favourites";
+  }, []);
   return (
       <CommonFavorites />
   )

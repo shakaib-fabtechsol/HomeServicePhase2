@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProBucksChart from "../../Components/Provider/ProBucksChart";
 import TabComponent from "../../Components/TabComponent";
 import TransHistory from "../../Components/Provider/ProBucks/TransHistory";
 import ReferralHistory from "../../Components/Provider/ProBucks/ReferralHistory";
 
 export default function ProBucksp() {
+  useEffect(() => {
+    document.title = "ProBucks";
+  }, []);
   const tabData = [
     { label: "Transaction History", content: <TransHistory /> },
     { label: "Referral History ", content: <ReferralHistory /> },

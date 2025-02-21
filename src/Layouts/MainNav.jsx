@@ -56,7 +56,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             <button className="text-2xl md:hidden" onClick={toggleSidebar}>
               <RxHamburgerMenu className="me-3 sm:me-5 pointer" />
             </button>
-            <NavLink to="#">
+            {/* <NavLink to="#">
               <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
             </NavLink>
             <NavLink to="#">
@@ -67,7 +67,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             </NavLink>
             <Link to="#">
               <img src={profile} alt="Profile" className="img-wade" />
-            </Link>
+            </Link> */}
           </>
         )}
       </div>

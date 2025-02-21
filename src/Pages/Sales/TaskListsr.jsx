@@ -5,6 +5,7 @@ import { FiSearch } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
 import { LuBellRing, LuCalendarDays } from "react-icons/lu";
 import AddTaskModal from "../../Components/Sales/AddTaskModal";
+import { useEffect, useState } from "react";
 
 export default function TaskListsr() {
   const [addtaskopen, setaddtaskOpen] = React.useState(false);
@@ -58,6 +59,9 @@ export default function TaskListsr() {
   ];
   const totalcompleted = completedata.length;
 
+  useEffect(() => {
+    document.title = "TaskList";
+  }, []);
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-3">

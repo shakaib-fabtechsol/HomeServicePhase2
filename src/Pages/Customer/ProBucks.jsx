@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import ServiceBox from '../../Components/ServiceBox'
 
 const ProBucks = () => {
+    useEffect(() => {
+        document.title = "ProBucks";
+      }, []);
     const services = [
         {
             id: 1,

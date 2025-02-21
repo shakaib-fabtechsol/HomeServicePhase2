@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import MyDetail from "../../Components/ProviderSetting/MyDetail";
 import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
 import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";

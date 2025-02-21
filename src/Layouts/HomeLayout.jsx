@@ -24,10 +24,8 @@ function HomeLayout() {
       <FilterNav />
       <div className="main flex">
         <div className="right w-full">
-          <div className="right-bottom px-2">
-            <div className="container-fluid">
+          <div className="right-bottom px-0">
               <Outlet />
-            </div>
           </div>
         </div>
       </div>

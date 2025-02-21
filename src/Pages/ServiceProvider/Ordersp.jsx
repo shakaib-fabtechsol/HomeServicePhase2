@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { BsSliders } from "react-icons/bs";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
@@ -14,6 +15,10 @@ import Table from "../../Components/Table";
 import customer from "../../assets/img/client1.png"
 
 export default function Ordersp() {
+    useEffect(() => {
+    document.title = "Orders";
+  }, []);
+  
   const [dateopen, setdateOpen] = React.useState(false);
   const handledateOpen = () => setdateOpen(true);
   const handledateClose = () => setdateOpen(false);
@@ -167,6 +172,7 @@ export default function Ordersp() {
       </div>
     </div>,
   ]);
+
   return (
     <div>
       <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-2">

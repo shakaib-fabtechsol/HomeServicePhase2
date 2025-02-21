@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 function CatalogResult() {
+  useEffect(() => {
+    document.title = "CatalogResults";
+  }, []);
   const services = [
     {
       id: 1,
@@ -71,7 +75,7 @@ function CatalogResult() {
   return (
     <>
       <div>
-        <div className="myacontainer">
+        <div className="mycontainer">
           <div className="flex flex-col mt-8 md:flex-row justify-between">
             <div className="max-[100%] md:max-w-[280px] mt-2 w-full">
               <div className="bg-[#F8F8F8] px-4 py-4 h-full rounded-lg">
