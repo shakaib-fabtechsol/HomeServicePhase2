@@ -67,6 +67,7 @@ function ProviderLayout() {
   const userInfo = {
     name: "Mike Bird",
     email: "mikebird@untitledui.com",
+    profileLink: "/provider/profile"
   };
 
   return (

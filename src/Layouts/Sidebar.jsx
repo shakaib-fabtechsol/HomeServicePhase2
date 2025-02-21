@@ -4,6 +4,7 @@ import { MdLogout } from "react-icons/md";
 import user from "../assets/img/user.png";
 
 const SidebarItem = ({ to, icon: Icon, label, toChild }) => {
+
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: false });
   
@@ -56,14 +57,14 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
       </div>
           <div className="left-bottom border-t-2">
             <div className="flex items-center px-4 pt-3">
-              <Link to="/customer/ProfileDetails">
+              <Link to={userInfo.profileLink}>
                 <img
                   src={user}
                   alt="logo"
                   className="rounded-full pe-2 max-w-[70px]"
                 />
               </Link>
-              <NavLink to="/" className="logouts">
+              <div to="/" className="logouts">
                 <div className="flex justify-between items-center">
                   <p className="font-bold text-black">{userInfo.name}</p>
                   <button>
@@ -73,7 +74,7 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
                 <p className="mb-0 font-medium text-sm text-black">
                   {userInfo.email}
                 </p>
-              </NavLink>
+              </div>
             </div>
           </div>
     </div>
