@@ -50,16 +50,16 @@ const AccordionComponent = ({ items }) => {
   return (
     <div>
       {items.map((item, index) => (
-        <Accordion sx={{border: "0px", marginBottom: "5px"}}
+        <Accordion sx={{border: "0px", marginBottom: "5px",}}
           key={index}
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
         >
-          <AccordionSummary sx={{backgroundColor: "transparent"}} aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
-            <Typography component="span">{item.title}</Typography>
+          <AccordionSummary sx={{backgroundColor: "transparent", p:0}} aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
+            <Typography sx={{fontFamily: "inter"}} component="span">{item.title}</Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{item.content}</Typography>
+          <AccordionDetails sx={{border: 0}}>
+            <Typography sx={{fontFamily: "inter"}}>{item.content}</Typography>
           </AccordionDetails>
         </Accordion>
       ))}
