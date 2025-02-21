@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BsSliders } from "react-icons/bs";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
@@ -12,13 +12,13 @@ import DateModal from "../../Components/Provider/DateModal";
 import { Modal } from "@mui/material";
 import PhotosModal from "../../Components/Provider/PhotosModal";
 import Table from "../../Components/Table";
-import customer from "../../assets/img/client1.png"
+import customer from "../../assets/img/client1.png";
 
 export default function Ordersp() {
-    useEffect(() => {
+  useEffect(() => {
     document.title = "Orders";
   }, []);
-  
+
   const [dateopen, setdateOpen] = React.useState(false);
   const handledateOpen = () => setdateOpen(true);
   const handledateClose = () => setdateOpen(false);
@@ -31,8 +31,8 @@ export default function Ordersp() {
   const orders = [
     {
       serviceName: "Service Name",
-      serviceimg:ServiceDet,
-      customerimg:customer,
+      serviceimg: ServiceDet,
+      customerimg: customer,
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: "$200",
       provider: "Tatiana Dorwart",
@@ -41,8 +41,8 @@ export default function Ordersp() {
     },
     {
       serviceName: "Service Name",
-      serviceimg:ServiceDet,
-      customerimg:customer,
+      serviceimg: ServiceDet,
+      customerimg: customer,
       description: "Praesent tincidunt consectetur justo, at fermentum metus.",
       price: "$150",
       provider: "John Doe",
@@ -51,8 +51,8 @@ export default function Ordersp() {
     },
     {
       serviceName: "Service Name",
-      serviceimg:ServiceDet,
-      customerimg:customer,
+      serviceimg: ServiceDet,
+      customerimg: customer,
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: "$200",
       provider: "Tatiana Dorwart",
@@ -61,8 +61,8 @@ export default function Ordersp() {
     },
     {
       serviceName: "Service Name",
-      serviceimg:ServiceDet,
-      customerimg:customer,
+      serviceimg: ServiceDet,
+      customerimg: customer,
       description: "Praesent tincidunt consectetur justo, at fermentum metus.",
       price: "$150",
       provider: "John Doe",
@@ -127,26 +127,32 @@ export default function Ordersp() {
       {order.status}
     </p>,
     <div className="flex text-nowrap gap-5 items-center">
-      <div>
-        <div>
+      <div className="w-max">
+        <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => {
               if (order.status === "New") {
                 handledateOpen();
               }
             }}
-            className="flex items-center gap-2 bg-white p-2 border border-[#D7D7D7] rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
+            className="col-span-2 flex items-center justify-center gap-2 bg-white p-2 border border-[#D7D7D7] rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             <IoCalendarOutline className="text-sm" />
-            <p className="text-[#535862] text-xs">Dec 21, 2024</p>
+            <p className="text-[#535862] text-xs">
+              {order.status === "New" ? "Schedule" : order.date}
+            </p>
           </button>
-        </div>
-        <div className="mt-3">
           <button
             onClick={handlephotosOpen}
-            className="bg-[#0F91D2] text-white text-xs p-2 min-w-[100px] text-center border text-nowrap rounded-lg inline-block"
+            className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
-            Before & After Photos
+            Before
+          </button>
+          <button
+            onClick={handlephotosOpen}
+            className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
+          >
+            After
           </button>
         </div>
       </div>
@@ -154,16 +160,16 @@ export default function Ordersp() {
         <div>
           <Link
             to="/provider/orderdetails"
-            className="bg-white text-[#343434] text-xs p-2 min-w-[100px] text-center border border-[#D7D7D7] text-nowrap rounded-lg inline-block"
+            className="bg-white text-[#343434] text-xs p-2 min-w-[100px] text-center border border-[#D7D7D7] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             View Details
           </Link>
         </div>
         {order.status !== "Completed" && (
-          <div className="mt-3">
+          <div className="mt-2">
             <Link
               to="#"
-              className="bg-[#0F91D2] text-white text-xs p-2 min-w-[100px] text-center border text-nowrap rounded-lg inline-block"
+              className="bg-white text-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
               Deliver
             </Link>
