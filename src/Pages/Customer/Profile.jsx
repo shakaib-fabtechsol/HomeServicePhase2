@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import AccordionComponent from '../../Components/AccordionComponent'
@@ -7,6 +7,9 @@ import { CiSearch } from 'react-icons/ci'
 import Review from '../../Components/SuperAdmin/Review'
 
 const Profile = () => {
+  useEffect(() => {
+    document.title = "Profile";
+  }, []);
   const services = [
     {
       id: 1,

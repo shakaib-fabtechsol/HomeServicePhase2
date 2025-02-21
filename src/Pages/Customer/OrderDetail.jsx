@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react';
 import { FaArrowLeft, FaPaperclip } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import ServiceDet from '../../assets/img/service-det.png'
@@ -25,6 +25,10 @@ const style = {
 };
 
 const OrderDetail = () => {
+    useEffect(() => {
+        document.title = "OederDetails";
+      }, []);
+
     const deliveryImages = [DeliveryOne, DeliveryOne, DeliveryThree, DeliveryFour];
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);

@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { BsSliders } from "react-icons/bs";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
@@ -55,6 +56,10 @@ export default function Ordersp() {
       status: "Completed",
     },
   ];
+
+  useEffect(() => {
+    document.title = "Orders";
+  }, []);
   return (
     <div>
       <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-2">

@@ -1,8 +1,11 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 const ExploreServices = () => {
+    useEffect(() => {
+        document.title = "Explore Services";
+      }, []);
     return (
         <div>
             <div className='flex items-center sm:gap-4 gap-2 sm:mt-4'>

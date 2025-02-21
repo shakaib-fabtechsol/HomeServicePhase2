@@ -33,6 +33,7 @@ function ProviderLayout() {
         { to: "/provider/probucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/provider/orders",
+          toChild: "/provider/orderdetails",
           icon: RiBarChartHorizontalLine,
           label: "Orders",
         },

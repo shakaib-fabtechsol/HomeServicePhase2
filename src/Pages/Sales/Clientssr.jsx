@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from 'react';
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,6 +16,9 @@ import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
 export default function Clientssr() {
+  useEffect(() => {
+    document.title = "Clients";
+  }, []);
   const serviceProviders = [
     {
       logo: client1,

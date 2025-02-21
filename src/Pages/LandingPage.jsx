@@ -1,9 +1,13 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 
 function LandingPage() {
+  useEffect(() => {
+    document.title = "Landing Page";
+  }, []);
   const services = [
     {
       id: 1,

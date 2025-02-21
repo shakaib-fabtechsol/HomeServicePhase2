@@ -75,7 +75,7 @@ function App() {
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
-          <Route path="/customer/order-detail" element={<OrderDetail />} />
+          <Route path="/customer/orderdetails" element={<OrderDetail />} />
           <Route path="/customer/bucks" element={<ProBucks />} />
           <Route path="/customer/order" element={<Order />} />
           <Route path="/customer/setting" element={<Setting />} />
@@ -87,6 +87,8 @@ function App() {
           />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
+          <Route path="/customer/favourites" element={<Favourites />} />
+          <Route path="/customer/payments" element={<Payments />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
