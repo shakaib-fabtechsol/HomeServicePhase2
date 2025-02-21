@@ -15,11 +15,11 @@ export default function Ordersp() {
   const [dateopen, setdateOpen] = React.useState(false);
   const handledateOpen = () => setdateOpen(true);
   const handledateClose = () => setdateOpen(false);
-  
-  const [photosopen, setphotosOpen] = React.useState(true);
+
+  const [photosopen, setphotosOpen] = React.useState(false);
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);
-  
+
   const tableHeader = ["Service", "Customer", "Status", "Scheduled"];
   const orders = [
     {
@@ -179,7 +179,10 @@ export default function Ordersp() {
                         </button>
                       </div>
                       <div className="mt-3">
-                        <button className="bg-[#0F91D2] text-white text-xs p-2 min-w-[100px] text-center border text-nowrap rounded-lg inline-block">
+                        <button
+                          onClick={handlephotosOpen}
+                          className="bg-[#0F91D2] text-white text-xs p-2 min-w-[100px] text-center border text-nowrap rounded-lg inline-block"
+                        >
                           Before & After Photos
                         </button>
                       </div>
@@ -187,7 +190,7 @@ export default function Ordersp() {
                     <div>
                       <div>
                         <Link
-                          to="/customer/order-detail"
+                          to="/provider/orderdetails"
                           className="bg-white text-[#343434] text-xs p-2 min-w-[100px] text-center border border-[#D7D7D7] text-nowrap rounded-lg inline-block"
                         >
                           View Details

@@ -52,6 +52,8 @@ import Message from "./Pages/Customer/Message";
 import ExploreServices from "./Pages/Customer/ExploreServices";
 import Supportc from "./Pages/Customer/Support";
 import Notificationc from "./Layouts/Notificationc";
+import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
+import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 
 function App() {
   return (
@@ -66,7 +68,9 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
+          <Route path="/provider/probucks" element={<ProBucksp />} />
           <Route path="/provider/orders" element={<Ordersp />} />
+          <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
           <Route path="/provider/conversations" element={<Conversations />} />
         </Route>
         <Route element={<CustomerLayout />}>
@@ -77,7 +81,10 @@ function App() {
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
-          <Route path="/customer/explore-service" element={<ExploreServices />} />
+          <Route
+            path="/customer/explore-service"
+            element={<ExploreServices />}
+          />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
         </Route>
