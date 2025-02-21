@@ -22,6 +22,7 @@ import Notificationssa from "./Pages/SuperAdmin/Notificationssa";
 import Settingsa from "./Pages/SuperAdmin/Settingsa";
 import Services from "./Pages/ServiceProvider/Services";
 import Favourites from "./Pages/ServiceProvider/Favourites";
+import FavouritesC from "./Pages/Customer/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
 import Dashboardc from "./Pages/Customer/Dashboard";
@@ -94,7 +95,7 @@ function App() {
           />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
-          <Route path="/customer/favourites" element={<Favourites />} />
+          <Route path="/customer/favourites" element={<FavouritesC />} />
           <Route path="/customer/payments" element={<Payments />} />
           <Route path="/customer/dealDetails" element={<DealDetailsC />} />
         </Route>
