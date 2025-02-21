@@ -12,6 +12,7 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
 import TextPro from '../../Components/Provider/TextPro';
 import EmailPro from '../../Components/Provider/EmailPro';
+import InstantChat from '../../Components/Provider/InstantChat';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +54,7 @@ export default function Conversations() {
   };
 
   const tabs = [
-    { label: "Instant Chat", icon: <IoChatboxEllipsesOutline /> , content: <CallPro /> },
+    { label: "Instant Chat", icon: <IoChatboxEllipsesOutline /> , content: <InstantChat /> },
     { label: "Call Pro", icon: <HiOutlinePhone /> , content: <CallPro /> },
     { label: "Text Pro", icon: <IoChatbubbleEllipsesOutline />, content: <TextPro /> },
     { label: "Email Pro", icon: <FiMail />, content: <EmailPro /> },
