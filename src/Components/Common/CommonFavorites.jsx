@@ -3,7 +3,7 @@ import ServiceBox from "../ServiceBox";
 import { FaTh, FaList } from "react-icons/fa";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 
-function CommonFavorites() {
+const CommonFavorites = ({serviceDetailTo }) => { 
   useEffect(() => {
     document.title = "Favourites";
   }, []);
@@ -111,6 +111,7 @@ function CommonFavorites() {
               description={service.description}
               tags={service.tags}
               image={service.image}
+              serviceDetailTo={serviceDetailTo}
               publish={service.publish}
               className={
                 viewMode === "list"

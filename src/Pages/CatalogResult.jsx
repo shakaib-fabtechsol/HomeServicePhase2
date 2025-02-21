@@ -75,7 +75,7 @@ function CatalogResult() {
   return (
     <>
       <div>
-        <div className="mycontainer">
+        <div className="container-fluid px-2">
           <div className="flex flex-col mt-8 md:flex-row justify-between">
             <div className="max-[100%] md:max-w-[280px] mt-2 w-full">
               <div className="bg-[#F8F8F8] px-4 py-4 h-full rounded-lg">

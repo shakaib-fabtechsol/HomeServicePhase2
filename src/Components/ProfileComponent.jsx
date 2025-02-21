@@ -22,7 +22,7 @@ import Award from './AdditionalPhoto/Award'
 import License from './AdditionalPhoto/License'
 import Insurance from './AdditionalPhoto/Insurance'
 
-const ProfileComponent = () => {
+const ProfileComponent = ({serviceDetailTo}) => {
     const services = [
         {
             id: 1,
@@ -247,6 +247,7 @@ const ProfileComponent = () => {
                             tags={service.tags}
                             image={service.image}
                             publish={service.publish}
+                            serviceDetailTo={serviceDetailTo}
                         />
                     ))}
                 </div>

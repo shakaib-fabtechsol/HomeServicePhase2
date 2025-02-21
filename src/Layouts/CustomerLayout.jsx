@@ -22,9 +22,9 @@ const CustomerLayout = () => {
             items: [
                 { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
                 { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
-                { to: "/customer/order", icon: RiBarChartHorizontalLine, label: "Orders",toChild: "/customer/orderdetails"},
+                { to: "/customer/order", icon: RiBarChartHorizontalLine, label: "Orders"},
                 { to: "/customer/payments", icon: CiCreditCard1, label: "Payments/Payout",},
-                { to: "/customer/favourites", icon: FaRegHeart, label: "Favorites" },
+                { to: "/customer/favourites", icon: FaRegHeart, label: "Favorites", toChild: "/customer/dealDetails" },
                 { to: "/customer/reports", icon: PiFiles, label: "Reports" },
             ],
         },

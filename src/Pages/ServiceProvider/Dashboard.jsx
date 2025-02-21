@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function Dashboard() {
   return (
     <div>
-      <CommonDashboard />
+      <CommonDashboard orderto="/provider/orders" conversationto="/provider/conversations" serviceDetailTo="/provider/dealDetails"/>
     </div>
   )
 }
