@@ -52,6 +52,8 @@ import Message from "./Pages/Customer/Message";
 import ExploreServices from "./Pages/Customer/ExploreServices";
 import Supportc from "./Pages/Customer/Support";
 import Notificationc from "./Layouts/Notificationc";
+import Profiles from "./Pages/Sales/Profile";
+import Profilep from "./Pages/ServiceProvider/Profile";
 import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
 import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 import RecentDeals from "./Pages/Sales/RecentDeals";
@@ -76,6 +78,7 @@ function App() {
           <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
           <Route path="/provider/conversations" element={<Conversations />} />
           <Route path="/provider/dealDetails" element={<DealDetails />} />
+          <Route path="/provider/profile" element={<Profilep />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
@@ -125,6 +128,7 @@ function App() {
           <Route path="/sales/setting" element={<SettingSr />} />
           <Route path="/sales/support" element={<SupportSr />} />
           <Route path="/sales/chat" element={<Chatsr />} />
+          <Route path="/sales/profile" element={<Profiles />} />
         </Route>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<LandingPage />} />

@@ -41,7 +41,10 @@ const CustomerLayout = () => {
     const userInfo = {
         name: "Mike Bird",
         email: "mikebird@untitledui.com",
+        profileLink: "/customer/profile"
     };
+
+    
     return (
         <div className="mainpage">
             <MainNav toggleSidebar={toggleSidebar} />
