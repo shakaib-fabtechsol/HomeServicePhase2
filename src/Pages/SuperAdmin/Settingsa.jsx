@@ -30,15 +30,6 @@ export default function Settingsa() {
       ),
       content: <Security />,
     },
-    {
-      label: (
-        <div className="flex items-baseline gap-1">
-          <IoNotificationsOutline />
-          <p>Notifications</p>
-        </div>
-      ),
-      content: <Notifications />,
-    },
   ];
   return (
     <>

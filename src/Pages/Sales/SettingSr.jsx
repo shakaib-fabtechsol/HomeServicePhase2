@@ -31,15 +31,15 @@ export default function SettingSr() {
       ),
       content: <Security />,
     },
-    {
-      label: (
-        <div className="flex items-baseline gap-1">
-          <IoNotificationsOutline />
-          <p>Notifications</p>
-        </div>
-      ),
-      content: <Notifications />,
-    },
+    // {
+    //   label: (
+    //     <div className="flex items-baseline gap-1">
+    //       <IoNotificationsOutline />
+    //       <p>Notifications</p>
+    //     </div>
+    //   ),
+    //   content: <Notifications />,
+    // },
   ];
   return (
     <div className="border border-[#A2A1A833] rounded-[10px] p-3">

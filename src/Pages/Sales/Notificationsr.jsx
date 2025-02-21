@@ -4,6 +4,7 @@ import TabComponent from "../../Components/TabComponent";
 import All from "../../Components/Notification/All";
 import { Read } from "../../Components/Notification/Read";
 import Unread from "../../Components/Notification/Unread";
+import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 
 export default function Notificationsr() {
   useEffect(() => {
@@ -13,6 +14,10 @@ export default function Notificationsr() {
     { label: "All", content: <All /> },
     { label: "Read", content: <Read /> },
     { label: "Unread", content: <Unread /> },
+    {
+      label: "Setting",
+      content: <Notifications />,
+    },
   ];
   return (
     <div>

@@ -10,7 +10,7 @@ import { GrNotification } from "react-icons/gr";
 import { CgSupport } from "react-icons/cg";
 import { MdHomeRepairService } from "react-icons/md";
 import { LuUsersRound } from "react-icons/lu";
-import { HiOutlineCalendar, HiOutlineClipboardList } from "react-icons/hi";
+import { HiOutlineClipboardList } from "react-icons/hi";
 
 export default function SalesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,7 +32,6 @@ export default function SalesLayout() {
           icon: MdHomeRepairService,
           label: "Pros",
         },
-        { to: "/sales/reports", icon: PiFiles, label: "Reports" },
         {
           to: "/sales/clients",
           icon: LuUsersRound,
@@ -43,6 +42,7 @@ export default function SalesLayout() {
           icon: HiOutlineClipboardList,
           label: "Task List",
         },
+        { to: "/sales/reports", icon: PiFiles, label: "Reports" },
       ],
     },
     {
