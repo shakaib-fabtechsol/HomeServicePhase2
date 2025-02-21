@@ -4,8 +4,10 @@ import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
 import chevron from "../../assets/img/chevronDown.png";
-import TableBlue from "../../Components/TableBlue";
-import userimg from "../../assets/img/client1.png";
+import Table from "../../Components/Table";
+import ServiceDet from "../../assets/img/service-det.png";
+import provider from "../../assets/img/client1.png";
+import { Link } from "react-router-dom";
 
 export default function Dashboardsr() {
   useEffect(() => {
@@ -35,59 +37,66 @@ export default function Dashboardsr() {
     ],
   };
 
-  const serviceHeader = [
-    <p className="text-sm font-medium text-wrap">Name</p>,
-    <p className="text-sm font-medium text-wrap">Email</p>,
-    <p className="text-sm font-medium text-wrap">Phone</p>,
-    <p className="text-sm font-medium text-wrap">Services Provided</p>,
-    <p className="text-sm font-medium text-wrap">Revenue($)</p>,
-    <p className="text-sm font-medium text-wrap">Rating</p>,
+  const tableHeader = [
+    "Service",
+    "Service Provider",
+    "Category",
+    "Published Date",
   ];
 
-  const servicedata = [
+  const orders = [
     {
-      img: userimg,
-      name: "Myra Baker",
-      email: "robin_mckinney@icloud.com",
-      phone: "+8069452674047",
-      services: "07",
-      revenue: 20000,
-      rating: "4.9",
+      serviceimg: ServiceDet,
+      serviceName: "Service Name",
+      proname: "Ricky Smith",
+      prologo: provider,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: "$200",
+      Category: "Residential",
+      date: "Dec 21, 2024",
     },
     {
-      img: userimg,
-      name: "Leland Huang",
-      email: "willie_wheeler@yahoo.com",
-      phone: "+8069452674047",
-      services: "09",
-      revenue: 10000,
-      rating: "4.8",
-    },
-    {
-      img: userimg,
-      name: "Douglas Ford",
-      email: "melody_castillo@icloud.com",
-      phone: "+8069452674047",
-      services: "10",
-      revenue: 30000,
-      rating: "4.7",
+      serviceimg: ServiceDet,
+      serviceName: "Service Name",
+      proname: "Frances Swann",
+      prologo: provider,
+      description: "Praesent tincidunt consectetur justo, at fermentum metus.",
+      price: "$150",
+      Category: "Residential",
+      date: "Dec 21, 2024",
     },
   ];
 
-  const serviceRows = servicedata.map((row) => [
+  const tablerows = orders.map((order) => [
     <div className="flex items-center gap-2">
       <img
-        className="size-8 max-w-8 rounded-full object-cover"
-        src={row.img}
+        src={order.serviceimg}
+        alt=""
+        className="w-[90px] max-w-[90px] h-[70px] rounded-lg object-cover"
+      />
+      <div>
+        <p className="text-nowrap text-sm text-[#181D27]">
+          {order.serviceName}
+        </p>
+        <p className="text-xs text-wrap text-[#535862] line-clamp-2 w-[200px]">
+          {order.description}
+        </p>
+        <div className="flex items-center gap-1">
+          <p className="text-[10px] text-[#535862]">Starting Price:</p>
+          <p className="font-extrabold text-lg text-[#181D27]">{order.price}</p>
+        </div>
+      </div>
+    </div>,
+    <div className="flex items-center gap-2">
+      <img
+        className="size-9 max-w-9 object-cover rounded-full"
+        src={order.prologo}
         alt="img"
       />
-      <p className="font-normal text-sm">{row.name}</p>
+      <p>{order.proname}</p>
     </div>,
-    <p className="font-normal text-sm">{row.email}</p>,
-    <p className="font-normal text-sm">{row.phone}</p>,
-    <p className="font-normal text-sm">{row.services}</p>,
-    <p className="font-normal text-sm">{row.revenue}</p>,
-    <p className="font-normal text-sm">{row.rating}</p>,
+    <p className="text-[#181D27] text-sm">{order.Category}</p>,
+    <p className="text-[#181D27] text-sm">{order.date}</p>,
   ]);
 
   const linelabels = [
@@ -112,7 +121,8 @@ export default function Dashboardsr() {
         label: "This Month",
         data: [50, 200, 200, 300, 260, 200, 340, 380, 420, 300, 250, 200],
         borderColor: "#0F91D2",
-        pointRadius: 0,
+        pointRadius: 5,
+        backgroundColor: "#000000",
         tension: 0.6,
       },
     ],
@@ -146,21 +156,21 @@ export default function Dashboardsr() {
             <DoughnutChart chartData={chartData} />
           </div>
         </div>
-        <div className="border p-3 rounded-[24px] border-[#0000001A] lg:col-span-2 bg-[#F9F9FA] flex flex-col justify-between">
+        <div className="lg:col-span-2 flex flex-col justify-between">
           <div className="flex items-center gap-2 flex-wrap">
             <div>
-              <p className="font-semibold text-sm text-[#535862]">
-                Top Performing Service Providers
+              <p className="font-semibold text-sm text-[#000000]">
+                Recently published deals
               </p>
             </div>
             <div className="ms-auto">
-              <button className="border border-[#0F91D2] flex items-center gap-1 text-xs font-semibold p-2 rounded-[8px] text-[#0F91D2]">
+              <Link to="/sales/recentdeals" className="border border-[#0F91D2] flex items-center gap-1 text-xs font-semibold p-2 rounded-[8px] text-[#0F91D2]">
                 View All
-              </button>
+              </Link>
             </div>
           </div>
-          <div className="mt-4">
-            <TableBlue headers={serviceHeader} rows={serviceRows} />
+          <div className="mt-2">
+            <Table headers={tableHeader} rows={tablerows} />
           </div>
         </div>
       </div>

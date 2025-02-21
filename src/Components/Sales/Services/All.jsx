@@ -13,6 +13,9 @@ import pro8 from "../../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { IoEyeOutline } from "react-icons/io5";
+import { CiEdit } from "react-icons/ci";
+import { LuFlag } from "react-icons/lu";
 
 export default function All() {
   const serviceProviders = [
@@ -22,6 +25,8 @@ export default function All() {
       name: "Ricky Smith",
       email: "dan_reid@icloud.com",
       phone: "+5997186491311",
+      percentcom: 20,
+      totalCom: 200,
       services: 10,
       rating: 4.2,
     },
@@ -31,6 +36,8 @@ export default function All() {
       name: "Frances Swann",
       email: "tracy_sullivan@yahoo.com",
       phone: "+3822981276772",
+      percentcom: 20,
+      totalCom: 200,
       services: 8,
       rating: 4.8,
     },
@@ -40,6 +47,8 @@ export default function All() {
       name: "James Hall",
       email: "delores_acosta@outlook.com",
       phone: "+2930285126591",
+      percentcom: 20,
+      totalCom: 200,
       services: 5,
       rating: 3.9,
     },
@@ -49,6 +58,8 @@ export default function All() {
       name: "Mary Freund",
       email: "myrna_wood@yahoo.com",
       phone: "+0852672848459",
+      percentcom: 20,
+      totalCom: 200,
       services: 8,
       rating: 4.5,
     },
@@ -58,6 +69,8 @@ export default function All() {
       name: "David Elson",
       email: "everett_wade@outlook.com",
       phone: "+5607223338746",
+      percentcom: 20,
+      totalCom: 200,
       services: 9,
       rating: 4.1,
     },
@@ -67,6 +80,8 @@ export default function All() {
       name: "Patricia Sanders",
       email: "vivian_morrison@yahoo.com",
       phone: "+3559590545722",
+      percentcom: 20,
+      totalCom: 200,
       services: 6,
       rating: 4.7,
     },
@@ -76,6 +91,8 @@ export default function All() {
       name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
+      percentcom: 20,
+      totalCom: 200,
       services: 44,
       rating: 4.7,
     },
@@ -85,6 +102,8 @@ export default function All() {
       name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
+      percentcom: 20,
+      totalCom: 200,
       services: 44,
       rating: 4.7,
     },
@@ -131,10 +150,12 @@ export default function All() {
       }
     />,
     "Service Provider ID",
-    "Service Provider Name & Logo",
+    "Service Provider",
     "Email",
     "Phone",
     "Number of Services",
+    <p className="text-wrap">Percentage Commission</p>,
+    <p className="text-wrap">Total Commission</p>,
     "Rating",
     "Action",
   ];
@@ -168,10 +189,20 @@ export default function All() {
     provider.email,
     provider.phone,
     provider.services,
+    <p>{`${provider.percentcom}%`}</p>,
+    <p>{`$${provider.totalCom}`}</p>,
     provider.rating,
-    <Link className="text-[#0F91D2] underline underline-offset-[3px]">
-      View Reviews
-    </Link>,
+    <div className="flex items-center gap-2">
+      <Link className="text-xl">
+        <IoEyeOutline />
+      </Link>
+      <Link className="text-xl">
+        <CiEdit />
+      </Link>
+      <Link className="text-xl">
+        <LuFlag />
+      </Link>
+    </div>,
   ]);
   return (
     <div>

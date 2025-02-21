@@ -7,7 +7,7 @@ export default function NotificationComp({ data }) {
         <div
           key={index}
           className={`flex gap-1 justify-between flex-wrap-reverse p-3 border-b border-[#F2F4F5] ${
-            notification.status === "unread" ? "bg-[#0F91D21A]" : ""
+            notification.status === "unread" ? "bg-[#F6AD3C1A]" : ""
           }`}
         >
           <div className="flex items-center gap-2 w-full">
@@ -28,7 +28,7 @@ export default function NotificationComp({ data }) {
                 </p>
               </div>
               {notification.task === "message you" && (
-                <button className="text-[#0F91D2] bg-[#0F91D21A] p-1 rounded-sm font-semibold text-sm mt-1">
+                <button className="text-[#0F91D2] bg-[#0F91D21A] p-1 rounded-[5px] font-semibold text-sm mt-1">
                   Replay
                 </button>
               )}

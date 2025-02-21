@@ -13,16 +13,32 @@ export default function InviteSRmodal({ close }) {
       </div>
       <div className="p-3">
         <form action="">
-          <label htmlFor="nameormail" className="text-sm text-black">
-            Name or Email
-          </label>
-          <input
-            className="border border-[#E5E0EB] block outline-none w-full p-2 rounded-[5px] mt-1"
-            type="text"
-            name="nameormail"
-            id="nameormail"
-            placeholder="Invite by name or email"
-          />
+          <div>
+            <div>
+              <label htmlFor="name" className="text-sm text-black">
+                Name
+              </label>
+              <input
+                className="border border-[#E5E0EB] text-sm block outline-none w-full p-2 rounded-[5px] mt-1"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+              />
+            </div>
+            <div>
+              <label htmlFor="Email" className="text-sm text-black">
+                Email
+              </label>
+              <input
+                className="border border-[#E5E0EB] text-sm block outline-none w-full p-2 rounded-[5px] mt-1"
+                type="email"
+                name="Email"
+                id="Email"
+                placeholder="Email"
+              />
+            </div>
+          </div>
           <div className="mt-5 flex justify-end">
             <button className="flex items-center gap-1 text-white bg-[#0F91D2] py-2 px-4 rounded-[5px]">
               Send <VscSend />

@@ -14,8 +14,8 @@ export default function Conversation() {
     { label: "Conversation Channels", content: <Channels /> },
     { label: "Referral commission ", content: <ReferralCom /> },
     { label: "Transection fees", content: <TransFee /> },
-    { label: "Customer service fee", content: <CustomerServiceFee /> },
-    { label: "Provider service fee", content: <ProServiceFee /> },
+    // { label: "Customer service fee", content: <CustomerServiceFee /> },
+    // { label: "Provider service fee", content: <ProServiceFee /> },
   ];
   return (
     <div>

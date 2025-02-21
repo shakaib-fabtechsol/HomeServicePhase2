@@ -32,7 +32,8 @@ export default function Channels() {
   return (
     <div>
       <form action="">
-        <div className="md:max-w-[400px] flex flex-col gap-3">
+        <p className="text-lg font-semibold">Fixed Lead Pricing</p>
+        <div className="md:max-w-[400px] flex flex-col gap-3 mt-4">
           {inputsdata.map((input, index) => (
             <div key={index}>
               <label className="text-sm font-medium" htmlFor={input.id}>
