@@ -276,8 +276,11 @@ function ProDetails() {
   return (
     <div>
       <div className="mb-2">
-        <h2 className="font-semibold text-3xl">Pro Details</h2>
-        <p className="text-gray-600">
+        <div className="flex items-center gap-2">
+          <FaArrowLeft />
+          <h2 className="font-semibold text-3xl">Pro Details</h2>
+        </div>
+        <p className="text-gray-600 ps-6">
           Track and manage your favorite services.
         </p>
       </div>

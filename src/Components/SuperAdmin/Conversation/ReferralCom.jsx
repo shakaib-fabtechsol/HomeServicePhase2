@@ -4,14 +4,29 @@ import AmountInput from "../AmountInput";
 export default function ReferralCom() {
   const inputsdata = [
     {
-      label: "Customer Referral Commission %",
-      grouptext: "USD",
-      id: "CReferralComm",
+      label: "Customer Call Commission",
+      grouptext: "%",
+      id: "CustomerCallCommission",
     },
     {
-      label: "Sales rep Commission %",
-      grouptext: "USD",
-      id: "SRReferralComm",
+      label: "Customer Text Commission",
+      grouptext: "%",
+      id: "CustomerTextCommission",
+    },
+    {
+      label: "Customer Chat Commission",
+      grouptext: "%",
+      id: "CustomerChatCommission",
+    },
+    {
+      label: "Customer Email Commission",
+      grouptext: "%",
+      id: "CustomerEmailCommission",
+    },
+    {
+      label: "Customer Transaction Commission",
+      grouptext: "%",
+      id: "CustomerTransactionCommission",
     },
   ];
   return (

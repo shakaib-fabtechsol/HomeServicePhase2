@@ -13,79 +13,98 @@ import pro8 from "../../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { IoEyeOutline } from "react-icons/io5";
+import { CiEdit } from "react-icons/ci";
+import { LuFlag } from "react-icons/lu";
 
 export default function Assigned() {
   const serviceProviders = [
     {
+      logo: pro1,
       id: "#ID234",
+      name: "Ricky Smith",
       email: "dan_reid@icloud.com",
       phone: "+5997186491311",
+      percentcom: 20,
+      totalCom: 200,
       services: 10,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.2,
     },
     {
+      logo: pro2,
       id: "#ID234",
+      name: "Frances Swann",
       email: "tracy_sullivan@yahoo.com",
       phone: "+3822981276772",
+      percentcom: 20,
+      totalCom: 200,
       services: 8,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.8,
     },
     {
+      logo: pro3,
       id: "#ID234",
+      name: "James Hall",
       email: "delores_acosta@outlook.com",
       phone: "+2930285126591",
+      percentcom: 20,
+      totalCom: 200,
       services: 5,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 3.9,
     },
     {
+      logo: pro4,
       id: "#ID234",
+      name: "Mary Freund",
       email: "myrna_wood@yahoo.com",
       phone: "+0852672848459",
+      percentcom: 20,
+      totalCom: 200,
       services: 8,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.5,
     },
     {
+      logo: pro5,
       id: "#ID234",
+      name: "David Elson",
       email: "everett_wade@outlook.com",
       phone: "+5607223338746",
+      percentcom: 20,
+      totalCom: 200,
       services: 9,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.1,
     },
     {
+      logo: pro6,
       id: "#ID234",
+      name: "Patricia Sanders",
       email: "vivian_morrison@yahoo.com",
       phone: "+3559590545722",
+      percentcom: 20,
+      totalCom: 200,
       services: 6,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.7,
     },
     {
+      logo: pro7,
       id: "#ID234",
+      name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
+      percentcom: 20,
+      totalCom: 200,
       services: 44,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.7,
     },
     {
+      logo: pro8,
       id: "#ID234",
+      name: "Dennis Callis",
       email: "ervin_hubbard@icloud.com",
       phone: "+6921978825644",
+      percentcom: 20,
+      totalCom: 200,
       services: 44,
-      compercent: "20%",
-      comtotal: "$200",
       rating: 4.7,
     },
   ];
@@ -131,11 +150,12 @@ export default function Assigned() {
       }
     />,
     "Service Provider ID",
+    "Service Provider",
     "Email",
     "Phone",
     "Number of Services",
-    "Percentage Commission",
-    "Total Commission",
+    <p className="text-wrap">Percentage Commission</p>,
+    <p className="text-wrap">Total Commission</p>,
     "Rating",
     "Action",
   ];
@@ -158,15 +178,31 @@ export default function Assigned() {
       }
     />,
     provider.id,
+    <div className="flex items-center gap-3" key={`name-${index}`}>
+      <img
+        className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
+        src={provider.logo}
+        alt={provider.name}
+      />
+      <p>{provider.name}</p>
+    </div>,
     provider.email,
     provider.phone,
     provider.services,
-    provider.compercent,
-    provider.comtotal,
+    <p>{`${provider.percentcom}%`}</p>,
+    <p>{`$${provider.totalCom}`}</p>,
     provider.rating,
-    <Link className="text-[#0F91D2] underline underline-offset-[3px]">
-      View Reviews
-    </Link>,
+    <div className="flex items-center gap-2">
+      <Link className="text-xl">
+        <IoEyeOutline />
+      </Link>
+      <Link className="text-xl">
+        <CiEdit />
+      </Link>
+      <Link className="text-xl">
+        <LuFlag />
+      </Link>
+    </div>,
   ]);
   return (
     <div>

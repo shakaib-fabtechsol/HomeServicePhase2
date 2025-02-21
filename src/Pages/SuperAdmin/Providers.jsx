@@ -139,7 +139,7 @@ export default function Providers() {
     "Service Provider Name & Logo",
     "Email",
     "Phone",
-    "Number of Services",
+    "Number of Deals",
     "Rating",
     "Action",
   ];

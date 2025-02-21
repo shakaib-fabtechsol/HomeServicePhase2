@@ -3,6 +3,7 @@ import { IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import provider from "../../assets/img/provider.png";
 import { LuPhone } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function SalesRepd() {
   useEffect(() => {
@@ -46,10 +47,10 @@ export default function SalesRepd() {
             </div>
           </div>
         </div>
-        <button className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
+        <Link to="/superadmin/editsalesrep" className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
           <FaRegPenToSquare className="me-2 text-[#fff]" />
           <span>Edit</span>
-        </button>
+        </Link>
       </div>
       <div className="mt-4 border-b border-[#00000033] pb-3">
         <h2 className="md:text-lg font-medium myhead">About Me</h2>

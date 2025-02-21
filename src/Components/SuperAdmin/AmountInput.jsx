@@ -12,7 +12,7 @@ export default function AmountInput({ id, name, className, grouptext }) {
         id={id}
         min={0}
       />
-      <div className="p-2 text-[#343434] bg-[#0000000F] shadow-[0px_1px_2px_0px_#2E2E2E0D]">
+      <div className="p-2 min-w-10 flex justify-center items-center text-[#343434] bg-[#0000000F] shadow-[0px_1px_2px_0px_#2E2E2E0D] rounded-[7px]">
         {grouptext}
       </div>
     </div>

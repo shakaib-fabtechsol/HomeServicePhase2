@@ -26,9 +26,29 @@ export default function TaskListsr() {
       date: "05/02/2025",
       time: "11:00 AM",
     },
+    {
+      name: "Task Name",
+      comment:
+        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
+      date: "05/02/2025",
+      time: "11:00 AM",
+    },
+    {
+      name: "Task Name",
+      comment:
+        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
+      date: "05/02/2025",
+      time: "11:00 AM",
+    },
   ];
   const totalprogress = progressdata.length;
   const completedata = [
+    {
+      name: "Task Name",
+      comment:
+        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
+      date: "05/02/2025",
+    },
     {
       name: "Task Name",
       comment:

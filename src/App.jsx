@@ -54,6 +54,7 @@ import Supportc from "./Pages/Customer/Support";
 import Notificationc from "./Layouts/Notificationc";
 import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
 import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
+import RecentDeals from "./Pages/Sales/RecentDeals";
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
           <Route path="/sales/reports" element={<ReportsSr />} />
           <Route path="/sales/clients" element={<Clientssr />} />
           <Route path="/sales/tasklist" element={<TaskListsr />} />
+          <Route path="/sales/recentdeals" element={<RecentDeals />} />
           <Route path="/sales/notification" element={<Notificationsr />} />
           <Route path="/sales/setting" element={<SettingSr />} />
           <Route path="/sales/support" element={<SupportSr />} />
