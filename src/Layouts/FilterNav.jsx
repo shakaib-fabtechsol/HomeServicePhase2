@@ -17,6 +17,7 @@ const categories = [
 function FilterNav() {
   return (
     <div className="shadow-md relative z-[999]">
+      <div className="mycontainer">
       <div className="overflow-auto mx-5 filter-nav">
         <div className="flex w-[max-content] items-center justify-center xl:w-full">
           {categories.map((category, index) => (
@@ -29,6 +30,7 @@ function FilterNav() {
             </Link>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
