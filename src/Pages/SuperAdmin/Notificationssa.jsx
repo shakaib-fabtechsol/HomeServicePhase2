@@ -3,6 +3,8 @@ import TabComponent from "../../Components/TabComponent";
 import Unread from "../../Components/Notification/Unread";
 import { Read } from "../../Components/Notification/Read";
 import All from "../../Components/Notification/All";
+import Notifications from "../../Components/SuperAdmin/settings/Notifications";
+import { IoNotificationsOutline } from "react-icons/io5";
 
 export default function Notificationssa() {
   useEffect(() => {
@@ -12,6 +14,10 @@ export default function Notificationssa() {
     { label: "All", content: <All /> },
     { label: "Read", content: <Read /> },
     { label: "Unread", content: <Unread /> },
+    {
+      label: "Setting",
+      content: <Notifications />,
+    },
   ];
   return (
     <div>
