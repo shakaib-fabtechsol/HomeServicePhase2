@@ -6,7 +6,7 @@ const All = () => {
   const notificationdata = [
     {
       avatar: Emily,
-      Name: "Emily Smith",
+      Name: "Emily  Smith",
       task: "message you",
       comment:
         "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem ab officia quia nemo cum rem aspernatur quasi nihil excepturi, voluptates nesciunt laborum consequuntur culpa ipsa totam. Vel, minus. Facere, ad.",
