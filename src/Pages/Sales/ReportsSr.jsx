@@ -1,6 +1,7 @@
 import React from "react";
 import TableBlue from "../../Components/TableBlue";
 import { BsDownload } from "react-icons/bs";
+import { useEffect, useState } from "react";
 
 export default function ReportsSr() {
   const salesHeader = ["Quarter", "Revenue ($)", "% Growth (QoQ)"];
@@ -121,7 +122,9 @@ export default function ReportsSr() {
     ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
     ["PRV123", "John Doe", "Cleaning", "10%", "$50", "Feb 1, 2025"],
   ];
-
+  useEffect(() => {
+    document.title = "Reports";
+  }, []);
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

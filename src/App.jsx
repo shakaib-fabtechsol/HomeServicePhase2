@@ -45,12 +45,15 @@ import ProBucks from "./Pages/Customer/ProBucks";
 import Order from "./Pages/Customer/Order";
 import Setting from "./Pages/Customer/Setting";
 import Profile from "./Pages/Customer/Profile";
+import Ordersp from "./Pages/ServiceProvider/Ordersp";
 import CatalogResult from "./Pages/CatalogResult";
 import Conversations from "./Pages/ServiceProvider/Conversations";
 import Message from "./Pages/Customer/Message";
 import ExploreServices from "./Pages/Customer/ExploreServices";
 import Supportc from "./Pages/Customer/Support";
 import Notificationc from "./Layouts/Notificationc";
+import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
+import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 
 function App() {
   return (
@@ -65,19 +68,27 @@ function App() {
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
           <Route path="/provider/payments" element={<Payments />} />
+          <Route path="/provider/probucks" element={<ProBucksp />} />
+          <Route path="/provider/orders" element={<Ordersp />} />
+          <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
           <Route path="/provider/conversations" element={<Conversations />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
-          <Route path="/customer/order-detail" element={<OrderDetail />} />
+          <Route path="/customer/orderdetails" element={<OrderDetail />} />
           <Route path="/customer/bucks" element={<ProBucks />} />
           <Route path="/customer/order" element={<Order />} />
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
-          <Route path="/customer/explore-service" element={<ExploreServices />} />
+          <Route
+            path="/customer/explore-service"
+            element={<ExploreServices />}
+          />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
+          <Route path="/customer/favourites" element={<Favourites />} />
+          <Route path="/customer/payments" element={<Payments />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />

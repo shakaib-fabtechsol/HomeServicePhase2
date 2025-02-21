@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import ChatApp from '../../Components/SuperAdmin/ChatApp'
 
 const Supportc = () => {
+    useEffect(() => {
+        document.title = "Support";
+      }, []);
     return (
         <div>
             <div className="mb-2">

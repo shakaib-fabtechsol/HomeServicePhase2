@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import service from "../../assets/img/service.png";
 import { Link } from "react-router-dom"; // Corrected import
 import logo from "../../assets/img/logo.png";

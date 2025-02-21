@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from 'react';
 import MyDetail from "../../Components/ProviderSetting/MyDetail";
 import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
 import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";
@@ -12,7 +12,7 @@ import TabComponent from "../../Components/TabComponent";
 
 function Setting() {
   useEffect(() => {
-    document.title = "Settings";
+    document.title = "Setting";
   }, []);
   const tabData = [
     { label: "My details", content: <MyDetail /> },
