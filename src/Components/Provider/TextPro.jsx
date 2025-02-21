@@ -6,10 +6,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { Link } from "react-router-dom";
 import ConversationHeader from "./ConversationHeader";
 
-export default function CallPro() {
-  useEffect(() => {
-    document.title = "Conversations";
-  }, []);
+export default function TextPro() {
   const serviceConversations = [
     {
       logo: pro1,
@@ -53,16 +50,6 @@ export default function CallPro() {
     new Array(serviceConversations.length).fill(false)
   );
 
-  const handleParentChange = (event) => {
-    const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceConversations.length).fill(isChecked));
-  };
-
-  const handleRowChange = (index) => (event) => {
-    const newCheckedRows = [...checkedRows];
-    newCheckedRows[index] = event.target.checked;
-    setCheckedRows(newCheckedRows);
-  };
 
   const isAllChecked = checkedRows.every(Boolean);
   const isIndeterminate =
@@ -98,8 +85,8 @@ export default function CallPro() {
   ]);
   return (
     <div>
-      <ConversationHeader
-        title="Call Pro"
+       <ConversationHeader
+        title="Text Pro"
         subtitle="Manage and Respond to Messages Seamlessly"
       />
       <div className="mt-5">
