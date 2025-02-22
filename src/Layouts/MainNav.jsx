@@ -22,16 +22,16 @@ const MainNav = ({ toggleSidebar, logolink }) => {
         </NavLink>
       </div>
 
-      <div className="lg:flex hidden">
-        <div className="flex me-3 rounded-lg border-[#E4E4E4] border-2 py-1">
-          <div>
+      <div className="md:flex hidden ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
+        <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
+          <div className="w-[40%]">
             <input
               type="text"
               placeholder="Search for any service..."
-              className="py-[6px] bg-transparent focus-none border-r px-3"
+              className="py-[6px] bg-transparent focus-none w-full border-r px-3"
             />
           </div>
-          <div className="flex items-center px-3">
+          <div className="flex w-[60%] items-center px-3">
             <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
             <input
               type="text"
@@ -54,7 +54,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
         ) : (
           <>
             <button className="text-2xl md:hidden" onClick={toggleSidebar}>
-              <RxHamburgerMenu className="me-3 sm:me-5 pointer" />
+              <RxHamburgerMenu className="pointer" />
             </button>
             {/* <NavLink to="#">
               <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />

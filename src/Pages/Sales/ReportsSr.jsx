@@ -302,7 +302,7 @@ export default function ReportsSr() {
           <div className="flex flex-col justify-between" key={index}>
             <div className="flex justify-between items-center flex-wrap gap-2">
               <p className="font-bold text-sm sm:text-base">{summary.title}</p>
-              <button className="text-[#0F91D2] border text-[10px] rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1 ms-auto">
+              <button className="text-[#0F91D2] border text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1 ms-auto">
                 <BsDownload />
                 <span>Export Data</span>
               </button>
@@ -321,7 +321,7 @@ export default function ReportsSr() {
             </p>
           </div>
           <div className="ms-auto">
-            <button className="text-[#0F91D2] border text-[10px] rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
+            <button className="text-[#0F91D2] border text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
               <BsDownload />
               <span>Export Data</span>
             </button>
@@ -335,11 +335,11 @@ export default function ReportsSr() {
         <div className="flex items-center gap-2 justify-between flex-wrap">
           <p className="font-bold text-sm sm:text-base">Commission History</p>
           <div className="ms-auto flex items-center gap-2 justify-end">
-            <button className="border bg-white p-1 rounded-[4px] flex text-[10px] items-center gap-2">
+            <button className="border bg-white py-1 px-3 rounded-[4px] flex text-sm items-center gap-2">
               <BsSliders />
               Filter
             </button>
-            <button className="text-[#0F91D2] border text-[10px] rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
+            <button className="text-[#0F91D2] border text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
               <BsDownload />
               <span>Export Data</span>
             </button>

@@ -6,7 +6,7 @@ function Dashboard() {
     document.title = "Dashboard";
   }, []);
   return (
-    <CommonDashboard orderto="/customer/orders" conversationto="/customer/message" serviceDetailTo="/customer/dealDetails"/>
+    <CommonDashboard orderto="/customer/order" conversationto="/customer/message" serviceDetailTo="/customer/dealDetails"/>
   )
 }
 

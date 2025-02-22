@@ -63,12 +63,12 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
                   className="rounded-full pe-2 max-w-[70px]"
                 />
               </Link>
-              <div to="/" className="logouts">
+              <div className="logouts">
                 <div className="flex justify-between items-center">
                   <p className="font-bold text-black">{userInfo.name}</p>
-                  <button>
+                  <Link to="/login">
                     <MdLogout className="text-2xl text-black" />
-                  </button>
+                  </Link>
                 </div>
                 <p className="mb-0 font-medium text-sm text-black">
                   {userInfo.email}
