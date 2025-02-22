@@ -167,12 +167,12 @@ export default function Ordersp() {
         </div>
         {order.status !== "Completed" && (
           <div className="mt-2">
-            <Link
-              to="#"
+            <button
+              onClick={handlephotosOpen}
               className="bg-white text-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
               Deliver
-            </Link>
+            </button>
           </div>
         )}
       </div>

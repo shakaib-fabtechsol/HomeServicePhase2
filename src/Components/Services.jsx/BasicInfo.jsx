@@ -36,14 +36,17 @@ function BasicInfo() {
         <div className="grid grid-cols-12">
           <div className="col-span-12 lg:col-span-7 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Title" className="font-semibold">
+              <label
+                htmlFor="Title"
+                className="font-medium text-sm text-[#181D27]"
+              >
                 Service Title
               </label>
               <input
                 type="text"
                 id="Title"
                 placeholder="Enter service name"
-                className="myinput"
+                className="myinput mt-1"
                 required
                 value={formData.service_title}
                 onChange={(e) =>
@@ -54,18 +57,23 @@ function BasicInfo() {
           </div>
 
           <div className="col-span-12 lg:col-span-7 mt-4">
-            <p className="font-semibold">Service Type</p>
+            <p className="font-medium text-sm text-[#181D27]">Service Type</p>
             <div className="flex mt-4">
-              <label className="flex me-4">
+              <div className="flex items-center gap-2 me-4">
                 <input
                   type="checkbox"
                   id="Commercial"
                   name="Commercial"
-                  className="me-2"
+                  className="peer"
                 />
-                Commercial
-              </label>
-              <label className="flex">
+                <label
+                  htmlFor="Commercial"
+                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27] cursor-pointer"
+                >
+                  Commercial
+                </label>
+              </div>
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="Residential"
@@ -77,21 +85,26 @@ function BasicInfo() {
                       residential: e.target.checked,
                     })
                   }
-                  className="me-2"
+                  className="me-2 peer"
                 />
-                Residential
-              </label>
+                <label
+                  htmlFor="Residential"
+                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27]"
+                >
+                  Residential
+                </label>
+              </div>
             </div>
           </div>
 
           <div className="col-span-12 lg:col-span-7 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Category" className="font-semibold">
+              <label htmlFor="Category" className="font-medium text-sm text-[#181D27]">
                 Service Category
               </label>
               <select
                 id="Category"
-                className="myselect"
+                className="myselect mt-1"
                 required
                 value={formData.category}
                 onChange={(e) =>
@@ -114,10 +127,10 @@ function BasicInfo() {
             <div className="flex flex-col">
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
-                  <label htmlFor="Tags" className="font-semibold">
+                  <label htmlFor="Tags" className="font-medium text-sm text-[#181D27]">
                     Search Tags
                   </label>
-                  <div className="border rounded-lg p-2 myinput flex flex-wrap min-h-[40px]">
+                  <div className="border rounded-lg p-2 myinput flex flex-wrap min-h-[40px] mt-1">
                     {tags.map((tag, index) => (
                       <div
                         key={index}
@@ -150,12 +163,12 @@ function BasicInfo() {
 
           <div className="col-span-12 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Description" className="font-semibold">
+              <label htmlFor="Description" className="font-medium text-sm text-[#181D27]">
                 Service Description
               </label>
               <textarea
                 id="Description"
-                className="myinput"
+                className="myinput mt-1"
                 placeholder="Write here..."
                 rows={10}
                 required
@@ -172,13 +185,13 @@ function BasicInfo() {
 
           <div className="col-span-12 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="FinePrint" className="font-semibold">
+              <label htmlFor="FinePrint" className="font-medium text-sm text-[#181D27]">
                 Fine Print{" "}
                 <span className="text-[13px] text-[#cdcdcd]">(Optional)</span>
               </label>
               <textarea
                 id="FinePrint"
-                className="myinput"
+                className="myinput mt-1"
                 placeholder="Write here..."
                 rows={10}
                 value={formData.fine_print}

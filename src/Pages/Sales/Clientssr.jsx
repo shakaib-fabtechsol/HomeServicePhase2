@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -186,6 +186,7 @@ export default function Clientssr() {
               type="search"
               name="search"
               id="search"
+              placeholder="Search"
             />
           </label>
           <div className="ms-auto">

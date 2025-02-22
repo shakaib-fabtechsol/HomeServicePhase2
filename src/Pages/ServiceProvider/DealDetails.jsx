@@ -1,10 +1,8 @@
-import React from 'react'
-import ServiceDetail from '../../Components/Services.jsx/ServiceDetail'
+import React from "react";
+import ServiceDetail from "../../Components/Services.jsx/ServiceDetail";
 
 function DealDetails() {
-  return (
-    <ServiceDetail />
-  )
+  return <ServiceDetail backto={"/provider/services"} />;
 }
 
-export default DealDetails
+export default DealDetails;
