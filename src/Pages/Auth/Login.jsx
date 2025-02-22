@@ -14,9 +14,9 @@ function Login() {
       <div className="flex flex-col justify-center min-h-[100dvh] w-full max-w-[700px]">
         <div className="px-[15px] sm:px-[30px] py-3 lg:px-[50px] xl:px-[130px]">
           <div className="flex justify-center pt-10">
-            <img src={logo} alt="" className="px-5 py-4 w-[270px]" />
+            <img src={logo} alt="" className="px-5 py-4 w-[170px] sm:w-[200px] md:w-[270px]" />
           </div>
-          <h2 className="font-semibold text-center text-[#181D27] text-3xl">
+          <h2 className="font-semibold text-center text-[#181D27] text-2xl sm:text-3xl">
             Log in to your account
           </h2>
           <p className="font-normal text-center myblack mb-5 mt-2">
