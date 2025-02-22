@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from 'react';
+import { FaArrowLeft } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import ChatApp from '../../Components/SuperAdmin/ChatApp'
 
-export default function Chatsa() {
-  useEffect(() => {
-    document.title = "Chat";
-  }, []);
-  return (
-    <div>
-      <div className="mb-2">
-        <h2 className="font-semibold text-3xl">Chats</h2>
-        <p className="text-gray-600">
-          Track and manage your favorite services.
-        </p>
-      </div>
-    </div>
-  );
+const Chatsa = () => {
+    useEffect(() => {
+        document.title = "Message";
+      }, []);
+    return (
+        <div>
+            <div className='flex items-center sm:gap-4 gap-2 sm:mt-4'>
+                <div>
+                    <Link to="#"><FaArrowLeft className='md:text-xl text-sm' /></Link>
+                </div>
+                <div>
+                    <p className='font-semibold 2xl:text-3xl sm:text-xl text-lg'>Messages</p>
+                    <p className='text-[#535862] md:text-base text-xs'>Manage and Respond to Messages Seamlessly</p>
+                </div>
+            </div>
+            <div className='mt-2'>
+                <ChatApp/>
+            </div>
+        </div>
+    )
 }
+
+export default Chatsa
