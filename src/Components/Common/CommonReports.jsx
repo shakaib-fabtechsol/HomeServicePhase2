@@ -123,7 +123,7 @@ export default function CommonReports() {
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Reports</h2>
         <p className="text-gray-600">
-          Track and manage your favorite services.
+          Track and manage your favorite reports.
         </p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

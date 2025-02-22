@@ -177,7 +177,7 @@ export default function Sales() {
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Sales</h2>
         <p className="text-gray-600">
-          Track and manage your favorite services.
+          Track and manage your sales rep.
         </p>
       </div>
       <div>
@@ -192,6 +192,7 @@ export default function Sales() {
               type="search"
               name="search"
               id="search"
+              placeholder="Search"
             />
           </label>
           <div className="ms-auto">
