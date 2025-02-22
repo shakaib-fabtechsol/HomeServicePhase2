@@ -158,6 +158,7 @@ export default function Supportsa() {
             <input
               className="w-full p-2 outline-none"
               type="search"
+              placeholder="Search"
               name="search"
               id="search"
             />

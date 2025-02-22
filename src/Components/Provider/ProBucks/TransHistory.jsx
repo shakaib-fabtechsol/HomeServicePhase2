@@ -79,7 +79,7 @@ export default function TransHistory() {
           Export Data
         </button>
         <input
-          className="hide-calendar border outline-none border-[#00000036] py-2 px-3 text-sm rounded-[8px]"
+          className=" border outline-none border-[#00000036] py-2 px-3 text-sm rounded-[8px]"
           type="date"
           name="datefilter"
           id="datefilter"
