@@ -273,7 +273,7 @@ function ServiceDetail({backto}) {
             elementum lacus.
           </p>
           <h2 className="mt-4 text-xl myhead font-semibold">Fine Print</h2>
-          <ul class="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+          <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
             <li>Pellentesque maximus augue in tellus fermentum viverra.</li>
             <li>Nunc euismod erat et volutpat tincidunt.</li>
             <li>In sit amet enim in nisl fermentum venenatis et ut dui.</li>
