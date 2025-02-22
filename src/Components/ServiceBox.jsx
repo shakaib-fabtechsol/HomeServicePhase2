@@ -34,25 +34,33 @@ function ServiceBox({
         <div className="relative">
           <ServiceSlider dealsVideo={videos} dealslidedata={imgs} />
           <div onClick={stopPropagation} className="absolute top-2 left-2 z-10">
-            <button
-              onClick={() => setLiked(!liked)}
-              style={{
-                border: "1.5px solid",
-                borderImageSource:
-                  "linear-gradient(124.99deg, #FB8603 40.69%, #F7BC08 83.17%)",
-                padding: "5px",
-                background: "none",
-                cursor: "pointer",
-              }}
-            >
-              <FaHeart
-                color={liked ? "#FB8603" : "none"}
-                style={{
-                  fill: liked ? "#FB8603" : "none",
-                  stroke: "#F7BC08",
-                  strokeWidth: 20,
-                }}
-              />
+            <button onClick={() => setLiked(!liked)}>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient
+                    id="heartGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="40.69%" stopColor="#FB8603" />
+                    <stop offset="83.17%" stopColor="#F7BC08" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  fill={liked ? "url(#heartGradient)" : "none"}
+                  stroke="url(#heartGradient)"
+                  strokeWidth="2"
+                />
+              </svg>
             </button>
           </div>
           <div className="absolute top-2 right-2">
