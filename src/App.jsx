@@ -63,6 +63,8 @@ import DealDetailsC from "./Pages/Customer/DealDetails";
 import DealDetailsH from "./Pages/DealDetailsH";
 import ReportsP from "./Pages/ServiceProvider/Reports";
 import ReportsC from "./Pages/Customer/Reports";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (

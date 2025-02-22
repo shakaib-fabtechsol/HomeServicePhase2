@@ -59,15 +59,17 @@ export default function ReferralHistory() {
 
   return (
     <div>
-      <div className="flex items-center flex-wrap justify-end gap-2">
-        <button className="border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2">
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <button className="border border-[#0F91D2] bg-white text-[#0F91D2] px-3 py-2 rounded-[8px] flex text-sm items-center gap-2">
           <FiDownload className="text-xs" />
           Export Data
         </button>
-        <button className="border bg-white px-4 py-3 rounded-lg flex text-sm items-center gap-2">
-          <BsSliders />
-          Filter
-        </button>
+        <input
+          className="hide-calendar border outline-none border-[#00000036] py-2 px-3 text-sm rounded-[8px]"
+          type="date"
+          name="datefilter"
+          id="datefilter"
+        />
       </div>
       <div className="mt-4">
         <Table headers={tableHeaders} rows={tableRows} />

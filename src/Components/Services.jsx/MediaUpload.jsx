@@ -50,24 +50,25 @@ const MediaUpload = () => {
             {file ? (
               <div className="upload-placeholder flex flex-col items-center justify-center h-[250px]">
                 <img src={upload} alt="upload" className="w-[50px] mb-4" />
-                <p className="text-gray-500">
+                <p className="text-[#343434]">
                   <strong>File Uploaded Successfully</strong>
                 </p>
-                <p className="text-gray-500">
-                  <strong>Click to upload</strong> or drag and drop to change
-                  image
+                <p className="text-[#343434] text-sm">
+                  <span className="text-[#0F91D2]">Click to upload</span> or
+                  drag and drop to change image
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs text-[#343434]">
                   SVG, PNG, or JPG (max. 800×400px)
                 </p>
               </div>
             ) : (
               <div className="upload-placeholder flex flex-col items-center justify-center h-[250px]">
                 <img src={upload} alt="upload" className="w-[50px] mb-4" />
-                <p className="text-gray-500">
-                  <strong>Click to upload</strong> or drag and drop
+                <p className="text-[#343434] text-sm">
+                  <span className="text-[#0F91D2]">Click to upload</span> or
+                  drag and drop
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs text-[#343434]">
                   SVG, PNG, or JPG (max. 800×400px)
                 </p>
               </div>

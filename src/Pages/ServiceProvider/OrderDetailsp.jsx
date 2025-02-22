@@ -62,7 +62,7 @@ export default function OrderDetailsp() {
       <div className="flex justify-between flex-wrap gap-3">
         <div className="flex items-center sm:gap-4 gap-2 sm:mt-4">
           <div>
-            <Link to="#">
+            <Link to="/provider/orders">
               <FaArrowLeft className="md:text-xl text-sm" />
             </Link>
           </div>

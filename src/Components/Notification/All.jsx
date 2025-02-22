@@ -66,7 +66,7 @@ const All = () => {
     },
   ];
   return (
-    <div className="sm:p-2">
+    <div>
       <NotificationComp data={notificationdata} />
     </div>
   );

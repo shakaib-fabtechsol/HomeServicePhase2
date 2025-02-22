@@ -218,6 +218,7 @@ export default function Assigned() {
               type="search"
               name="search"
               id="search"
+              placeholder="Search"
             />
           </label>
           <div className="ms-auto">

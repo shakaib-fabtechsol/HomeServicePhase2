@@ -49,7 +49,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail() {
+function ServiceDetail({backto}) {
   useEffect(() => {
     document.title = "Service Details";
   }, []);
@@ -91,7 +91,7 @@ function ServiceDetail() {
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
-          <Link to="/customer/services">
+          <Link to={backto}>
             <FaArrowLeft className="me-4 text-xl" />
           </Link>
           <h2 className="text-2xl font-semibold">Service Details</h2>

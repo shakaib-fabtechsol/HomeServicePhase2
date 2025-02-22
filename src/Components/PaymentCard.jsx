@@ -5,9 +5,9 @@ function PaymentCard({ title, trend, percentage, amount }) {
   return (
     <div className="border p-4 rounded-xl bg-white shadow-md">
       <div className="flex justify-between items-center">
-        <p className="font-semibold">{title}</p>
+        <p className="font-medium">{title}</p>
         <div
-          className={`flex items-center px-4 py-1 rounded-full ${
+          className={`flex items-center px-4 py-1 rounded-full text-sm ${
             trend === "up" ? "bg-[#DCEEE1] text-[#34A853]" : "bg-[#F7DBDE] text-[#C71026]"
           }`}
         >
@@ -15,7 +15,7 @@ function PaymentCard({ title, trend, percentage, amount }) {
           <p className="ml-2">{percentage}%</p>
         </div>
       </div>
-      <p className="text-4xl mt-8 font-bold">${amount}</p>
+      <p className="text-2xl mt-8 font-bold">${amount}</p>
     </div>
   );
 }

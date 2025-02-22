@@ -5,6 +5,9 @@ import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
 import user1 from "../../assets/img/client2.png";
 import user2 from "../../assets/img/client3.png";
+import cardvideo from "../../assets/img/cardvideo.mp4";
+import slideimg from "../../assets/img/service1new.jpeg";
+
 
 function Services() {
   useEffect(() => {
@@ -24,6 +27,8 @@ function Services() {
       userimg: user1,
       username: "John Doe",
       publish: 1,
+      videos:[cardvideo,cardvideo],
+      images:[slideimg,slideimg,slideimg,slideimg]
     },
     {
       id: 2,
@@ -37,6 +42,8 @@ function Services() {
       userimg: user2,
       username: "Julia Maria",
       publish: 0,
+      videos:[cardvideo,cardvideo],
+      images:[slideimg,slideimg,slideimg,slideimg]
     },
   ];
 
@@ -91,7 +98,9 @@ function Services() {
                 username={service.username}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo="/provider/dealdetails"
+                serviceDetailTo={"/provider/dealDetails"}
+                videos={service.videos}
+                imgs={service.images}
               />
             ))
           ) : (
