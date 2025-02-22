@@ -91,7 +91,6 @@ function Services() {
                 username={service.username}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={"/provider/dealDetails"}
                 serviceDetailTo="/provider/dealdetails"
               />
             ))
