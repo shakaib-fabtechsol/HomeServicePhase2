@@ -25,6 +25,20 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
     }
   };
 
+  const videoRef = useRef(null);
+
+  const handleFullScreen = () => {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      } else if (videoRef.current.webkitRequestFullscreen) {
+        videoRef.current.webkitRequestFullscreen();
+      } else if (videoRef.current.msRequestFullscreen) {
+        videoRef.current.msRequestFullscreen();
+      }
+    }
+  };
+
   return (
     <div className="relative">
       <div className="absolute top-1/2 -translate-y-1/2 z-[99] start-0">
@@ -48,16 +62,23 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
           dealsVideo.map((video, index) => (
             <div
               key={index}
-              className="outline-none aspect-video rounded-[8px] overflow-hidden"
+              className="outline-none aspect-video rounded-[8px] overflow-hidden relative"
             >
               <video
+                ref={videoRef}
                 className="w-full h-full object-cover"
                 src={video}
                 autoPlay
                 muted
                 loop
-                controls
+                playsInline
               ></video>
+              <button
+                onClick={handleFullScreen}
+                className="absolute bottom-2 right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded"
+              >
+                ⛶
+              </button>
             </div>
           ))}
         {dealslidedata.length > 0 &&

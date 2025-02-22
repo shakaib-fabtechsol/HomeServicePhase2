@@ -147,7 +147,7 @@ export default function Dashboardsr() {
           </div>
         ))}
       </div>
-      <div className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">
         <div className="border p-3 rounded-[24px] border-[#0000001A] bg-[#F9F9FA]">
           <p className="font-semibold text-sm">
             Revenue Breakdown by Top Service Category
