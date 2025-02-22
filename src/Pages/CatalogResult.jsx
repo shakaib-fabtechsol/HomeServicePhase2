@@ -204,6 +204,7 @@ function CatalogResult() {
                     tags={service.tags}
                     image={service.image}
                     publish={service.publish}
+                    serviceDetailTo="/dealdetails"
                   />
                 ))}
               </div>

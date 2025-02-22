@@ -60,6 +60,7 @@ import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 import RecentDeals from "./Pages/Sales/RecentDeals";
 import DealDetails from "./Pages/ServiceProvider/DealDetails";
 import DealDetailsC from "./Pages/Customer/DealDetails";
+import DealDetailsH from "./Pages/DealDetailsH";
 
 function App() {
   return (
@@ -134,6 +135,7 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/catalogResult" element={<CatalogResult />} />
+          <Route path="/dealdetails" element={<DealDetailsH />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
