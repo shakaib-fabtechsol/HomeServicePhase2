@@ -12,7 +12,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const MainNav = ({ toggleSidebar, logolink }) => {
   const location = useLocation();
-  const isHomeOrCatalog = location.pathname === "/" || location.pathname === "/catalogResult";
+  const isHomeOrCatalog = location.pathname === "/" || location.pathname === "/catalogResult" || location.pathname === "/dealdetails";
 
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
