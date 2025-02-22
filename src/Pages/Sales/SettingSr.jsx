@@ -42,7 +42,7 @@ export default function SettingSr() {
     // },
   ];
   return (
-    <div className="border border-[#A2A1A833] rounded-[10px] p-3">
+    <div className="border border-[#A2A1A833] rounded-[10px] p-3 px-6">
       <TabComponent tabs={tabData} />
     </div>
   );

@@ -39,7 +39,7 @@ export default function PersonalInfo() {
   ];
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-7">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pe-7">
         <div className="flex flex-col gap-3 order-2 sm:order-1">
           {inputData.map((field, index) => (
             <div key={index}>
