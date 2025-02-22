@@ -99,7 +99,7 @@ function BasicInfo() {
 
           <div className="col-span-12 lg:col-span-7 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Category" className="font-medium text-sm text-[#181D27]">
+              <label htmlFor="Category" className="font-medium focus-none text-sm text-[#181D27]">
                 Service Category
               </label>
               <select
@@ -123,7 +123,7 @@ function BasicInfo() {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-7 mt-4">
+          <div className="col-span-12 lg:col-span-7">
             <div className="flex flex-col">
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
