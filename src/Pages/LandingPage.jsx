@@ -102,6 +102,7 @@ function LandingPage() {
                 tags={service.tags}
                 image={service.image}
                 publish={service.publish}
+                serviceDetailTo="/dealdetails"
               />
             ))}
           </div>

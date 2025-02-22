@@ -156,8 +156,8 @@ function BasicInfo() {
               <textarea
                 id="Description"
                 className="myinput"
-                placeholder="Type details here..."
-                rows={4}
+                placeholder="Write here..."
+                rows={10}
                 required
                 value={formData.service_description}
                 onChange={(e) =>
@@ -179,8 +179,8 @@ function BasicInfo() {
               <textarea
                 id="FinePrint"
                 className="myinput"
-                placeholder="Type details here..."
-                rows={4}
+                placeholder="Write here..."
+                rows={10}
                 value={formData.fine_print}
                 onChange={(e) =>
                   setFormData({ ...formData, fine_print: e.target.value })

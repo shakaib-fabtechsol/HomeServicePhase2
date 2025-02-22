@@ -51,10 +51,10 @@ function Services() {
         <p className="myblack">Stay Updated on Your Active Deals</p>
       </div>
 
-      <div className="btm">
+      <div className="btm mt-3">
         {/* Search Input */}
         <div className="md:flex justify-between items-center">
-          <div className="flex border rounded-lg items-center px-2">
+          <div className="flex w-full max-w-[300px] border rounded-lg items-center px-2">
             <label htmlFor="search">
               <CiSearch className="me-2 text-xl" />
             </label>
@@ -76,7 +76,7 @@ function Services() {
           </Link>
         </div>
 
-        <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+        <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {filteredServices.length > 0 ? (
             filteredServices.map((service) => (
               <ServiceBox
@@ -92,6 +92,7 @@ function Services() {
                 Rating={service.rating}
                 Liked={service.Liked}
                 serviceDetailTo={"/provider/dealDetails"}
+                serviceDetailTo="/provider/dealdetails"
               />
             ))
           ) : (
