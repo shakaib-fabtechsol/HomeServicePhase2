@@ -3,6 +3,8 @@ import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
+import user1 from "../../assets/img/client2.png";
+import user2 from "../../assets/img/client3.png";
 
 function Services() {
   useEffect(() => {
@@ -17,6 +19,10 @@ function Services() {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      rating: 4.3,
+      Liked: true,
+      userimg: user1,
+      username: "John Doe",
       publish: 1,
     },
     {
@@ -26,6 +32,10 @@ function Services() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      rating: 4.3,
+      Liked: true,
+      userimg: user2,
+      username: "Julia Maria",
       publish: 0,
     },
   ];
@@ -77,6 +87,11 @@ function Services() {
                 tags={service.tags}
                 image={service.image}
                 publish={service.publish}
+                userimg={service.userimg}
+                username={service.username}
+                Rating={service.rating}
+                Liked={service.Liked}
+                serviceDetailTo={"/provider/dealDetails"}
                 serviceDetailTo="/provider/dealdetails"
               />
             ))
