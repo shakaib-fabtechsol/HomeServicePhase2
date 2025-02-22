@@ -4,8 +4,10 @@ import { IoLocationOutline } from "react-icons/io5";
 import ServiceBox from "../../Components/ServiceBox";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
+import userimg1 from "../../assets/img/client1.png";
+import userimg2 from "../../assets/img/client2.png";
 
-const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => { 
+const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
   useEffect(() => {
     document.title = "Home";
   }, []);
@@ -18,6 +20,10 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       tags: ["Plumbing", "Repair"],
       image: "",
       publish: 2,
+      userimg: userimg2,
+      username: "Julia Maria",
+      Rating: 4.5,
+      Liked:true,
     },
     {
       id: 2,
@@ -27,6 +33,10 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       tags: ["Cleaning", "Home"],
       image: "",
       publish: 2,
+      userimg: userimg1,
+      username: "John Doe",
+      Rating: 4.9,
+      Liked:false,
     },
   ];
 
@@ -80,7 +90,10 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
                 </div>
               ))}
               <div className="flex justify-end mt-4">
-                <Link to={orderto} className="underline text-[#000] flex items-cneter text-sm gap-x-1">
+                <Link
+                  to={orderto}
+                  className="underline text-[#000] flex items-cneter text-sm gap-x-1"
+                >
                   See Order History <FaArrowRight className="text-xs mt-1" />
                 </Link>
               </div>
@@ -89,7 +102,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
           <div className="border rounded-2xl p-4">
             <h4 className="font-medium text-xl">Recent Conversations</h4>
             <Link
-             to={conversationto}
+              to={conversationto}
               className="flex justify-between items-center border p-3 rounded-xl mt-4"
             >
               <div>
@@ -117,6 +130,10 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
             image={service.image}
             serviceDetailTo={serviceDetailTo}
             publish={service.publish}
+            userimg={service.userimg}
+            username={service.username}
+            Rating={service.Rating}
+            Liked={service.Liked}
           />
         ))}
       </div>

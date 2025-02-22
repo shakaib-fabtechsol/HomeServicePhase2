@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import ServiceBox from "../ServiceBox";
 import { FaTh, FaList } from "react-icons/fa";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
+import user1 from "../../assets/img/client2.png";
+import user2 from "../../assets/img/client3.png";
 
-const CommonFavorites = ({serviceDetailTo }) => { 
+const CommonFavorites = ({ serviceDetailTo }) => {
   useEffect(() => {
     document.title = "Favourites";
   }, []);
-  const [viewMode, setViewMode] = useState("grid"); 
+  const [viewMode, setViewMode] = useState("grid");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const services = [
@@ -18,7 +20,11 @@ const CommonFavorites = ({serviceDetailTo }) => {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      username: "John Doe",
+      userimg: user2,
       publish: 1,
+      Liked: true,
+      Rating: 4.5,
     },
     {
       id: 2,
@@ -27,7 +33,11 @@ const CommonFavorites = ({serviceDetailTo }) => {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      userimg: user1,
+      username: "Julia",
       publish: 0,
+      Liked: true,
+      Rating: 4.5,
     },
     {
       id: 3,
@@ -36,7 +46,11 @@ const CommonFavorites = ({serviceDetailTo }) => {
       description: "Expert electrical services for your home.",
       tags: ["Electric", "Repair"],
       image: "",
+      username: "John Doe",
+      userimg: user2,
       publish: 1,
+      Liked: true,
+      Rating: 4.5,
     },
     {
       id: 4,
@@ -45,7 +59,11 @@ const CommonFavorites = ({serviceDetailTo }) => {
       description: "Deep carpet cleaning services.",
       tags: ["Cleaning", "Carpet"],
       image: "",
+      userimg: user1,
+      username: "Julia",
       publish: 0,
+      Liked: true,
+      Rating: 4.5,
     },
   ];
 
@@ -113,6 +131,10 @@ const CommonFavorites = ({serviceDetailTo }) => {
               image={service.image}
               serviceDetailTo={serviceDetailTo}
               publish={service.publish}
+              username={service.username}
+              userimg={service.userimg}
+              Liked={service.Liked}
+              Rating={service.Rating}
               className={
                 viewMode === "list"
                   ? "flex flex-row items-center gap-4 p-4 border rounded"
@@ -126,6 +148,6 @@ const CommonFavorites = ({serviceDetailTo }) => {
       </div>
     </div>
   );
-}
+};
 
 export default CommonFavorites;
