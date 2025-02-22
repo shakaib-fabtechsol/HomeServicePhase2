@@ -293,7 +293,7 @@ export default function CommonPayments() {
               placeholder="Search"
             />
           </label>
-          <div className="flex items-center justify-end gap-3 ">
+          <div className="flex flex-wrap items-center justify-end gap-3 ">
             <div className="relative">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -326,7 +326,7 @@ export default function CommonPayments() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mt-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {cards.length > 0 ? (
           cards.map((card) => (
             <PaymentCard
