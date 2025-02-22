@@ -76,7 +76,7 @@ function CatalogResult() {
     <>
       <div>
         <div className="container-fluid px-2">
-          <div className="flex flex-col mt-8 md:flex-row justify-between">
+          <div className="flex flex-col md:mt-8 md:flex-row justify-between">
             <div className="max-[100%] md:max-w-[280px] mt-2 w-full">
               <div className="bg-[#F8F8F8] px-4 py-4 h-full rounded-lg">
                 <h4 className="font-semibold text-lg mb-2">Filters</h4>
@@ -188,7 +188,7 @@ function CatalogResult() {
                 </div>
               </div>
             </div>
-            <div className="filter-other">
+            <div className="filter-other mt-5 md:mt-0">
             <p className="text-lg">
             Showing full catalog results, giving you the <b>widest variety</b>{" "}
             of <b>services</b>...{" "}
