@@ -4,6 +4,10 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import cardvideo from "../assets/img/cardvideo.mp4";
+import slideimg from "../assets/img/service1new.jpeg";
+import client1 from "../assets/img/client2.png";
+import client2 from "../assets/img/client3.png";
 
 function CatalogResult() {
   useEffect(() => {
@@ -17,6 +21,12 @@ function CatalogResult() {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "John Doe",
+      userimg: client1,
+      rating: 4.3,
+      liked: true,
       publish: 1,
     },
     {
@@ -26,6 +36,12 @@ function CatalogResult() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "Julia Maria",
+      userimg: client2,
+      rating: 4.3,
+      liked: true,
       publish: 0,
     },
     {
@@ -35,6 +51,12 @@ function CatalogResult() {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "John Doe",
+      userimg: client1,
+      rating: 4.3,
+      liked: true,
       publish: 1,
     },
     {
@@ -44,6 +66,12 @@ function CatalogResult() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "John Doe",
+      userimg: client1,
+      rating: 4.3,
+      liked: true,
       publish: 0,
     },
     {
@@ -53,6 +81,12 @@ function CatalogResult() {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "Julia Maria",
+      userimg: client2,
+      rating: 4.3,
+      liked: true,
       publish: 1,
     },
     {
@@ -62,6 +96,12 @@ function CatalogResult() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      username: "John Doe",
+      userimg: client1,
+      rating: 4.3,
+      liked: true,
       publish: 0,
     },
   ];
@@ -189,15 +229,15 @@ function CatalogResult() {
               </div>
             </div>
             <div className="filter-other mt-5 md:mt-0">
-            <p className="text-lg">
-            Showing full catalog results, giving you the <b>widest variety</b>{" "}
-            of <b>services</b>...{" "}
-          </p>
-          <p className="text-sm text-[#757575]">60 results</p>
+              <p className="text-lg">
+                Showing full catalog results, giving you the{" "}
+                <b>widest variety</b> of <b>services</b>...{" "}
+              </p>
+              <p className="text-sm text-[#757575]">60 results</p>
               <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((service) => (
+                {services.map((service,index) => (
                   <ServiceBox
-                    key={service.id}
+                    key={index}
                     title={service.title}
                     price={service.price}
                     description={service.description}
@@ -205,6 +245,12 @@ function CatalogResult() {
                     image={service.image}
                     publish={service.publish}
                     serviceDetailTo="/dealdetails"
+                    videos={service.videos}
+                    imgs={service.images}
+                    username={service.username}
+                    userimg={service.userimg}
+                    Rating={service.rating}
+                    Liked={service.rating}
                   />
                 ))}
               </div>
