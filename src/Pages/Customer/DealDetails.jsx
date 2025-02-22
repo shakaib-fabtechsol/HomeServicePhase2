@@ -3,7 +3,7 @@ import ServiceDetail from '../../Components/Services.jsx/ServiceDetail'
 
 function DealDetails() {
   return (
-    <ServiceDetail />
+    <ServiceDetail backto={"/customer/favourites"} />
   )
 }
 
