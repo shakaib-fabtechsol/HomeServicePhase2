@@ -4,6 +4,7 @@ import defaultimg from "../assets/img/service1new.jpeg";
 import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaHeart, FaStar } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
+import { FaCalendarAlt } from "react-icons/fa";
 
 function ServiceBox({
   tags = [],
@@ -85,8 +86,9 @@ function ServiceBox({
             <p className="text-sm">{Rating || 2}</p>
           </div>
         </div>
-        <div className="text-sm text-[#535862] mt-4">
-          {tags.length > 0
+        <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
+         <div>
+         {tags.length > 0
             ? tags.map((tag, index) => (
                 <span
                   key={index}
@@ -100,6 +102,12 @@ function ServiceBox({
                 </span>
               ))
             : "No tags available"}
+         </div>
+         <div className="flex items-center">
+              <span className="text-[#0F91D2]">Avg</span>
+              <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1"/>
+              <span className="text-[#717171]">1 day</span>
+         </div>
         </div>
       </div>
     </div>
