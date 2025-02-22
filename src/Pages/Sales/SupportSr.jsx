@@ -1,13 +1,10 @@
 import React from 'react'
-import { useEffect, useState } from "react";
+import CommonSupport from '../../Components/Common/CommonSupport'
 
-export default function SupportSr() {
-  useEffect(() => {
-    document.title = "Supports";
-  }, []);
+function SupportSr() {
   return (
-    <div>
-      Support
-    </div>
+    <CommonSupport />
   )
 }
+
+export default SupportSr

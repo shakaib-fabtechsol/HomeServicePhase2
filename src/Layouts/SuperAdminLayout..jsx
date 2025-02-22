@@ -76,6 +76,7 @@ function SuperAdminLayout() {
   const userInfo = {
     name: "Mike Bird",
     email: "mikebird@untitledui.com",
+    profileLink: "/superadmin/setting",
   };
 
   return (

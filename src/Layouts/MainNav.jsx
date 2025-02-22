@@ -22,8 +22,8 @@ const MainNav = ({ toggleSidebar, logolink }) => {
         </NavLink>
       </div>
 
-      <div className="md:flex hidden ms-auto lg:mx-auto max-w-[700px]">
-        <div className="flex me-3 rounded-lg border-[#E4E4E4] border-2 py-1">
+      <div className="md:flex hidden ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
+        <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
           <div className="w-[40%]">
             <input
               type="text"
