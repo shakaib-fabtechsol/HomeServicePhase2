@@ -77,6 +77,7 @@ function Services() {
                 tags={service.tags}
                 image={service.image}
                 publish={service.publish}
+                serviceDetailTo="/provider/dealdetails"
               />
             ))
           ) : (

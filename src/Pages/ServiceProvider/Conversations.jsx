@@ -80,7 +80,6 @@ export default function Conversations() {
                   fontFamily: "Inter",
                   textTransform: "capitalize",
                   fontSize: { xs: "14px", sm: "16px" },
-                  fontWeight: "400",
                   color: "#000",
                   minWidth: "42px",
                   marginRight: { xs: "8px", sm: "15px" },

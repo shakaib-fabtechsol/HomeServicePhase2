@@ -22,6 +22,7 @@ import Notificationssa from "./Pages/SuperAdmin/Notificationssa";
 import Settingsa from "./Pages/SuperAdmin/Settingsa";
 import Services from "./Pages/ServiceProvider/Services";
 import Favourites from "./Pages/ServiceProvider/Favourites";
+import FavouritesC from "./Pages/Customer/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
 import Dashboardc from "./Pages/Customer/Dashboard";
@@ -59,6 +60,9 @@ import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 import RecentDeals from "./Pages/Sales/RecentDeals";
 import DealDetails from "./Pages/ServiceProvider/DealDetails";
 import DealDetailsC from "./Pages/Customer/DealDetails";
+import DealDetailsH from "./Pages/DealDetailsH";
+import ReportsP from "./Pages/ServiceProvider/Reports";
+import ReportsC from "./Pages/Customer/Reports";
 
 function App() {
   return (
@@ -79,6 +83,7 @@ function App() {
           <Route path="/provider/conversations" element={<Conversations />} />
           <Route path="/provider/dealDetails" element={<DealDetails />} />
           <Route path="/provider/profile" element={<Profilep />} />
+          <Route path="/provider/reports" element={<ReportsP />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
@@ -88,15 +93,13 @@ function App() {
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
-          <Route
-            path="/customer/explore-service"
-            element={<ExploreServices />}
-          />
+          <Route path="/customer/explore-service" element={<ExploreServices />} />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
-          <Route path="/customer/favourites" element={<Favourites />} />
+          <Route path="/customer/favourites" element={<FavouritesC />} />
           <Route path="/customer/payments" element={<Payments />} />
           <Route path="/customer/dealDetails" element={<DealDetailsC />} />
+          <Route path="/customer/reports" element={<ReportsC />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
@@ -133,6 +136,7 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/catalogResult" element={<CatalogResult />} />
+          <Route path="/dealdetails" element={<DealDetailsH />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
