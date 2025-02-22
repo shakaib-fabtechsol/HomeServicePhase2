@@ -3,20 +3,19 @@ import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import user from "../assets/img/user.png";
 
-const SidebarItem = ({ to, icon: Icon, label, toChild }) => {
-
+const SidebarItem = ({ to, icon: Icon, label, toChild, toChild2 }) => {
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: false });
-  
-  const resolvedChild = toChild ? useResolvedPath(toChild) : null;
-  const isChildActive = toChild ? useMatch({ path: resolvedChild.pathname, end: false }) : false;
+
+  const isChildActive = toChild ? useMatch({ path: useResolvedPath(toChild).pathname, end: false }) : false;
+  const isChildActive2 = toChild2 ? useMatch({ path: useResolvedPath(toChild2).pathname, end: false }) : false;
 
   return (
     <li className="mx-1">
-    <NavLink
-      to={to}
-      className={isActive || isChildActive ? "sidelink active" : "sidelink"}
-    >
+   <NavLink
+        to={to}
+        className={isActive || isChildActive || isChildActive2 ? "sidelink active" : "sidelink"}
+      >
       <div className="flex items-center">
         <Icon className="me-2 text-xl" />
         <p className="mb-0 font-medium">{label}</p>
