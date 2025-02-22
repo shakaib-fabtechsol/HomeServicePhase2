@@ -61,6 +61,8 @@ import RecentDeals from "./Pages/Sales/RecentDeals";
 import DealDetails from "./Pages/ServiceProvider/DealDetails";
 import DealDetailsC from "./Pages/Customer/DealDetails";
 import DealDetailsH from "./Pages/DealDetailsH";
+import ReportsP from "./Pages/ServiceProvider/Reports";
+import ReportsC from "./Pages/Customer/Reports";
 
 function App() {
   return (
@@ -81,6 +83,7 @@ function App() {
           <Route path="/provider/conversations" element={<Conversations />} />
           <Route path="/provider/dealDetails" element={<DealDetails />} />
           <Route path="/provider/profile" element={<Profilep />} />
+          <Route path="/provider/reports" element={<ReportsP />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer/dashboard" element={<Dashboardc />} />
@@ -90,15 +93,13 @@ function App() {
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
-          <Route
-            path="/customer/explore-service"
-            element={<ExploreServices />}
-          />
+          <Route path="/customer/explore-service" element={<ExploreServices />} />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
           <Route path="/customer/favourites" element={<FavouritesC />} />
           <Route path="/customer/payments" element={<Payments />} />
           <Route path="/customer/dealDetails" element={<DealDetailsC />} />
+          <Route path="/customer/reports" element={<ReportsC />} />
         </Route>
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
