@@ -4,6 +4,10 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 import HeroSection from "../Components/Common/HeroSection";
+import cardvideo from "../assets/img/cardvideo.mp4";
+import slideimg from "../assets/img/service1new.jpeg";
+import client1 from "../assets/img/client2.png";
+import client2 from "../assets/img/client3.png";
 
 function LandingPage() {
   useEffect(() => {
@@ -17,6 +21,11 @@ function LandingPage() {
       description: "Fix your leaking pipes and taps.",
       tags: ["Plumbing", "Repair"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      rating: 4.3,
+      username: "John Doe",
+      userimg: client1,
       publish: 1,
     },
     {
@@ -26,6 +35,11 @@ function LandingPage() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      rating: 4.3,
+      username: "Julia",
+      userimg: client2,
       publish: 0,
     },
     {
@@ -35,6 +49,11 @@ function LandingPage() {
       description: "Professional house cleaning services.",
       tags: ["Cleaning", "Home"],
       image: "",
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      rating: 4.3,
+      username: "John Doe",
+      userimg: client1,
       publish: 0,
     },
   ];
@@ -103,6 +122,11 @@ function LandingPage() {
                 image={service.image}
                 publish={service.publish}
                 serviceDetailTo="/dealdetails"
+                videos={service.videos}
+                imgs={service.images}
+                userimg={service.userimg}
+                username={service.username}
+                Rating={service.rating}
               />
             ))}
           </div>

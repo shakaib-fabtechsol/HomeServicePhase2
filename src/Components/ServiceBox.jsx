@@ -32,11 +32,6 @@ function ServiceBox({
     <div className="border rounded-lg">
       <div className="px-3 pt-3">
         <div className="relative">
-          {/* <img
-            src={imageToShow}
-            alt="Service Image"
-            className="rounded-lg w-full h-[200px] object-cover"
-          /> */}
           <ServiceSlider dealsVideo={videos} dealslidedata={imgs} />
           <div onClick={stopPropagation} className="absolute top-2 left-2 z-10">
             <button

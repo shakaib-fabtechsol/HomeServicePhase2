@@ -4,6 +4,8 @@ import { FaTh, FaList } from "react-icons/fa";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import user1 from "../../assets/img/client2.png";
 import user2 from "../../assets/img/client3.png";
+import cardvideo from "../../assets/img/cardvideo.mp4";
+import slideimg from "../../assets/img/service1new.jpeg";
 
 const CommonFavorites = ({ serviceDetailTo }) => {
   useEffect(() => {
@@ -25,6 +27,8 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       publish: 1,
       Liked: true,
       Rating: 4.5,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
     {
       id: 2,
@@ -38,6 +42,8 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       publish: 0,
       Liked: true,
       Rating: 4.5,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
     {
       id: 3,
@@ -51,6 +57,8 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       publish: 1,
       Liked: true,
       Rating: 4.5,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
     {
       id: 4,
@@ -64,6 +72,8 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       publish: 0,
       Liked: true,
       Rating: 4.5,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
   ];
 
@@ -135,6 +145,8 @@ const CommonFavorites = ({ serviceDetailTo }) => {
               userimg={service.userimg}
               Liked={service.Liked}
               Rating={service.Rating}
+              videos={service.videos}
+              imgs={service.images}
               className={
                 viewMode === "list"
                   ? "flex flex-row items-center gap-4 p-4 border rounded"
