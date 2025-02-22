@@ -31,7 +31,7 @@ function Settings() {
     <div>
       <div className="my-2">
         <h2 className="font-semibold text-3xl myhead">Settings</h2>
-        <p className="myblack">Track, manage and forecast your customers and orders.</p>
+        <p className="myblack mb-4">Track, manage and forecast your customers and orders.</p>
       </div>
       <div>
         <TabComponent tabs={tabData}/>

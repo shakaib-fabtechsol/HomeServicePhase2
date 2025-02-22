@@ -47,10 +47,18 @@ export default function TabComponent({ tabs }) {
           indicatorColor='transparent'
           variant="scrollable"
           scrollButtons="auto"
-          sx={{ fontFamily: "Inter", minHeight: "32px" }}
+          sx={{ fontFamily: "Inter", minHeight: "32px", borderBottom: "solid 1px #E9EAEB",
+           }}
           value={value}
           onChange={handleChange}
           aria-label="custom tabs example"
+          TabScrollButtonProps={{
+            sx: {
+              width:"0",
+              opacity:"0",
+              "&:hover": { color: "#0056b3" },
+            },
+          }}
         >
         {tabs.map((tab, index) => (
             <Tab
@@ -58,16 +66,16 @@ export default function TabComponent({ tabs }) {
                 fontFamily: "Inter",
                 textTransform: "capitalize",
                 fontSize: { xs: "14px", sm: "16px" },
-                fontWeight: "400",
+                fontWeight: "600",
                 color: "#000",
                 minWidth: "42px",
                 marginRight: { xs: "8px", sm: "15px" },
                 position: "relative",
                 minHeight: "32px",
-                padding: { xs: "5px 10px", sm: "5px 14px" },
+                padding: { xs: "5px 10px", sm: "5px 14px 16px" },
                 '&.Mui-selected': {
                   color: "#0F91D2 !important",
-                  borderBottom: "solid 4px #0F91D2",
+                  borderBottom: "solid 3px #0F91D2",
                   fontFamily: "Inter",
                 },
               }}

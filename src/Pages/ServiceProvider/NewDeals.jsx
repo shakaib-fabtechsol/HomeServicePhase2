@@ -26,7 +26,7 @@ function NewDeals() {
         </Link>
         <h2 className="text-2xl font-semibold">Create New Deal</h2>
       </div>
-      <p className="text-[#535862] mt-4 ms-8">
+      <p className="text-[#535862] mt-4 mb-5 ms-8">
         Create, manage, and organize your deals effortlessly.
       </p>
       <TabComponent tabs={tabData} />
