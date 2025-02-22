@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
 import userimg1 from "../../assets/img/client1.png";
 import userimg2 from "../../assets/img/client2.png";
+import cardvideo from "../../assets/img/cardvideo.mp4";
+import slideimg from "../../assets/img/service1new.jpeg";
 
 const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
   useEffect(() => {
@@ -23,7 +25,9 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       userimg: userimg2,
       username: "Julia Maria",
       Rating: 4.5,
-      Liked:true,
+      Liked: true,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
     {
       id: 2,
@@ -36,7 +40,9 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       userimg: userimg1,
       username: "John Doe",
       Rating: 4.9,
-      Liked:false,
+      Liked: false,
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
     },
   ];
 
@@ -134,6 +140,8 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
             username={service.username}
             Rating={service.Rating}
             Liked={service.Liked}
+            videos={service.videos}
+            imgs={service.images}
           />
         ))}
       </div>
