@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import ProfileComponent from '../../Components/ProfileComponent'
 
 const Profile = () => {
+  useEffect(() => {
+    document.title = "Profile";
+  }, []);
   return (
     <div>
       <div className="flex items-center">

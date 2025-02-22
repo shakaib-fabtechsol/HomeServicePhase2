@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import ProfileComponent from '../../Components/ProfileComponent'
 
 const Profilep = () => {
-
+  useEffect(() => {
+    document.title = "Profile";
+  }, []);
   return (
     <div>
       <div className="flex items-center">
