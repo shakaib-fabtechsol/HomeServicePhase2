@@ -27,6 +27,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       Liked: true,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2500,
     },
     {
       id: 2,
@@ -42,6 +43,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       Liked: false,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2500,
     },
   ];
 
@@ -141,6 +143,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
             Liked={service.Liked}
             videos={service.videos}
             imgs={service.images}
+            totalReviews={service.totalReviews}
           />
         ))}
       </div>

@@ -20,6 +20,7 @@ function ServiceBox({
   Liked = false,
   videos,
   imgs,
+  totalReviews = 0,
 }) {
   const stopPropagation = (event) => {
     event.stopPropagation();
@@ -73,41 +74,50 @@ function ServiceBox({
         onClick={() => navigate(serviceDetailTo)}
         className=" px-3 pb-3 cursor-pointer"
       >
-        <div className="flex justify-between items-center mt-2">
-          <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
-          <p className="mb-0 text-lg font-extrabold">${price ?? "N/A"}</p>
-        </div>
-        <p className="text-sm text-[#535862] mt-2">{description ?? "N/A"}</p>
-        <div className="mt-4 flex items-center gap-2 justify-between">
+        <div className="flex items-center gap-2 justify-between">
           <div className="flex items-center gap-1">
             <img
-              className="size-9 max-w-9 object-cover rounded-full"
+              className="size-8 max-w-8 object-cover rounded-full"
               src={userimg || defaultuser}
               alt="Logo"
             />
             <p className="text-sm font-semibold">{username || "User Name"}</p>
           </div>
           <div className="flex items-center gap-1">
-            <FaStar className="text-[#F6AD3C]" />
-            <p className="text-sm">{Rating || 2}</p>
+            <div className="flex items-center gap-1">
+              <FaStar className="text-[#F6AD3C]" />
+              <p className="text-sm">{Rating || 2}</p>
+            </div>
+            {totalReviews > 0 && (
+              <div>
+                <p className="text-xs text-[#181D27]">
+                  (
+                  {totalReviews > 999
+                    ? `${(totalReviews / 1000).toFixed(1)}K`
+                    : totalReviews}
+                  )
+                </p>
+              </div>
+            )}
           </div>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
+          <p className="mb-0 text-lg font-extrabold">${price ?? "N/A"}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
           <div>
-            {tags.length > 0
-              ? tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className={`px-4 py-2 rounded-full text-sm inline-block me-2 ${
-                      index % 2 === 0
-                        ? "bg-[#E7F4FB] text-[#0F91D2]"
-                        : "bg-[#EBEBEB]"
-                    }`}
-                  >
-                    {tag}
-                  </span>
-                ))
-              : "No tags available"}
+            {tags.length > 0 ? (
+              <span
+                className={`px-4 py-2 rounded-full text-sm inline-block me-2 ${
+                  0 % 2 === 0 ? "bg-[#E7F4FB] text-[#0F91D2]" : "bg-[#EBEBEB]"
+                }`}
+              >
+                {tags[0]}
+              </span>
+            ) : (
+              "No tags available"
+            )}
           </div>
           <div className="flex items-center">
             <span className="text-[#0F91D2]">Avg</span>
