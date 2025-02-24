@@ -131,7 +131,7 @@ export default function CommonReports() {
           <div className="flex flex-col justify-between" key={index}>
             <div className="flex justify-between items-center">
               <p className="font-bold text-sm sm:text-base">{summary.title}</p>
-              <button className="text-[#0F91D2] border text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
+              <button className="text-[#0F91D2] border text-nowrap text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
                 <BsDownload />
                 <span>Export Data</span>
               </button>

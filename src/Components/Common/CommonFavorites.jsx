@@ -81,7 +81,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
     <div>
       <div className="flex items-center justify-between my-2">
         <div>
-          <h2 className="font-semibold text-3xl">My Favorites</h2>
+          <h2 className="font-semibold text-xl sm:text-3xl">My Favorites</h2>
           <p className="text-gray-600">
             Track and manage your favorite services.
           </p>
