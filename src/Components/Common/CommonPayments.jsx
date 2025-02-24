@@ -321,7 +321,7 @@ export default function CommonPayments() {
               <IoMdDownload /> <span>Download Statement</span>
             </button>
             <button className="bg-[#34A853] text-[#fff] border border-[#34A853] flex items-center gap-2 py-2 px-4 rounded-[8px]">
-              <IoCashSharp /> <span>Setup Auto Payouts </span>
+              <IoCashSharp /> <span>Setup Payment </span>
             </button>
           </div>
         </div>

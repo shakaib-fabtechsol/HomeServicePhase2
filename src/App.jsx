@@ -61,6 +61,7 @@ import RecentDeals from "./Pages/Sales/RecentDeals";
 import DealDetails from "./Pages/ServiceProvider/DealDetails";
 import DealDetailsC from "./Pages/Customer/DealDetails";
 import DealDetailsH from "./Pages/DealDetailsH";
+import DealDetailsS from "./Pages/SuperAdmin/DealDetails";
 import ReportsP from "./Pages/ServiceProvider/Reports";
 import ReportsC from "./Pages/Customer/Reports";
 import "slick-carousel/slick/slick.css";
@@ -125,6 +126,7 @@ function App() {
           />
           <Route path="/superadmin/setting" element={<Settingsa />} />
           <Route path="/superadmin/suport" element={<Suportsa />} />
+          <Route path="/superadmin/dealDetails" element={<DealDetailsS />} />
         </Route>
 
         <Route element={<SalesLayout />}>

@@ -1,10 +1,10 @@
 import React from 'react'
-import CommonSupport from '../../Components/Common/CommonSupport'
+import CommonSupportData from '../../Components/Common/CommonSupportData'
 
-function SupportSr() {
+function SuportSr() {
   return (
-    <CommonSupport />
+    <CommonSupportData />
   )
 }
 
-export default SupportSr
+export default SuportSr

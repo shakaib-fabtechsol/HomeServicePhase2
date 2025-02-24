@@ -68,7 +68,6 @@ const ReviewPublish = () => {
       title: "Instant Chat",
     },
     { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
-    { path: "#", Icon: <PiChats />, title: "Direct Form" },
     {
       path: "#",
       Icon: <IoLocationOutline />,
