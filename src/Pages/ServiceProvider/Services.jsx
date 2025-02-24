@@ -8,7 +8,6 @@ import user2 from "../../assets/img/client3.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
 
-
 function Services() {
   useEffect(() => {
     document.title = "Services";
@@ -27,8 +26,9 @@ function Services() {
       userimg: user1,
       username: "John Doe",
       publish: 1,
-      videos:[cardvideo,cardvideo],
-      images:[slideimg,slideimg,slideimg,slideimg]
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2800,
     },
     {
       id: 2,
@@ -42,8 +42,9 @@ function Services() {
       userimg: user2,
       username: "Julia Maria",
       publish: 0,
-      videos:[cardvideo,cardvideo],
-      images:[slideimg,slideimg,slideimg,slideimg]
+      videos: [cardvideo, cardvideo],
+      images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2800,
     },
   ];
 
@@ -101,6 +102,7 @@ function Services() {
                 serviceDetailTo={"/provider/dealDetails"}
                 videos={service.videos}
                 imgs={service.images}
+                totalReviews={service.totalReviews}
               />
             ))
           ) : (

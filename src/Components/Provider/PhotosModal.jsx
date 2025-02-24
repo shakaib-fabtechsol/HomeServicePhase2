@@ -8,23 +8,40 @@ export default function PhotosModal({ close }) {
   const beforeimgs = [before1, before2, before3];
   const afterimgs = [before1, before2, before3];
 
-  const [images, setImages] = useState([]);
+  const [Beforeimages, setBeforeImages] = useState([]);
+  const [Afterimages, setAfterImages] = useState([]);
 
-  const handleImageUpload = (event) => {
+  const handleBeforeImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...newImages]);
+    const newBeforeImages = files.map((file) => URL.createObjectURL(file));
+    setBeforeImages((prevBeforeImages) => [
+      ...prevBeforeImages,
+      ...newBeforeImages,
+    ]);
   };
 
-  const handleRemoveImage = (imageUrl) => {
-    setImages(images.filter((img) => img !== imageUrl));
+  const handleAfterImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    const newAfterImages = files.map((file) => URL.createObjectURL(file));
+    setAfterImages((prevAfterImages) => [
+      ...prevAfterImages,
+      ...newAfterImages,
+    ]);
+  };
+
+  const handleRemoveBeforeImage = (imageUrl) => {
+    setBeforeImages(Beforeimages.filter((img) => img !== imageUrl));
+  };
+
+  const handleRemoveAfterImage = (imageUrl) => {
+    setAfterImages(Afterimages.filter((img) => img !== imageUrl));
   };
   return (
     <div className="rounded-[12px] bg-white p-3">
       <form action="">
         <div className="max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
           <p className="text-[#101828] text-lg font-semibold">
-            Before & after photos
+            Confirm Delivery
           </p>
           <div className="mt-4">
             <label
@@ -42,67 +59,97 @@ export default function PhotosModal({ close }) {
             ></textarea>
           </div>
           <div className="mt-4">
-            <p>Upload</p>
+            <label
+              className="text-[#343434] text-sm font-medium"
+              htmlFor="date"
+            >
+              Schedule/ Date & time
+            </label>
+            <input
+              className="border border-[#D7D7D7] block rounded-[8px] w-full mt-1 p-2 outline-none shadow-[0px_1px_2px_0px_#2E2E2E0D]"
+              type="datetime-local"
+              name="date"
+              id="date"
+            />
+          </div>
+          <div className="mt-4">
+            <p className="font-medium">Before Photos</p>
             <div className="mt-1">
-              <label
-                className="flex items-center cursor-pointer gap-1 justify-center w-full border border-[#D7D7D7] p-3 bg-[#D7D7D7] rounded-[8px] text-[#343434]"
-                htmlFor="uploadfile"
-              >
-                <MdFileUpload />
-                <span className="text-xs">Upload Images</span>
-              </label>
-              <input
-                type="file"
-                id="uploadfile"
-                className="hidden"
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-              />
+              <div>
+                <label
+                  className="flex items-center cursor-pointer gap-1 justify-center w-full border border-[#D7D7D7] p-3 bg-[#D7D7D7] rounded-[8px] text-[#343434]"
+                  htmlFor="Uploadbeforeimgs"
+                >
+                  <MdFileUpload />
+                  <span className="text-xs">Upload Images</span>
+                </label>
+                <input
+                  type="file"
+                  id="Uploadbeforeimgs"
+                  className="hidden"
+                  accept="image/*"
+                  multiple
+                  onChange={handleBeforeImageUpload}
+                />
+              </div>
             </div>
-            {images.length > 0 && (
-              <div className="mt-3 grid grid-cols-3 gap-4">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={image}
-                      alt={`Upload Preview ${index}`}
-                      className="w-full aspect-square object-cover rounded-lg border"
-                    />
+            <div className="mt-3 grid grid-cols-3 gap-3">
+              {[...Beforeimages, ...beforeimgs].map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={image}
+                    alt={`Image Preview ${index}`}
+                    className="w-full aspect-square object-cover rounded-lg border"
+                  />
+                  {Beforeimages.includes(image) && (
                     <button
                       type="button"
-                      onClick={() => handleRemoveImage(image)}
+                      onClick={() => handleRemoveBeforeImage(image)}
                       className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     >
                       X
                     </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="mt-4">
-            <p className="font-medium">Before Photos</p>
-            <div className="grid grid-cols-3 gap-3 mt-1">
-              {beforeimgs.map((imgs, index) => (
-                <div key={index}>
-                  <img
-                    className="w-full aspect-square object-cover rounded-[8px]"
-                    src={imgs}
-                    alt="imgs"
-                  />
+                  )}
                 </div>
               ))}
             </div>
             <p className="font-medium mt-3">After Photos</p>
-            <div className="grid grid-cols-3 gap-3 mt-1">
-              {afterimgs.map((imgs, index) => (
-                <div key={index}>
+            <div className="mt-1">
+              <div>
+                <label
+                  className="flex items-center cursor-pointer gap-1 justify-center w-full border border-[#D7D7D7] p-3 bg-[#D7D7D7] rounded-[8px] text-[#343434]"
+                  htmlFor="uploadsfterimgs"
+                >
+                  <MdFileUpload />
+                  <span className="text-xs">Upload Images</span>
+                </label>
+                <input
+                  type="file"
+                  id="uploadsfterimgs"
+                  className="hidden"
+                  accept="image/*"
+                  multiple
+                  onChange={handleAfterImageUpload}
+                />
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-3">
+              {[...Afterimages, ...afterimgs].map((image, index) => (
+                <div key={index} className="relative">
                   <img
-                    className="w-full aspect-square object-cover rounded-[8px]"
-                    src={imgs}
-                    alt="imgs"
+                    src={image}
+                    alt={`Image Preview ${index}`}
+                    className="w-full aspect-square object-cover rounded-lg border"
                   />
+                  {Afterimages.includes(image) && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveAfterImage(image)}
+                      className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
+                    >
+                      X
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

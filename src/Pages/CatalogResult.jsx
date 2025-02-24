@@ -23,6 +23,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -38,6 +39,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "Julia Maria",
       userimg: client2,
       rating: 4.3,
@@ -53,6 +55,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -68,6 +71,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -83,6 +87,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "Julia Maria",
       userimg: client2,
       rating: 4.3,
@@ -98,6 +103,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews:1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -107,7 +113,8 @@ function CatalogResult() {
   ];
 
   const [openAccordion, setOpenAccordion] = useState(null);
-  const [distance, setDistance] = useState(10); // Default value 10 km
+  const [distance, setDistance] = useState(10);
+  const [Budget, setBudget] = useState(100);
 
   const toggleAccordion = (section) => {
     setOpenAccordion(openAccordion === section ? null : section);
@@ -135,10 +142,19 @@ function CatalogResult() {
                   </button>
                   {openAccordion === "budget" && (
                     <div className="py-2">
+                      <div className="text-center text-gray-700 text-sm font-medium">
+                        {Budget >= 10000
+                          ? `${(Budget / 1000).toFixed(0)}K`
+                          : Budget}{" "}
+                        $
+                      </div>
                       <input
-                        type="number"
-                        placeholder="Enter budget..."
-                        className="w-full p-2 border rounded-lg"
+                        type="range"
+                        min="0"
+                        max="100000"
+                        value={Budget}
+                        onChange={(e) => setBudget(e.target.value)}
+                        className="w-full cursor-pointer custom-slider"
                       />
                     </div>
                   )}
@@ -159,12 +175,13 @@ function CatalogResult() {
                   </button>
                   {openAccordion === "reviews" && (
                     <div className="py-2">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" /> 4+ Stars
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" /> 3+ Stars
-                      </label>
+                      {["Below 3 Stars", "3+ Stars", "4+ Stars", "5 Stars"].map(
+                        (label, index) => (
+                          <label key={index} className="flex items-center">
+                            <input type="checkbox" className="mr-2" /> {label}
+                          </label>
+                        )
+                      )}
                     </div>
                   )}
                 </div>
@@ -184,14 +201,23 @@ function CatalogResult() {
                   </button>
                   {openAccordion === "deliveryTime" && (
                     <div className="py-2">
-                      <label className="flex items-center">
-                        <input type="radio" name="delivery" className="mr-2" />{" "}
-                        24 Hours
-                      </label>
-                      <label className="flex items-center">
-                        <input type="radio" name="delivery" className="mr-2" />{" "}
-                        3 Days
-                      </label>
+                      {[
+                        "Emergency | Same Day",
+                        " Rush | 1-2 day",
+                        "Fast | 3-5 Days",
+                        "Standard | 1-2 Weeks",
+                        "Scheduled | 2-4 Weeks",
+                        "Backlog | 1 month+",
+                      ].map((label, index) => (
+                        <label key={index} className="flex items-center my-1">
+                          <input
+                            type="radio"
+                            name="delivery"
+                            className="mr-2"
+                          />{" "}
+                          {label}
+                        </label>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -235,7 +261,7 @@ function CatalogResult() {
               </p>
               <p className="text-sm text-[#757575]">60 results</p>
               <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((service,index) => (
+                {services.map((service, index) => (
                   <ServiceBox
                     key={index}
                     title={service.title}
@@ -251,6 +277,7 @@ function CatalogResult() {
                     userimg={service.userimg}
                     Rating={service.rating}
                     Liked={service.rating}
+                    totalReviews={service.totalReviews}
                   />
                 ))}
               </div>

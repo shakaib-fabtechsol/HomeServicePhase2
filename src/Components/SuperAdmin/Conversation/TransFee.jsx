@@ -4,9 +4,9 @@ import AmountInput from "../AmountInput";
 export default function TransFee() {
   const inputsdata = [
     {
-      label: "CustomerServicefee",
+      label: "Customer Service fee",
       grouptext: "%",
-      id: "TransFee",
+      id: "CustomerServicefee",
     },
     {
       label: "Provider service fee",

@@ -122,14 +122,12 @@ export default function CommonReports() {
     <div>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Reports</h2>
-        <p className="text-gray-600">
-          Track and manage your favorite reports.
-        </p>
+        <p className="text-gray-600">Track and manage your favorite reports.</p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {summaries.map((summary, index) => (
           <div className="flex flex-col justify-between" key={index}>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between gap-1 items-center">
               <p className="font-bold text-sm sm:text-base">{summary.title}</p>
               <button className="text-[#0F91D2] border text-nowrap text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
                 <BsDownload />
@@ -143,9 +141,15 @@ export default function CommonReports() {
         ))}
       </div>
       <div className="mt-4">
-        <p className="font-bold text-sm sm:text-base">
-          Revenue & Transactions Summary
-        </p>
+        <div className="flex justify-between gap-1 items-center">
+          <p className="font-bold text-sm sm:text-base">
+            Revenue & Transactions Summary
+          </p>
+          <button className="text-[#0F91D2] border text-nowrap text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1">
+            <BsDownload />
+            <span>Export Data</span>
+          </button>
+        </div>
         <div className="mt-2">
           <TableBlue headers={revenueHeader} rows={revenueRows} />
         </div>
