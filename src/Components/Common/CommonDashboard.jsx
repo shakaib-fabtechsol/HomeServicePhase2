@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { FaArrowRight, FaSearch } from "react-icons/fa";
-import { IoLocationOutline } from "react-icons/io5";
 import ServiceBox from "../../Components/ServiceBox";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
@@ -8,6 +7,7 @@ import userimg1 from "../../assets/img/client1.png";
 import userimg2 from "../../assets/img/client2.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
+import dummyvideo from "../../assets/img/dummyvideo.mp4";
 
 const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
   useEffect(() => {
@@ -26,7 +26,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       username: "Julia Maria",
       Rating: 4.5,
       Liked: true,
-      videos: [cardvideo, cardvideo],
+      videos: [dummyvideo,cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
     },
     {

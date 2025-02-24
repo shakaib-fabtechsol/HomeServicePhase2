@@ -65,6 +65,8 @@ import ReportsP from "./Pages/ServiceProvider/Reports";
 import ReportsC from "./Pages/Customer/Reports";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ForgotPassword from "./Pages/Auth/ForgotPassword";
+import NewPassword from "./Pages/Auth/NewPassword";
 
 function App() {
   return (
@@ -95,7 +97,10 @@ function App() {
           <Route path="/customer/setting" element={<Setting />} />
           <Route path="/customer/profile" element={<Profile />} />
           <Route path="/customer/message" element={<Message />} />
-          <Route path="/customer/explore-service" element={<ExploreServices />} />
+          <Route
+            path="/customer/explore-service"
+            element={<ExploreServices />}
+          />
           <Route path="/customer/support" element={<Supportc />} />
           <Route path="/customer/notification" element={<Notificationc />} />
           <Route path="/customer/favourites" element={<FavouritesC />} />
@@ -141,6 +146,8 @@ function App() {
           <Route path="/dealdetails" element={<DealDetailsH />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
