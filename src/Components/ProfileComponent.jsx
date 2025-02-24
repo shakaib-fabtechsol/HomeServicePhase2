@@ -28,6 +28,8 @@ import cardvideo from "../assets/img/cardvideo.mp4";
 import slideimg from "../assets/img/service1new.jpeg";
 import client1 from "../assets/img/client2.png";
 import client2 from "../assets/img/client3.png";
+import RegularHour from "./AdditionalPhoto/RegularHour";
+import AboutVideo from "./AdditionalPhoto/AboutVideo";
 
 const ProfileComponent = ({ serviceDetailTo }) => {
   const services = [
@@ -108,6 +110,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
     },
   ];
   const accordionData = [
+    { title: "About Us Video", content: <AboutVideo /> },
     { title: "Technician Photos", content: <TechnicalPhoto /> },
     { title: "Vehicle Photos", content: <VehiclePhoto /> },
     { title: "Facility Photos", content: <FacilityPhoto /> },
@@ -115,7 +118,9 @@ const ProfileComponent = ({ serviceDetailTo }) => {
     { title: "Licences", content: <License /> },
     { title: "Awards", content: <Award /> },
     { title: "Insurance", content: <Insurance /> },
+    { title: "Regular Hours of Operation", content: <RegularHour /> },
     { title: "Special Hours of Operation", content: <SpecialHour /> },
+    { title: "Social", content: "" },
   ];
 
   const [contactopen, setcontactOpen] = React.useState(false);
