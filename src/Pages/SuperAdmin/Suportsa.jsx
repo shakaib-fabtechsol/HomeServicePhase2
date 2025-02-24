@@ -23,6 +23,7 @@ export default function Supportsa() {
       id: "#ID234",
       name: "Ricky Smith",
       email: "dan_reid@icloud.com",
+      role: "provider",
       subject: "Login Issue",
       message: "Unable to log in to my account.",
     },
@@ -31,6 +32,7 @@ export default function Supportsa() {
       id: "#ID234",
       name: "Frances Swann",
       email: "tracy_sullivan@yahoo.com",
+      role: "client",
       subject: "Login Issue",
       message: "Unable to log in to my account.",
     },
@@ -39,6 +41,7 @@ export default function Supportsa() {
       id: "#ID234",
       name: "James Hall",
       email: "delores_acosta@outlook.com",
+      role: "provider",
       subject: "Login Issue",
       message: "Unable to log in to my account.",
     },
@@ -47,6 +50,7 @@ export default function Supportsa() {
       id: "#ID234",
       name: "Mary Freund",
       email: "myrna_wood@yahoo.com",
+      role: "sales rep",
       subject: "Login Issue",
       message: "Unable to log in to my account.",
     },
@@ -92,9 +96,10 @@ export default function Supportsa() {
         />
       }
     />,
-    "Client ID",
-    "Client Name",
+    "ID",
+    "Name",
     "Email",
+    "Role",
     "Subject",
     "Message",
     "Status",
@@ -128,6 +133,7 @@ export default function Supportsa() {
       <p>{provider.name}</p>
     </div>,
     provider.email,
+    provider.role,
     provider.subject,
     provider.message,
     <select className="form-select px-2 py-2 rounded-lg border focus-none">
