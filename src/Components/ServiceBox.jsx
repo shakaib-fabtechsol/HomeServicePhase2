@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import defaultimg from "../assets/img/service1new.jpeg";
 import defaultuser from "../assets/img/client1.png";
-import { FaEllipsisV, FaHeart, FaStar } from "react-icons/fa";
+import { FaEllipsisV, FaStar } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
 import { FaCalendarAlt } from "react-icons/fa";
 
@@ -22,7 +21,6 @@ function ServiceBox({
   videos,
   imgs,
 }) {
-  const imageToShow = image || defaultimg;
   const stopPropagation = (event) => {
     event.stopPropagation();
   };
@@ -95,27 +93,27 @@ function ServiceBox({
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
-         <div>
-         {tags.length > 0
-            ? tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className={`px-4 py-2 rounded-full text-sm inline-block me-2 ${
-                    index % 2 === 0
-                      ? "bg-[#E7F4FB] text-[#0F91D2]"
-                      : "bg-[#EBEBEB]"
-                  }`}
-                >
-                  {tag}
-                </span>
-              ))
-            : "No tags available"}
-         </div>
-         <div className="flex items-center">
-              <span className="text-[#0F91D2]">Avg</span>
-              <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1"/>
-              <span className="text-[#717171]">1 day</span>
-         </div>
+          <div>
+            {tags.length > 0
+              ? tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className={`px-4 py-2 rounded-full text-sm inline-block me-2 ${
+                      index % 2 === 0
+                        ? "bg-[#E7F4FB] text-[#0F91D2]"
+                        : "bg-[#EBEBEB]"
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))
+              : "No tags available"}
+          </div>
+          <div className="flex items-center">
+            <span className="text-[#0F91D2]">Avg</span>
+            <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />
+            <span className="text-[#717171]">1 day</span>
+          </div>
         </div>
       </div>
     </div>

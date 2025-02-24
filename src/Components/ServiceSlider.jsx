@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import Slider from "react-slick";
 
@@ -25,19 +25,47 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
     }
   };
 
-  const videoRef = useRef(null);
-
-  const handleFullScreen = () => {
-    if (videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen();
-      } else if (videoRef.current.webkitRequestFullscreen) {
-        videoRef.current.webkitRequestFullscreen();
-      } else if (videoRef.current.msRequestFullscreen) {
-        videoRef.current.msRequestFullscreen();
+  const videoRefs = useRef([]);
+  const handleFullScreen = (index) => {
+    const video = videoRefs.current[index];
+    if (video) {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
       }
     }
   };
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      videoRefs.current.forEach((video) => {
+        if (video) {
+          if (document.fullscreenElement === video) {
+            video.classList.replace("object-cover", "object-contain");
+          } else {
+            video.classList.replace("object-contain", "object-cover");
+          }
+        }
+      });
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("msfullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "msfullscreenchange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
 
   return (
     <div className="relative">
@@ -60,38 +88,39 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
       <Slider ref={sliderRef} {...settings}>
         {dealsVideo.length > 0 &&
           dealsVideo.map((video, index) => (
-            <div
-              key={index}
-              className="outline-none aspect-video rounded-[8px] overflow-hidden relative"
-            >
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                src={video}
-                autoPlay
-                muted
-                loop
-                playsInline
-              ></video>
-              <button
-                onClick={handleFullScreen}
-                className="absolute bottom-2 right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded"
-              >
-                ⛶
-              </button>
+            <div key={index} className="px-[1px]">
+              <div className="outline-none aspect-video rounded-[8px] overflow-hidden relative">
+                <video
+                  ref={(el) => (videoRefs.current[index] = el)}
+                  className="w-full h-full object-cover"
+                  src={video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                ></video>
+                <button
+                  onClick={() => handleFullScreen(index)}
+                  className="absolute bottom-2 outline-none right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded"
+                >
+                  ⛶
+                </button>
+              </div>
             </div>
           ))}
         {dealslidedata.length > 0 &&
           dealslidedata.map((slide, index) => (
-            <div
-              key={index}
-              className="outline-none aspect-video rounded-[8px] overflow-hidden"
-            >
-              <img
-                src={slide}
-                alt="Service Image"
-                className="w-full h-full object-cover"
-              />
+            <div key={index} className="px-[1px]">
+              <div
+                
+                className="outline-none aspect-video rounded-[8px] overflow-hidden"
+              >
+                <img
+                  src={slide}
+                  alt="Service Image"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           ))}
       </Slider>
