@@ -40,6 +40,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 3500,
       username: "Julia Maria",
       userimg: client1,
       rating: 4.3,
@@ -55,6 +56,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 3500,
       username: "John Doe",
       userimg: client2,
       rating: 4.3,
@@ -70,6 +72,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 3500,
       username: "Julia Maria",
       userimg: client1,
       rating: 4.3,
@@ -85,6 +88,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 3500,
       username: "John Doe",
       userimg: client2,
       rating: 4.3,
@@ -100,6 +104,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 3500,
       username: "Julia Maria",
       userimg: client1,
       rating: 4.3,
@@ -136,9 +141,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
 
   const [activeModal, setActiveModal] = React.useState(null);
 
-  // Opens a modal based on the contact data passed in
   const handleContactClick = (contact) => {
-    // Only open modal for Text Pro, Email Pro, and Get Directions
     if (
       contact.title === "Text Pro: (708) 813-8989" ||
       contact.title === "Email Pro" ||
@@ -146,7 +149,6 @@ const ProfileComponent = ({ serviceDetailTo }) => {
     ) {
       setActiveModal(contact.title);
     } else {
-      // You can handle other actions for non-modal contacts here
       console.log(`No modal for: ${contact.title}`);
     }
   };
@@ -198,12 +200,12 @@ const ProfileComponent = ({ serviceDetailTo }) => {
         <div>
           <button
             onClick={handlecontactOpen}
-            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[363px]"
+            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[232px] lg:fixed right-[22px] z-[99]"
           >
             <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
             <span>Contact Pro</span>
           </button>
-          <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[363px]">
+          <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[232px] lg:mt-[60px]">
             <CiHeart className="text-xl me-2" />
             <span>Add to Favorites list</span>
           </button>
@@ -301,6 +303,7 @@ const ProfileComponent = ({ serviceDetailTo }) => {
               username={service.username}
               Rating={service.rating}
               Liked={service.liked}
+              totalReviews={service.totalReviews}
             />
           ))}
         </div>

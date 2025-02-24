@@ -29,6 +29,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       Rating: 4.5,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2600,
     },
     {
       id: 2,
@@ -44,6 +45,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       Rating: 4.5,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2600,
     },
     {
       id: 3,
@@ -59,6 +61,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       Rating: 4.5,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2600,
     },
     {
       id: 4,
@@ -74,6 +77,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       Rating: 4.5,
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
+      totalReviews: 2600,
     },
   ];
 
@@ -99,7 +103,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
             {viewMode === "grid" ? "Grid View" : "List View"}
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-full">
+            <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-full z-[99]">
               <button
                 onClick={() => {
                   setViewMode("grid");
@@ -147,6 +151,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
               Rating={service.Rating}
               videos={service.videos}
               imgs={service.images}
+              totalReviews={service.totalReviews}
               className={
                 viewMode === "list"
                   ? "flex flex-row items-center gap-4 p-4 border rounded"
