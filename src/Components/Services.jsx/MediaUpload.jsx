@@ -1,149 +1,189 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import upload from "../../assets/img/upload.png";
-import fileicon from "../../assets/img/fileicon.png";
 
 const MediaUpload = () => {
-  const [file, setFile] = useState(null); // Stores the uploaded file
-  const [filePreview, setFilePreview] = useState(null); // Stores the file preview URL
-  const [showPreview, setShowPreview] = useState(false); // Toggles the preview display
+  const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
 
-  const handleFileChange = (e) => {
-    const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setFilePreview(URL.createObjectURL(uploadedFile)); // Generate a preview URL
-      setShowPreview(false); // Reset preview display
-    }
+  useEffect(() => {
+    return () => {
+      images.forEach((image) => URL.revokeObjectURL(image.url));
+      videos.forEach((video) => URL.revokeObjectURL(video.url));
+    };
+  }, []);
+
+  const isValidImage = (file) => {
+    return ["image/png", "image/jpeg", "image/svg+xml"].includes(file.type);
   };
 
-  const handleFileDrop = (e) => {
-    e.preventDefault();
-    const uploadedFile = e.dataTransfer.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setFilePreview(URL.createObjectURL(uploadedFile)); // Generate a preview URL
-      setShowPreview(false); // Reset preview display
-    }
+  const isValidVideo = (file) => {
+    return ["video/mp4", "video/webm"].includes(file.type);
   };
 
-  const handleRemoveFile = () => {
-    setFile(null);
-    setFilePreview(null);
-    setShowPreview(false);
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files).filter(isValidImage);
+    const newImages = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+    }));
+
+    setImages((prevImages) => [...prevImages, ...newImages]);
   };
 
-  const handleShowPreview = () => {
-    setShowPreview(true);
+  const handleVideoUpload = (event) => {
+    const files = Array.from(event.target.files).filter(isValidVideo);
+    const newVideos = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+    }));
+    setVideos((prevVideos) => [...prevVideos, ...newVideos]);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files).filter(isValidImage);
+    const newImages = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+    }));
+
+    setImages((prevImages) => [...prevImages, ...newImages]);
+  };
+
+  const handleDropVideo = (event) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files).filter(isValidVideo);
+    const newVideos = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+    }));
+    setVideos((prevVideos) => [...prevVideos, ...newVideos]);
+  };
+
+  const handleRemoveImage = (imageUrl) => {
+    setImages((prevImages) => {
+      const updatedImages = prevImages.filter((img) => img.url !== imageUrl);
+      URL.revokeObjectURL(imageUrl);
+      return updatedImages;
+    });
+  };
+
+  const handleRemoveVideo = (videoUrl) => {
+    setVideos((prevVideos) => {
+      const updatedVideos = prevVideos.filter((vid) => vid.url !== videoUrl);
+      URL.revokeObjectURL(videoUrl);
+      return updatedVideos;
+    });
   };
 
   return (
     <div className="mt-5">
       <form action="#">
         <div className="file-upload-container">
-          {/* Upload Box */}
           <div
-            className="upload-box w-full border border-solid border-1 border-[#cdcdcd] rounded-lg p-4 text-center cursor-pointer"
-            onDrop={handleFileDrop}
             onDragOver={(e) => e.preventDefault()}
-            onClick={() => document.getElementById("fileInput").click()}
+            onDrop={handleDrop}
+            className="upload-box w-full border border-solid border-[#cdcdcd] rounded-lg p-4 text-center cursor-pointer"
           >
-            {file ? (
-              <div className="upload-placeholder flex flex-col items-center justify-center h-[250px]">
-                <img src={upload} alt="upload" className="w-[50px] mb-4" />
-                <p className="text-[#343434]">
-                  <strong>File Uploaded Successfully</strong>
-                </p>
-                <p className="text-[#343434] text-sm">
-                  <span className="text-[#0F91D2]">Click to upload</span> or
-                  drag and drop to change image
-                </p>
-                <p className="text-xs text-[#343434]">
-                  SVG, PNG, or JPG (max. 800×400px)
-                </p>
-              </div>
-            ) : (
-              <div className="upload-placeholder flex flex-col items-center justify-center h-[250px]">
-                <img src={upload} alt="upload" className="w-[50px] mb-4" />
-                <p className="text-[#343434] text-sm">
-                  <span className="text-[#0F91D2]">Click to upload</span> or
-                  drag and drop
-                </p>
-                <p className="text-xs text-[#343434]">
-                  SVG, PNG, or JPG (max. 800×400px)
-                </p>
-              </div>
-            )}
+            <label
+              htmlFor="fileInput"
+              className="upload-placeholder flex flex-col items-center justify-center h-[250px]"
+            >
+              <img src={upload} alt="Upload" className="w-[50px] mb-4" />
+              <p className="text-[#0F91D2] text-sm">Click or drag to upload</p>
+              <p className="text-xs text-[#343434]">
+                SVG, PNG or JPG (multiple files allowed)
+              </p>
+            </label>
             <input
               type="file"
               id="fileInput"
-              accept=".svg, .png, .jpg"
+              accept="image/png, image/jpeg, image/svg+xml"
               className="hidden"
-              onChange={handleFileChange}
+              multiple
+              onChange={handleImageUpload}
             />
           </div>
-
-          {/* File Details and Actions */}
-          {file && (
-            <div className="file-actions mt-4">
-              <div className="file-info flex items-center justify-between border rounded-lg p-2">
-                <div className="flex items-center">
-                  <img src={fileicon} alt="fileicon" className="w-[20px]" />
-                  <div className="file-details ml-2">
-                    <p className="file-name text-sm font-medium">{file.name}</p>
-                  </div>
-                  <p
-                    className="show-preview text-[#0F91D2] mt-2 ms-8 cursor-pointer"
-                    onClick={handleShowPreview}
-                  >
-                    Show Preview
-                  </p>
-                </div>
-                <div className="flex px-4">
-                  <p className="file-size text-xs me-2 text-gray-500">
-                    {(file.size / 1024 / 1024).toFixed(2)} MB
-                  </p>
-                  <button
-                    className="remove-file text-red-500 font-bold text-xs"
-                    onClick={handleRemoveFile}
-                  >
-                    ✖
-                  </button>
-                </div>
+          <div className="mt-3 grid grid-cols-6 gap-3 max-w-[1200px]">
+            {images.map((image, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={image.url}
+                  alt={`Preview ${image.name}`}
+                  className="w-full aspect-square object-cover rounded-lg border"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(image.url)}
+                  className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
+                  aria-label="Remove image"
+                >
+                  X
+                </button>
               </div>
-
-              {/* Show Preview Button */}
-            </div>
-          )}
-
-          {/* Image Preview */}
-          {showPreview && filePreview && (
-            <div className="image-preview mt-4">
-              <img
-                src={filePreview}
-                alt="Preview"
-                className="rounded-lg border border-gray-200 w-[200px]"
-              />
-            </div>
-          )}
-        </div>
-        <div>
-          <div className="col-span-12 mt-4">
-            <div className="flex justify-end">
-              <button
-                type="reset"
-                className="border border-[#cdcdcd] rounded-lg w-[150px] py-[10px] me-4 font-semibold bg-[#ffffff]"
-                onClick={() => setSelectedRate("")}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="border border-[#0F91D2] rounded-lg w-[150px] py-[10px] text-[#ffffff] font-semibold bg-[#0F91D2]"
-              >
-                Save
-              </button>
-            </div>
+            ))}
           </div>
+        </div>
+        <div className="file-upload-container mt-5">
+          <div
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={handleDropVideo}
+            className="upload-box w-full border border-solid border-[#cdcdcd] rounded-lg p-4 text-center cursor-pointer"
+          >
+            <label
+              htmlFor="fileInputVideo"
+              className="upload-placeholder flex flex-col items-center justify-center h-[250px]"
+            >
+              <img src={upload} alt="Upload" className="w-[50px] mb-4" />
+              <p className="text-[#0F91D2] text-sm">
+                Click or drag to upload videos
+              </p>
+              <p className="text-xs text-[#343434]">
+                Only MP4 & WEBM files allowed
+              </p>
+            </label>
+            <input
+              type="file"
+              id="fileInputVideo"
+              accept="video/mp4, video/webm"
+              className="hidden"
+              multiple
+              onChange={handleVideoUpload}
+            />
+          </div>
+          <div className="mt-3 grid grid-cols-6 gap-3 max-w-[1200px]">
+            {videos.map((video, index) => (
+              <div key={index} className="relative">
+                <video
+                  src={video.url}
+                  className="w-full aspect-square rounded-lg border object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveVideo(video.url)}
+                  className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
+                  aria-label="Remove video"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-12 mt-4 flex justify-end">
+          <button
+            type="button"
+            className="border border-[#cdcdcd] rounded-lg w-[150px] py-[10px] me-4 font-semibold bg-[#ffffff]"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="border border-[#0F91D2] rounded-lg w-[150px] py-[10px] text-[#ffffff] font-semibold bg-[#0F91D2]"
+          >
+            Save
+          </button>
         </div>
       </form>
     </div>

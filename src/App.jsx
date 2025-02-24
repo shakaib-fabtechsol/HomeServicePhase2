@@ -67,6 +67,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import NewPassword from "./Pages/Auth/NewPassword";
+import EditClient from "./Pages/SuperAdmin/EditClient";
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
           <Route path="/superadmin/providers" element={<Providers />} />
           <Route path="/superadmin/prodetails" element={<ProDetails />} />
           <Route path="/superadmin/clients" element={<Clients />} />
+          <Route path="/superadmin/editclient" element={<EditClient />} />
           <Route path="/superadmin/sales" element={<Sales />} />
           <Route path="/superadmin/salesrepd" element={<SalesRepd />} />
           <Route path="/superadmin/editsalesrep" element={<EditSalesRep />} />

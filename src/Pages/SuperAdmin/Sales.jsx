@@ -6,9 +6,6 @@ import client1 from "../../assets/img/client1.png";
 import client2 from "../../assets/img/client2.png";
 import client3 from "../../assets/img/client3.png";
 import client4 from "../../assets/img/client4.png";
-import client5 from "../../assets/img/client5.png";
-import client6 from "../../assets/img/client6.png";
-import client7 from "../../assets/img/client7.png";
 import { FiSearch } from "react-icons/fi";
 import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
@@ -30,58 +27,30 @@ export default function Sales() {
     {
       logo: client1,
       id: "#ID234",
-      name: "Ricky Smith",
+      name: "Mike Bird",
       email: "dan_reid@icloud.com",
       phone: "+5997186491311",
     },
     {
       logo: client2,
       id: "#ID234",
-      name: "Frances Swann",
+      name: "Brittany Spurlock",
       email: "tracy_sullivan@yahoo.com",
       phone: "+3822981276772",
     },
     {
       logo: client3,
       id: "#ID234",
-      name: "James Hall",
+      name: "Jami Bird",
       email: "delores_acosta@outlook.com",
       phone: "+2930285126591",
     },
     {
       logo: client4,
       id: "#ID234",
-      name: "Mary Freund",
+      name: "Tabbetha Sells",
       email: "myrna_wood@yahoo.com",
       phone: "+0852672848459",
-    },
-    {
-      logo: client5,
-      id: "#ID234",
-      name: "David Elson",
-      email: "everett_wade@outlook.com",
-      phone: "+5607223338746",
-    },
-    {
-      logo: client6,
-      id: "#ID234",
-      name: "Patricia Sanders",
-      email: "vivian_morrison@yahoo.com",
-      phone: "+3559590545722",
-    },
-    {
-      logo: client7,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
-    },
-    {
-      logo: client7,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
     },
   ];
 
@@ -125,8 +94,8 @@ export default function Sales() {
         />
       }
     />,
-    "Sales Reps ID",
-    "Client Name",
+    "Sales Rep ID",
+    "Sales Rep Name",
     "Email",
     "Phone",
     "Action",
@@ -176,9 +145,7 @@ export default function Sales() {
     <div>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Sales</h2>
-        <p className="text-gray-600">
-          Track and manage your sales rep.
-        </p>
+        <p className="text-gray-600">Track and manage your sales rep.</p>
       </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">

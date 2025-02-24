@@ -13,6 +13,7 @@ import { Modal } from "@mui/material";
 import PhotosModal from "../../Components/Provider/PhotosModal";
 import Table from "../../Components/Table";
 import customer from "../../assets/img/client1.png";
+import UploadPhotos from "../../Components/Provider/UploadPhotos";
 
 export default function Ordersp() {
   useEffect(() => {
@@ -26,6 +27,14 @@ export default function Ordersp() {
   const [photosopen, setphotosOpen] = React.useState(false);
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);
+
+  const [Beforeopen, setBeforeOpen] = React.useState(false);
+  const handleBeforeOpen = () => setBeforeOpen(true);
+  const handleBeforeClose = () => setBeforeOpen(false);
+
+  const [Afteropen, setAfterOpen] = React.useState(false);
+  const handleAfterOpen = () => setAfterOpen(true);
+  const handleAfterClose = () => setAfterOpen(false);
 
   const tableHeader = ["Service", "Customer", "Status", "Scheduled"];
   const orders = [
@@ -143,13 +152,13 @@ export default function Ordersp() {
             </p>
           </button>
           <button
-            onClick={handlephotosOpen}
+            onClick={handleBeforeOpen}
             className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             Before
           </button>
           <button
-            onClick={handlephotosOpen}
+            onClick={handleAfterOpen}
             className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             After
@@ -222,6 +231,28 @@ export default function Ordersp() {
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
           <PhotosModal close={handlephotosClose} />
+        </div>
+      </Modal>
+      <Modal
+        open={Beforeopen}
+        onClose={handleBeforeClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
+          <UploadPhotos title={"Before Photos"} close={handleBeforeClose} />
+        </div>
+      </Modal>
+      <Modal
+        open={Afteropen}
+        onClose={handleAfterClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
+          <UploadPhotos title={"After Photos"} close={handleAfterClose} />
         </div>
       </Modal>
     </div>

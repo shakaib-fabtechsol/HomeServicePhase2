@@ -7,7 +7,6 @@ import userimg1 from "../../assets/img/client1.png";
 import userimg2 from "../../assets/img/client2.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
-import dummyvideo from "../../assets/img/dummyvideo.mp4";
 
 const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
   useEffect(() => {
@@ -26,7 +25,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       username: "Julia Maria",
       Rating: 4.5,
       Liked: true,
-      videos: [dummyvideo,cardvideo, cardvideo],
+      videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
     },
     {

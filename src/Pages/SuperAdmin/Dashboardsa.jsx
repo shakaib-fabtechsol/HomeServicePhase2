@@ -26,7 +26,7 @@ export default function Dashboardsa() {
     labels: ["Number of Deals", "Number of Providers", "Number of Customers"],
     datasets: [
       {
-        label: "# of Votes",
+        label: "Total",
         data: [550, 400, 1500],
         backgroundColor: ["#0F91D2B2", "#FB8603B2", "#43B442B2"],
         borderWidth: 1,
@@ -51,7 +51,7 @@ export default function Dashboardsa() {
         ],
         borderColor: "#0F91D2",
         pointRadius: 0,
-        tension: 0,
+        tension: 0.1,
       },
       {
         label: "Previous month",

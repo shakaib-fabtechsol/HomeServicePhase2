@@ -164,12 +164,12 @@ export default function Clients() {
     provider.phone,
     provider.address,
     <div className="flex items-center gap-2">
-      <Link to="#">
+      <Link to="/superadmin/prodetails">
         <LuEye className="text-[20px]" />
       </Link>
-      <button>
+      <Link to="/superadmin/editclient">
         <SlPencil className="text-[20px]" />
-      </button>
+      </Link>
     </div>,
   ]);
   return (

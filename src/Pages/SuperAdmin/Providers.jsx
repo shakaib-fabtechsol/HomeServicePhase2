@@ -15,6 +15,7 @@ import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import BlueSwitch from "../../Components/SuperAdmin/settings/BlueSwitch";
 
 export default function Providers() {
   useEffect(() => {
@@ -142,6 +143,7 @@ export default function Providers() {
     "Number of Deals",
     "Rating",
     "Action",
+    "Ban",
   ];
 
   const tablebody = serviceProviders.map((provider, index) => [
@@ -182,14 +184,15 @@ export default function Providers() {
         <SlPencil className="text-[20px]" />
       </button>
     </div>,
+    <div>
+      <BlueSwitch />
+    </div>,
   ]);
   return (
     <div>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Providers</h2>
-        <p className="text-gray-600">
-          Track and manage your providers.
-        </p>
+        <p className="text-gray-600">Track and manage your providers.</p>
       </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">
