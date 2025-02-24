@@ -49,7 +49,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({backto}) {
+function ServiceDetail({backto,role}) {
   useEffect(() => {
     document.title = "Service Details";
   }, []);
@@ -77,7 +77,6 @@ function ServiceDetail({backto}) {
       title: "Instant Chat",
     },
     { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
-    { path: "#", Icon: <PiChats />, title: "Direct Form" },
     {
       path: "#",
       Icon: <IoLocationOutline />,
@@ -105,19 +104,24 @@ function ServiceDetail({backto}) {
           <h2 className="text-xl myhead font-semibold lg:me-2">
             Aliquam erat volutpat. Ut semper ipsum in vestibulum laoreet.
           </h2>
+
           <div className="flex items-center justify-end mt-3 lg:mt-0">
-            <Link
-              to="#"
-              className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
-            >
-              <FaRegTrashCan />
-            </Link>
-            <Link
-              to="#"
-              className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
-            >
-              <FaPencilAlt />
-            </Link>
+          {role !== "user" && (
+        <>
+          <Link
+            to="#"
+            className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
+          >
+            <FaRegTrashCan />
+          </Link>
+          <Link
+            to="#"
+            className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
+          >
+            <FaPencilAlt />
+          </Link>
+        </>
+      )}
           </div>
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">

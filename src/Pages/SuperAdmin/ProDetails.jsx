@@ -4,7 +4,7 @@ import ProfileComponent from '../../Components/ProfileComponent'
 export default function ProDetails() {
   return (
     <div>
-      <ProfileComponent />
+      <ProfileComponent serviceDetailTo="/superadmin/dealDetails"/>
     </div>
   )
 }

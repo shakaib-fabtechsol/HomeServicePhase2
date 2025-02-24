@@ -3,7 +3,7 @@ import ServiceDetail from '../Components/Services.jsx/ServiceDetail'
 
 function DealDetailsH() {
   return (
-   <ServiceDetail backto="/"/>
+   <ServiceDetail role="user" backto="/"/>
   )
 }
 

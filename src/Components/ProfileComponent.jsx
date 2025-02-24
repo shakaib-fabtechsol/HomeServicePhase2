@@ -131,7 +131,6 @@ const ProfileComponent = ({ serviceDetailTo }) => {
     },
     { path: "#", Icon: <BiMessageAltDetail />, title: "Instant Chat" },
     { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
-    { path: "#", Icon: <PiChats />, title: "Direct Form" },
     { path: "#", Icon: <IoLocationOutline />, title: "Get Directions" },
   ];
 

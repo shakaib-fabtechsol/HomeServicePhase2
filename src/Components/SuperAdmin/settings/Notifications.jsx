@@ -12,6 +12,10 @@ export default function Notifications() {
     { Label: "Client Notifications", id: "Client", checked: false },
     { Label: "Sales Reps Notifications", id: "SalesReps", checked: true },
     { Label: "Messages Notifications", id: "Messages", checked: true },
+    { Label: "Payment Notifications", id: "Payment", checked: true },
+    { Label: "Deal Close Notifications", id: "DealClose", checked: true },
+    { Label: "Email Notifications", id: "Email", checked: true },
+    { Label: "Tasks Notifications", id: "Tasks", checked: false },
   ];
   return (
     <div>
