@@ -202,19 +202,21 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
             </div>
           </div>
         </div>
-        <div className="xl:max-w-[424px] xl:w-full">
+        <div className="lg:max-w-[400px]  w-full">
           <button
             onClick={handlecontactOpen}
-            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[232px] lg:fixed right-[22px] z-[99]"
+            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[302px] lg:fixed right-[22px] z-[99]"
           >
             <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
             <span>Contact Pro</span>
           </button>
 {userRole !== "superadmin" && (
-          <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[232px] lg:mt-[60px]">
+         <div className="flex justify-end">
+           <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] lg:max-w-[300px]  bg-[#fff] w-full lg:mt-[60px]">
             <CiHeart className="text-xl me-2" />
             <span>Add to Favorites list</span>
           </button>
+         </div>
    )}
         </div>
 
