@@ -41,7 +41,7 @@ const Order = () => {
                 </div>
                 <div className='flex items-center justify-end gap-2'>
                     <button className='border bg-white px-4 py-3 rounded-lg flex text-sm items-center gap-2'><BsSliders />Filter</button>
-                    <button className='border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2'><FiDownload />Export</button>
+                    <button className='border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2'><FiDownload />Export Data</button>
                 </div>
             </div>
             <div className='overflow-x-auto'>
