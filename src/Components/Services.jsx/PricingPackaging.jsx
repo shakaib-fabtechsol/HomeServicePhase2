@@ -8,6 +8,8 @@ const PricingPackaging = () => {
   const handleRateChange = (event) => {
     setSelectedRate(event.target.value);
   };
+  const [showTier3, setShowTier3] = useState(true);
+
   return (
     <div>
       <form>
@@ -161,7 +163,7 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="Hourlyr"
-                    placeholder="$25/hour"
+                    placeholder="Hour rate should be $25/hour"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -172,12 +174,12 @@ const PricingPackaging = () => {
                     htmlFor="Discount"
                     className="font-medium text-sm text-[#181D27]"
                   >
-                    Discount
+                    Discount (%)
                   </label>
                   <input
                     type="text"
                     id="Discount"
-                    placeholder="10 %"
+                    placeholder="Buy Now Discount 10 %"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -193,7 +195,7 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="Final"
-                    placeholder="$90"
+                    placeholder="Final List Price should be $22.25"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -238,7 +240,6 @@ const PricingPackaging = () => {
                       <div>
                         <div className="flex justify-between items-center">
                           <p className="font-semibold text-[#181D27]">Tier 1</p>
-                          <HiOutlineTrash className="text-[18px]" />
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
@@ -307,7 +308,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$90"
+                            placeholder="Final List Price should be $22.25"
                             id="tier1FinalListPrice"
                           />
                         </div>
@@ -341,7 +342,6 @@ const PricingPackaging = () => {
                       <div>
                         <div className="flex justify-between items-center">
                           <p className="font-semibold text-[#181D27]">Tier 2</p>
-                          <HiOutlineTrash className="text-[18px]" />
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
@@ -410,7 +410,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$90"
+                            placeholder="Final List Price should be $22.25"
                             id="tier2FinalListPrice"
                           />
                         </div>
@@ -441,109 +441,49 @@ const PricingPackaging = () => {
                           </select>
                         </div>
                       </div>
-                      <div>
-                        <div className="flex justify-between items-center">
-                          <p className="font-semibold text-[#181D27]">Tier 3</p>
-                          <HiOutlineTrash className="text-[18px]" />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3Title"
-                          >
-                            Title
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Title"
-                            id="tier3Title"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3Deliverables"
-                          >
-                            Deliverables
-                          </label>
-                          <textarea
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            name="tier3Deliverables"
-                            id="tier3Deliverables"
-                            placeholder="Write here.."
-                            rows={4}
-                          ></textarea>
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3Price"
-                          >
-                            Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="$50"
-                            id="tier3Price"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3BuyNowDiscount"
-                          >
-                            Buy Now Discount
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="10 %"
-                            id="tier3BuyNowDiscount"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3FinalListPrice"
-                          >
-                            Final List Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="$90"
-                            id="tier3FinalListPrice"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
-                            htmlFor="tier3EstimatedTiming"
-                          >
-                            Estimated Service Timing
-                          </label>
-                          <select
-                            style={{
-                              backgroundImage: `url(${down})`,
-                              backgroundPosition: "calc(100% - 10px) center",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 ps-3 pe-6 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-                            name="tier3EstimatedTiming"
-                            id="tier3EstimatedTiming"
-                          >
-                            <option value="" selected hidden>
-                              How soon can you get it scheduled?
-                            </option>
-                            <option value="">1 Day</option>
-                            <option value="">2 Day</option>
-                            <option value="">3 Day</option>
-                            <option value="">4 Day</option>
-                          </select>
-                        </div>
-                      </div>
+                      <>
+      {showTier3 && (
+        <div>
+          <div className="flex justify-between items-center">
+            <p className="font-semibold text-[#181D27]">Tier 3</p>
+            <HiOutlineTrash
+              className="text-[18px] cursor-pointer text-red-500"
+              onClick={() => setShowTier3(false)}
+            />
+          </div>
+          <div className="flex flex-col mt-4">
+            <label
+              className="text-sm font-medium ps-2 text-[#181D27]"
+              htmlFor="tier3Title"
+            >
+              Title
+            </label>
+            <input
+              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+              type="text"
+              placeholder="Title"
+              id="tier3Title"
+            />
+          </div>
+          <div className="flex flex-col mt-4">
+            <label
+              className="text-sm font-medium ps-2 text-[#181D27]"
+              htmlFor="tier3Deliverables"
+            >
+              Deliverables
+            </label>
+            <textarea
+              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+              name="tier3Deliverables"
+              id="tier3Deliverables"
+              placeholder="Write here.."
+              rows={4}
+            ></textarea>
+          </div>
+          {/* Baqi fields yahin rahengi */}
+        </div>
+      )}
+    </>
                     </div>
                   </div>
                 </div>

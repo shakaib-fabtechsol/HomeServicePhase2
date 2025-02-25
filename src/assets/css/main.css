@@ -167,6 +167,13 @@ input[type="time"].hide-clock::-webkit-calendar-picker-indicator {
   -webkit-appearance: none;
 }
 
+.notification-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @media screen and (min-width:769px) {
   .left {
     display: block !important;

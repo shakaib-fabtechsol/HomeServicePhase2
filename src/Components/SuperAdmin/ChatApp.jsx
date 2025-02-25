@@ -190,7 +190,7 @@ const ChatApp = () => {
                                     className={`rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover ${message.isUser ? 'hidden' : ''
                                         }`}
                                 />
-                                <div className="max-w-[600px] w-full">
+                                <div className="max-w-[80%] sm:max-w-[60%] lg:max-w-[45%] w-full">
                                     <div className="flex justify-between">
                                         <h6
                                             className={`font-medium ${message.isUser ? 'text-[#414651]' : 'text-[#181D27]'
@@ -201,7 +201,7 @@ const ChatApp = () => {
                                         <p className="text-[#535862] text-xs">{message.time}</p>
                                     </div>
                                     <div
-                                        className={`p-4 rounded-xl mt-2 ${message.isUser ? 'bg-[#0F91D2]' : 'bg-[#F5F5F5]'
+                                        className={`p-4 rounded-xl mt-2 ${message.isUser ? 'bg-[#535862]' : 'bg-[#F5F5F5]'
                                             }`}
                                     >
                                         {message.text && (
