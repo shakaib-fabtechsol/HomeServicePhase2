@@ -123,9 +123,8 @@ function ServiceDetail({ backto, role }) {
           <h2 className="text-xl myhead font-semibold lg:me-2">
             Aliquam erat volutpat. Ut semper ipsum in vestibulum laoreet.
           </h2>
-
-          <div className="flex items-center w-full lg:w-auto gap-2 justify-end mt-3 lg:mt-0">
-            {role !== "user" && (
+          {role === "provider" && (
+            <div className="flex items-center w-full lg:w-auto gap-2 justify-end mt-3 lg:mt-0">
               <>
                 <Link
                   to="#"
@@ -140,8 +139,8 @@ function ServiceDetail({ backto, role }) {
                   <FaPencilAlt />
                 </Link>
               </>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap justify-between mt-3 lg:sticky lg:top-0 lg:z-[99] lg:py-1 bg-white">
           <div className="flex flex-wrap lg:flex-nowrap items-center w-full lg:w-[calc(100%-230px)]">
@@ -184,13 +183,15 @@ function ServiceDetail({ backto, role }) {
           </div>
           <div className="w-full lg:max-w-[220px]">
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
-              <button
-                onClick={handlecontactOpen}
-                className="flex gap-2 p-3 justify-center items-center font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full"
-              >
-                <IoChatbubbleEllipsesOutline className="text-[#fff] text-xl" />
-                <span>Contact Pro</span>
-              </button>
+              {role !== "provider" && (
+                <button
+                  onClick={handlecontactOpen}
+                  className="flex gap-2 p-3 justify-center items-center font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full"
+                >
+                  <IoChatbubbleEllipsesOutline className="text-[#fff] text-xl" />
+                  <span>Contact Pro</span>
+                </button>
+              )}
               <button className="flex gap-2 p-3 justify-center items-center border font-semibold rounded-lg text-[#535862] bg-[#fff] w-full">
                 <CiHeart className="text-xl" />
                 <span>Add to Favorites list</span>
@@ -198,31 +199,33 @@ function ServiceDetail({ backto, role }) {
             </div>
           </div>
         </div>
-        <Modal
-          open={contactopen}
-          onClose={handlecontactClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          sx={{ m: 2 }}
-        >
-          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
-            <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto scroll-x-hidden">
-              <p className="text-lg font-semibold">Contact Pro</p>
-              <div className="flex flex-col gap-3 mt-4">
-                {modalContacts.map((contact, index) => (
-                  <Link
-                    key={index}
-                    className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
-                    to={contact.path}
-                  >
-                    <span className="text-[24px]">{contact.Icon}</span>
-                    <span>{contact.title}</span>
-                  </Link>
-                ))}
+        {role !== "provider" && (
+          <Modal
+            open={contactopen}
+            onClose={handlecontactClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{ m: 2 }}
+          >
+            <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
+              <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto scroll-x-hidden">
+                <p className="text-lg font-semibold">Contact Pro</p>
+                <div className="flex flex-col gap-3 mt-4">
+                  {modalContacts.map((contact, index) => (
+                    <Link
+                      key={index}
+                      className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
+                      to={contact.path}
+                    >
+                      <span className="text-[24px]">{contact.Icon}</span>
+                      <span>{contact.title}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        )}
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-12 xl:col-span-8">
             <img src={servicedet} alt="" className="rounded-xl w-full" />

@@ -225,14 +225,15 @@ const PricingPackaging = () => {
                     className="myselect pe-[30px] focus-none mt-1"
                     id=""
                   >
-                    <option value="" selected hidden>
-                      How soon can you get it scheduled?
-                    </option>
-                    <option value="">Same day</option>
-                    <option value="">2 days</option>
-                    <option value="">3 days</option>
-                    <option value="">1 week</option>
-                    <option value="">2 week</option>
+                    {timeoptions.map((option, index) => (
+                      <option
+                        className="first:hidden"
+                        key={index}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -278,7 +279,7 @@ const PricingPackaging = () => {
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             name="tier1Deliverables"
                             id="tier1Deliverables"
-                            placeholder="Write here.."
+                            placeholder="Add specific deliverables for this deal"
                             rows={4}
                           ></textarea>
                         </div>
@@ -292,7 +293,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$50"
+                            placeholder="Should be $50"
                             id="tier1Price"
                           />
                         </div>
@@ -306,7 +307,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="10 %"
+                            placeholder="Buy Now Discount 10 %"
                             id="tier1BuyNowDiscount"
                           />
                         </div>
@@ -320,7 +321,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="Final List Price should be $22.25"
+                            placeholder="Final List Price $45"
                             id="tier1FinalListPrice"
                           />
                         </div>
@@ -332,22 +333,19 @@ const PricingPackaging = () => {
                             Estimated Service Timing
                           </label>
                           <select
-                            style={{
-                              backgroundImage: `url(${down})`,
-                              backgroundPosition: "calc(100% - 10px) center",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 ps-3 pe-6 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-                            name="tier2EstimatedTiming"
-                            id="tier2EstimatedTiming"
+                            name=""
+                            className="myselect pe-[30px] focus-none mt-1"
+                            id=""
                           >
-                            <option value="" selected hidden>
-                              How soon can you get it scheduled?
-                            </option>
-                            <option value="">1 Day</option>
-                            <option value="">2 Day</option>
-                            <option value="">3 Day</option>
-                            <option value="">4 Day</option>
+                            {timeoptions.map((option, index) => (
+                              <option
+                                className="first:hidden"
+                                key={index}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </div>
@@ -380,7 +378,7 @@ const PricingPackaging = () => {
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             name="tier2Deliverables"
                             id="tier2Deliverables"
-                            placeholder="Write here.."
+                            placeholder="Add specific deliverables for this deal"
                             rows={4}
                           ></textarea>
                         </div>
@@ -394,7 +392,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$50"
+                            placeholder="Should be $50"
                             id="tier2Price"
                           />
                         </div>
@@ -408,7 +406,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="10 %"
+                            placeholder="Buy Now Discount 10 %"
                             id="tier2BuyNowDiscount"
                           />
                         </div>
@@ -422,7 +420,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="Final List Price should be $22.25"
+                            placeholder="Final List Price $45"
                             id="tier2FinalListPrice"
                           />
                         </div>
@@ -434,25 +432,23 @@ const PricingPackaging = () => {
                             Estimated Service Timing
                           </label>
                           <select
-                            style={{
-                              backgroundImage: `url(${down})`,
-                              backgroundPosition: "calc(100% - 10px) center",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 ps-3 pe-6 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-                            name="tier2EstimatedTiming"
-                            id="tier2EstimatedTiming"
+                            name=""
+                            className="myselect pe-[30px] focus-none mt-1"
+                            id=""
                           >
-                            <option value="" selected hidden>
-                              How soon can you get it scheduled?
-                            </option>
-                            <option value="">1 Day</option>
-                            <option value="">2 Day</option>
-                            <option value="">3 Day</option>
-                            <option value="">4 Day</option>
+                            {timeoptions.map((option, index) => (
+                              <option
+                                className="first:hidden"
+                                key={index}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </div>
+
                       <>
       {showTier3 && (
         <div>
@@ -464,98 +460,99 @@ const PricingPackaging = () => {
             />
           </div>
           <div className="flex flex-col mt-4">
-            <label
-              className="text-sm font-medium ps-2 text-[#181D27]"
-              htmlFor="tier3Title"
-            >
-              Title
-            </label>
-            <input
-              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-              type="text"
-              placeholder="Title"
-              id="tier3Title"
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-            <label
-              className="text-sm font-medium ps-2 text-[#181D27]"
-              htmlFor="tier3Deliverables"
-            >
-              Deliverables
-            </label>
-            <textarea
-              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-              name="tier3Deliverables"
-              id="tier3Deliverables"
-              placeholder="Write here.."
-              rows={4}
-            ></textarea>
-          </div>
-          <div className="flex flex-col mt-4">
-        <label
-          className="text-sm font-medium ps-2 text-[#181D27]"
-          htmlFor="tier3Price"
-        >
-          Price
-        </label>
-        <input
-          className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-          type="text"
-          placeholder="$50"
-          id="tier3Price"
-        />
-      </div>
-      <div className="flex flex-col mt-4">
-        <label
-          className="text-sm font-medium ps-2 text-[#181D27]"
-          htmlFor="tier3BuyNowDiscount"
-        >
-          Buy Now Discount
-        </label>
-        <input
-          className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-          type="text"
-          placeholder="10 %"
-          id="tier3BuyNowDiscount"
-        />
-      </div>
-      <div className="flex flex-col mt-4">
-        <label
-          className="text-sm font-medium ps-2 text-[#181D27]"
-          htmlFor="tier3FinalListPrice"
-        >
-          Final List Price
-        </label>
-        <input
-          className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-          type="text"
-          placeholder="$90"
-          id="tier3FinalListPrice"
-        />
-      </div>
-      <div className="flex flex-col mt-4">
-        <label
-          className="text-sm font-medium ps-2 text-[#181D27]"
-          htmlFor="tier3EstimatedTiming"
-        >
-          Estimated Service Timing
-        </label>
-        <select
-         
-          className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 ps-3 pe-6 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-          name="tier3EstimatedTiming"
-          id="tier3EstimatedTiming"
-        >
-          <option value="" selected hidden>
-            How soon can you get it scheduled?
-          </option>
-          <option value="">1 Day</option>
-          <option value="">2 Day</option>
-          <option value="">3 Day</option>
-          <option value="">4 Day</option>
-        </select>
-      </div>
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Title"
+                          >
+                            Title
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Title"
+                            id="tier3Title"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Deliverables"
+                          >
+                            Deliverables
+                          </label>
+                          <textarea
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            name="tier3Deliverables"
+                            id="tier3Deliverables"
+                            placeholder="Add specific deliverables for this deal"
+                            rows={4}
+                          ></textarea>
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Price"
+                          >
+                            Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Should be $50"
+                            id="tier3Price"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3BuyNowDiscount"
+                          >
+                            Buy Now Discount
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Buy Now Discount 10 %"
+                            id="tier3BuyNowDiscount"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3FinalListPrice"
+                          >
+                            Final List Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Final List Price $45"
+                            id="tier3FinalListPrice"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3EstimatedTiming"
+                          >
+                            Estimated Service Timing
+                          </label>
+                          <select
+                            name=""
+                            className="myselect pe-[30px] focus-none mt-1"
+                            id=""
+                          >
+                            {timeoptions.map((option, index) => (
+                              <option
+                                className="first:hidden"
+                                key={index}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
         </div>
       )}
     </>

@@ -14,7 +14,7 @@ const Profilep = () => {
         <h2 className="text-2xl font-semibold">Profile Details</h2>
       </div>
       <div>
-        <ProfileComponent/>
+        <ProfileComponent userRole="provider"/>
       </div>
     </div>
   )

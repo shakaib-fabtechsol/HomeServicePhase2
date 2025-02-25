@@ -16,7 +16,7 @@ function Settings() {
     document.title = "Settings";
   }, []);
   const tabData = [
-    { label: "My details", content: <MyDetail /> },
+    { label: "Personal Profile", content: <MyDetail /> },
     { label: "Service Area", content: <ServiceArea /> },
     { label: "Business Profile", content: <BusinessProfile /> },
     { label: "Certifications & Hours", content: <CertificationHour />},
@@ -31,7 +31,7 @@ function Settings() {
     <div>
       <div className="my-2">
         <h2 className="font-semibold text-3xl myhead">Settings</h2>
-        <p className="myblack mb-4">Track, manage and forecast your customers and orders.</p>
+        <p className="myblack mb-4">Update all your general settings including: business, personal, and payment settings</p>
       </div>
       <div>
         <TabComponent tabs={tabData}/>
