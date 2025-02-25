@@ -8,7 +8,6 @@ const PricingPackaging = () => {
   const handleRateChange = (event) => {
     setSelectedRate(event.target.value);
   };
-
   const timeoptions = [
     { value: "", label: "How soon can you get it scheduled?" },
     { value: "b3", label: "Emergency | Same Day" },
@@ -175,7 +174,7 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="Hourlyr"
-                    placeholder="$25/hour"
+                    placeholder="Hour rate should be $25/hour"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -186,12 +185,12 @@ const PricingPackaging = () => {
                     htmlFor="Discount"
                     className="font-semibold text-sm text-[#181D27]"
                   >
-                    Discount
+                    Discount (%)
                   </label>
                   <input
                     type="text"
                     id="Discount"
-                    placeholder="10 %"
+                    placeholder="Buy Now Discount 10 %"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -207,7 +206,7 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="Final"
-                    placeholder="$90"
+                    placeholder="Final List Price should be $22.25"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -252,7 +251,6 @@ const PricingPackaging = () => {
                       <div>
                         <div className="flex justify-between items-center">
                           <p className="font-semibold text-[#181D27]">Tier 1</p>
-                          <HiOutlineTrash className="text-[18px]" />
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
@@ -321,7 +319,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$90"
+                            placeholder="Final List Price should be $22.25"
                             id="tier1FinalListPrice"
                           />
                         </div>
@@ -355,7 +353,6 @@ const PricingPackaging = () => {
                       <div>
                         <div className="flex justify-between items-center">
                           <p className="font-semibold text-[#181D27]">Tier 2</p>
-                          <HiOutlineTrash className="text-[18px]" />
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
@@ -424,7 +421,7 @@ const PricingPackaging = () => {
                           <input
                             className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="$90"
+                            placeholder="Final List Price should be $22.25"
                             id="tier2FinalListPrice"
                           />
                         </div>
@@ -558,6 +555,7 @@ const PricingPackaging = () => {
                           </select>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>

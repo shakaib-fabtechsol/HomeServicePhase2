@@ -6,11 +6,11 @@ export default function NotificationComp({ data }) {
       {data.map((notification, index) => (
         <div
           key={index}
-          className={`flex gap-1 justify-between flex-wrap-reverse p-3 border-b border-[#F2F4F5] ${
+          className={`md:flex gap-1 justify-between  p-3 border-b border-[#F2F4F5] ${
             notification.status === "unread" ? "bg-[#F6AD3C1A]" : ""
           }`}
         >
-          <div className="flex items-center gap-2 w-full">
+          <div className="flex w-full items-center gap-2 ">
             <div>
               <img
                 src={notification.avatar}
@@ -18,12 +18,13 @@ export default function NotificationComp({ data }) {
                 className="size-12 max-w-12 rounded-full"
               />
             </div>
-            <div className="w-[calc(100%-60px)]">
-              <div className="flex items-center space-x-2 w-full">
-                <p className="text-sm sm:text-base lg:text-lg font-semibold text-black truncate w-[100px]">
+            <div className="">
+              <div className="sm:flex items-center ">
+                <p className="text-sm sm:text-base lg:text-lg font-semibold text-black  w-[140px]">
                   {notification.Name}
                 </p>
-                <p className="text-sm sm:text-base lg:text-lg font-extralight text-[#535862] truncate w-[calc(100%-100px)]">
+                <p className="text-sm notification-text sm:text-base lg:text-lg font-extralight text-[#535862] sm:w-[calc(100%-100px)] 
+                 ">
                   {`${notification.task}: ${notification.comment}`}
                 </p>
               </div>
@@ -34,7 +35,7 @@ export default function NotificationComp({ data }) {
               )}
             </div>
           </div>
-          <div className="ms-auto">
+          <div className="md:max-w-[140px] text-end w-full">
             <p className="text-[#535862] text-[10px] sm:text-xs">
               {`${notification.date} ${notification.time}`}
             </p>

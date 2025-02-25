@@ -18,7 +18,7 @@ export default function DateModal({ close }) {
           </label>
           <input
             className="border border-[#E5E0EB] block outline-none w-full p-2 rounded-[5px] mt-1"
-            type="Date"
+            type="datetime-local"
             name="nameormail"
             id="nameormail"
             placeholder="Invite by name or email"

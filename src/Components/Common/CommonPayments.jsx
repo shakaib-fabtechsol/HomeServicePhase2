@@ -305,13 +305,25 @@ export default function CommonPayments() {
                 <div className="absolute left-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
                   <ul className="py-2">
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Filter 1
+                      ID
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Filter 2
+                     Date
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      Filter 3
+                      Customer Name
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Customer Email
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Service
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Payment type
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Status
                     </li>
                   </ul>
                 </div>
