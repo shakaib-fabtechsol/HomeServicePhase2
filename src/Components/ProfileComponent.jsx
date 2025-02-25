@@ -31,7 +31,7 @@ import client2 from "../assets/img/client3.png";
 import RegularHour from "./AdditionalPhoto/RegularHour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
 
-const ProfileComponent = ({ serviceDetailTo }) => {
+const ProfileComponent = ({ serviceDetailTo, userRole }) => {
   const services = [
     {
       id: 1,
@@ -200,18 +200,20 @@ const ProfileComponent = ({ serviceDetailTo }) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="xl:max-w-[424px] xl:w-full">
           <button
             onClick={handlecontactOpen}
-            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[363px]"
+            className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full "
           >
             <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
             <span>Contact Pro</span>
           </button>
-          {/* <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[363px]">
-            <CiHeart className="text-xl me-2" />
-            <span>Add to Favorites list</span>
-          </button> */}
+          {userRole !== "superadmin" && (
+            <button className="flex mt-3 py-3 justify-center items-center border px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full">
+              <CiHeart className="text-xl me-2" />
+              <span>Add to Favorites list</span>
+            </button>
+          )}
         </div>
 
         <Modal

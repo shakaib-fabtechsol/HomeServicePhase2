@@ -9,7 +9,7 @@ const Chatsa = () => {
       }, []);
     return (
         <div>
-            <div className='flex items-center sm:gap-4 gap-2 sm:mt-4'>
+            <div className='flex items-center sm:gap-4 gap-2 '>
                 <div>
                     <Link to="#"><FaArrowLeft className='md:text-xl text-sm' /></Link>
                 </div>
