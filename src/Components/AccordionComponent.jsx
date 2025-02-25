@@ -7,6 +7,7 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -64,7 +65,7 @@ const AccordionComponent = ({ items }) => {
             <Typography sx={{fontFamily: "inter", marginRight:"16px"}} component="span">{item.title}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{border: 0}}>
-            <Typography sx={{fontFamily: "inter"}}>{item.content}</Typography>
+            <Box sx={{fontFamily: "inter"}}>{item.content}</Box>
           </AccordionDetails>
         </Accordion>
       ))}
