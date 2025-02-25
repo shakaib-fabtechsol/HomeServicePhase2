@@ -208,10 +208,10 @@ const ProfileComponent = ({ serviceDetailTo }) => {
             <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
             <span>Contact Pro</span>
           </button>
-          <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[363px]">
+          {/* <button className="flex mt-3 py-3 justify-center items-center border  px-6 font-semibold rounded-lg text-[#535862] bg-[#fff] w-full lg:max-w-[363px]">
             <CiHeart className="text-xl me-2" />
             <span>Add to Favorites list</span>
-          </button>
+          </button> */}
         </div>
 
         <Modal

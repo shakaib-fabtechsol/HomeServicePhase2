@@ -5,6 +5,7 @@ import LineChart from "../../Components/SuperAdmin/LineChart";
 import { BsCalendar } from "react-icons/bs";
 import chevronblue from "../../assets/img/chevronblue.png";
 import DoubleBarChart from "../../Components/SuperAdmin/DoubleBarChart";
+import { CiLocationOn, CiSearch } from "react-icons/ci";
 
 export default function Dashboardsa() {
   useEffect(() => {
@@ -81,13 +82,19 @@ export default function Dashboardsa() {
 
   return (
     <div>
-      <div className="mb-2">
-        <h2 className="font-semibold text-3xl">Dashboard</h2>
-        <p className="text-gray-600">
-          Track and manage your favorite services.
-        </p>
+      <div className="mb-2 flex items-center justify-between">
+        <div>
+          <h2 className="font-semibold text-3xl">Dashboard</h2>
+        
+        </div>
+          <div className="flex items-center p-2 border rounded-lg w-full sm:max-w-[320px]">
+            <label>
+              <CiSearch className="text-[#717680] text-xl" />
+            </label>
+            <input type="search" placeholder="Search" className="w-full px-2" />
+          </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 mt-8 xl:grid-cols-5 gap-6">
         {cardsdata.map((card, index) => (
           <div
             key={index}
