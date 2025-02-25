@@ -54,8 +54,12 @@ export default function TabComponent({ tabs }) {
           aria-label="custom tabs example"
           TabScrollButtonProps={{
             sx: {
-              width:"0",
-              opacity:"0",
+              width:"10px",
+              background:"#fff",
+             
+              height:"20px",
+              margin:"14px 0 0",
+              boxShadow:"rgba(149, 157, 165, 0.2) 0px 8px 24px;",
               "&:hover": { color: "#0056b3" },
             },
           }}
