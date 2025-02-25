@@ -178,7 +178,7 @@ export default function Ordersp() {
           <div className="mt-2">
             <button
               onClick={handlephotosOpen}
-              className="bg-white text-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
+              className="text-white bg-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
               Deliver
             </button>
@@ -204,7 +204,7 @@ export default function Ordersp() {
           </button>
           <button className="border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2">
             <FiDownload />
-            Export
+            Export Data
           </button>
         </div>
       </div>
