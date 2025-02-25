@@ -116,7 +116,7 @@ const ServiceArea = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <LoadScript googleMapsApiKey={GOOGLE_API_KEY} libraries={libraries}>
         <div>
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
@@ -160,6 +160,7 @@ const ServiceArea = () => {
                   </label>
                   <div className="flex items-center border py-2 rounded-lg px-3 relative w-full">
                     <Autocomplete
+                    className="w-full"
                       onLoad={(auto) => (autocompleteRef.current = auto)}
                       onPlaceChanged={onPlaceSelected}
                     >
@@ -204,7 +205,7 @@ const ServiceArea = () => {
 
                   {isBulk ? (
                     <div className="relative flex flex-col mb-2 border rounded-lg px-3 py-2">
-                      <Autocomplete>
+                      <Autocomplete className="w-full">
                         <textarea
                           id="bulkLoc"
                           rows="4"
@@ -218,7 +219,7 @@ const ServiceArea = () => {
                     </div>
                   ) : (
                     <div className="flex items-center border py-2 rounded-lg px-3 mb-2">
-                      <Autocomplete>
+                      <Autocomplete className="w-full"> 
                         <input
                           type="text"
                           placeholder="Enter service location..."
@@ -236,7 +237,7 @@ const ServiceArea = () => {
                   <label htmlFor="restrict">
                     <img src={location} alt="" className="max-w-20px me-2" />
                   </label>
-                  <Autocomplete>
+                  <Autocomplete className="w-full">
                     <input
                       type="text"
                       id="restrict"

@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import { IoCashSharp } from "react-icons/io5";
 import { IoMdDownload } from "react-icons/io";
 import PaymentCard from "../../Components/PaymentCard";
+import { GrLocation } from "react-icons/gr";
 
 export default function CommonPayments() {
   useEffect(() => {
@@ -422,6 +423,13 @@ export default function CommonPayments() {
                   </div>
                 </div>
               </div>
+             <div className="flex my-3">
+                <div className="flex items-center">
+                  <GrLocation className="me-2"/>
+                  <span className="font-semibold text-sm me-2">Service Location: </span>
+                </div>
+                <p className="text-sm">Lorem Ipsum is simply dummy text of the printing and</p>
+             </div>
               <div className="mt-4">
                 <p className="font-semibold">Deliverables</p>
                 <div className="my-2">
@@ -434,30 +442,24 @@ export default function CommonPayments() {
                 </p>
               </div>
               <div className="mt-4 border-b">
-                <p className="font-semibold">Services</p>
                 <table className="w-full mt-4">
                   <thead className="text-xs ">
                     <tr className="align-middle">
-                      <td className="p-3">Service Name</td>
+                      <td className="p-3 font-semibold text-[16px]">Services</td>
                       <td className="p-3">Price</td>
                       <td className="p-3">Total</td>
                     </tr>
                   </thead>
                   <tbody className="text-xs ">
                     <tr className="align-middle">
-                      <td className="p-3">Discription</td>
+                      <td className="p-3">Service Name <br></br>Discription</td>
                       <td className="p-3">4,000.00</td>
                       <td className="p-3">4,000.00</td>
                     </tr>
                     <tr className="align-middle">
                       <td className="p-3">Charges</td>
-                      <td className="p-3">5 %</td>
-                      <td className="p-3">3200.00</td>
-                    </tr>
-                    <tr className="align-middle">
-                      <td className="p-3"></td>
-                      <td className="p-3">Total(USD)</td>
-                      <td className="p-3 text-lg font-bold">3200.00</td>
+                      <td className="p-3 bg-[#F8F8F8]">Total(USD)</td>
+                      <td className="p-3 text-lg font-bold bg-[#F8F8F8]">3200.00</td>
                     </tr>
                   </tbody>
                 </table>

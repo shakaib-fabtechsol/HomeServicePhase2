@@ -82,7 +82,7 @@ export default function PreviewMedia({ onFileSelect, fieldName }) {
               <strong>File Uploaded Successfully</strong>
             </p>
             <p className="text-gray-500">
-              <strong>Click to upload</strong> or drag and drop to change file
+              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop to change file
             </p>
             <p className="text-sm text-gray-400">
               Supported formats: {supportedFormats.join(", ")}

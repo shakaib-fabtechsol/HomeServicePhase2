@@ -97,7 +97,7 @@ const BusinessProfile = () => {
   return (
     <>
       <form>
-        <div>
+        <div className="max-w-[600px">
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
               Business Profile
