@@ -144,18 +144,14 @@ const Payment = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end mt-4">
-            <button
-              type="reset"
-              className="border border-[#cdcdcd] rounded-lg w-[150px] py-[10px] me-4 font-semibold bg-[#ffffff]"
-            >
-              {" "}
+          <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
+            <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
               Cancel
             </button>
-            <button
-              type="submit"
-              className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2]`}
-            >
+            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
+              Save & Publish
+            </button>
+            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
               Save
             </button>
           </div>

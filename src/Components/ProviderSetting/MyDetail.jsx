@@ -53,9 +53,10 @@ const MyDetail = () => {
           <div className="max-w-[1000px]">
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
-                <label className="text-sm font-semibold" htmlFor="name">
-                  Full Name
-                </label>
+                <p className="text-sm font-semibold">Full Name</p>
+                <p className="text-[#535862] text-sm">
+                  This will be displayed on your profile.
+                </p>
               </div>
               <div className="sm:col-span-2">
                 <TextField fullWidth id="name" name="name" variant="outlined" />
@@ -65,8 +66,12 @@ const MyDetail = () => {
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="email">
-                  Email address
+                  Email Address
                 </label>
+                <p className="text-[#535862] text-sm">
+                  This is for when we need to contact you about your personal
+                  profile. This will not be publicly displayed.
+                </p>
               </div>
               <div className="sm:col-span-2">
                 <TextField
@@ -77,12 +82,15 @@ const MyDetail = () => {
                 />
               </div>
             </div>
-
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <label className="text-sm font-semibold" htmlFor="phone">
                   Phone Number
                 </label>
+                <p className="text-[#535862] text-sm">
+                  This is for when we need to contact you about your personal
+                  profile. This will not be publicly displayed.
+                </p>
               </div>
               <div className="sm:col-span-2">
                 <TextField
@@ -110,7 +118,8 @@ const MyDetail = () => {
                   Personal Profile Photo
                 </p>
                 <p className="text-[#535862] text-sm">
-                  This will be displayed on your profile.
+                  This is your personal profile, this will not be publicly
+                  displayed.
                 </p>
               </div>
               <div className="md:col-span-2">
@@ -138,9 +147,8 @@ const MyDetail = () => {
                   value={referredBySales}
                   onChange={handleReferralChange}
                 >
-                  <option value="">Select Sales Representative</option>
-                  <option value="Yes">Yes</option>
                   <option value="No">No</option>
+                  <option value="Yes">Yes</option>
                 </select>
               </div>
             </div>
@@ -217,31 +225,16 @@ const MyDetail = () => {
               </div>
             )}
           </div>
-
-          <div className="flex justify-end mt-4">
-            <Button
-              type="reset"
-              variant="outlined"
-              sx={{ width: "150px", py: "10px", mr: 2 }}
-            >
+          <div className="grid md:max-w-[550px] grid-cols-1 sm:grid-cols-3 my-4 gap-2 ms-auto">
+            <button className="border border-gray-300 rounded-lg p-3 w-full font-semibold bg-white">
               Cancel
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                width: "150px",
-                py: "10px",
-                backgroundColor: "#0F91D2",
-                fontWeight: "bold",
-                "&:disabled": {
-                  opacity: 0.5,
-                  cursor: "not-allowed",
-                },
-              }}
-            >
+            </button>
+            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
+              Save & Publish
+            </button>
+            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
               Save
-            </Button>
+            </button>
           </div>
         </div>
       </form>
