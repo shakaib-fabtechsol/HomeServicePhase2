@@ -17,6 +17,7 @@ const PricingPackaging = () => {
     { value: "5", label: "Scheduled | 2-4 Weeks" },
     { value: "5", label: "Backlog | 1 month+" },
   ];
+  const [showTier3, setShowTier3] = useState(true);
 
   return (
     <div>
@@ -447,12 +448,18 @@ const PricingPackaging = () => {
                           </select>
                         </div>
                       </div>
-                      <div>
-                        <div className="flex justify-between items-center">
-                          <p className="font-semibold text-[#181D27]">Tier 3</p>
-                          <HiOutlineTrash className="text-[18px]" />
-                        </div>
-                        <div className="flex flex-col mt-4">
+
+                      <>
+      {showTier3 && (
+        <div>
+          <div className="flex justify-between items-center">
+            <p className="font-semibold text-[#181D27]">Tier 3</p>
+            <HiOutlineTrash
+              className="text-[18px] cursor-pointer text-red-500"
+              onClick={() => setShowTier3(false)}
+            />
+          </div>
+          <div className="flex flex-col mt-4">
                           <label
                             className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier3Title"
@@ -546,7 +553,10 @@ const PricingPackaging = () => {
                             ))}
                           </select>
                         </div>
-                      </div>
+        </div>
+      )}
+    </>
+
                     </div>
                   </div>
                 </div>
