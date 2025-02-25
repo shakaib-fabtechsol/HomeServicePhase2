@@ -28,6 +28,7 @@ const MediaUpload = () => {
     }));
 
     setImages((prevImages) => [...prevImages, ...newImages]);
+    event.target.value = "";
   };
 
   const handleVideoUpload = (event) => {
@@ -37,6 +38,7 @@ const MediaUpload = () => {
       name: file.name,
     }));
     setVideos((prevVideos) => [...prevVideos, ...newVideos]);
+    event.target.value = "";
   };
 
   const handleDrop = (event) => {
@@ -104,7 +106,7 @@ const MediaUpload = () => {
               onChange={handleImageUpload}
             />
           </div>
-          <div className="mt-3 grid grid-cols-6 gap-3 max-w-[1200px]">
+          <div className="mt-3 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3 max-w-[1200px]">
             {images.map((image, index) => (
               <div key={index} className="relative">
                 <img
@@ -151,7 +153,7 @@ const MediaUpload = () => {
               onChange={handleVideoUpload}
             />
           </div>
-          <div className="mt-3 grid grid-cols-6 gap-3 max-w-[1200px]">
+          <div className="mt-3 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-3 max-w-[1200px]">
             {videos.map((video, index) => (
               <div key={index} className="relative">
                 <video
@@ -170,20 +172,27 @@ const MediaUpload = () => {
             ))}
           </div>
         </div>
-
-        <div className="col-span-12 mt-4 flex justify-end">
-          <button
-            type="button"
-            className="border border-[#cdcdcd] rounded-lg w-[150px] py-[10px] me-4 font-semibold bg-[#ffffff]"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="border border-[#0F91D2] rounded-lg w-[150px] py-[10px] text-[#ffffff] font-semibold bg-[#0F91D2]"
-          >
-            Save
-          </button>
+        <div className="md:max-w-[550px] w-full mt-4 ms-auto">
+          <div className="grid sm:grid-cols-3 gap-3">
+            <button
+              type="reset"
+              className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              Publish
+            </button>
+            <button
+              type="submit"
+              className={`border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2]`}
+            >
+              Save & Next
+            </button>
+          </div>
         </div>
       </form>
     </div>

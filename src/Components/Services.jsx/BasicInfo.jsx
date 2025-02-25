@@ -12,7 +12,18 @@ function BasicInfo() {
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const Businesscategories = ["Category 1", "Category 2", "Category 3"]; // Example categories, replace with actual data
+  const Businesscategories = [
+    "Plumbing",
+    "Electrical",
+    "HVAC / Heating & Cooling",
+    "Landscaping",
+    "Roofing",
+    "Painting",
+    "Moving",
+    "Security",
+    "Cleaning service",
+    "Appliance Repair",
+  ];
 
   const handleAddTag = (e) => {
     if (e.key === "Enter" && inputValue.trim()) {
@@ -38,14 +49,14 @@ function BasicInfo() {
             <div className="flex flex-col">
               <label
                 htmlFor="Title"
-                className="font-medium text-sm text-[#181D27]"
+                className="font-semibold text-sm text-[#181D27]"
               >
-                Service Title
+                Deal Title
               </label>
               <input
                 type="text"
                 id="Title"
-                placeholder="Enter service name"
+                placeholder="Enter deal name"
                 className="myinput mt-1"
                 required
                 value={formData.service_title}
@@ -57,7 +68,7 @@ function BasicInfo() {
           </div>
 
           <div className="col-span-12 lg:col-span-7 mt-4">
-            <p className="font-medium text-sm text-[#181D27]">Service Type</p>
+            <p className="font-semibold text-sm text-[#181D27]">Service Type</p>
             <div className="flex mt-4">
               <div className="flex items-center gap-2 me-4">
                 <input
@@ -68,7 +79,7 @@ function BasicInfo() {
                 />
                 <label
                   htmlFor="Commercial"
-                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27] cursor-pointer"
+                  className="font-semibold text-sm text-[#5E6670] peer-checked:text-[#181D27] cursor-pointer"
                 >
                   Commercial
                 </label>
@@ -89,7 +100,7 @@ function BasicInfo() {
                 />
                 <label
                   htmlFor="Residential"
-                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27]"
+                  className="font-semibold text-sm text-[#5E6670] peer-checked:text-[#181D27]"
                 >
                   Residential
                 </label>
@@ -99,12 +110,15 @@ function BasicInfo() {
 
           <div className="col-span-12 lg:col-span-7 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Category" className="font-medium focus-none text-sm text-[#181D27]">
+              <label
+                htmlFor="Category"
+                className="font-semibold focus-none text-sm text-[#181D27]"
+              >
                 Service Category
               </label>
               <select
                 id="Category"
-                className="myselect mt-1"
+                className="myselect mt-1 outline-none"
                 required
                 value={formData.category}
                 onChange={(e) =>
@@ -127,7 +141,10 @@ function BasicInfo() {
             <div className="flex flex-col">
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
-                  <label htmlFor="Tags" className="font-medium text-sm text-[#181D27]">
+                  <label
+                    htmlFor="Tags"
+                    className="font-semibold text-sm text-[#181D27]"
+                  >
                     Search Tags
                   </label>
                   <div className="border rounded-lg p-2 myinput flex flex-wrap min-h-[40px] mt-1">
@@ -149,7 +166,7 @@ function BasicInfo() {
                     <input
                       type="text"
                       id="Tags"
-                      placeholder="Enter tag and press Enter"
+                      placeholder="Enter keywords to match your deal with buyers. Not publicly visible"
                       className="outline-none flex-grow"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
@@ -163,13 +180,16 @@ function BasicInfo() {
 
           <div className="col-span-12 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="Description" className="font-medium text-sm text-[#181D27]">
+              <label
+                htmlFor="Description"
+                className="font-semibold text-sm text-[#181D27]"
+              >
                 Service Description
               </label>
               <textarea
                 id="Description"
-                className="myinput mt-1"
-                placeholder="Write here..."
+                className="myinput mt-1 outline-none"
+                placeholder="Describe your deal in detail, this is publicly visible"
                 rows={10}
                 required
                 value={formData.service_description}
@@ -185,14 +205,18 @@ function BasicInfo() {
 
           <div className="col-span-12 mt-4">
             <div className="flex flex-col">
-              <label htmlFor="FinePrint" className="font-medium text-sm text-[#181D27]">
+              <label
+                htmlFor="FinePrint"
+                className="font-semibold text-sm text-[#181D27]"
+              >
                 Fine Print{" "}
                 <span className="text-[13px] text-[#cdcdcd]">(Optional)</span>
               </label>
               <textarea
                 id="FinePrint"
-                className="myinput mt-1"
-                placeholder="Write here..."
+                className="myinput mt-1 outline-none"
+                placeholder={`Add specific deliverables for this deal. 
+For example: what is included & what is not included`}
                 rows={10}
                 value={formData.fine_print}
                 onChange={(e) =>
@@ -201,11 +225,12 @@ function BasicInfo() {
               />
             </div>
           </div>
-
-          <div className="col-span-12 mt-4 flex justify-end">
+        </div>
+        <div className="md:max-w-[550px] w-full mt-4 ms-auto">
+          <div className="grid sm:grid-cols-3 gap-3">
             <button
               type="reset"
-              className="border border-gray-300 rounded-lg w-[150px] py-[10px] font-semibold bg-white me-4"
+              className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
               onClick={() =>
                 setFormData({
                   service_title: "",
@@ -220,12 +245,18 @@ function BasicInfo() {
             </button>
             <button
               type="submit"
-              className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
+              className="border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              Publish
+            </button>
+            <button
+              type="submit"
+              className={`border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2] ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save"}
+              {loading ? "Saving..." : "Save & Next"}
             </button>
           </div>
         </div>

@@ -12,7 +12,7 @@ export default function UploadPhotos({ title, close }) {
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     const newImages = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...newImages]);
+    setImages((prevImages) => [...prevImages, ...newImages]);event.target.value = "";
   };
 
   const handleRemoveImage = (imageUrl) => {
@@ -45,7 +45,7 @@ export default function UploadPhotos({ title, close }) {
               </div>
             </div>
             <div className="mt-3 grid grid-cols-3 gap-3">
-              {[...images, ...imgs].map((image, index) => (
+              {[...images].reverse().concat(imgs).map((image, index) => (
                 <div key={index} className="relative">
                   <img
                     src={image}
