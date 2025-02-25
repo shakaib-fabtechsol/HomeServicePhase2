@@ -8,14 +8,24 @@ const PricingPackaging = () => {
   const handleRateChange = (event) => {
     setSelectedRate(event.target.value);
   };
-  const [showTier3, setShowTier3] = useState(true);
+  const timeoptions = [
+    { value: "", label: "How soon can you get it scheduled?" },
+    { value: "b3", label: "Emergency | Same Day" },
+    { value: "3p", label: "Rush | 1-2 day" },
+    { value: "4p", label: "Fast | 3-5 Days" },
+    { value: "5", label: "Standard | 1-2 Weeks" },
+    { value: "5", label: "Scheduled | 2-4 Weeks" },
+    { value: "5", label: "Backlog | 1 month+" },
+  ];
 
   return (
     <div>
       <form>
         <div className="grid grid-cols-12">
           <div className="col-span-12 md:col-span-10 mt-4">
-            <p className="font-medium text-sm text-[#181D27]">Pricing Model</p>
+            <p className="font-semibold text-sm text-[#181D27]">
+              Pricing Model
+            </p>
             <div className="flex flex-wrap justify-between mt-4">
               <div className="flex me-8">
                 <input
@@ -28,10 +38,10 @@ const PricingPackaging = () => {
                   checked={selectedRate === "Flat"}
                 />
                 <label
-                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27]"
+                  className="font-semibold text-sm text-[#5E6670] peer-checked:text-[#181D27]"
                   htmlFor="Flat"
                 >
-                  Flat Rate
+                  Fixed Rate
                 </label>
               </div>
               <div className="flex me-8">
@@ -45,7 +55,7 @@ const PricingPackaging = () => {
                   checked={selectedRate === "Hourly"}
                 />
                 <label
-                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27]"
+                  className="font-semibold text-sm text-[#5E6670] peer-checked:text-[#181D27]"
                   htmlFor="Hourly"
                 >
                   Hourly Rate
@@ -62,7 +72,7 @@ const PricingPackaging = () => {
                   checked={selectedRate === "Custom"}
                 />
                 <label
-                  className="font-medium text-sm text-[#5E6670] peer-checked:text-[#181D27]"
+                  className="font-semibold text-sm text-[#5E6670] peer-checked:text-[#181D27]"
                   htmlFor="Custom"
                 >
                   Custom Package
@@ -78,14 +88,14 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Flatr"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
-                    Flat Rate Price
+                    Fixed Rate Price
                   </label>
                   <input
                     type="text"
                     id="Flatr"
-                    placeholder="$100"
+                    placeholder="Fixed Rate price should be 200%"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -94,14 +104,14 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="BuyNow"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
-                    Buy Now Discount
+                    Buy Now Discount (%)
                   </label>
                   <input
                     type="text"
                     id="BuyNow"
-                    placeholder="10 %"
+                    placeholder="By Now Discount 10%"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -110,14 +120,14 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Finalp"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Final List Price
                   </label>
                   <input
                     type="text"
                     id="Finalp"
-                    placeholder="$90"
+                    placeholder="Final List Price 190%"
                     className="myinput focus-none mt-1"
                   />
                 </div>
@@ -126,7 +136,7 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Estimated"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Estimated Service Time
                   </label>
@@ -135,14 +145,15 @@ const PricingPackaging = () => {
                     className="myselect pe-[30px] focus-none mt-1"
                     id=""
                   >
-                    <option value="" selected hidden>
-                      How soon can you get it scheduled?
-                    </option>
-                    <option value="">Same day</option>
-                    <option value="">2 days</option>
-                    <option value="">3 days</option>
-                    <option value="">1 week</option>
-                    <option value="">2 week</option>
+                    {timeoptions.map((option, index) => (
+                      <option
+                        className="first:hidden"
+                        key={index}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -156,7 +167,7 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Hourlyr"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Hourly Rate
                   </label>
@@ -172,7 +183,7 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Discount"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Discount (%)
                   </label>
@@ -188,7 +199,7 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Final"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Final List Price
                   </label>
@@ -204,7 +215,7 @@ const PricingPackaging = () => {
                 <div className="flex flex-col">
                   <label
                     htmlFor="Estimated"
-                    className="font-medium text-sm text-[#181D27]"
+                    className="font-semibold text-sm text-[#181D27]"
                   >
                     Estimated Service Time
                   </label>
@@ -243,7 +254,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier1Title"
                           >
                             Title
@@ -257,7 +268,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier1Deliverables"
                           >
                             Deliverables
@@ -272,7 +283,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier1Price"
                           >
                             Price
@@ -286,7 +297,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier1BuyNowDiscount"
                           >
                             Buy Now Discount
@@ -300,7 +311,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier1FinalListPrice"
                           >
                             Final List Price
@@ -314,7 +325,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2EstimatedTiming"
                           >
                             Estimated Service Timing
@@ -345,7 +356,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2Title"
                           >
                             Title
@@ -359,7 +370,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2Deliverables"
                           >
                             Deliverables
@@ -374,7 +385,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2Price"
                           >
                             Price
@@ -388,7 +399,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2BuyNowDiscount"
                           >
                             Buy Now Discount
@@ -402,7 +413,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2FinalListPrice"
                           >
                             Final List Price
@@ -416,7 +427,7 @@ const PricingPackaging = () => {
                         </div>
                         <div className="flex flex-col mt-4">
                           <label
-                            className="text-sm font-medium ps-2 text-[#181D27]"
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
                             htmlFor="tier2EstimatedTiming"
                           >
                             Estimated Service Timing
@@ -441,71 +452,137 @@ const PricingPackaging = () => {
                           </select>
                         </div>
                       </div>
-                      <>
-      {showTier3 && (
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[#181D27]">Tier 3</p>
-            <HiOutlineTrash
-              className="text-[18px] cursor-pointer text-red-500"
-              onClick={() => setShowTier3(false)}
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-            <label
-              className="text-sm font-medium ps-2 text-[#181D27]"
-              htmlFor="tier3Title"
-            >
-              Title
-            </label>
-            <input
-              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-              type="text"
-              placeholder="Title"
-              id="tier3Title"
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-            <label
-              className="text-sm font-medium ps-2 text-[#181D27]"
-              htmlFor="tier3Deliverables"
-            >
-              Deliverables
-            </label>
-            <textarea
-              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-              name="tier3Deliverables"
-              id="tier3Deliverables"
-              placeholder="Write here.."
-              rows={4}
-            ></textarea>
-          </div>
-          {/* Baqi fields yahin rahengi */}
-        </div>
-      )}
-    </>
+                      <div>
+                        <div className="flex justify-between items-center">
+                          <p className="font-semibold text-[#181D27]">Tier 3</p>
+                          <HiOutlineTrash className="text-[18px]" />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Title"
+                          >
+                            Title
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Title"
+                            id="tier3Title"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Deliverables"
+                          >
+                            Deliverables
+                          </label>
+                          <textarea
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            name="tier3Deliverables"
+                            id="tier3Deliverables"
+                            placeholder="Write here.."
+                            rows={4}
+                          ></textarea>
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3Price"
+                          >
+                            Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="$50"
+                            id="tier3Price"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3BuyNowDiscount"
+                          >
+                            Buy Now Discount
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="10 %"
+                            id="tier3BuyNowDiscount"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3FinalListPrice"
+                          >
+                            Final List Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="$90"
+                            id="tier3FinalListPrice"
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-semibold ps-2 text-[#181D27]"
+                            htmlFor="tier3EstimatedTiming"
+                          >
+                            Estimated Service Timing
+                          </label>
+                          <select
+                            style={{
+                              backgroundImage: `url(${down})`,
+                              backgroundPosition: "calc(100% - 10px) center",
+                              backgroundRepeat: "no-repeat",
+                            }}
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 ps-3 pe-6 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
+                            name="tier3EstimatedTiming"
+                            id="tier3EstimatedTiming"
+                          >
+                            <option value="" selected hidden>
+                              How soon can you get it scheduled?
+                            </option>
+                            <option value="">1 Day</option>
+                            <option value="">2 Day</option>
+                            <option value="">3 Day</option>
+                            <option value="">4 Day</option>
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
               </div>
             </>
           )}
-          <div className="col-span-12 mt-4">
-            <div className="flex justify-end">
-              <button
-                type="reset"
-                className="border border-[#cdcdcd] rounded-lg w-[150px] py-[10px] me-4 font-semibold bg-[#ffffff]"
-                onClick={() => setSelectedRate("")}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="border border-[#0F91D2] rounded-lg w-[150px] py-[10px] text-[#ffffff] font-semibold bg-[#0F91D2]"
-              >
-                Save
-              </button>
-            </div>
+        </div>
+        <div className="md:max-w-[550px] w-full mt-4 ms-auto">
+          <div className="grid sm:grid-cols-3 gap-3">
+            <button
+              type="reset"
+              className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              Publish
+            </button>
+            <button
+              type="submit"
+              className={`border rounded-lg py-[10px] w-full text-white font-semibold bg-[#0F91D2]`}
+            >
+              Save & Next
+            </button>
           </div>
         </div>
       </form>

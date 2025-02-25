@@ -18,6 +18,7 @@ export default function PhotosModal({ close }) {
       ...prevBeforeImages,
       ...newBeforeImages,
     ]);
+    event.target.value = "";
   };
 
   const handleAfterImageUpload = (event) => {
@@ -27,6 +28,7 @@ export default function PhotosModal({ close }) {
       ...prevAfterImages,
       ...newAfterImages,
     ]);
+    event.target.value = "";
   };
 
   const handleRemoveBeforeImage = (imageUrl) => {

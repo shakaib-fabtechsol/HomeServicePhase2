@@ -8,16 +8,14 @@ import { Box, Modal, Tab, Tabs } from "@mui/material";
 import { FiPhone } from "react-icons/fi";
 import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
 import { TbMailDown } from "react-icons/tb";
-import { PiChats } from "react-icons/pi";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
 } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
 import provider from "../../assets/img/provider.png";
-import Basic from "../Plan/Basic";
-import Standard from "../Plan/Standard";
-import Premium from "../Plan/Premium";
+import { CiHeart } from "react-icons/ci";
+import Plans from "../Plan/Plans";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,7 +47,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({backto,role}) {
+function ServiceDetail({ backto, role }) {
   useEffect(() => {
     document.title = "Service Details";
   }, []);
@@ -86,6 +84,27 @@ function ServiceDetail({backto,role}) {
 
   const navigate = useNavigate();
 
+  const tabData = [
+    {
+      label: "Basic",
+      price: 200,
+      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
+      features: ["3 Workers", "Delivered Within 2 Days"],
+    },
+    {
+      label: "Standard",
+      price: 400,
+      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
+      features: ["3 Workers", "Delivered Within 2 Days"],
+    },
+    {
+      label: "Premium",
+      price: 600,
+      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
+      features: ["3 Workers", "Delivered Within 2 Days"],
+    },
+  ];
+
   return (
     <div className="pmain">
       <div className="navv">
@@ -100,94 +119,113 @@ function ServiceDetail({backto,role}) {
         </p>
       </div>
       <div className="btm">
-        <div className="flex flex-col lg:flex-row justify-between">
+        <div className="flex flex-col lg:flex-row justify-between items-center">
           <h2 className="text-xl myhead font-semibold lg:me-2">
             Aliquam erat volutpat. Ut semper ipsum in vestibulum laoreet.
           </h2>
 
-          <div className="flex items-center justify-end mt-3 lg:mt-0">
-          {role !== "user" && (
-        <>
-          <Link
-            to="#"
-            className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
-          >
-            <FaRegTrashCan />
-          </Link>
-          <Link
-            to="#"
-            className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
-          >
-            <FaPencilAlt />
-          </Link>
-        </>
-      )}
+          <div className="flex items-center w-full lg:w-auto gap-2 justify-end mt-3 lg:mt-0">
+            {role !== "user" && (
+              <>
+                <Link
+                  to="#"
+                  className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md inline-block"
+                >
+                  <FaRegTrashCan />
+                </Link>
+                <Link
+                  to="#"
+                  className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md inline-block"
+                >
+                  <FaPencilAlt />
+                </Link>
+              </>
+            )}
           </div>
         </div>
-        <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="col-span-12 xl:col-span-8">
-            <div className="">
-              <div className="flex flex-wrap items-center">
-                <img
-                  onClick={() => navigate("/customer/ProfileDetails")}
-                  src={provider}
-                  alt=""
-                  className="me-2 my-2 rounded-lg max-w-[120px] cursor-pointer"
-                />
-                <div className="my-2">
-                  <div className="flex">
-                    <p className="font-semibold myhead me-2">Provider Name</p>
-                    <div className="flex">
-                      <IoIosStar className="me-2 text-[#F8C600]" />
-                      <p className="myblack text-sm">
-                        <span className="myhead font-semibold">4.9</span>(457)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
-                    <div className="flex items-center">
-                      <IoLocationOutline className="me-2 myblack" />
-                      <p className="myblack ">Address of the provider here</p>
-                    </div>
-                  </div>
-                  <div className="flex mt-2">
-                    <div className="flex me-2">
-                      <FaRegCalendarAlt className="me-2" />
-                      <p className="text-sm myblack">Hours:</p>
-                      <p className="text-sm text-[#34A853]"> Available</p>
-                    </div>
-                    <p className="text-sm myblack">Close 6PM</p>
-                  </div>
+        <div className="flex flex-wrap justify-between mt-3 lg:sticky lg:top-0 lg:z-[99] lg:py-1 bg-white">
+          <div className="flex flex-wrap lg:flex-nowrap items-center w-full lg:w-[calc(100%-230px)]">
+            <img
+              onClick={() => navigate("/customer/ProfileDetails")}
+              src={provider}
+              alt=""
+              className="me-2 my-2 rounded-lg max-w-[120px] cursor-pointer"
+            />
+            <div className="my-2">
+              <div className="flex">
+                <p className="font-semibold myhead me-2">Provider Name</p>
+                <div className="flex">
+                  <IoIosStar className="me-2 text-[#F8C600]" />
+                  <p className="myblack text-sm">
+                    <span className="myhead font-semibold">4.9</span>(457)
+                  </p>
                 </div>
               </div>
-              <Modal
-                open={contactopen}
-                onClose={handlecontactClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{ m: 2 }}
-              >
-                <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
-                  <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto scroll-x-hidden">
-                    <p className="text-lg font-semibold">Contact Pro</p>
-                    <div className="flex flex-col gap-3 mt-4">
-                      {modalContacts.map((contact, index) => (
-                        <Link
-                          key={index}
-                          className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
-                          to={contact.path}
-                        >
-                          <span className="text-[24px]">{contact.Icon}</span>
-                          <span>{contact.title}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+              <div className="flex flex-wrap mt-1">
+                <p className="myblack pe-3 me-2 border-e text-sm">
+                  House Cleaning
+                </p>
+                <div className="flex items-center">
+                  <IoLocationOutline className="me-1 myblack text-sm" />
+                  <p className="myblack text-sm">
+                    Address of the provider here
+                  </p>
                 </div>
-              </Modal>
+              </div>
+              <div className="flex mt-1">
+                <div className="flex me-2">
+                  <FaRegCalendarAlt className="me-2" />
+                  <p className="text-sm myblack">Hours:</p>
+                  <p className="text-sm text-[#34A853]"> Available</p>
+                </div>
+                <p className="text-sm myblack">Close 6PM</p>
+              </div>
             </div>
-            <img src={servicedet} alt="" className="rounded-xl mt-2 w-full" />
+          </div>
+          <div className="w-full lg:max-w-[220px]">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              <button
+                onClick={handlecontactOpen}
+                className="flex gap-2 p-3 justify-center items-center font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full"
+              >
+                <IoChatbubbleEllipsesOutline className="text-[#fff] text-xl" />
+                <span>Contact Pro</span>
+              </button>
+              <button className="flex gap-2 p-3 justify-center items-center border font-semibold rounded-lg text-[#535862] bg-[#fff] w-full">
+                <CiHeart className="text-xl" />
+                <span>Add to Favorites list</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <Modal
+          open={contactopen}
+          onClose={handlecontactClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          sx={{ m: 2 }}
+        >
+          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
+            <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto scroll-x-hidden">
+              <p className="text-lg font-semibold">Contact Pro</p>
+              <div className="flex flex-col gap-3 mt-4">
+                {modalContacts.map((contact, index) => (
+                  <Link
+                    key={index}
+                    className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
+                    to={contact.path}
+                  >
+                    <span className="text-[24px]">{contact.Icon}</span>
+                    <span>{contact.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Modal>
+        <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="col-span-12 xl:col-span-8">
+            <img src={servicedet} alt="" className="rounded-xl w-full" />
           </div>
           <div className="col-span-12 xl:col-span-4">
             <div className="flex flex-col h-full gap-5">
@@ -226,39 +264,34 @@ function ServiceDetail({backto,role}) {
                         },
                       }}
                     >
-                      <Tab label="Basic" {...a11yProps(0)} />
-                      <Tab label="Standard" {...a11yProps(1)} />
-                      <Tab label="Premium" {...a11yProps(2)} />
+                      {tabData.map((tab, index) => (
+                        <Tab
+                          key={index}
+                          label={tab.label}
+                          {...a11yProps(index)}
+                        />
+                      ))}
                     </Tabs>
                   </Box>
-                  <CustomTabPanel value={value} index={0}>
-                    <Basic />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={1}>
-                    <Standard />
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={2}>
-                    <Premium />
-                  </CustomTabPanel>
+                  {tabData.map((tab, index) => (
+                    <CustomTabPanel key={index} value={value} index={index}>
+                      <Plans
+                        title={tab.label}
+                        price={tab.price}
+                        desc={tab.desc}
+                        features={tab.features}
+                      />
+                    </CustomTabPanel>
+                  ))}
                 </Box>
               </div>
-              <button
-                onClick={handlecontactOpen}
-                className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
-              >
-                <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
-                <span>Contact Pro</span>
-              </button>
             </div>
           </div>
         </div>
         <div className="">
           <div className="flex flex-wrap mt-3">
-            <p className="px-3 py-1 font-semibold text-sm rounded-full me-2 text-[#0F91D2] bg-[#E7F4FB]">
+            <p className="px-3 py-1 font-semibold text-sm rounded-full text-[#0F91D2] bg-[#E7F4FB]">
               Cleaning
-            </p>
-            <p className="px-3 py-1 font-semibold text-sm rounded-full me-2 text-[#343434] bg-[#EBEBEB]">
-              Residential
             </p>
           </div>
           <h2 className="mt-4 text-xl myhead font-semibold">
