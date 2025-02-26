@@ -38,27 +38,39 @@ const CertificationHour = () => {
     }));
   };
 
-  const specialdays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  const [specialSchedule, setspecialSchedule] = useState(
-    specialdays.map((day) => ({
-      day,
+  const [specialSchedule, setSpecialSchedule] = useState([
+    {
+      text: "",
+      date: "",
+      hour: [{ start: "", end: "" }],
       closed: false,
-      slots: [{ start: "", end: "" }],
-    }))
-  );
+      Open24Hours: false,
+    },
+  ]);
 
-  const updatespecialSchedule = (dayIndex, update) => {
-    setspecialSchedule((prev) =>
-      prev.map((item, i) => (i === dayIndex ? { ...item, ...update } : item))
-    );
+  const updatespecialSchedule = (index, updatedFields) => {
+    const updatedSchedule = [...specialSchedule];
+    updatedSchedule[index] = { ...updatedSchedule[index], ...updatedFields };
+    setSpecialSchedule(updatedSchedule);
+  };
+  const deleteSlot = (index) => {
+    const updatedSchedule = specialSchedule.filter((_, i) => i !== index);
+    setSpecialSchedule(updatedSchedule);
+  };
+
+  const addNewEntry = () => {
+    const newEntry = {
+      text: "",
+      date: "",
+      hour: [{ start: "", end: "" }],
+      closed: false,
+      Open24Hours: false,
+    };
+    setSpecialSchedule([...specialSchedule, newEntry]);
+  };
+
+  const closeSpecificData = (index) => {
+    updatespecialSchedule(index, { closed: !specialSchedule[index].closed });
   };
 
   return (
@@ -224,81 +236,112 @@ const CertificationHour = () => {
               <div className="sm:col-span-2">
                 <div>
                   {specialSchedule.map((item, dayIndex) => (
-                    <div
-                      key={item.day}
-                      className="mb-4 md:grid grid-cols-3 gap-2"
-                    >
-                      <div>
-                        <p>{item.day}</p>
-                        <label className="flex gap-2 mt-2">
-                          <input
-                            type="checkbox"
-                            checked={item.closed}
-                            onChange={() =>
-                              updatespecialSchedule(dayIndex, {
-                                closed: !item.closed,
-                              })
-                            }
-                          />
-                          Closed
-                        </label>
-                        <label className="flex gap-2 mt-2">
-                          <input type="checkbox" />
-                          Open 24 Hours
-                        </label>
-                      </div>
-                      {!item.closed && (
-                        <div className="sm:col-start-2 sm:col-end-4">
-                          {item.slots.map((slot, slotIndex) => (
-                            <div
-                              key={slotIndex}
-                              className="flex items-center gap-2 mt-2"
+                    <div key={item.day} className="mb-4 grid md:grid-cols-3">
+                      <div className="md:col-start-2 md:col-end-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <input
+                              type="text"
+                              className="border border-[#D5D7DA] p-3 rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none w-full"
+                              placeholder="list holiday"
+                              value={item.text}
+                              onChange={(e) =>
+                                updatespecialSchedule(dayIndex, {
+                                  text: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="date"
+                              className="border border-[#D5D7DA] p-3 rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none w-[calc(100%-25px)]"
+                              value={item.date}
+                              onChange={(e) =>
+                                updatespecialSchedule(dayIndex, {
+                                  date: e.target.value,
+                                })
+                              }
+                            />
+                            <button
+                              type="button"
+                              className="text-gray-700 sm:w-auto flex-shrink-0"
+                              onClick={() => deleteSlot(dayIndex)}
                             >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4 mt-2 w-full">
+                          <label className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={item.closed}
+                              onChange={() => closeSpecificData(dayIndex)}
+                            />
+                            Closed
+                          </label>
+                          <label
+                            key={dayIndex}
+                            className="flex text-nowrap items-center gap-2"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={item.Open24Hours}
+                              onChange={() =>
+                                updatespecialSchedule(dayIndex, {
+                                  Open24Hours: !item.Open24Hours,
+                                })
+                              }
+                            />
+                            Open 24 Hours
+                          </label>
+                        </div>
+                        {item.hour?.map((slot, slotIndex) => (
+                          <div
+                            key={slotIndex}
+                            className="grid grid-cols-2 gap-4 mt-2"
+                          >
+                            <div>
                               <input
                                 type="time"
-                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
+                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
                                 value={slot.start}
                                 onChange={(e) => {
-                                  const slots = [...item.slots];
+                                  const slots = [...item.hour];
                                   slots[slotIndex].start = e.target.value;
-                                  updatespecialSchedule(dayIndex, { slots });
+                                  updatespecialSchedule(dayIndex, {
+                                    slots,
+                                  });
                                 }}
                               />
+                            </div>
+                            <div>
                               <input
                                 type="time"
-                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
+                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
                                 value={slot.end}
                                 onChange={(e) => {
-                                  const slots = [...item.slots];
+                                  const slots = [...item.hour];
                                   slots[slotIndex].end = e.target.value;
-                                  updatespecialSchedule(dayIndex, { slots });
+                                  updatespecialSchedule(dayIndex, {
+                                    slots,
+                                  });
                                 }}
                               />
-                              <button
-                                onClick={() =>
-                                  updatespecialSchedule(dayIndex, {
-                                    slots: item.slots.filter(
-                                      (_, i) => i !== slotIndex
-                                    ),
-                                  })
-                                }
-                              >
-                                <FaTrash />
-                              </button>
                             </div>
-                          ))}
+                          </div>
+                        ))}
+                        <div className="flex gap-3 mt-2 w-full">
                           <button
-                            className="py-2"
-                            onClick={() =>
-                              updatespecialSchedule(dayIndex, {
-                                slots: [...item.slots, { start: "", end: "" }],
-                              })
-                            }
+                            type="button"
+                            className="py-2 sm:w-auto"
+                            onClick={addNewEntry}
                           >
                             <FaPlusCircle />
                           </button>
                         </div>
-                      )}
+                      </div>
                     </div>
                   ))}
                 </div>
