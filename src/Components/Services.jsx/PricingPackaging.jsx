@@ -3,6 +3,38 @@ import { HiOutlineTrash } from "react-icons/hi";
 import down from "../../assets/img/chevronDown.png";
 
 const PricingPackaging = () => {
+  const [fixedRate, setFixedRate] = useState(""); // Fixed Rate Price
+  const [discount, setDiscount] = useState(""); // Buy Now Discount (%)
+  const [finalPrice, setFinalPrice] = useState(""); // Final List Price
+
+  // Function to handle Fixed Rate Price input
+  const handleFixedRateChange = (e) => {
+    let value = e.target.value.replace(/[^0-9.]/g, ""); // Remove non-numeric values
+    if (value) {
+      value = `$${value}`; // Add $ at the beginning
+    }
+    setFixedRate(value);
+    calculateFinalPrice(value, discount);
+  };
+
+  // Function to handle Buy Now Discount input
+  const handleDiscountChange = (e) => {
+    let value = e.target.value.replace(/[^0-9.]/g, ""); // Remove non-numeric values
+    if (value) {
+      value = `${value}%`; // Add % at the end
+    }
+    setDiscount(value);
+    calculateFinalPrice(fixedRate, value);
+  };
+
+  // Function to calculate Final List Price
+  const calculateFinalPrice = (fixed, disc) => {
+    let fixedValue = parseFloat(fixed.replace("$", "")) || 0; // Extract numeric value
+    let discountValue = parseFloat(disc.replace("%", "")) || 0; // Extract numeric value
+    let final = fixedValue - (fixedValue * discountValue) / 100; // Calculate discounted price
+    setFinalPrice(`$${final.toFixed(2)}`); // Format final price
+  };
+
   const [selectedRate, setSelectedRate] = useState("Flat");
 
   const handleRateChange = (event) => {
@@ -18,6 +50,108 @@ const PricingPackaging = () => {
     { value: "5", label: "Backlog | 1 month+" },
   ];
   const [showTier3, setShowTier3] = useState(true);
+  const [hourlyPrice, setHourlyPrice] = useState(""); // Hourly Rate
+  const [hourlyDiscount, setHourlyDiscount] = useState(""); // Discount (%)
+  const [hourlyFinal, setHourlyFinal] = useState(""); // Final List Price
+
+  // Handle Hourly Price Input
+  const handleHourlyPriceChange = (e) => {
+    let value = e.target.value.replace(/[^0-9.]/g, ""); // Only allow numbers
+    if (value) {
+      value = `$${value}/hour`; // Add "$" at the start and "/hour" at the end
+    }
+    setHourlyPrice(value);
+    calculateHourlyFinal(value, hourlyDiscount);
+  };
+
+  // Handle Hourly Discount Input
+  const handleHourlyDiscountChange = (e) => {
+    let value = e.target.value.replace(/[^0-9.]/g, ""); // Only allow numbers
+    if (value) {
+      value = `${value}%`; // Add "%" at the end
+    }
+    setHourlyDiscount(value);
+    calculateHourlyFinal(hourlyPrice, value);
+  };
+
+  const calculateHourlyFinal = (hourly, disc) => {
+    let hourlyValue =
+      parseFloat(hourly.replace("$", "").replace("/hour", "")) || 0;
+    let discountValue = parseFloat(disc.replace("%", "")) || 0;
+    let final = hourlyValue - (hourlyValue * discountValue) / 100;
+    setHourlyFinal(`$${final.toFixed(2)}/hour`);
+  };
+
+  // --------------tiers calculation--------
+  const [tiers, setTiers] = useState([
+    {
+      id: 1,
+      title: "",
+      deliverables: "",
+      price: "",
+      discount: "",
+      finalPrice: "",
+      estimatedTiming: "",
+    },
+    {
+      id: 2,
+      title: "",
+      deliverables: "",
+      price: "",
+      discount: "",
+      finalPrice: "",
+      estimatedTiming: "",
+    },
+    {
+      id: 3,
+      title: "",
+      deliverables: "",
+      price: "",
+      discount: "",
+      finalPrice: "",
+      estimatedTiming: "",
+    },
+  ]);
+
+  const handleInputChange = (tierId, field, value) => {
+    const updatedTiers = tiers.map((tier) => {
+      if (tier.id === tierId) {
+        let newValue = value.replace(/[^0-9.]/g, ""); // Allow only numbers and dot
+        if (field === "discount") newValue = value.replace(/[^0-9]/g, ""); // Only numbers for discount
+
+        let updatedTier = { ...tier, [field]: newValue };
+
+        // Ensure the price field always starts with $
+        if (field === "price") {
+          updatedTier.price = newValue ? `$${newValue}` : "";
+        }
+
+        // Ensure the discount field always ends with %
+        if (field === "discount") {
+          updatedTier.discount = newValue ? `${newValue}%` : "";
+        }
+
+        // Calculate final price
+        let numericPrice =
+          parseFloat(updatedTier.price.replace(/[^0-9.]/g, "")) || 0;
+        let numericDiscount =
+          parseFloat(updatedTier.discount.replace(/[^0-9]/g, "")) || 0;
+        let discountAmount = (numericPrice * numericDiscount) / 100;
+        let finalAmount = numericPrice - discountAmount;
+        updatedTier.finalPrice = finalAmount
+          ? `$${finalAmount.toFixed(2)}`
+          : "";
+
+        return updatedTier;
+      }
+      return tier;
+    });
+
+    setTiers(updatedTiers);
+  };
+  const handleDeleteTier3 = () => {
+    setTiers(tiers.filter((tier) => tier.id !== 3));
+  };
 
   return (
     <div>
@@ -98,9 +232,13 @@ const PricingPackaging = () => {
                     id="Flatr"
                     placeholder="Fixed Rate price should be 200%"
                     className="myinput focus-none mt-1"
+                    value={fixedRate}
+                    onChange={handleFixedRateChange}
                   />
                 </div>
               </div>
+
+              {/* Buy Now Discount */}
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
                   <label
@@ -112,11 +250,15 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="BuyNow"
-                    placeholder="By Now Discount 10%"
+                    placeholder="Buy Now Discount 10%"
                     className="myinput focus-none mt-1"
+                    value={discount}
+                    onChange={handleDiscountChange}
                   />
                 </div>
               </div>
+
+              {/* Final List Price (Readonly) */}
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
                   <label
@@ -128,8 +270,10 @@ const PricingPackaging = () => {
                   <input
                     type="text"
                     id="Finalp"
-                    placeholder="Final List Price 190%"
+                    placeholder="Final List Price"
                     className="myinput focus-none mt-1"
+                    value={finalPrice}
+                    readOnly
                   />
                 </div>
               </div>
@@ -167,48 +311,58 @@ const PricingPackaging = () => {
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
                   <label
-                    htmlFor="Hourlyr"
+                    htmlFor="HourlyPrice"
                     className="font-semibold text-sm text-[#181D27]"
                   >
                     Hourly Rate
                   </label>
                   <input
                     type="text"
-                    id="Hourlyr"
+                    id="HourlyPrice"
                     placeholder="Hour rate should be $25/hour"
                     className="myinput focus-none mt-1"
+                    value={hourlyPrice}
+                    onChange={handleHourlyPriceChange}
                   />
                 </div>
               </div>
+
+              {/* Hourly Discount */}
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
                   <label
-                    htmlFor="Discount"
+                    htmlFor="HourlyDiscount"
                     className="font-semibold text-sm text-[#181D27]"
                   >
                     Discount (%)
                   </label>
                   <input
                     type="text"
-                    id="Discount"
-                    placeholder="Buy Now Discount 10 %"
+                    id="HourlyDiscount"
+                    placeholder="Buy Now Discount 10%"
                     className="myinput focus-none mt-1"
+                    value={hourlyDiscount}
+                    onChange={handleHourlyDiscountChange}
                   />
                 </div>
               </div>
+
+              {/* Final Hourly Price (Readonly) */}
               <div className="col-span-12 lg:col-span-7 mt-4">
                 <div className="flex flex-col">
                   <label
-                    htmlFor="Final"
+                    htmlFor="HourlyFinal"
                     className="font-semibold text-sm text-[#181D27]"
                   >
                     Final List Price
                   </label>
                   <input
                     type="text"
-                    id="Final"
-                    placeholder="Final List Price should be $22.25"
+                    id="HourlyFinal"
+                    placeholder="Final List Price should be $22.25/hour"
                     className="myinput focus-none mt-1"
+                    value={hourlyFinal}
+                    readOnly
                   />
                 </div>
               </div>
@@ -248,316 +402,126 @@ const PricingPackaging = () => {
                   Pricing Packages
                 </p>
                 <div className="bg-[#FAFAFA] rounded-[12px] p-5 mt-6">
-                  <div>
-                    <div className="grid lg:grid-cols-3 gap-5">
-                      <div>
-                        <div className="flex justify-between items-center">
-                          <p className="font-semibold text-[#181D27]">Tier 1</p>
-                        </div>
+                  <div className="grid lg:grid-cols-3 gap-5">
+                    {tiers.map((tier) => (
+                      <div key={tier.id} className="relative">
+                        <p className="font-semibold text-[#181D27] flex justify-between">
+                          Tier {tier.id}
+                          {tier.id === 3 && (
+                            <button onClick={handleDeleteTier3}>
+                              <HiOutlineTrash className="text-[20px] cursor-pointer text-red-500" />
+                            </button>
+                          )}
+                        </p>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier1Title"
-                          >
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Title
                           </label>
                           <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
                             type="text"
                             placeholder="Title"
-                            id="tier1Title"
+                            value={tier.title}
+                            onChange={(e) =>
+                              handleInputChange(
+                                tier.id,
+                                "title",
+                                e.target.value
+                              )
+                            }
                           />
                         </div>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier1Deliverables"
-                          >
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Deliverables
                           </label>
                           <textarea
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            name="tier1Deliverables"
-                            id="tier1Deliverables"
+                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
                             placeholder="Add specific deliverables for this deal"
                             rows={4}
+                            value={tier.deliverables}
+                            onChange={(e) =>
+                              handleInputChange(
+                                tier.id,
+                                "deliverables",
+                                e.target.value
+                              )
+                            }
                           ></textarea>
                         </div>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier1Price"
-                          >
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Price
                           </label>
                           <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
                             type="text"
                             placeholder="Should be $50"
-                            id="tier1Price"
+                            value={tier.price}
+                            onChange={(e) =>
+                              handleInputChange(
+                                tier.id,
+                                "price",
+                                e.target.value
+                              )
+                            }
                           />
                         </div>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier1BuyNowDiscount"
-                          >
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Buy Now Discount
                           </label>
                           <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
                             type="text"
                             placeholder="Buy Now Discount 10 %"
-                            id="tier1BuyNowDiscount"
+                            value={tier.discount}
+                            onChange={(e) =>
+                              handleInputChange(
+                                tier.id,
+                                "discount",
+                                e.target.value
+                              )
+                            }
                           />
                         </div>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier1FinalListPrice"
-                          >
-                            Final List Price
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
+                            Final Price
                           </label>
                           <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
                             type="text"
-                            placeholder="Final List Price $45"
-                            id="tier1FinalListPrice"
+                            placeholder="Final Price"
+                            value={tier.finalPrice}
+                            readOnly
                           />
                         </div>
                         <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2EstimatedTiming"
-                          >
+                          <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Estimated Service Timing
                           </label>
                           <select
-                            name=""
                             className="myselect pe-[30px] focus-none mt-1"
-                            id=""
+                            value={tier.estimatedTiming}
+                            onChange={(e) =>
+                              handleInputChange(
+                                tier.id,
+                                "estimatedTiming",
+                                e.target.value
+                              )
+                            }
                           >
-                            {timeoptions.map((option, index) => (
-                              <option
-                                className="first:hidden"
-                                key={index}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </option>
-                            ))}
+                            <option value="" selected hidden>
+                              How soon can you get it scheduled?
+                            </option>
+                            <option value="1-3 days">1-3 days</option>
+                            <option value="3-5 days">3-5 days</option>
+                            <option value="5-7 days">5-7 days</option>
                           </select>
                         </div>
                       </div>
-                      <div>
-                        <div className="flex justify-between items-center">
-                          <p className="font-semibold text-[#181D27]">Tier 2</p>
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2Title"
-                          >
-                            Title
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Title"
-                            id="tier2Title"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2Deliverables"
-                          >
-                            Deliverables
-                          </label>
-                          <textarea
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            name="tier2Deliverables"
-                            id="tier2Deliverables"
-                            placeholder="Add specific deliverables for this deal"
-                            rows={4}
-                          ></textarea>
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2Price"
-                          >
-                            Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Should be $50"
-                            id="tier2Price"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2BuyNowDiscount"
-                          >
-                            Buy Now Discount
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Buy Now Discount 10 %"
-                            id="tier2BuyNowDiscount"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2FinalListPrice"
-                          >
-                            Final List Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Final List Price $45"
-                            id="tier2FinalListPrice"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier2EstimatedTiming"
-                          >
-                            Estimated Service Timing
-                          </label>
-                          <select
-                            name=""
-                            className="myselect pe-[30px] focus-none mt-1"
-                            id=""
-                          >
-                            {timeoptions.map((option, index) => (
-                              <option
-                                className="first:hidden"
-                                key={index}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-
-                      <>
-      {showTier3 && (
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="font-semibold text-[#181D27]">Tier 3</p>
-            <HiOutlineTrash
-              className="text-[18px] cursor-pointer text-red-500"
-              onClick={() => setShowTier3(false)}
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3Title"
-                          >
-                            Title
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Title"
-                            id="tier3Title"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3Deliverables"
-                          >
-                            Deliverables
-                          </label>
-                          <textarea
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            name="tier3Deliverables"
-                            id="tier3Deliverables"
-                            placeholder="Add specific deliverables for this deal"
-                            rows={4}
-                          ></textarea>
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3Price"
-                          >
-                            Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Should be $50"
-                            id="tier3Price"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3BuyNowDiscount"
-                          >
-                            Buy Now Discount
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Buy Now Discount 10 %"
-                            id="tier3BuyNowDiscount"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3FinalListPrice"
-                          >
-                            Final List Price
-                          </label>
-                          <input
-                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                            type="text"
-                            placeholder="Final List Price $45"
-                            id="tier3FinalListPrice"
-                          />
-                        </div>
-                        <div className="flex flex-col mt-4">
-                          <label
-                            className="text-sm font-semibold ps-2 text-[#181D27]"
-                            htmlFor="tier3EstimatedTiming"
-                          >
-                            Estimated Service Timing
-                          </label>
-                          <select
-                            name=""
-                            className="myselect pe-[30px] focus-none mt-1"
-                            id=""
-                          >
-                            {timeoptions.map((option, index) => (
-                              <option
-                                className="first:hidden"
-                                key={index}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-        </div>
-      )}
-    </>
-
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
