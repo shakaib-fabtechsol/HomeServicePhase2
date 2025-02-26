@@ -164,12 +164,12 @@ export default function Clientssr() {
     provider.phone,
     provider.address,
     <div className="flex items-center gap-2">
-      <Link to="#">
+      <Link to="/sales/clientprofile">
         <LuEye className="text-[20px]" />
       </Link>
-      <button>
+      <Link to="/sales/editclient">
         <SlPencil className="text-[20px]" />
-      </button>
+      </Link>
     </div>,
   ]);
   return (

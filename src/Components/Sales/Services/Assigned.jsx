@@ -193,7 +193,7 @@ export default function Assigned() {
     <p>{`$${provider.totalCom}`}</p>,
     provider.rating,
     <div className="flex items-center gap-2">
-      <Link className="text-xl">
+      <Link to="/sales/prodetails" className="text-xl">
         <IoEyeOutline />
       </Link>
       <Link className="text-xl">

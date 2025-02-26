@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import SupportSlider from "../SupportSlider";
 
-export default function CommonSupport() {
+export default function CommonSupport({Role}) {
   useEffect(() => {
     document.title = "Support";
   }, []);
@@ -49,6 +50,11 @@ export default function CommonSupport() {
           </p>
         </div>
       </div>
+      {Role === "provider" && (
+        <div className="my-5">
+          <SupportSlider />
+        </div>
+      )}
       <div>
         <div className="flex flex-col mt-4 gap-3 md:max-w-[500px]">
           {inputData.map((field, index) => (
@@ -65,12 +71,17 @@ export default function CommonSupport() {
               />
             </div>
           ))}
-          <div >
-              <label className="text-sm font-medium" htmlFor="message">
-                Message
-              </label>
-              <textarea name="" id="message" rows={7} className="border border-[#A2A1A81A] w-full block p-3 rounded-[8px] outline-none mt-1"></textarea>
-            </div>
+          <div>
+            <label className="text-sm font-medium" htmlFor="message">
+              Message
+            </label>
+            <textarea
+              name=""
+              id="message"
+              rows={7}
+              className="border border-[#A2A1A81A] w-full block p-3 rounded-[8px] outline-none mt-1"
+            ></textarea>
+          </div>
         </div>
         <div className="mt-6 flex justify-end gap-3">
           <button

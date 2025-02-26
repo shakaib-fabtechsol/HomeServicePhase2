@@ -164,7 +164,7 @@ export default function Clients() {
     provider.phone,
     provider.address,
     <div className="flex items-center gap-2">
-      <Link to="/superadmin/prodetails">
+      <Link to="/superadmin/clientprofile">
         <LuEye className="text-[20px]" />
       </Link>
       <Link to="/superadmin/editclient">
@@ -176,9 +176,7 @@ export default function Clients() {
     <div>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Clients</h2>
-        <p className="text-gray-600">
-          Track and manage your clients.
-        </p>
+        <p className="text-gray-600">Track and manage your clients.</p>
       </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">
