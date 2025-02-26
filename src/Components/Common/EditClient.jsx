@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import camera from "../../assets/img/cameraicon.png";
 import { Link } from "react-router-dom";
 
-export default function EditClient() {
+export default function EditClient({oncancel,onsave}) {
   const [image, setImage] = useState(null);
 
   const handleImageChange = (event) => {
@@ -29,7 +29,7 @@ export default function EditClient() {
           Track and manage your favorite services.
         </p>
       </div>
-      <form action="/superadmin/clients">
+      <form action={onsave}>
         <label className="w-[100px] h-[100px] bg-[#A2A1A80D] border border-[#A2A1A833] flex items-center justify-center cursor-pointer rounded-lg overflow-hidden">
           {image ? (
             <img
@@ -62,7 +62,7 @@ export default function EditClient() {
         </div>
         <div className="mt-4 flex justify-end gap-3">
           <Link
-            to="/superadmin/clients"
+            to={oncancel}
             className="text-[#16151C] py-2 px-4 border border-[#A2A1A833] rounded-[10px]"
             type="button"
           >

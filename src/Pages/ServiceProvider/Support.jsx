@@ -3,7 +3,7 @@ import CommonSupport from '../../Components/Common/CommonSupport'
 
 function SupportSr() {
   return (
-    <CommonSupport />
+    <CommonSupport Role={"provider"} />
   )
 }
 

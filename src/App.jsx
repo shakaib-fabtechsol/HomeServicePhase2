@@ -68,7 +68,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import NewPassword from "./Pages/Auth/NewPassword";
-import EditClient from "./Pages/SuperAdmin/EditClient";
+import ClientProfilep from "./Pages/ServiceProvider/ClientProfileP";
+import ClientProfilesa from "./Pages/SuperAdmin/ClientProfilesa";
+import ProDetailssr from "./Pages/Sales/Prodetailssr";
+import DealsDetailssr from "./Pages/Sales/DealsDetailssr";
+import ClientProfilesr from "./Pages/Sales/ClientProfilesr";
+import EditClientsa from "./Pages/SuperAdmin/EditClientsa";
+import EditClientSr from "./Pages/Sales/EditClientSr";
 
 function App() {
   return (
@@ -89,6 +95,7 @@ function App() {
           <Route path="/provider/conversations" element={<Conversations />} />
           <Route path="/provider/dealDetails" element={<DealDetails />} />
           <Route path="/provider/profile" element={<Profilep />} />
+          <Route path="/provider/clientprofile" element={<ClientProfilep />} />
           <Route path="/provider/reports" element={<ReportsP />} />
         </Route>
         <Route element={<CustomerLayout />}>
@@ -115,7 +122,11 @@ function App() {
           <Route path="/superadmin/providers" element={<Providers />} />
           <Route path="/superadmin/prodetails" element={<ProDetails />} />
           <Route path="/superadmin/clients" element={<Clients />} />
-          <Route path="/superadmin/editclient" element={<EditClient />} />
+          <Route
+            path="/superadmin/clientprofile"
+            element={<ClientProfilesa />}
+          />
+          <Route path="/superadmin/editclient" element={<EditClientsa />} />
           <Route path="/superadmin/sales" element={<Sales />} />
           <Route path="/superadmin/salesrepd" element={<SalesRepd />} />
           <Route path="/superadmin/editsalesrep" element={<EditSalesRep />} />
@@ -134,8 +145,12 @@ function App() {
         <Route element={<SalesLayout />}>
           <Route path="/sales/dashboard" element={<Dashboardsr />} />
           <Route path="/sales/services" element={<Servicessr />} />
+          <Route path="/sales/prodetails" element={<ProDetailssr />} />
+          <Route path="/sales/dealdetails" element={<DealsDetailssr />} />
           <Route path="/sales/reports" element={<ReportsSr />} />
           <Route path="/sales/clients" element={<Clientssr />} />
+          <Route path="/sales/clientprofile" element={<ClientProfilesr />} />
+          <Route path="/sales/editclient" element={<EditClientSr />} />
           <Route path="/sales/tasklist" element={<TaskListsr />} />
           <Route path="/sales/recentdeals" element={<RecentDeals />} />
           <Route path="/sales/notification" element={<Notificationsr />} />

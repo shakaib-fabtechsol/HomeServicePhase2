@@ -83,7 +83,7 @@ export default function SalesLayout() {
           userInfo={userInfo}
         />
         <div className="right">
-          <div className="right-bottom p-2">
+          <div className="right-bottom px-2">
             <div className="container-fluid">
               <Outlet />
             </div>
