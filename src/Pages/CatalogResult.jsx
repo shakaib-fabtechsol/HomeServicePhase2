@@ -125,6 +125,17 @@ function CatalogResult() {
         <div className="container-fluid px-2">
           <div className="flex flex-col md:mt-8 md:flex-row justify-between">
             <div className="max-[100%] md:max-w-[280px] mt-2 w-full">
+            </div>
+            <div className="filter-other mt-5 md:mt-0">
+            <p className="text-lg">
+                Showing full catalog results, giving you the{" "}
+                <b>widest variety</b> of <b>services</b>...{" "}
+              </p>
+              <p className="text-sm text-[#757575]">60 results</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="max-[100%] md:max-w-[280px] mt-4 w-full">
               <div className="bg-[#F8F8F8] px-4 py-4 h-full rounded-lg">
                 <h4 className="font-semibold text-lg mb-2">Filters</h4>
                 {/* Budget Accordion */}
@@ -254,12 +265,7 @@ function CatalogResult() {
                 </div>
               </div>
             </div>
-            <div className="filter-other mt-5 md:mt-0">
-              <p className="text-lg">
-                Showing full catalog results, giving you the{" "}
-                <b>widest variety</b> of <b>services</b>...{" "}
-              </p>
-              <p className="text-sm text-[#757575]">60 results</p>
+            <div className="filter-other ">
               <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {services.map((service, index) => (
                   <ServiceBox

@@ -22,27 +22,31 @@ const MainNav = ({ toggleSidebar, logolink }) => {
         </NavLink>
       </div>
 
-      <div className="md:flex hidden ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
-        <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
-          <div className="w-[40%]">
-            <input
-              type="text"
-              placeholder="Search for any service..."
-              className="py-[6px] bg-transparent focus-none w-full border-r px-3"
-            />
+      <div className="ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
+        <form action="/catalogResult" className="w-full">
+          <div className="md:flex hidden ms-auto md:mx-auto lg:w-full ">
+            <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
+              <div className="w-[40%]">
+                <input
+                  type="text"
+                  placeholder="Search for any service..."
+                  className="py-[6px] bg-transparent focus-none w-full border-r px-3"
+                />
+              </div>
+              <div className="flex w-[60%] items-center px-3">
+                <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
+                <input
+                  type="text"
+                  placeholder="Location for the service..."
+                  className="py-[6px] bg-transparent focus-none"
+                />
+              </div>
+            </div>
+            <button type="submit" className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1">
+              <FaSearch />
+            </button>
           </div>
-          <div className="flex w-[60%] items-center px-3">
-            <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
-            <input
-              type="text"
-              placeholder="Location for the service..."
-              className="py-[6px] bg-transparent focus-none"
-            />
-          </div>
-        </div>
-        <div className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1">
-          <FaSearch />
-        </div>
+        </form>
       </div>
 
       <div className="flex items-center">

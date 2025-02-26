@@ -182,7 +182,7 @@ select option {
     background-image: url(../img/chevron.svg);
     background-size: 25px;
     background-repeat: no-repeat;
-    background-position: calc(100% - 10px) center;
+    background-position: calc(100% - 4px) center;
     appearance: none;
 }
 

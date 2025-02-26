@@ -16,6 +16,7 @@ const orders = [
         price: '$200',
         provider: 'Tatiana Dorwart',
         date: 'Dec 21, 2024 7:59 pm',
+        status: 'New',
     },
     {
         id: 2,
@@ -24,6 +25,34 @@ const orders = [
         price: '$150',
         provider: 'John Doe',
         date: 'Jan 10, 2025 3:45 pm',
+        status: 'Scheduled',
+    },
+    {
+        id: 2,
+        serviceName: 'Another Service',
+        description: 'Praesent tincidunt consectetur justo, at fermentum metus.',
+        price: '$150',
+        provider: 'John Doe',
+        date: 'Jan 10, 2025 3:45 pm',
+        status: 'In Progress',
+    },
+    {
+        id:  3,
+        serviceName: 'Another Service',
+        description: 'Praesent tincidunt consectetur justo, at fermentum metus.',
+        price: '$150',
+        provider: 'John Doe',
+        date: 'Jan 10, 2025 3:45 pm',
+        status: 'Completed',
+    },
+    {
+        id:  4,
+        serviceName: 'Another Service',
+        description: 'Praesent tincidunt consectetur justo, at fermentum metus.',
+        price: '$150',
+        provider: 'John Doe',
+        date: 'Jan 10, 2025 3:45 pm',
+        status: 'Completed',
     },
 ];
 
@@ -41,7 +70,7 @@ const Order = () => {
                 </div>
                 <div className='flex items-center justify-end gap-2'>
                     <button className='border bg-white px-4 py-3 rounded-lg flex text-sm items-center gap-2'><BsSliders />Filter</button>
-                    <button className='border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2'><FiDownload />Export</button>
+                    <button className='border border-[#0F91D2] bg-white text-[#0F91D2] px-4 py-3 rounded-lg flex text-sm items-center gap-2'><FiDownload />Export Data</button>
                 </div>
             </div>
             <div className='overflow-x-auto'>
@@ -50,6 +79,7 @@ const Order = () => {
                         <tr className='border rounded-t-xl'>
                             <th className='text-start p-3 font-normal'>Service</th>
                             <th className='text-start p-3 font-normal'>Service Provider</th>
+                            <th className='text-start p-3 font-normal'>Status</th>
                             <th className='text-start p-3 font-normal'>Contact Pro</th>
                             <th className='text-start p-3 font-normal'>Action</th>
                         </tr>
@@ -82,6 +112,23 @@ const Order = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </td>
+                                <td className="p-3">
+                                <p
+      className={`inline text-xs py-1 text-nowrap px-2 rounded-[4px] ${
+        order.status === "New"
+          ? "bg-[#0F91D21A]  text-[#0F91D2]"
+          : order.status === "Scheduled"
+          ? "bg-[#D20F8A1A]  text-[#D20F8A]"
+          : order.status === "In Progress"
+          ? "bg-[#FB86031A]  text-[#FB8603]"
+          : order.status === "Completed"
+          ? "bg-[#4CB53C1A]  text-[#4CB53C]"
+          : ""
+      }`}
+    >
+      {order.status}
+    </p>
                                 </td>
                                 <td className='p-3 text-nowrap'>{order.date}</td>
                                 <td className='p-3'>

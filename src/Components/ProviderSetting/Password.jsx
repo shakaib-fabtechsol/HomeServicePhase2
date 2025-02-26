@@ -25,12 +25,13 @@ const Password = () => {
             <div className="grid border-b py-4 grid-cols-1 md:grid-cols-12">
               <div className="col-span-12 md:col-span-4 lg:col-span-3">
                 <label htmlFor="current_password" className="font-semibold">
-                  Current Password
+                  Current Password*
                 </label>
               </div>
               <div className="col-span-12 md:col-span-8 lg:col-span-6">
                 <input
                   type="password"
+                  placeholder="**********"
                   id="current_password"
                   name="current_password"
                   onChange={handleChange}
@@ -41,12 +42,13 @@ const Password = () => {
             <div className="grid border-b py-4 grid-cols-1 md:grid-cols-12">
               <div className="col-span-12 md:col-span-4 lg:col-span-3">
                 <label htmlFor="password" className="font-semibold">
-                  New Password
+                  New Password*
                 </label>
               </div>
               <div className="col-span-12 md:col-span-8 lg:col-span-6">
                 <input
                   type="password"
+                  placeholder="**********"
                   id="password"
                   name="password"
                   onChange={handleChange}
@@ -57,12 +59,13 @@ const Password = () => {
             <div className="grid border-b py-4 grid-cols-1 md:grid-cols-12">
               <div className="col-span-12 md:col-span-4 lg:col-span-3">
                 <label htmlFor="confirm_password" className="font-semibold">
-                  Confirm New Password
+                  Confirm New Password*
                 </label>
               </div>
               <div className="col-span-12 md:col-span-8 lg:col-span-6">
                 <input
                   type="password"
+                  placeholder="**********"
                   id="confirm_password"
                   name="confirm_password"
                   onChange={handleChange}
