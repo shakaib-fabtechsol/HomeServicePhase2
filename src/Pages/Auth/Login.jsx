@@ -12,8 +12,8 @@ function Login() {
   return (
     <div className="w-full justify-center flex h-[100dvh]">
       <div className="flex flex-col justify-center min-h-[100dvh] w-full max-w-[700px]">
-        <div className="px-[15px] sm:px-[30px] py-3 lg:px-[50px] xl:px-[130px]">
-          <div className="flex justify-center pt-10">
+        <div className="px-[15px] sm:px-[30px] h-full lg:px-[50px] xl:px-[130px]">
+          <div className="flex justify-center ">
             <img
               src={logo}
               alt=""
@@ -89,7 +89,7 @@ function Login() {
             </div>
           </Link>
 
-          <p className="text-center block mt-5">
+          <p className="text-center block mt-5 pb-4">
             Don't have an account?{" "}
             <Link to="/register" className="text-blue font-semibold">
               Sign up
