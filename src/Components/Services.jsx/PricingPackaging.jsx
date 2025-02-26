@@ -515,12 +515,15 @@ const PricingPackaging = () => {
                               )
                             }
                           >
-                            <option value="" selected hidden>
-                              How soon can you get it scheduled?
-                            </option>
-                            <option value="1-3 days">1-3 days</option>
-                            <option value="3-5 days">3-5 days</option>
-                            <option value="5-7 days">5-7 days</option>
+                           {timeoptions.map((option, index) => (
+                      <option
+                        className="first:hidden"
+                        key={index}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
                           </select>
                         </div>
                       </div>
