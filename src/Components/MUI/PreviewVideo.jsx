@@ -92,7 +92,7 @@ export default function PreviewMedia({ onFileSelect, fieldName }) {
           <div className="upload-placeholder flex flex-col items-center justify-center min-h-[180px]">
             <img src={upload} alt="upload" className="w-[50px] mb-4" />
             <p className="text-gray-500">
-              <strong>Click to upload</strong> or drag and drop
+              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop
             </p>
             <p className="text-sm text-gray-400">
               Supported formats: {supportedFormats.join(", ")}

@@ -108,7 +108,7 @@ const BusinessProfile = () => {
           </div>
           <div>
             <div className="py-8 border-b">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <label className="text-sm font-semibold" htmlFor="bname">
                     Business name*
@@ -128,7 +128,7 @@ const BusinessProfile = () => {
               </div>
             </div>
             <div className="py-8 border-b">
-              <div className="grid md:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid md:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <p className="text-sm font-semibold text-[#414651]">
                     Business Logo
@@ -146,7 +146,7 @@ const BusinessProfile = () => {
               </div>
             </div>
             {/* <div className="py-8 border-b">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <label className="text-sm font-semibold" htmlFor="location">
                     Mailing Address
@@ -175,7 +175,7 @@ const BusinessProfile = () => {
               </div>
             </div> */}
             <div className="py-8 border-b">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <p className="text-sm font-semibold" htmlFor="about">
                     About
@@ -197,7 +197,7 @@ const BusinessProfile = () => {
               </div>
             </div>
             <div className="py-8 border-b">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <label className="text-sm font-semibold" htmlFor="PrimaryCat">
                     Primary Business Category*
@@ -226,7 +226,7 @@ const BusinessProfile = () => {
                   </select>
                 </div>
               </div>
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px] mt-4">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px] mt-4">
                 <div>
                   <label
                     className="text-sm font-semibold"
@@ -261,7 +261,7 @@ const BusinessProfile = () => {
               </div>
             </div>
             <div className="py-8">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[1000px]">
+              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <label className="text-sm font-semibold" htmlFor="Website">
                     Website

@@ -24,7 +24,7 @@ const Payment = () => {
               <div className="col-span-12 md:col-span-4 lg:col-span-3">
                 <div>
                   <label htmlFor="Title" className="font-semibold">
-                    Business Name
+                  Account Holder Name*
                   </label>
                   <p className="text-[#535862] text-sm">
                     This is your legal business name for tax purposes. This will

@@ -158,7 +158,7 @@ const OrderDetail = () => {
                         </div>
                     </div>
                     <div className='mt-3'>
-                        <p className='text-[#535862] text-xs'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.</p>
+                        <p className='text-[#535862] text-xs lg:max-w-[calc(100%-97px)]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.</p>
                     </div>
                     <div className="grid 2xl:grid-cols-8 xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 mt-4">
                         {deliveryImages.map((image, index) => (
@@ -279,7 +279,8 @@ const OrderDetail = () => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                sx={{m:2, zIndex: "9999"}}
+                sx={{m:2, zIndex: "9999", maxWidth:"450px", margin:"auto"}}
+               
             >
                 <Box sx={style}>
                     <Typography sx={{ fontFamily: "inter", p: 2 }} id="modal-modal-title" variant="h6" component="h2">
@@ -336,7 +337,7 @@ const OrderDetail = () => {
                                     <button className='bg-white border shadow-lg p-2 w-full rounded-lg'>Cancel</button>
                                 </div>
                                 <div className='w-full'>
-                                    <button className='bg-[#0F91D2] border shadow-lg text-white p-2 w-full rounded-lg'>Cancel</button>
+                                    <button className='bg-[#0F91D2] border shadow-lg text-white p-2 w-full rounded-lg'>Confirm Revision</button>
                                 </div>
                             </div>
                         </form>
