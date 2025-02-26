@@ -1,13 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
-import { BsSliders } from "react-icons/bs";
+import { BsChatLeftDots, BsSliders } from "react-icons/bs";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
 import { LuPhone } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import ServiceDet from "../../assets/img/service-det.png";
-import { IoCalendarOutline } from "react-icons/io5";
+import { IoCalendarOutline, IoLocationOutline } from "react-icons/io5";
 import DateModal from "../../Components/Provider/DateModal";
 import { Modal } from "@mui/material";
 import PhotosModal from "../../Components/Provider/PhotosModal";
@@ -46,6 +46,7 @@ export default function Ordersp() {
       price: "$200",
       provider: "Tatiana Dorwart",
       date: "Dec 21, 2024",
+      location: "Lorem Ipsum is simply dummy text of the printing",
       status: "New",
     },
     {
@@ -56,6 +57,7 @@ export default function Ordersp() {
       price: "$150",
       provider: "John Doe",
       date: "Dec 21, 2024",
+      location: "Lorem Ipsum is simply dummy text of the printing",
       status: "Scheduled",
     },
     {
@@ -66,6 +68,7 @@ export default function Ordersp() {
       price: "$200",
       provider: "Tatiana Dorwart",
       date: "Dec 21, 2024",
+      location: "Lorem Ipsum is simply dummy text of the printing",
       status: "In Progress",
     },
     {
@@ -76,6 +79,7 @@ export default function Ordersp() {
       price: "$150",
       provider: "John Doe",
       date: "Dec 21, 2024",
+      location: "Lorem Ipsum is simply dummy text of the printing",
       status: "Completed",
     },
   ];
@@ -99,25 +103,33 @@ export default function Ordersp() {
         </div>
       </div>
     </div>,
-    <div className="flex items-center gap-2">
-      <img
-        src={order.customerimg}
-        alt=""
-        className="size-12 max-w-12 rounded-full object-cover"
-      />
-      <div>
-        <h6>{order.provider}</h6>
-        <div className="flex items-center gap-1 mt-1">
-          <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
-            <LuPhone /> Phone Call
-          </Link>
-          <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
-            <MdOutlineMailOutline /> Email
-          </Link>
-          <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
-            <CiLocationOn /> Address
-          </Link>
+    <div>
+      <div className="flex items-center gap-2">
+        <img
+          src={order.customerimg}
+          alt=""
+          className="size-12 max-w-12 rounded-full object-cover"
+        />
+        <div>
+          <h6>{order.provider}</h6>
+          <div className="flex items-center gap-1 mt-1">
+            <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+              <LuPhone /> Phone Call
+            </Link>
+            <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+              <MdOutlineMailOutline /> Email
+            </Link>
+            <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+              <BsChatLeftDots /> Chat
+            </Link>
+          </div>
         </div>
+      </div>
+      <div className="mt-2 text-xs flex items-center gap-1">
+        <IoLocationOutline />
+        <p className="text-[10px]">
+          <span className="font-semibold">Service Location</span> : {order.location}
+        </p>
       </div>
     </div>,
     <p
