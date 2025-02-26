@@ -70,11 +70,19 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import NewPassword from "./Pages/Auth/NewPassword";
 import EditClient from "./Pages/SuperAdmin/EditClient";
 
+import { ROUTES, ROLES } from "./config/routeConfig";
+import { PrivateRoute } from "./PrivateRoute";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<ProviderLayout />}>
+        <Route
+          element={
+            <PrivateRoute allowedRoles={[ROLES.PROVIDER]}>
+              <ProviderLayout />
+            </PrivateRoute>
+          }
+        >
           <Route path="/provider/settings" element={<Settings />} />
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
@@ -91,25 +99,36 @@ function App() {
           <Route path="/provider/profile" element={<Profilep />} />
           <Route path="/provider/reports" element={<ReportsP />} />
         </Route>
-        <Route element={<CustomerLayout />}>
-          <Route path="/customer/dashboard" element={<Dashboardc />} />
-          <Route path="/customer/orderdetails" element={<OrderDetail />} />
-          <Route path="/customer/bucks" element={<ProBucks />} />
-          <Route path="/customer/order" element={<Order />} />
-          <Route path="/customer/setting" element={<Setting />} />
-          <Route path="/customer/profile" element={<Profile />} />
-          <Route path="/customer/message" element={<Message />} />
-          <Route
-            path="/customer/explore-service"
-            element={<ExploreServices />}
-          />
-          <Route path="/customer/support" element={<Supportc />} />
-          <Route path="/customer/notification" element={<Notificationc />} />
-          <Route path="/customer/favourites" element={<FavouritesC />} />
-          <Route path="/customer/payments" element={<Payments />} />
-          <Route path="/customer/dealDetails" element={<DealDetailsC />} />
-          <Route path="/customer/reports" element={<ReportsC />} />
+
+        <Route
+          element={
+            <PrivateRoute allowedRoles={[ROLES.CUSTOMER]}>
+              <CustomerLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route element={<CustomerLayout />}>
+            <Route path="/customer/dashboard" element={<Dashboardc />} />
+            <Route path="/customer/orderdetails" element={<OrderDetail />} />
+            <Route path="/customer/bucks" element={<ProBucks />} />
+            <Route path="/customer/order" element={<Order />} />
+            <Route path="/customer/setting" element={<Setting />} />
+            <Route path="/customer/profile" element={<Profile />} />
+            <Route path="/customer/message" element={<Message />} />
+            <Route
+              path="/customer/explore-service"
+              element={<ExploreServices />}
+            />
+            <Route path="/customer/support" element={<Supportc />} />
+            <Route path="/customer/notification" element={<Notificationc />} />
+            <Route path="/customer/favourites" element={<FavouritesC />} />
+            <Route path="/customer/payments" element={<Payments />} />
+            <Route path="/customer/dealDetails" element={<DealDetailsC />} />
+            <Route path="/customer/reports" element={<ReportsC />} />
+          </Route>
         </Route>
+
+
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
           <Route path="/superadmin/providers" element={<Providers />} />
@@ -144,17 +163,17 @@ function App() {
           <Route path="/sales/chat" element={<Chatsr />} />
           <Route path="/sales/profile" element={<Profiles />} />
         </Route>
-        <Route element={<HomeLayout />}>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/catalogResult" element={<CatalogResult />} />
-          <Route path="/dealdetails" element={<DealDetailsH />} />
+        <Route path={ROUTES.PUBLIC.HOME} element={<HomeLayout />}>
+          <Route index element={<LandingPage />} />
+          <Route path={ROUTES.PUBLIC.CATALOG_RESULT} element={<CatalogResult />} />
+          <Route path={ROUTES.PUBLIC.DEAL_DETAILS} element={<DealDetailsH />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/newpassword" element={<NewPassword />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+        <Route path={ROUTES.PUBLIC.LOGIN} element={<Login />} />
+        <Route path={ROUTES.PUBLIC.REGISTER} element={<Register />} />
+        <Route path={ROUTES.PUBLIC.SIGNUP} element={<Signup />} />
+        <Route path={ROUTES.PUBLIC.PRIVACY_POLICY} element={<PrivacyPolicy />} />
+        <Route path={ROUTES.PUBLIC.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={ROUTES.PUBLIC.NEW_PASSWORD} element={<NewPassword />} />
       </Routes>
     </Router>
   );
