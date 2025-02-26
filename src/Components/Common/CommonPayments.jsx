@@ -364,7 +364,7 @@ export default function CommonPayments() {
         aria-describedby="modal-modal-description"
         sx={{ m: 2 }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px]">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] outline-none">
           <div className="bg-white rounded-[12px] p-1">
             <div className="px-3 py-4 max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
               <div className="flex justify-center">
