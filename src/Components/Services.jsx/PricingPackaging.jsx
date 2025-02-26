@@ -112,25 +112,32 @@ const PricingPackaging = () => {
       estimatedTiming: "",
     },
   ]);
-
   const handleInputChange = (tierId, field, value) => {
     const updatedTiers = tiers.map((tier) => {
       if (tier.id === tierId) {
         let newValue = value.replace(/[^0-9.]/g, ""); // Allow only numbers and dot
         if (field === "discount") newValue = value.replace(/[^0-9]/g, ""); // Only numbers for discount
-
+  
+        // Ensure each new line starts with a bullet point
+        if (field === "deliverables") {
+          newValue = value
+            .split("\n")
+            .map((line) => (line.trim().startsWith("•") ? line : `• ${line}`))
+            .join("\n");
+        }
+  
         let updatedTier = { ...tier, [field]: newValue };
-
+  
         // Ensure the price field always starts with $
         if (field === "price") {
           updatedTier.price = newValue ? `$${newValue}` : "";
         }
-
+  
         // Ensure the discount field always ends with %
         if (field === "discount") {
           updatedTier.discount = newValue ? `${newValue}%` : "";
         }
-
+  
         // Calculate final price
         let numericPrice =
           parseFloat(updatedTier.price.replace(/[^0-9.]/g, "")) || 0;
@@ -138,17 +145,16 @@ const PricingPackaging = () => {
           parseFloat(updatedTier.discount.replace(/[^0-9]/g, "")) || 0;
         let discountAmount = (numericPrice * numericDiscount) / 100;
         let finalAmount = numericPrice - discountAmount;
-        updatedTier.finalPrice = finalAmount
-          ? `$${finalAmount.toFixed(2)}`
-          : "";
-
+        updatedTier.finalPrice = finalAmount ? `$${finalAmount.toFixed(2)}` : "";
+  
         return updatedTier;
       }
       return tier;
     });
-
+  
     setTiers(updatedTiers);
   };
+  
   const handleDeleteTier3 = () => {
     setTiers(tiers.filter((tier) => tier.id !== 3));
   };
@@ -435,19 +441,16 @@ const PricingPackaging = () => {
                           <label className="text-sm font-semibold ps-2 text-[#181D27]">
                             Deliverables
                           </label>
-                          <textarea
-                            className=" py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
-                            placeholder="Add specific deliverables for this deal"
-                            rows={4}
-                            value={tier.deliverables}
-                            onChange={(e) =>
-                              handleInputChange(
-                                tier.id,
-                                "deliverables",
-                                e.target.value
-                              )
-                            }
-                          ></textarea>
+                         <textarea
+                         className="py-2 mt-1 px-3 bg-white border rounded-[8px] focus:outline-none"
+                         placeholder="Add specific deliverables for this deal"
+                         rows={4}
+                         value={tier.deliverables}
+                         onChange={(e) =>
+                           handleInputChange(tier.id, "deliverables", e.target.value)
+                         }
+                       />
+                       
                         </div>
                         <div className="flex flex-col mt-4">
                           <label className="text-sm font-semibold ps-2 text-[#181D27]">

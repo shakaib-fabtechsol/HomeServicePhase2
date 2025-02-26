@@ -41,6 +41,18 @@ function BasicInfo() {
     // Handle form submission logic here
   };
 
+  const handleFinePrintChange = (e) => {
+    let value = e.target.value;
+
+    // Ensure each new line starts with a bullet point
+    let updatedValue = value
+      .split("\n")
+      .map((line) => (line.trim().startsWith("•") ? line : `• ${line}`))
+      .join("\n");
+
+    setFormData({ ...formData, fine_print: updatedValue });
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -213,16 +225,13 @@ function BasicInfo() {
                 <span className="text-[13px] text-[#cdcdcd]">(Optional)</span>
               </label>
               <textarea
-                id="FinePrint"
-                className="myinput mt-1 outline-none"
-                placeholder={`Add specific deliverables for this deal. 
-For example: what is included & what is not included`}
-                rows={10}
-                value={formData.fine_print}
-                onChange={(e) =>
-                  setFormData({ ...formData, fine_print: e.target.value })
-                }
-              />
+      id="FinePrint"
+      className="myinput mt-1 outline-none"
+      placeholder={`Add specific deliverables for this deal. For example: what is included & what is not included`}
+      rows={10}
+      value={formData.fine_print}
+      onChange={handleFinePrintChange}
+    />
             </div>
           </div>
         </div>
