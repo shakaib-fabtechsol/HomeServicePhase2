@@ -410,7 +410,7 @@ const PricingPackaging = () => {
                   Pricing Packages
                 </p>
                 <div className="bg-[#FAFAFA] rounded-[12px] p-5 mt-6">
-                  <div className="grid lg:grid-cols-3 gap-5">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     {tiers.map((tier) => (
                       <div key={tier.id} className="relative">
                         <p className="font-semibold text-[#181D27] flex justify-between">
