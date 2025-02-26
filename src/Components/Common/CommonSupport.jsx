@@ -29,13 +29,7 @@ export default function CommonSupport({Role}) {
       id: "Subject",
       name: "Subject",
     },
-    {
-      label: "Message",
-      placeholder: "Type here...",
-      type: "text",
-      id: "Message",
-      name: "Message",
-    },
+ 
   ];
   return (
     <div className="border border-[#A2A1A833] rounded-[10px] p-3 px-6">

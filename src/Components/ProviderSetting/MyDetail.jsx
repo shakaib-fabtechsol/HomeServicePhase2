@@ -50,7 +50,7 @@ const MyDetail = () => {
               Update your personal profile details.
             </p>
           </div>
-          <div className="max-w-[1000px]">
+          <div className="max-w-[800px]">
             <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
               <div>
                 <p className="text-sm font-semibold">Full Name</p>
