@@ -133,7 +133,7 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       <div className="">
         <HeroSection />
         <h2 className="text-lg mt-8">Filters</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] mt-2">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 max-w-[800px] mt-2">
             <div ref={budgetDropdownRef} className="me-3 my-1 relative">
               <button
                 onClick={toggleBudgetDropdown}
