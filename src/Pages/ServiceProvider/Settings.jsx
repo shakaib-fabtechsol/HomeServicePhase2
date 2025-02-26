@@ -10,6 +10,7 @@ import Password from "../../Components/ProviderSetting/Password";
 import ChannelConversation from "../../Components/ProviderSetting/ChannelConversation";
 import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
+import Publish from "../../Components/ProviderSetting/Publish";
 
 function Settings() {
   useEffect(() => {
@@ -19,22 +20,26 @@ function Settings() {
     { label: "Personal Profile", content: <MyDetail /> },
     { label: "Service Area", content: <ServiceArea /> },
     { label: "Business Profile", content: <BusinessProfile /> },
-    { label: "Certifications & Hours", content: <CertificationHour />},
-    { label: "Additional Info", content: <AdditionalInfo />},
-    { label: "Social Profiles", content: <SocialProfile />},
+    { label: "Certifications & Hours", content: <CertificationHour /> },
+    { label: "Additional Info", content: <AdditionalInfo /> },
+    { label: "Social Profiles", content: <SocialProfile /> },
     { label: "Password", content: <Password /> },
     { label: "Channels for Conversations", content: <ChannelConversation /> },
     { label: "Payment/Payout Info", content: <Payment /> },
+    { label: "Publish", content: <Publish /> },
   ];
 
   return (
     <div>
       <div className="my-2">
         <h2 className="font-semibold text-3xl myhead">Settings</h2>
-        <p className="myblack mb-4">Update all your general settings including: business, personal, and payment settings</p>
+        <p className="myblack mb-4">
+          Update all your general settings including: business, personal, and
+          payment settings
+        </p>
       </div>
       <div>
-        <TabComponent tabs={tabData}/>
+        <TabComponent tabs={tabData} />
       </div>
     </div>
   );
