@@ -6,6 +6,8 @@ import { LuPhone } from 'react-icons/lu';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ServiceDet from '../../assets/img/service-det.png';
+import { Modal } from '@mui/material';
+import ReviewModal from '../../Components/Provider/ReviewModal';
 
 
 const orders = [
@@ -60,6 +62,10 @@ const Order = () => {
     useEffect(() => {
         document.title = "Orders";
       }, []);
+
+        const [photosopen, setphotosOpen] = useState(false);
+        const handlephotosOpen = () => setphotosOpen(true);
+        const handlephotosClose = () => setphotosOpen(false);
     
     return (
         <div>
@@ -134,7 +140,7 @@ const Order = () => {
                                 <td className='p-3'>
                                     <Link to='/customer/orderdetails' className='bg-white text-base py-2 px-4 border text-nowrap rounded-lg inline-block'>View Details</Link>
                                     <div className='mt-3'>
-                                        <Link to='#' className='bg-[#0F91D2] text-white text-base py-2 px-4 border text-nowrap rounded-lg block'>Mark as Complete</Link>
+                                        <button onClick={handlephotosOpen} className='bg-[#0F91D2] text-white text-base py-2 px-4 border text-nowrap rounded-lg block'>Mark as Complete</button>
                                     </div>
                                 </td>
                             </tr>
@@ -142,6 +148,17 @@ const Order = () => {
                     </tbody>
                 </table>
             </div>
+            <Modal
+        open={photosopen}
+        onClose={handlephotosClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
+          <ReviewModal close={handlephotosClose} />
+        </div>
+      </Modal>
         </div>
     );
 };

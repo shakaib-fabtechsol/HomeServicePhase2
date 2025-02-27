@@ -8,33 +8,17 @@ import DeliveryOne from "../../assets/img/delivery1.png";
 import DeliveryFour from "../../assets/img/delivery4.png";
 import DeliveryThree from "../../assets/img/delivery3.png";
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { MdOutlineMailOutline, MdUpload } from "react-icons/md";
+import { MdOutlineMailOutline } from "react-icons/md";
 import { LuPhone } from "react-icons/lu";
-import { CiLocationOn } from "react-icons/ci";
+import { BsChatLeftDots } from "react-icons/bs";
+import UploadPhotos from "../../Components/Provider/UploadPhotos";
 import PhotosModal from "../../Components/Provider/PhotosModal";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  borderRadius: 5,
-  maxWidth: "600px",
-};
+import { Modal } from "@mui/material";
 
 export default function OrderDetailsp() {
   useEffect(() => {
     document.title = "OrderDetails";
   }, []);
-  const [photosopen, setphotosOpen] = React.useState(false);
-  const handlephotosOpen = () => setphotosOpen(true);
-  const handlephotosClose = () => setphotosOpen(false);
 
   const deliveryImages = [
     DeliveryOne,
@@ -42,21 +26,19 @@ export default function OrderDetailsp() {
     DeliveryThree,
     DeliveryFour,
   ];
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-  const [images, setImages] = useState([]);
+  const [photosopen, setphotosOpen] = React.useState(false);
+  const handlephotosOpen = () => setphotosOpen(true);
+  const handlephotosClose = () => setphotosOpen(false);
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...newImages]);
-  };
+  const [Beforeopen, setBeforeOpen] = React.useState(false);
+  const handleBeforeOpen = () => setBeforeOpen(true);
+  const handleBeforeClose = () => setBeforeOpen(false);
 
-  const handleRemoveImage = (imageUrl) => {
-    setImages(images.filter((img) => img !== imageUrl));
-  };
+  const [Afteropen, setAfterOpen] = React.useState(false);
+  const handleAfterOpen = () => setAfterOpen(true);
+  const handleAfterClose = () => setAfterOpen(false);
+
   return (
     <div>
       <div className="flex justify-between flex-wrap gap-3">
@@ -77,15 +59,21 @@ export default function OrderDetailsp() {
         </div>
         <div className="flex items-center w-full lg:w-auto flex-wrap justify-end gap-2 ms-auto">
           <button
-            onClick={handlephotosOpen}
+            onClick={handleBeforeOpen}
             className="bg-[#FB8803] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             Before Photos
           </button>
-          <button className="bg-[#4EB53B] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]">
+          <button
+            onClick={handleAfterOpen}
+            className="bg-[#4EB53B] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
+          >
             After Photos
           </button>
-          <button className="bg-[#0F91D2] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]">
+          <button
+            onClick={handlephotosOpen}
+            className="bg-[#0F91D2] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
+          >
             Deliver
           </button>
         </div>
@@ -134,7 +122,7 @@ export default function OrderDetailsp() {
                   <p className="text-sm font-medium text-[#494A4B]">
                     Frances Swann
                   </p>
-                  <div className="flex items-center gap-1">
+                  <div className="flex flex-wrap items-center gap-1">
                     <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                       <LuPhone /> Phone Call
                     </button>
@@ -142,7 +130,7 @@ export default function OrderDetailsp() {
                       <MdOutlineMailOutline /> Email
                     </button>
                     <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
-                      <CiLocationOn /> Address
+                      <BsChatLeftDots /> Chat
                     </button>
                   </div>
                 </div>
@@ -343,6 +331,28 @@ export default function OrderDetailsp() {
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
           <PhotosModal close={handlephotosClose} />
+        </div>
+      </Modal>
+      <Modal
+        open={Beforeopen}
+        onClose={handleBeforeClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
+          <UploadPhotos title={"Before Photos"} close={handleBeforeClose} />
+        </div>
+      </Modal>
+      <Modal
+        open={Afteropen}
+        onClose={handleAfterClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ m: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
+          <UploadPhotos title={"After Photos"} close={handleAfterClose} />
         </div>
       </Modal>
     </div>
