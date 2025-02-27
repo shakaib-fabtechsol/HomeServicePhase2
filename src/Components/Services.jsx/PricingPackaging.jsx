@@ -169,8 +169,8 @@ const PricingPackaging = () => {
             <p className="font-semibold text-sm text-[#181D27]">
               Pricing Model
             </p>
-            <div className="flex flex-wrap justify-between mt-4">
-              <div className="flex my-2 sm:my-0 me-8">
+            <div className="flex flex-wrap gap-y-2 justify-between mt-4">
+              <div className="flex me-8">
                 <input
                   type="radio"
                   id="Flat"
@@ -187,7 +187,7 @@ const PricingPackaging = () => {
                   Fixed Rate
                 </label>
               </div>
-              <div className="flex my-2 sm:my-0 me-8">
+              <div className="flex me-8">
                 <input
                   type="radio"
                   id="Hourly"
@@ -204,7 +204,7 @@ const PricingPackaging = () => {
                   Hourly Rate
                 </label>
               </div>
-              <div className="flex my-2 sm:my-0 me-8">
+              <div className="flex me-8">
                 <input
                   type="radio"
                   id="Custom"
