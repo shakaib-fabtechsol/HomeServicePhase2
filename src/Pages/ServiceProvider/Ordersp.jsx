@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { BsChatLeftDots, BsSliders } from "react-icons/bs";
-import { CiLocationOn, CiSearch } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
 import { LuPhone } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
