@@ -11,10 +11,13 @@ export default function SettingsPreview({
   const [filePreview, setFilePreview] = useState(existingImage || null);
   const [showPreview, setShowPreview] = useState(false);
 
+
+  console.log("filePreview......", file);
   // Update filePreview when existingImage changes
   useEffect(() => {
-    if (existingImage) {
-      setFilePreview(existingImage);
+    if (!file) {
+      console.log("existingImage", existingImage);
+      setFilePreview(import.meta.env.VITE_BASE_URL+ existingImage);
       setShowPreview(true);
     }
   }, [existingImage]);

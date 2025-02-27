@@ -1,21 +1,20 @@
 import React from "react";
-import SettingsPreview from "../MUI/SettingsPreview";
-import { FaPlus } from "react-icons/fa6";
+import SettingsPreview from "../../../../Components/MUI/SettingsPreview";
 import { Autocomplete, TextField } from "@mui/material";
-import BusinessProfileModule from "../../modules/settings/provider-settings/business-profile";
+import { useBusinessProfile } from "./useBusinessProfile";
 
-const BusinessProfile = () => {
-  const handlereset = () => {
-    setFormData({
-      business_name: "",
-      business_logo: "",
-      location: "",
-      about: "",
-      business_primary_category: "",
-      business_secondary_categories: "",
-      website: "",
-    });
-  };
+const BusinessProfileModule = () => {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    isLoading,
+    handleReset,
+    handleFileChange,
+    onSubmit,
+    setValue,
+    watch,
+  } = useBusinessProfile();
 
   const Businesscategories = [
     "Plumbing",
@@ -79,26 +78,15 @@ const BusinessProfile = () => {
     "Drain Services",
     "Veterinary Service",
   ];
-  const handleFileChange = (e, fieldName) => {
-    const uploadedFile = e.target.files[0];
-    setFormData((prevState) => ({
-      ...prevState,
-      [fieldName]: uploadedFile,
-    }));
+
+  const handleSecondaryCategories = (_, values) => {
+    setValue('business_secondary_categories', values);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
+  console.log("userData>>>>>>........", watch("business_logo"));
   return (
     <>
-    <BusinessProfileModule/>
-      {/* <form>
+      <form onSubmit={handleSubmit((data) => onSubmit(data, false))}>
         <div className="max-w-[600px">
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
@@ -112,7 +100,7 @@ const BusinessProfile = () => {
             <div className="py-8 border-b">
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
-                  <label className="text-sm font-semibold" htmlFor="bname">
+                  <label className="text-sm font-semibold" htmlFor="business_name">
                     Business name*
                   </label>
                   <p className="text-[#535862] text-sm">
@@ -121,11 +109,14 @@ const BusinessProfile = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <input
-                    className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
+                    {...register("business_name")}
+                    className={`border ${errors.business_name ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     type="text"
-                    name="business_name"
                     placeholder="Enter business name"
                   />
+                  {errors.business_name && (
+                    <p className="text-red-500 text-sm mt-1">{errors.business_name.message}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -143,40 +134,13 @@ const BusinessProfile = () => {
                   <SettingsPreview
                     onFileSelect={handleFileChange}
                     fieldName="business_logo"
+                    existingImage={watch("business_logo")}
+                    // existingImage={watch("business_logo")}
                   />
                 </div>
               </div>
             </div>
-            {/* <div className="py-8 border-b">
-              <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
-                <div>
-                  <label className="text-sm font-semibold" htmlFor="location">
-                    Mailing Address
-                  </label>
-                  <p className="text-[#535862] text-sm">
-                    This is your legal mailing address.This will not be
-                    publically displayed on your profile.
-                  </p>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="border flex items-center border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D]">
-                    <input
-                      className="w-full focus:outline-none"
-                      type="text"
-                      onChange={handleChange}
-                      name="location"
-                    />
-                    <label
-                      className="bg-[#FAFAFA] rounded-[4px]"
-                      htmlFor="location"
-                    >
-                      <FaPlus />
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* <div className="py-8 border-b">
+            <div className="py-8 border-b">
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <p className="text-sm font-semibold" htmlFor="about">
@@ -189,10 +153,9 @@ const BusinessProfile = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <textarea
+                    {...register("about")}
                     rows={5}
                     className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
-                    name="about"
-                    id="about"
                     placeholder="Write here.."
                   />
                 </div>
@@ -207,9 +170,8 @@ const BusinessProfile = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <select
-                    className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
-                    name="business_primary_category"
-                    onChange={handleChange}
+                    {...register("business_primary_category")}
+                    className={`border ${errors.business_primary_category ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     id="PrimaryCat"
                   >
                     <option value="" hidden>
@@ -226,6 +188,9 @@ const BusinessProfile = () => {
                       <option disabled>No categories available</option>
                     )}
                   </select>
+                  {errors.business_primary_category && (
+                    <p className="text-red-500 text-sm mt-1">{errors.business_primary_category.message}</p>
+                  )}
                 </div>
               </div>
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px] mt-4">
@@ -254,6 +219,7 @@ const BusinessProfile = () => {
                         border: "none",
                       },
                     }}
+                    onChange={handleSecondaryCategories}
                     filterSelectedOptions
                     renderInput={(params) => (
                       <TextField {...params} placeholder="Select" />
@@ -271,31 +237,47 @@ const BusinessProfile = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <input
-                    className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none"
+                    {...register("website")}
+                    className={`border ${errors.website ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     type="text"
-                    name="website"
                     id="Website"
                     placeholder="Enter your website URL"
                   />
+                  {errors.website && (
+                    <p className="text-red-500 text-sm mt-1">{errors.website.message}</p>
+                  )}
                 </div>
               </div>
             </div>
             <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
-              <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
+              <button
+                type="button"
+                onClick={handleReset}
+                className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
+              >
                 Cancel
               </button>
-              <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
+              <button
+                type="submit"
+                onClick={handleSubmit((data) => onSubmit(data, true))}
+                disabled={isLoading}
+                className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+              >
                 Save & Publish
               </button>
-              <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+              >
                 Save
               </button>
             </div>
           </div>
         </div>
-      </form> */} 
+      </form>
     </>
   );
 };
 
-export default BusinessProfile;
+export default BusinessProfileModule;
