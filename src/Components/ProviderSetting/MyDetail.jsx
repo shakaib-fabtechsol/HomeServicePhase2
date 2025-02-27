@@ -3,6 +3,7 @@ import { MenuItem, Select, TextField, Button } from "@mui/material";
 import SettingsPreview from "../MUI/SettingsPreview";
 import profileImg from "../../assets/img/service3.png";
 import MaskedInput from "react-text-mask";
+import MyDetailModule from "../../modules/settings/provider-settings/MyDetails";
 
 const MyDetail = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -40,7 +41,7 @@ const MyDetail = () => {
 
   return (
     <>
-      <form>
+      {/* <form>
         <div>
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
@@ -237,7 +238,9 @@ const MyDetail = () => {
             </button>
           </div>
         </div>
-      </form>
+      </form> */}
+
+      <MyDetailModule/>
     </>
   );
 };

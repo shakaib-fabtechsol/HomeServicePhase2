@@ -2,6 +2,7 @@ import React from "react";
 import SettingsPreview from "../MUI/SettingsPreview";
 import { FaPlus } from "react-icons/fa6";
 import { Autocomplete, TextField } from "@mui/material";
+import BusinessProfileModule from "../../modules/settings/provider-settings/business-profile";
 
 const BusinessProfile = () => {
   const handlereset = () => {
@@ -96,7 +97,8 @@ const BusinessProfile = () => {
 
   return (
     <>
-      <form>
+    <BusinessProfileModule/>
+      {/* <form>
         <div className="max-w-[600px">
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
@@ -174,7 +176,7 @@ const BusinessProfile = () => {
                 </div>
               </div>
             </div> */}
-            <div className="py-8 border-b">
+            {/* <div className="py-8 border-b">
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <p className="text-sm font-semibold" htmlFor="about">
@@ -291,7 +293,7 @@ const BusinessProfile = () => {
             </div>
           </div>
         </div>
-      </form>
+      </form> */} 
     </>
   );
 };

@@ -29,7 +29,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout,setUser } = authSlice.actions;
 
 // Selectors
 export const selectCurrentUser = (state) => state.auth.user;
