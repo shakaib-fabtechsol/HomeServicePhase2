@@ -9,3 +9,4 @@ export const END_POINTS = {
     MY_DETAILS: "/MyDetails",
     BUSINESS_PROFILE: "/BusinessProfile",
 }
+
