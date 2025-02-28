@@ -1,8 +1,9 @@
 export const ROLES = {
+  SUPER_ADMIN: 0,
   CUSTOMER: 1,
   PROVIDER: 2,
-  ADMIN: 3,
-  SALES: 4
+  SALES: 3,
+
 };
 
 export const ROUTES = {
@@ -28,7 +29,7 @@ export const ROUTES = {
     DASHBOARD: '/customer/dashboard',
     // ... other customer routes
   },
-  ADMIN: {
+  SUPER_ADMIN: {
     ROOT: '/superadmin/*',
     DASHBOARD: '/superadmin/dashboard',
     // ... other admin routes
