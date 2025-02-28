@@ -10,11 +10,16 @@ import { FiSearch } from "react-icons/fi";
 import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "@mui/material";
 import InviteSRmodal from "../../Components/SuperAdmin/InviteSRmodal";
+import { useGetsalesQuery } from "../../services/sales";
+import Loader from "../../Components/MUI/Loader";
 
 export default function Sales() {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data, isLoading: loading, isError } = useGetsalesQuery();
   useEffect(() => {
     document.title = "Sales Reps";
   }, []);
@@ -54,13 +59,20 @@ export default function Sales() {
     },
   ];
 
+  const filteredData = data?.GetSaleRep?.filter((provider) =>
+  
+    provider?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+    provider?.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+    provider?.phone?.toLowerCase()?.includes(searchTerm?.toLowerCase()) 
+  );
+
   const [checkedRows, setCheckedRows] = useState(
-    new Array(serviceProviders.length).fill(false)
+    new Array(filteredData?.length).fill(false)
   );
 
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceProviders.length).fill(isChecked));
+    setCheckedRows(new Array(filteredData?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
@@ -101,7 +113,7 @@ export default function Sales() {
     "Action",
   ];
 
-  const tablebody = serviceProviders.map((provider, index) => [
+  const tablebody = filteredData?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -122,7 +134,7 @@ export default function Sales() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
+        src={provider?.personal_image}
         alt={provider.name}
       />
       <p>{provider.name}</p>
@@ -141,6 +153,27 @@ export default function Sales() {
       </button>
     </div>,
   ]);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  if (isError) {
+    return (
+      <div className="error">
+        <p>Error loading sales. Please try again.</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-2">
@@ -160,6 +193,8 @@ export default function Sales() {
               name="search"
               id="search"
               placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearch}
             />
           </label>
           <div className="ms-auto">
@@ -190,3 +225,4 @@ export default function Sales() {
     </div>
   );
 }
+

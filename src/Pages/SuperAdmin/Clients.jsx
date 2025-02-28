@@ -2,97 +2,22 @@ import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import client1 from "../../assets/img/client1.png";
-import client2 from "../../assets/img/client2.png";
-import client3 from "../../assets/img/client3.png";
-import client4 from "../../assets/img/client4.png";
-import client5 from "../../assets/img/client5.png";
-import client6 from "../../assets/img/client6.png";
-import client7 from "../../assets/img/client7.png";
+
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { useGetclientsQuery } from "../../services/clients";
+import Loader from "../../Components/MUI/Loader";
 
 export default function Clients() {
-  useEffect(() => {
-    document.title = "Clients";
-  }, []);
-  const serviceProviders = [
-    {
-      logo: client1,
-      id: "#ID234",
-      name: "Ricky Smith",
-      email: "dan_reid@icloud.com",
-      phone: "+5997186491311",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
-    },
-    {
-      logo: client2,
-      id: "#ID234",
-      name: "Frances Swann",
-      email: "tracy_sullivan@yahoo.com",
-      phone: "+3822981276772",
-      address: "591 Memorial Dr, Chicopee MA 1020",
-    },
-    {
-      logo: client3,
-      id: "#ID234",
-      name: "James Hall",
-      email: "delores_acosta@outlook.com",
-      phone: "+2930285126591",
-      address: "5399 W Genesse St, Camillus NY 13031",
-    },
-    {
-      logo: client4,
-      id: "#ID234",
-      name: "Mary Freund",
-      email: "myrna_wood@yahoo.com",
-      phone: "+0852672848459",
-      address: "30 Memorial Drive, Avon MA 2322",
-    },
-    {
-      logo: client5,
-      id: "#ID234",
-      name: "David Elson",
-      email: "everett_wade@outlook.com",
-      phone: "+5607223338746",
-      address: "1400 County Rd 64, Horseheads NY 14845",
-    },
-    {
-      logo: client6,
-      id: "#ID234",
-      name: "Patricia Sanders",
-      email: "vivian_morrison@yahoo.com",
-      phone: "+3559590545722",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
-    },
-    {
-      logo: client7,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
-      address: "121 Worcester Rd, Framingham MA 1701",
-    },
-    {
-      logo: client7,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
-      address: "4300 Lakeville Road, Geneseo NY 14454",
-    },
-  ];
-
-  const [checkedRows, setCheckedRows] = useState(
-    new Array(serviceProviders.length).fill(false)
-  );
-
+  const { data: clientsdata, isLoading: loading, isError: error } = useGetclientsQuery();
+  const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.length).fill(false));
+  const [search, setSearch] = useState("");
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceProviders.length).fill(isChecked));
+    setCheckedRows(new Array(clientsdata?.Customers?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
@@ -102,8 +27,17 @@ export default function Clients() {
   };
 
   const isAllChecked = checkedRows.every(Boolean);
-  const isIndeterminate =
-    checkedRows.some(Boolean) && !checkedRows.every(Boolean);
+  const isIndeterminate = checkedRows.some(Boolean) && !checkedRows.every(Boolean);
+
+  const filteredProviders = clientsdata?.Customers?.filter((provider) => {
+    return (
+      provider?.id?.toString().includes(search) ||
+      provider?.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+      provider?.email?.toLowerCase()?.includes(search?.toLowerCase()) ||
+      provider?.phone?.toLowerCase()?.includes(search?.toLowerCase()) ||
+      provider?.location?.toLowerCase()?.includes(search?.toLowerCase())
+    );
+  });
 
   const tableheader = [
     <FormControlLabel
@@ -134,7 +68,7 @@ export default function Clients() {
     "Action",
   ];
 
-  const tablebody = serviceProviders.map((provider, index) => [
+  const tablebody = filteredProviders?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -155,14 +89,14 @@ export default function Clients() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
-        alt={provider.name}
+        src={provider?.personal_image}
+        alt={provider?.name}
       />
-      <p>{provider.name}</p>
+      <p>{provider?.name}</p>
     </div>,
-    provider.email,
-    provider.phone,
-    provider.address,
+    provider?.email,
+    provider?.phone,
+    provider?.location||"N/A",
     <div className="flex items-center gap-2">
       <Link to="/superadmin/clientprofile">
         <LuEye className="text-[20px]" />
@@ -172,6 +106,23 @@ export default function Clients() {
       </Link>
     </div>,
   ]);
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error text-center flex items-center justify-center h-screen">
+        <p>Error loading clients. Please try again.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-2">
@@ -191,6 +142,8 @@ export default function Clients() {
               name="search"
               id="search"
               placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </label>
           <div className="ms-auto">
@@ -206,3 +159,4 @@ export default function Clients() {
     </div>
   );
 }
+
