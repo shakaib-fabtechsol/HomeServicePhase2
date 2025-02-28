@@ -7,49 +7,40 @@ import user1 from "../../assets/img/client2.png";
 import user2 from "../../assets/img/client3.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
+import axios from "axios";
 
 function Services() {
   useEffect(() => {
     document.title = "Services";
   }, []);
-  const [searchQuery, setSearchQuery] = useState("");
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      rating: 4.3,
-      Liked: true,
-      userimg: user1,
-      username: "John Doe",
-      publish: 1,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2800,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      rating: 4.3,
-      Liked: true,
-      userimg: user2,
-      username: "Julia Maria",
-      publish: 0,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2800,
-    },
-  ];
 
-  const filteredServices = services.filter((service) =>
-    service.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    setLoading(true); // Start loading
+
+    axios
+      .get("https://homeservice.thefabulousshow.com/api/Deals", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setServices(response.data.deals);
+        setLoading(false); // Stop loading after data is received
+      })
+      .catch((error) => {
+        console.error("Error fetching deals:", error);
+        setLoading(false); // Stop loading even if there's an error
+      });
+  }, []);
+
+  const filteredServices = services?.filter((service) =>
+    service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -90,13 +81,21 @@ function Services() {
               <ServiceBox
                 key={service.id}
                 title={service.title}
-                price={service.price}
-                description={service.description}
+                price={
+                  service.pricing_model === "Flat"
+                    ? service.flat_rate_price
+                    : service?.pricing_model == "Hourly"
+                    ? service.hourly_final_list_price
+                    : service.price1
+                }
                 tags={service.tags}
                 image={service.image}
                 publish={service.publish}
                 userimg={service.userimg}
                 username={service.username}
+                description={service.service_description}
+                category={service.service_category}
+                dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
                 serviceDetailTo={"/provider/dealDetails"}
