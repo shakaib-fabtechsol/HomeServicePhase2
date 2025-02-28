@@ -135,7 +135,6 @@ function App() {
           </Route>
         </Route>
 
-
         <Route element={<SuperAdminLayout />}>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
           <Route path="/superadmin/providers" element={<Providers />} />
@@ -180,14 +179,23 @@ function App() {
         </Route>
         <Route path={ROUTES.PUBLIC.HOME} element={<HomeLayout />}>
           <Route index element={<LandingPage />} />
-          <Route path={ROUTES.PUBLIC.CATALOG_RESULT} element={<CatalogResult />} />
+          <Route
+            path={ROUTES.PUBLIC.CATALOG_RESULT}
+            element={<CatalogResult />}
+          />
           <Route path={ROUTES.PUBLIC.DEAL_DETAILS} element={<DealDetailsH />} />
         </Route>
         <Route path={ROUTES.PUBLIC.LOGIN} element={<Login />} />
         <Route path={ROUTES.PUBLIC.REGISTER} element={<Register />} />
         <Route path={ROUTES.PUBLIC.SIGNUP} element={<Signup />} />
-        <Route path={ROUTES.PUBLIC.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-        <Route path={ROUTES.PUBLIC.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route
+          path={ROUTES.PUBLIC.PRIVACY_POLICY}
+          element={<PrivacyPolicy />}
+        />
+        <Route
+          path={ROUTES.PUBLIC.FORGOT_PASSWORD}
+          element={<ForgotPassword />}
+        />
         <Route path={ROUTES.PUBLIC.NEW_PASSWORD} element={<NewPassword />} />
       </Routes>
     </Router>
