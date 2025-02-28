@@ -77,7 +77,7 @@ import EditClientSr from "./Pages/Sales/EditClientSr";
 
 import { ROUTES, ROLES } from "./config/routeConfig";
 import { PrivateRoute } from "./PrivateRoute";
-import ProDetailssr from "./Pages/Sales/Prodetailssr";
+import Prodetailssr from "./Pages/Sales/Prodetailssr";
 function App() {
   return (
     <Router>
@@ -163,7 +163,7 @@ function App() {
         <Route element={<SalesLayout />}>
           <Route path="/sales/dashboard" element={<Dashboardsr />} />
           <Route path="/sales/services" element={<Servicessr />} />
-          <Route path="/sales/prodetails" element={<ProDetailssr />} />
+          <Route path="/sales/prodetails" element={<Prodetailssr />} />
           <Route path="/sales/dealdetails" element={<DealsDetailssr />} />
           <Route path="/sales/reports" element={<ReportsSr />} />
           <Route path="/sales/clients" element={<Clientssr />} />
