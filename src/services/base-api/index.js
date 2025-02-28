@@ -5,7 +5,6 @@ const baseQuery = fetchBaseQuery({
     baseUrl: 'https://marketplace.thefabulousshow.com/api',
     prepareHeaders: (headers, { getState }) => {
       const token = getState()?.auth?.token;
-      console.log(">>>>>>token",token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
