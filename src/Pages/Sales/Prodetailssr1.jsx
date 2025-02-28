@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ProfileComponent from "../../Components/ProfileComponent";
 
-export default function ProDetailssr() {
+function Prodetailssr1() {
   useEffect(() => {
     document.title = "Providers Details";
   }, []);
@@ -14,3 +14,5 @@ export default function ProDetailssr() {
     </div>
   );
 }
+
+export default Prodetailssr1;
