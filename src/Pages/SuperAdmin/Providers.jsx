@@ -2,110 +2,30 @@ import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import pro1 from "../../assets/img/pro1.png";
-import pro2 from "../../assets/img/pro2.png";
-import pro3 from "../../assets/img/pro3.png";
-import pro4 from "../../assets/img/pro4.png";
-import pro5 from "../../assets/img/pro5.png";
-import pro6 from "../../assets/img/pro6.png";
-import pro7 from "../../assets/img/pro7.png";
-import pro8 from "../../assets/img/pro8.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
-import { Link } from "react-router-dom";
 import BlueSwitch from "../../Components/SuperAdmin/settings/BlueSwitch";
 import { useGetprovidersQuery } from "../../services/serviceprovider";
-
+import Loader from "../../Components/MUI/Loader";
+import { useNavigate } from "react-router-dom";
 export default function Providers() {
-  const {data,isLoading,isError}=useGetprovidersQuery();
-  console.log(data,"data",isLoading,"isLoading",isError,"errors");
+  const navigate = useNavigate();
+  const { data, isLoading, isError } = useGetprovidersQuery();
+  console.log(data, "data", isLoading, "isLoading", isError, "errors");
   useEffect(() => {
     document.title = "Providers";
   }, []);
-  const serviceProviders = [
-    {
-      logo: pro1,
-      id: "#ID234",
-      name: "Ricky Smith",
-      email: "dan_reid@icloud.com",
-      phone: "+5997186491311",
-      services: 10,
-      rating: 4.2,
-    },
-    {
-      logo: pro2,
-      id: "#ID234",
-      name: "Frances Swann",
-      email: "tracy_sullivan@yahoo.com",
-      phone: "+3822981276772",
-      services: 8,
-      rating: 4.8,
-    },
-    {
-      logo: pro3,
-      id: "#ID234",
-      name: "James Hall",
-      email: "delores_acosta@outlook.com",
-      phone: "+2930285126591",
-      services: 5,
-      rating: 3.9,
-    },
-    {
-      logo: pro4,
-      id: "#ID234",
-      name: "Mary Freund",
-      email: "myrna_wood@yahoo.com",
-      phone: "+0852672848459",
-      services: 8,
-      rating: 4.5,
-    },
-    {
-      logo: pro5,
-      id: "#ID234",
-      name: "David Elson",
-      email: "everett_wade@outlook.com",
-      phone: "+5607223338746",
-      services: 9,
-      rating: 4.1,
-    },
-    {
-      logo: pro6,
-      id: "#ID234",
-      name: "Patricia Sanders",
-      email: "vivian_morrison@yahoo.com",
-      phone: "+3559590545722",
-      services: 6,
-      rating: 4.7,
-    },
-    {
-      logo: pro7,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
-      services: 44,
-      rating: 4.7,
-    },
-    {
-      logo: pro8,
-      id: "#ID234",
-      name: "Dennis Callis",
-      email: "ervin_hubbard@icloud.com",
-      phone: "+6921978825644",
-      services: 44,
-      rating: 4.7,
-    },
-  ];
 
+  const [search, setSearch] = useState("");
   const [checkedRows, setCheckedRows] = useState(
-    new Array(serviceProviders.length).fill(false)
+    new Array(data?.serviceProviders?.data?.length).fill(false)
   );
 
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceProviders.length).fill(isChecked));
+    setCheckedRows(new Array(data?.serviceProviders?.data?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
@@ -117,6 +37,22 @@ export default function Providers() {
   const isAllChecked = checkedRows.every(Boolean);
   const isIndeterminate =
     checkedRows.some(Boolean) && !checkedRows.every(Boolean);
+
+  const filteredProviders = data?.serviceProviders?.data?.filter((provider) => {
+    return (
+      provider.name.toLowerCase().includes(search.toLowerCase()) ||
+      provider.email.toLowerCase().includes(search.toLowerCase()) ||
+      provider.phone.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
+  if (isLoading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    )
+  }
 
   const tableheader = [
     <FormControlLabel
@@ -144,12 +80,12 @@ export default function Providers() {
     "Email",
     "Phone",
     "Number of Deals",
-    "Rating",
+
     "Action",
     "Ban",
   ];
 
-  const tablebody = serviceProviders.map((provider, index) => [
+  const tablebody = filteredProviders?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -166,23 +102,25 @@ export default function Providers() {
         />
       }
     />,
-    provider.id,
+    provider?.id,
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
-        alt={provider.name}
+        src={provider?.personal_image}
+        alt={provider?.name}
       />
-      <p>{provider.name}</p>
+      <p>{provider?.name}</p>
     </div>,
-    provider.email,
-    provider.phone,
-    provider.services,
-    provider.rating,
+    provider?.email,
+    provider?.phone,
+    provider?.total_deals,
+
     <div className="flex items-center gap-2">
-      <Link to="/superadmin/prodetails">
-        <LuEye className="text-[20px]" />
-      </Link>
+
+      <LuEye className="text-[20px]" onClick={() => {
+        navigate("/superadmin/prodetails", { state: { Id: provider?.id } })
+      }} />
+
       <button>
         <SlPencil className="text-[20px]" />
       </button>
@@ -210,6 +148,8 @@ export default function Providers() {
               name="search"
               id="search"
               placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </label>
           <div className="ms-auto">

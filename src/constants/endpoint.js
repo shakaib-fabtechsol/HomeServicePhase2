@@ -9,7 +9,9 @@ export const END_POINTS = {
     BUSINESS_PROFILE: "/BusinessProfile",
 }
 
-export const PRO_POINTS={
-    GET_PROVIDERS:"/SuperAdmin/get-providers"
+export const PRO_POINTS = {
+    GET_PROVIDERS: "/SuperAdmin/ServiceProviders",
+    GET_CLIENTS: "/SuperAdmin/Customers",
+    GET_SALES: "/SuperAdmin/GetAllSaleRep",
 
 }

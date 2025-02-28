@@ -1,12 +1,17 @@
 
 import { BASE_API } from '../base-api';
-import { PRO_POINTS } from '../../constants/endPoints';
+import { PRO_POINTS } from '../../constants/endpoint';
 
 export const serviceProviderAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getproviders: builder.query({
       query: () => ({
         url: PRO_POINTS.GET_PROVIDERS,
+      }),
+    }),
+    getproviderById: builder.query({
+      query: (id) => ({
+        url: id?`/SuperAdmin/ProviderDetail/${id}`:null,
       }),
     }),
 
@@ -23,4 +28,4 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const { useGetprovidersQuery} = serviceProviderAPIs;
+export const { useGetprovidersQuery, useGetproviderByIdQuery} = serviceProviderAPIs;
