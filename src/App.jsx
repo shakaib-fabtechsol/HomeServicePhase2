@@ -70,7 +70,6 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import NewPassword from "./Pages/Auth/NewPassword";
 import ClientProfilep from "./Pages/ServiceProvider/ClientProfileP";
 import ClientProfilesa from "./Pages/SuperAdmin/ClientProfilesa";
-import ProDetailssr from "./Pages/Sales/Prodetailssr";
 import DealsDetailssr from "./Pages/Sales/DealsDetailssr";
 import ClientProfilesr from "./Pages/Sales/ClientProfilesr";
 import EditClientsa from "./Pages/SuperAdmin/EditClientsa";
@@ -78,6 +77,7 @@ import EditClientSr from "./Pages/Sales/EditClientSr";
 
 import { ROUTES, ROLES } from "./config/routeConfig";
 import { PrivateRoute } from "./PrivateRoute";
+import Prodetailssr1 from "./Pages/Sales/Prodetailssr1";
 function App() {
   return (
     <Router>
@@ -136,7 +136,11 @@ function App() {
         </Route>
 
 
-        <Route element={<SuperAdminLayout />}>
+        <Route element={
+          <PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+            <SuperAdminLayout />
+          </PrivateRoute>
+        }>
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
           <Route path="/superadmin/providers" element={<Providers />} />
           <Route path="/superadmin/prodetails" element={<ProDetails />} />
@@ -161,10 +165,10 @@ function App() {
           <Route path="/superadmin/dealDetails" element={<DealDetailsS />} />
         </Route>
 
-        <Route element={<SalesLayout />}>
+        <Route element={ <PrivateRoute allowedRoles={[ROLES.SALES]}> <SalesLayout /> </PrivateRoute>}>
           <Route path="/sales/dashboard" element={<Dashboardsr />} />
           <Route path="/sales/services" element={<Servicessr />} />
-          <Route path="/sales/prodetails" element={<ProDetailssr />} />
+          <Route path="/sales/prodetails" element={<Prodetailssr1 />} />
           <Route path="/sales/dealdetails" element={<DealsDetailssr />} />
           <Route path="/sales/reports" element={<ReportsSr />} />
           <Route path="/sales/clients" element={<Clientssr />} />
@@ -180,14 +184,23 @@ function App() {
         </Route>
         <Route path={ROUTES.PUBLIC.HOME} element={<HomeLayout />}>
           <Route index element={<LandingPage />} />
-          <Route path={ROUTES.PUBLIC.CATALOG_RESULT} element={<CatalogResult />} />
+          <Route
+            path={ROUTES.PUBLIC.CATALOG_RESULT}
+            element={<CatalogResult />}
+          />
           <Route path={ROUTES.PUBLIC.DEAL_DETAILS} element={<DealDetailsH />} />
         </Route>
         <Route path={ROUTES.PUBLIC.LOGIN} element={<Login />} />
         <Route path={ROUTES.PUBLIC.REGISTER} element={<Register />} />
         <Route path={ROUTES.PUBLIC.SIGNUP} element={<Signup />} />
-        <Route path={ROUTES.PUBLIC.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-        <Route path={ROUTES.PUBLIC.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route
+          path={ROUTES.PUBLIC.PRIVACY_POLICY}
+          element={<PrivacyPolicy />}
+        />
+        <Route
+          path={ROUTES.PUBLIC.FORGOT_PASSWORD}
+          element={<ForgotPassword />}
+        />
         <Route path={ROUTES.PUBLIC.NEW_PASSWORD} element={<NewPassword />} />
       </Routes>
     </Router>
