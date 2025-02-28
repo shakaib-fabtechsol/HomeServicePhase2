@@ -16,8 +16,11 @@ import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import BlueSwitch from "../../Components/SuperAdmin/settings/BlueSwitch";
+import { useGetprovidersQuery } from "../../services/serviceprovider";
 
 export default function Providers() {
+  const {data,isLoading,isError}=useGetprovidersQuery();
+  console.log(data,"data",isLoading,"isLoading",isError,"errors");
   useEffect(() => {
     document.title = "Providers";
   }, []);
