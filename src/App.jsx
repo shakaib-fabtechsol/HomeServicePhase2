@@ -70,7 +70,6 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import NewPassword from "./Pages/Auth/NewPassword";
 import ClientProfilep from "./Pages/ServiceProvider/ClientProfileP";
 import ClientProfilesa from "./Pages/SuperAdmin/ClientProfilesa";
-import ProDetailssr from "./Pages/Sales/Prodetailssr";
 import DealsDetailssr from "./Pages/Sales/DealsDetailssr";
 import ClientProfilesr from "./Pages/Sales/ClientProfilesr";
 import EditClientsa from "./Pages/SuperAdmin/EditClientsa";
@@ -78,6 +77,7 @@ import EditClientSr from "./Pages/Sales/EditClientSr";
 
 import { ROUTES, ROLES } from "./config/routeConfig";
 import { PrivateRoute } from "./PrivateRoute";
+import ProDetailssr from "./Pages/Sales/Prodetailssr";
 function App() {
   return (
     <Router>
