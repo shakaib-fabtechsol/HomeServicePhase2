@@ -2,7 +2,7 @@
 
 
 import { BASE_API } from '../base-api';
-import { END_POINTS } from '../../constants/endPoints';
+import { END_POINTS } from '../../constants/endPoints.js';
 
 export const settingsAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
