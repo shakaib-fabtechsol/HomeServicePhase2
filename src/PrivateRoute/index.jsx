@@ -9,13 +9,25 @@ export const PrivateRoute = ({ children, allowedRoles }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectCurrentUser);
 
+  // Helper function to get default route based on user role
+  const getDefaultRoute = (role) => {
+    switch (role) {
+      case ROLES.SUPER_ADMIN:
+        return ROUTES.SUPER_ADMIN.DASHBOARD;
+      case ROLES.PROVIDER:
+        return ROUTES.PROVIDER.DASHBOARD;
+      case ROLES.CUSTOMER:
+        return ROUTES.CUSTOMER.DASHBOARD;
+      case ROLES.SALES:
+        return ROUTES.SALES.DASHBOARD;
+      default:
+        return ROUTES.PUBLIC.LOGIN;
+    }
+  };
+
   // If user is already authenticated and tries to access auth pages
   if (isAuthenticated && location.pathname === ROUTES.PUBLIC.LOGIN) {
-    // Return to the page they came from, or default to their role-based dashboard
-    const from = location.state?.from?.pathname || 
-      (user?.role === ROLES.CUSTOMER 
-        ? ROUTES.CUSTOMER.DASHBOARD 
-        : ROUTES.PROVIDER.DASHBOARD);
+    const from = location.state?.from?.pathname || getDefaultRoute(user?.role);
     return <Navigate to={from} replace />;
   }
 
@@ -31,10 +43,7 @@ export const PrivateRoute = ({ children, allowedRoles }) => {
   // Check role authorization
   const hasRequiredRole = allowedRoles.includes(user?.role);
   if (!hasRequiredRole) {
-    const defaultRoute = user?.role === ROLES.CUSTOMER 
-      ? ROUTES.CUSTOMER.SERVICES 
-      : ROUTES.PROVIDER.SERVICES;
-    return <Navigate to={defaultRoute} replace />;
+    return <Navigate to={getDefaultRoute(user?.role)} replace />;
   }
 
   return children;

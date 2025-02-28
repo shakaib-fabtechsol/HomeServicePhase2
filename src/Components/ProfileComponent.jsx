@@ -218,7 +218,6 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
               <span>Add to Favorites list</span>
             </button>
           )}
-
         </div>
 
         <Modal
