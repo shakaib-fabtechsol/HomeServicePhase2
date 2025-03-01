@@ -9,4 +9,5 @@ export const PROVIDES_TAGS = [
     'SETTINGS',
     'SUPPORT',
     'PROFILE',
+    'USER_DETAILS',
   ]

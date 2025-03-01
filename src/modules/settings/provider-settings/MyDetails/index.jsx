@@ -4,8 +4,9 @@ import SettingsPreview from "../../../../Components/MUI/SettingsPreview";
 import profileImg from "../../../../assets/img/service3.png";
 import MaskedInput from "react-text-mask";
 import { useMyDetails } from "./useMyDetails";
+import Loader from "../../../../Components/MUI/Loader";
 
-const MyDetailModule = () => {
+const MyDetailModule = ({handleTabChange}) => {
   const {
     register,
     handleSubmit,
@@ -14,9 +15,12 @@ const MyDetailModule = () => {
     setValue,
     onSubmit,
     handleFileChange,
+    isLoading,
+    
     // phoneNumber, 
     // setPhoneNumber,
-  } = useMyDetails();
+  } = useMyDetails({handleTabChange});
+
 
   const referredBySales = watch("sales_referred");
   const selectedOption = watch("sales_representative");
@@ -46,7 +50,9 @@ const MyDetailModule = () => {
     /\d/,
   ];
 
-
+if(isLoading){
+  return <Loader/>
+}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -144,6 +150,7 @@ const MyDetailModule = () => {
               <SettingsPreview
                 onFileSelect={(e) => handleFileChange(e, "personal_image")}
                 fieldName="personal_image"
+                existingImage ={watch("personal_image")}
               />
             </div>
           </div>
@@ -256,6 +263,7 @@ const MyDetailModule = () => {
           </button>
           <button
             type="submit"
+            onClick={()=>setValue('publish', true)}
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
           >
             Save & Publish

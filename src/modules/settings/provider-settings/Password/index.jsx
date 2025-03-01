@@ -4,8 +4,9 @@ import Swal from "sweetalert2";
 // import { useChangePasswordMutation } from "../../../../store/services/userApi"; // Adjust the import path as needed
 import { useUpdatePasswordMutation } from "../../../../services/settings";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from "../../../../Components/MUI/Loader";
 
-const PasswordModule = () => {
+const PasswordModule = ({handleTabChange}) => {
   const userData = useSelector((state) => state.auth.user);
 
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
@@ -43,6 +44,7 @@ const PasswordModule = () => {
           timer: 2000
         });
         reset();
+        handleTabChange(7);
       }
     } catch (error) {
       Swal.fire({
@@ -53,6 +55,9 @@ const PasswordModule = () => {
     }
   };
 
+  if(isLoading){
+    return <Loader/>
+  }
   return (
     <div>
       <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
