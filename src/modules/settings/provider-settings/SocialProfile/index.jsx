@@ -13,8 +13,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAddSocialProfileMutation,useDeleteSocialProfileMutation } from "../../../../services/settings";
 import { setUser } from "../../../../redux/reducers/authSlice";
 import Swal from 'sweetalert2';
+import Loader from "../../../../Components/MUI/Loader";
 
-const SocialProfileModule = () => {
+const SocialProfileModule = ({handleTabChange}) => {
 
     const userData = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const SocialProfileModule = () => {
     const [deleteSocialProfile, { isLoading: deleteLoading }] = useDeleteSocialProfileMutation();
     const [selectedSocial, setSelectedSocial] = useState(null);
 
+
+    console.log("userDataaaa", userData);
     const {
         register,
         handleSubmit,
@@ -30,12 +33,12 @@ const SocialProfileModule = () => {
     } = useForm({
         mode: "onChange",
         defaultValues: {
-            facebook: userData?.facebook || "",
-            twitter: userData?.twitter || "",
-            instagram: userData?.instagram || "",
-            linkedin: userData?.linkedin || "",
-            youtube: userData?.youtube || "",
-            google_business: userData?.google_business || ""
+            facebook: userData?.social?.facebook || "",
+            twitter: userData?.social?.twitter || "",
+            instagram: userData?.social?.instagram || "",
+            linkedin: userData?.social?.linkedin || "",
+            youtube: userData?.social?.youtube || "",
+            google_business: userData?.social?.google_business || ""
         }
     });
 
@@ -56,26 +59,15 @@ const SocialProfileModule = () => {
 
             const response = await addSocialProfile(formData);
             
-            if (response?.data) {
-                const payload = {
-                    ...response.data.user,
-                    facebook: response.data.Social.facebook,
-                    twitter: response.data.Social.twitter,
-                    instagram: response.data.Social.instagram,
-                    linkedin: response.data.Social.linkedin,
-                    youtube: response.data.Social.youtube,
-                    google_business: response.data.Social.google_business
-                };
-                
-                dispatch(setUser(payload));
-                
+            if (response) {
+                // handleTabChange(6);  
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
                     text: `Your ${selectedSocial.name} profile has been successfully connected.`,
                     showConfirmButton: false,
                     timer: 2000
-                });
+                    });
 
                 setSelectedSocial(null);
                 reset();
@@ -94,8 +86,6 @@ const SocialProfileModule = () => {
       formData.append("id",userData.id);
         const response = await deleteSocialProfile(formData);
         if (response) {
-
-            dispatch(setUser({...userData, [name.toLowerCase().replace(" ", "_")]: ""}));
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
@@ -108,16 +98,19 @@ const SocialProfileModule = () => {
 
     // Update socialLinks to show existing links
     const socialLinks = [
-        { name: "Facebook", avatar: Facebook, link: userData?.facebook || "" },
-        { name: "Twitter", avatar: Twitter, link: userData?.twitter || "" },
-        { name: "Instagram", avatar: Instagram, link: userData?.instagram || "" },
-        { name: "LinkedIn", avatar: Linkedin, link: userData?.linkedin || "" },
-        { name: "YouTube", avatar: Youtube, link: userData?.youtube || "" },
-        { name: "Google Business", avatar: Business, link: userData?.google_business || "" },
+        { name: "Facebook", avatar: Facebook, link: userData?.social?.facebook || "" },
+        { name: "Twitter", avatar: Twitter, link: userData?.social?.twitter || "" },
+        { name: "Instagram", avatar: Instagram, link: userData?.social?.instagram || "" },
+        { name: "LinkedIn", avatar: Linkedin, link: userData?.social?.linkedin || "" },
+        { name: "YouTube", avatar: Youtube, link: userData?.social?.youtube || "" },
+        { name: "Google Business", avatar: Business, link: userData?.social?.google_business || "" },
     ];
 
-    console.log("userData?.facebook..", userData);
+    console.log("socialLinks", socialLinks);
 
+    if(isLoading){
+        return <Loader/>
+    }
     return (
         <div>
             <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">

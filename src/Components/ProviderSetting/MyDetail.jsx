@@ -5,7 +5,7 @@ import profileImg from "../../assets/img/service3.png";
 import MaskedInput from "react-text-mask";
 import MyDetailModule from "../../modules/settings/provider-settings/MyDetails";
 
-const MyDetail = () => {
+const MyDetail = ({handleTabChange}) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [referredBySales, setReferredBySales] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -240,7 +240,7 @@ const MyDetail = () => {
         </div>
       </form> */}
 
-      <MyDetailModule/>
+      <MyDetailModule handleTabChange={handleTabChange}/>
     </>
   );
 };
