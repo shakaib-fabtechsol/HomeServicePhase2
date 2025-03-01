@@ -7,25 +7,28 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
     getclients: builder.query({
       query: () => ({
         url: PRO_POINTS.GET_CLIENTS,
+       
       }),
+      providesTags: ["UpdateClient"],
     }),
     getclientById: builder.query({
       query: (id) => ({
-        url: id?`/SuperAdmin/ClientDetail/${id}`:null,
+        url: id?`/SuperAdmin/Customer/${id}`:null,
       }),
+      providesTags: ["UpdateClient"],
     }),
 
-   
-    // updateBusinessProfile: builder.mutation({
-    //   query: (data) => ({
-    //     url: END_POINTS.BUSINESS_PROFILE,
-    //     method: 'POST',
-    //     body: data,
-    //   }),
-    // }),
+    updateClient: builder.mutation({
+      query: (data) => ({
+        url: `${PRO_POINTS?.UPDATE_CLIENT}`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ["UpdateClient"]
+    }),
 
 
   }),
 });
 
-export const { useGetclientByIdQuery,useGetclientsQuery} = serviceProviderAPIs;
+export const { useGetclientByIdQuery,useGetclientsQuery,useUpdateClientMutation} = serviceProviderAPIs;

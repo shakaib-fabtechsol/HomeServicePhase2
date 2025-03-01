@@ -13,5 +13,7 @@ export const PRO_POINTS = {
     GET_PROVIDERS: "/SuperAdmin/ServiceProviders",
     GET_CLIENTS: "/SuperAdmin/Customers",
     GET_SALES: "/SuperAdmin/GetAllSaleRep",
+    UPDATE_CLIENT:"/SuperAdmin/UpdateCustomer",
+    
 
 }

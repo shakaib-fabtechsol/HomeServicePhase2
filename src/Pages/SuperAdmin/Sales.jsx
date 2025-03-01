@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import client1 from "../../assets/img/client1.png";
-import client2 from "../../assets/img/client2.png";
-import client3 from "../../assets/img/client3.png";
-import client4 from "../../assets/img/client4.png";
 import { FiSearch } from "react-icons/fi";
 import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
@@ -15,6 +11,7 @@ import { Modal } from "@mui/material";
 import InviteSRmodal from "../../Components/SuperAdmin/InviteSRmodal";
 import { useGetsalesQuery } from "../../services/sales";
 import Loader from "../../Components/MUI/Loader";
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default function Sales() {
   const navigate = useNavigate();
@@ -28,36 +25,6 @@ export default function Sales() {
   const handleaddtaskOpen = () => setaddtaskOpen(true);
   const handleaddtaskClose = () => setaddtaskOpen(false);
 
-  const serviceProviders = [
-    {
-      logo: client1,
-      id: "#ID234",
-      name: "Mike Bird",
-      email: "dan_reid@icloud.com",
-      phone: "+5997186491311",
-    },
-    {
-      logo: client2,
-      id: "#ID234",
-      name: "Brittany Spurlock",
-      email: "tracy_sullivan@yahoo.com",
-      phone: "+3822981276772",
-    },
-    {
-      logo: client3,
-      id: "#ID234",
-      name: "Jami Bird",
-      email: "delores_acosta@outlook.com",
-      phone: "+2930285126591",
-    },
-    {
-      logo: client4,
-      id: "#ID234",
-      name: "Tabbetha Sells",
-      email: "myrna_wood@yahoo.com",
-      phone: "+0852672848459",
-    },
-  ];
 
   const filteredData = data?.GetSaleRep?.filter((provider) =>
   
@@ -134,7 +101,7 @@ export default function Sales() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider?.personal_image}
+        src={`${BASE_URL}/uploads/${provider?.personal_image}`} 
         alt={provider.name}
       />
       <p>{provider.name}</p>

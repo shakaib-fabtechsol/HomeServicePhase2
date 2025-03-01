@@ -10,6 +10,8 @@ import BlueSwitch from "../../Components/SuperAdmin/settings/BlueSwitch";
 import { useGetprovidersQuery } from "../../services/serviceprovider";
 import Loader from "../../Components/MUI/Loader";
 import { useNavigate } from "react-router-dom";
+import PaginationComponent from "../../Components/Pagination";
+const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function Providers() {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetprovidersQuery();
@@ -17,6 +19,18 @@ export default function Providers() {
   useEffect(() => {
     document.title = "Providers";
   }, []);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to first page when changing rows per page
+  };
 
   const [search, setSearch] = useState("");
   const [checkedRows, setCheckedRows] = useState(
@@ -106,7 +120,7 @@ export default function Providers() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider?.personal_image}
+        src={`${BASE_URL}/uploads/${provider?.personal_image}`} 
         alt={provider?.name}
       />
       <p>{provider?.name}</p>
@@ -161,6 +175,13 @@ export default function Providers() {
       </div>
       <div className="mt-5">
         <Table headers={tableheader} rows={tablebody} />
+        <PaginationComponent
+         count={100} 
+         page={page}
+         rowsPerPage={rowsPerPage}
+         onPageChange={handleChangePage}
+         onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </div>
   );

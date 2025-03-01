@@ -10,8 +10,10 @@ import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { useGetclientsQuery } from "../../services/clients";
 import Loader from "../../Components/MUI/Loader";
-
+import { useNavigate } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function Clients() {
+  const navigate=useNavigate();
   const { data: clientsdata, isLoading: loading, isError: error } = useGetclientsQuery();
   const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.length).fill(false));
   const [search, setSearch] = useState("");
@@ -89,7 +91,7 @@ export default function Clients() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider?.personal_image}
+        src={`${BASE_URL}/uploads/${provider?.personal_image}`} // Replace with your image URL or path provider?.personal_image}
         alt={provider?.name}
       />
       <p>{provider?.name}</p>
@@ -101,9 +103,11 @@ export default function Clients() {
       <Link to="/superadmin/clientprofile">
         <LuEye className="text-[20px]" />
       </Link>
-      <Link to="/superadmin/editclient">
-        <SlPencil className="text-[20px]" />
-      </Link>
+   
+        <SlPencil className="text-[20px]" onClick={()=>{
+          navigate(`/superadmin/editclient`, { state: {id:provider?.id} });
+        }} />
+
     </div>,
   ]);
 
