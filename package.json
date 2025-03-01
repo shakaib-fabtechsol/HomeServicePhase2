@@ -43,6 +43,9 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
     "@eslint/js": "^9.17.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/react": "^18.3.18",
