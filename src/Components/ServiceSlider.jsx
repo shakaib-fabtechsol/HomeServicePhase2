@@ -87,7 +87,7 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
       </div>
       <Slider ref={sliderRef} {...settings}>
         {dealsVideo.length > 0 &&
-          dealsVideo.map((video, index) => (
+          Array.isArray(dealsVideo) &&dealsVideo?.map((video, index) => (
             <div key={index} className="px-[1px]">
               <div className="outline-none aspect-video rounded-[8px] overflow-hidden relative">
                 <video
@@ -109,7 +109,7 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
             </div>
           ))}
         {dealslidedata.length > 0 &&
-          dealslidedata.map((slide, index) => (
+          Array.isArray(dealslidedata) && dealslidedata.map((slide, index) => (
             <div key={index} className="px-[1px]">
               <div
                 

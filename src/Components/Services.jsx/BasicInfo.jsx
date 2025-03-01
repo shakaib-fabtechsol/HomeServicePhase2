@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import {
+  useGetDealQuery,
+  usePostBasicInfoMutation,
+  usePublishDealMutation,
+} from "../../services/base-api/index";
+import Swal from "sweetalert2";
 import Loader from "../MUI/Loader";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 function BasicInfo({ setServiceId, setValue }) {
   const [tags, setTags] = useState([]);
   const { dealid } = useParams();
+  const id = localStorage.getItem("id");
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [publishValue, setPublishValue] = useState(1);
@@ -22,147 +28,61 @@ function BasicInfo({ setServiceId, setValue }) {
     service_category: "",
     search_tags: "",
     service_description: "",
-   
   });
 
-  const Businesscategories = [
-    "Plumbing",
-    "Electrical",
-    "HVAC / Heating & Cooling",
-    "Landscaping",
-    "Roofing",
-    "Painting",
-    "Moving",
-    "Security",
-    "Cleaning Service",
-    "Appliance Repair",
-  ];
+  const {
+    data: dealData,
+    isLoading: isDealLoading,
+    isError: isDealError,
+  } = useGetDealQuery(dealid, {
+    skip: !dealid,
+  });
 
-  const handleAddTag = (e) => {
-    if (e.key === "Enter" && inputValue.trim() !== "") {
-      e.preventDefault();
-      if (!tags.includes(inputValue.trim())) {
-        const newTags = [...tags, inputValue.trim()];
-        setTags(newTags);
-        setFormData({
-          ...formData,
-          search_tags: newTags.join(","),
-        });
-      }
-      setInputValue("");
-    }
-  };
-
-  const handleRemoveTag = (index) => {
-    const newTags = tags.filter((_, i) => i !== index);
-    setTags(newTags);
-    setFormData({
-      ...formData,
-      search_tags: newTags.join(","),
-    });
-  };
-
-  const handleFocus = (e) => {
-    if (formData.fine_print.trim() === "") {
-      setFormData({ ...formData, fine_print: "• " });
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const bullet = "• ";
-      const { selectionStart, selectionEnd, value } = e.target;
-      const newValue =
-        value.substring(0, selectionStart) +
-        "\n" +
-        bullet +
-        value.substring(selectionEnd);
-      setFormData({ ...formData, fine_print: newValue });
-      setTimeout(() => {
-        e.target.selectionStart = e.target.selectionEnd =
-          selectionStart + bullet.length + 1;
-      }, 0);
-    }
-  };
+  const [postBasicInfo] = usePostBasicInfoMutation();
+  const [publishDeal] = usePublishDealMutation();
 
   useEffect(() => {
-    if (dealid) {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No authentication token found. Please log in.");
-        return;
-      }
-
-      axios
-        .get(`https://homeservice.thefabulousshow.com/api/Deal/${dealid}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          const BasicInfo = response?.data?.deal[0];
-          console.log("BasicInfo:", BasicInfo);
-          setFormData({
-            id: BasicInfo.id || "",
-            service_title: BasicInfo.service_title || "",
-            commercial: BasicInfo.commercial || 0,
-            residential: BasicInfo.residential || 0,
-            service_category: BasicInfo.service_category || "",
-            search_tags: BasicInfo.search_tags || "",
-            service_description: BasicInfo.service_description || "",
-           
-          });
-          setTags(
-            BasicInfo.search_tags ? BasicInfo.search_tags.split(",") : []
-          );
-          setIsApiLoaded(true);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching deal data:", error);
-          if (error.response?.status === 401) {
-            console.error("Unauthorized. Redirecting to login...");
-          }
-        });
+    if (dealData) {
+      const BasicInfo = dealData?.deal[0];
+      setFormData({
+        id: BasicInfo.id || "",
+        service_title: BasicInfo.service_title || "",
+        commercial: BasicInfo.commercial || 0,
+        residential: BasicInfo.residential || 0,
+        service_category: BasicInfo.service_category || "",
+        search_tags: BasicInfo.search_tags || "",
+        service_description: BasicInfo.service_description || "",
+      });
+      setTags(BasicInfo.search_tags ? BasicInfo.search_tags.split(",") : []);
+      setIsApiLoaded(true);
     }
-  }, [dealid]);
+  }, [dealData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      return;
-    }
 
     const submitData = {
+      user_id: id,
       service_title: e.target.Title.value,
       commercial: e.target.Commercial.checked ? 1 : 0,
       residential: e.target.Residential.checked ? 1 : 0,
       service_category: e.target.Category.value,
       search_tags: tags.join(","),
       service_description: e.target.Description.value,
-    
     };
 
     try {
-      let response;
       const updatedFormData = { ...submitData };
       if (dealid) {
         updatedFormData.id = dealid;
       }
-      response = await axios.post(
-        "https://homeservice.thefabulousshow.com/api/BasicInfo",
-        updatedFormData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log(response);
-      if (response.status === 200) {
-        console.log("Service ID:", response.data.deal.id);
-        setServiceId(response.data.deal.id);
+      const response = await postBasicInfo(updatedFormData).unwrap();
+      if (response) {
+        setServiceId(response.deal.id);
+        localStorage.setItem("deal_id", response.deal.id);
+
         Swal.fire({
           icon: "success",
           title: dealid ? "Updated Successfully!" : "Created Successfully!",
@@ -188,31 +108,69 @@ function BasicInfo({ setServiceId, setValue }) {
     }
   };
 
-  const handlePublish = async () => {
-    if (publishLoading) return;
-    setPublishLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      setPublishLoading(true);
-      return;
-    }
-    try {
-      const response = await axios.get(
-        `https://homeservice.thefabulousshow.com/api/DealPublish/${dealid}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        setFormData((prev) => ({ ...prev, publish: publishValue }));
-        toast.success("Published successfully!");
-        setPublishValue(1);
+  const Businesscategories = [
+    "Plumbing",
+    "Electrical",
+    "HVAC / Heating & Cooling",
+    "Landscaping",
+    "Roofing",
+    "Painting",
+    "Moving",
+    "Security",
+    "Cleaning Service",
+    "Appliance Repair",
+  ];
+   const handlePublish = async () => {
+       if (publishLoading) return;
+       setPublishLoading(true);
+     
+       const dealid = localStorage.getItem("deal_id");
+     
+       if (!dealid) {
+         toast.error("Deal ID is missing. Please try again.");
+         setPublishLoading(false);
+         return;
+       }
+     
+       try {
+         
+         const response = await publishDeal({ deal_id: dealid }).unwrap();
+     
+         if (response) {
+           setFormData((prev) => ({ ...prev, publish: 1 }));
+           toast.success("Published successfully!");
+           setPublishValue(1);
+         }
+       } catch (error) {
+         console.error("Error publishing deal:", error);
+         toast.error("Failed to publish. Please try again.");
+       } finally {
+         setPublishLoading(false);
+       }
+     };
+
+  const handleAddTag = (e) => {
+    if (e.key === "Enter" && inputValue.trim() !== "") {
+      e.preventDefault();
+      if (!tags.includes(inputValue.trim())) {
+        const newTags = [...tags, inputValue.trim()];
+        setTags(newTags);
+        setFormData({
+          ...formData,
+          search_tags: newTags.join(","),
+        });
       }
-    } catch (error) {
-      console.error("Error publishing deal:", error);
-      toast.error("Failed to publish. Please try again.");
-    } finally {
-      setPublishLoading(false);
+      setInputValue("");
     }
+  };
+
+  const handleRemoveTag = (index) => {
+    const newTags = tags.filter((_, i) => i !== index);
+    setTags(newTags);
+    setFormData({
+      ...formData,
+      search_tags: newTags.join(","),
+    });
   };
 
   return (
@@ -269,7 +227,6 @@ function BasicInfo({ setServiceId, setValue }) {
                     />
                     Commercial
                   </label>
-                  {console.log("formdata", formData.residential)}
                   <label className="flex">
                     <input
                       type="checkbox"
@@ -377,8 +334,6 @@ function BasicInfo({ setServiceId, setValue }) {
                   />
                 </div>
               </div>
-
-             
 
               <div className="col-span-12 mt-4 flex justify-end gap-4">
                 <button

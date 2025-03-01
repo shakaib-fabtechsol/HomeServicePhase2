@@ -20,6 +20,7 @@ function ServiceBox({
   Liked = false,
   videos,
   imgs,
+  Days,
   totalReviews = 0,
 }) {
   const stopPropagation = (event) => {
@@ -27,12 +28,21 @@ function ServiceBox({
   };
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
+  const imageUrl = image
+  ? `https://marketplace.thefabulousshow.com/uploads/${image}`
+  : null;
 
+
+const imageToShow = imageUrl || defaultuser;
+
+{
+  console.log("publish", publish);
+}
   return (
     <div className="border rounded-lg">
       <div className="px-3 pt-3">
         <div className="relative">
-          <ServiceSlider dealsVideo={videos} dealslidedata={imgs} />
+          <ServiceSlider dealsVideo={videos} dealslidedata={imageToShow} />
           <div onClick={stopPropagation} className="absolute top-2 left-2 z-10">
             <button onClick={() => setLiked(!liked)}>
               <svg
@@ -78,7 +88,7 @@ function ServiceBox({
           <div className="flex items-center gap-1">
             <img
               className="size-8 max-w-8 object-cover rounded-full"
-              src={userimg || defaultuser}
+              src={imageToShow}
               alt="Logo"
             />
             <p className="text-sm font-semibold">{username || "User Name"}</p>
@@ -103,26 +113,16 @@ function ServiceBox({
         </div>
         <div className="flex justify-between items-center mt-2">
           <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
-          <p className="mb-0 text-lg font-extrabold">${price ?? "N/A"}</p>
+          <p className="mb-0 text-lg font-extrabold">{price ?? "N/A"}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
           <div>
-            {tags.length > 0 ? (
-              <span
-                className={`px-4 py-2 rounded-full text-sm inline-block me-2 ${
-                  0 % 2 === 0 ? "bg-[#E7F4FB] text-[#0F91D2]" : "bg-[#EBEBEB]"
-                }`}
-              >
-                {tags[0]}
-              </span>
-            ) : (
-              "No tags available"
-            )}
+            {tags}
           </div>
           <div className="flex items-center">
             <span className="text-[#0F91D2]">Avg</span>
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />
-            <span className="text-[#717171]">1 day</span>
+            <span className="text-[#717171]">{Days ??"N/A"}</span>
           </div>
         </div>
       </div>
