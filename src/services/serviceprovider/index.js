@@ -5,8 +5,8 @@ import { PRO_POINTS } from '../../constants/endpoint';
 export const serviceProviderAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getproviders: builder.query({
-      query: () => ({
-        url: PRO_POINTS.GET_PROVIDERS,
+      query: (data) => ({
+        url: `${PRO_POINTS.GET_PROVIDERS}?providers=${data?.providers}&page=${data?.page}&search=${data?.search||""}`,
       }),
     }),
     getproviderById: builder.query({

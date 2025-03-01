@@ -11,28 +11,31 @@ import { useGetprovidersQuery } from "../../services/serviceprovider";
 import Loader from "../../Components/MUI/Loader";
 import { useNavigate } from "react-router-dom";
 import PaginationComponent from "../../Components/Pagination";
+import Swal from "sweetalert2";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function Providers() {
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useGetprovidersQuery();
-  console.log(data, "data", isLoading, "isLoading", isError, "errors");
+  const [page, setPage] = useState(0);
+  const [search, setSearch] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { data, isLoading, isFetching,isError} = useGetprovidersQuery({page:page+1,providers:rowsPerPage,search:search});
   useEffect(() => {
     document.title = "Providers";
   }, []);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
+   
     setPage(newPage);
+   
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event,newPage) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page when changing rows per page
+    setPage(0)
+  
   };
 
-  const [search, setSearch] = useState("");
   const [checkedRows, setCheckedRows] = useState(
     new Array(data?.serviceProviders?.data?.length).fill(false)
   );
@@ -52,20 +55,16 @@ export default function Providers() {
   const isIndeterminate =
     checkedRows.some(Boolean) && !checkedRows.every(Boolean);
 
-  const filteredProviders = data?.serviceProviders?.data?.filter((provider) => {
-    return (
-      provider.name.toLowerCase().includes(search.toLowerCase()) ||
-      provider.email.toLowerCase().includes(search.toLowerCase()) ||
-      provider.phone.toLowerCase().includes(search.toLowerCase())
-    );
-  });
 
-  if (isLoading) {
-    return (
-      <div className="loader">
-        <Loader />
-      </div>
-    )
+
+
+
+  if(isError){
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Something went wrong. Please try again.",
+    });
   }
 
   const tableheader = [
@@ -99,7 +98,7 @@ export default function Providers() {
     "Ban",
   ];
 
-  const tablebody = filteredProviders?.map((provider, index) => [
+  const tablebody = data?.serviceProviders?.data?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -174,9 +173,9 @@ export default function Providers() {
         </div>
       </div>
       <div className="mt-5">
-        <Table headers={tableheader} rows={tablebody} />
+        {isLoading || isFetching ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
         <PaginationComponent
-         count={100} 
+         count={data?.totalProviders} 
          page={page}
          rowsPerPage={rowsPerPage}
          onPageChange={handleChangePage}

@@ -5,11 +5,10 @@ import { PRO_POINTS } from '../../constants/endpoint';
 export const serviceProviderAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getclients: builder.query({
-      query: () => ({
-        url: PRO_POINTS.GET_CLIENTS,
-       
+      query: (data) => ({
+        url: `${PRO_POINTS.GET_CLIENTS}?clients=${data?.providers}&page=${data?.page}&search=${data?.search||""}`,
       }),
-      providesTags: ["UpdateClient"],
+      providesTags: ["UpdateClient","Get"],
     }),
     getclientById: builder.query({
       query: (id) => ({
@@ -26,9 +25,16 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["UpdateClient"]
     }),
+    deleteClient: builder.mutation({
+      query: (id) => ({
+        url: `/SuperAdmin/DeleteSalesReps/${id}`,
+        method: 'GET',
+      }),
+      invalidatesTags: ["Get"]
+    }),
 
 
   }),
 });
 
-export const { useGetclientByIdQuery,useGetclientsQuery,useUpdateClientMutation} = serviceProviderAPIs;
+export const { useGetclientByIdQuery,useGetclientsQuery,useUpdateClientMutation,useDeleteClientMutation} = serviceProviderAPIs;

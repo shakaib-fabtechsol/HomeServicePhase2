@@ -8,18 +8,38 @@ import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useGetclientsQuery } from "../../services/clients";
+import { useDeleteClientMutation, useGetclientsQuery } from "../../services/clients";
 import Loader from "../../Components/MUI/Loader";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineTrash } from "react-icons/hi";
+import confirmDelete from "../../constants/deleteconfirm";
+import Swal from "sweetalert2";
+import PaginationComponent from "../../Components/Pagination";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function Clients() {
-  const navigate=useNavigate();
-  const { data: clientsdata, isLoading: loading, isError: error } = useGetclientsQuery();
-  const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.length).fill(false));
+  const navigate = useNavigate();
+  const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { data: clientsdata, isLoading: loading, isError: error, isFetching } = useGetclientsQuery({ page: page + 1, providers: rowsPerPage, search: search });
+  const [deletecustomer, { isLoading: deleting, isError }] = useDeleteClientMutation();
+  const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.data?.length).fill(false));
+
+  const handleChangePage = (event, newPage) => {
+
+    setPage(newPage);
+
+  };
+
+  const handleChangeRowsPerPage = (event, newPage) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0)
+
+  };
+
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(clientsdata?.Customers?.length).fill(isChecked));
+    setCheckedRows(new Array(clientsdata?.Customers?.data?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
@@ -28,18 +48,12 @@ export default function Clients() {
     setCheckedRows(newCheckedRows);
   };
 
+  console.log(clientsdata)
+
   const isAllChecked = checkedRows.every(Boolean);
   const isIndeterminate = checkedRows.some(Boolean) && !checkedRows.every(Boolean);
+  console.log(clientsdata, "this is client data")
 
-  const filteredProviders = clientsdata?.Customers?.filter((provider) => {
-    return (
-      provider?.id?.toString().includes(search) ||
-      provider?.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
-      provider?.email?.toLowerCase()?.includes(search?.toLowerCase()) ||
-      provider?.phone?.toLowerCase()?.includes(search?.toLowerCase()) ||
-      provider?.location?.toLowerCase()?.includes(search?.toLowerCase())
-    );
-  });
 
   const tableheader = [
     <FormControlLabel
@@ -69,8 +83,22 @@ export default function Clients() {
     "Address",
     "Action",
   ];
+  const handleDelete = async (id) => {
+    try {
+      const response = await deletecustomer(id).unwrap();
+      Swal.fire("Deleted!", "Customer has been deleted.", "success").then(() => {
+        navigate("/superadmin/clients");
+      });
 
-  const tablebody = filteredProviders?.map((provider, index) => [
+    } catch (error) {
+      Swal.fire("Error", "Failed to delete customer. Please try again.", "error").then(() => {
+        navigate("/superadmin/clients");
+      });
+    }
+  };
+
+
+  const tablebody = clientsdata?.Customers?.data?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -98,26 +126,32 @@ export default function Clients() {
     </div>,
     provider?.email,
     provider?.phone,
-    provider?.location||"N/A",
+    provider?.location || "N/A",
     <div className="flex items-center gap-2">
-      <Link to="/superadmin/clientprofile">
-        <LuEye className="text-[20px]" />
-      </Link>
-   
-        <SlPencil className="text-[20px]" onClick={()=>{
-          navigate(`/superadmin/editclient`, { state: {id:provider?.id} });
-        }} />
+
+      <LuEye className="text-[20px]" onClick={() => {
+        navigate(`/superadmin/clientprofile`, { state: { id: provider?.id } });
+      }} />
+
+
+      <SlPencil className="text-[20px]" onClick={() => {
+        navigate(`/superadmin/editclient`, { state: { id: provider?.id } });
+      }} />
+
+      <HiOutlineTrash onClick={() => {
+        confirmDelete("Client").then((result) => {
+          if (result && provider?.id) {
+            handleDelete(provider?.id);
+            navigate(`/superadmin/clients`, { state: { id: provider?.id } });
+          }
+        })
+      }}
+        className="text-[20px]" />
 
     </div>,
   ]);
 
-  if (loading) {
-    return (
-      <div className="loader">
-        <Loader />
-      </div>
-    );
-  }
+
 
   if (error) {
     return (
@@ -126,6 +160,9 @@ export default function Clients() {
       </div>
     );
   }
+
+
+
 
   return (
     <div>
@@ -158,7 +195,15 @@ export default function Clients() {
         </div>
       </div>
       <div className="mt-5">
-        <Table headers={tableheader} rows={tablebody} />
+        {isFetching || loading || deleting ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
+
+        <PaginationComponent
+          count={clientsdata?.total_customers}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </div>
   );

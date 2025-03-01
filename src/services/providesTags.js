@@ -9,5 +9,7 @@ export const PROVIDES_TAGS = [
     'SETTINGS',
     'SUPPORT',
     'PROFILE',
-    'UpdateClient'
+    'UpdateClient',
+    'Get',
+    "GetSales"
   ]
