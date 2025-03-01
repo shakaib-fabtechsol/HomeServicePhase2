@@ -21,9 +21,65 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
     }),
 
+    // AddCertificateHours
+    addCertificateHours: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.ADD_CERTIFICATE_HOURS,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    addAdditionalInfo: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.ADD_ADDITIONAL_INFO,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    addSocialProfile: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.ADD_SOCIAL_PROFILE,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    deleteSocialProfile: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.SOCIAL_DELETE,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.UPDATE_PASSWORD,
+        method: 'POST',
+        body: data,
+      }),
+    }),
 
+    addConversation: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.ADD_CONVERSATION,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
+  // for add conversation
+ 
+
 });
 
-export const { useUpdateMyDetailsMutation, useUpdateBusinessProfileMutation } = settingsAPIs;
+export const {
+  useUpdateMyDetailsMutation,
+  useUpdateBusinessProfileMutation,
+  useAddCertificateHoursMutation,
+  useAddAdditionalInfoMutation,
+  useAddSocialProfileMutation,
+  useDeleteSocialProfileMutation,
+  useUpdatePasswordMutation,
+  useAddConversationMutation
+} = settingsAPIs;
+
 

@@ -2,8 +2,8 @@ import React from "react";
 import SettingsPreview from "../../../../Components/MUI/SettingsPreview";
 import { Autocomplete, TextField } from "@mui/material";
 import { useBusinessProfile } from "./useBusinessProfile";
-
-const BusinessProfileModule = () => {
+import Loader from "../../../../Components/MUI/Loader";
+const BusinessProfileModule = ({handleTabChange}) => {
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ const BusinessProfileModule = () => {
     onSubmit,
     setValue,
     watch,
-  } = useBusinessProfile();
+  } = useBusinessProfile({handleTabChange});
 
   const Businesscategories = [
     "Plumbing",
@@ -82,8 +82,10 @@ const BusinessProfileModule = () => {
   const handleSecondaryCategories = (_, values) => {
     setValue('business_secondary_categories', values);
   };
+  if(isLoading) {
+    return <Loader/>
+  }
 
-  console.log("userData>>>>>>........", watch("business_logo"));
   return (
     <>
       <form onSubmit={handleSubmit((data) => onSubmit(data, false))}>
@@ -206,6 +208,7 @@ const BusinessProfileModule = () => {
                   <Autocomplete
                     multiple
                     id="tags-outlined"
+                    value={watch("business_secondary_categories")}
                     options={Businesscategories || []}
                     sx={{
                       "& .MuiOutlinedInput-root": {

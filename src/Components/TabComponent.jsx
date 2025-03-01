@@ -33,14 +33,11 @@ function a11yProps(index) {
   };
 }
 
-export default function TabComponent({ tabs }) {
-  const [value, setValue] = React.useState(0);
+export default function TabComponent({ tabs ,value, onChange}) {
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+ 
 
-  return (
+  return (  
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 0, borderColor: 'divider', overflowX: 'auto' }}>
         <Tabs
@@ -50,7 +47,7 @@ export default function TabComponent({ tabs }) {
           sx={{ fontFamily: "Inter", minHeight: "32px", borderBottom: "solid 1px #E9EAEB",
            }}
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           aria-label="custom tabs example"
           TabScrollButtonProps={{
             sx: {
@@ -85,6 +82,7 @@ export default function TabComponent({ tabs }) {
               }}
               key={index}
               label={tab.label}
+              onClick={() => onChange(index)}
               {...a11yProps(index)}
             />
           ))}

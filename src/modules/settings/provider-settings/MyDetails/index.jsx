@@ -5,7 +5,7 @@ import profileImg from "../../../../assets/img/service3.png";
 import MaskedInput from "react-text-mask";
 import { useMyDetails } from "./useMyDetails";
 
-const MyDetailModule = () => {
+const MyDetailModule = ({handleTabChange}) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +16,7 @@ const MyDetailModule = () => {
     handleFileChange,
     // phoneNumber, 
     // setPhoneNumber,
-  } = useMyDetails();
+  } = useMyDetails({handleTabChange});
 
   const referredBySales = watch("sales_referred");
   const selectedOption = watch("sales_representative");

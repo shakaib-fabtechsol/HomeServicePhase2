@@ -13,20 +13,26 @@ import TabComponent from "../../Components/TabComponent";
 import Publish from "../../Components/ProviderSetting/Publish";
 
 function Settings() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabChange = (newValue) => {
+    setActiveTab(newValue);
+  };
+
   useEffect(() => {
     document.title = "Settings";
   }, []);
   const tabData = [
-    { label: "Personal Profile", content: <MyDetail /> },
-    { label: "Service Area", content: <ServiceArea /> },
-    { label: "Business Profile", content: <BusinessProfile /> },
-    { label: "Certifications & Hours", content: <CertificationHour /> },
-    { label: "Additional Info", content: <AdditionalInfo /> },
-    { label: "Social Profiles", content: <SocialProfile /> },
-    { label: "Password", content: <Password /> },
-    { label: "Channels for Conversations", content: <ChannelConversation /> },
-    { label: "Payment/Payout Info", content: <Payment /> },
-    { label: "Publish", content: <Publish /> },
+    { label: "Personal Profile", content: <MyDetail handleTabChange={handleTabChange}/> },
+    { label: "Service Area", content: <ServiceArea handleTabChange={handleTabChange}/> },
+    { label: "Business Profile", content: <BusinessProfile handleTabChange={handleTabChange}/> },
+    { label: "Certifications & Hours", content: <CertificationHour handleTabChange={handleTabChange}/> },
+    { label: "Additional Info", content: <AdditionalInfo handleTabChange={handleTabChange}/> },
+    { label: "Social Profiles", content: <SocialProfile handleTabChange={handleTabChange}/> },
+    { label: "Password", content: <Password handleTabChange={handleTabChange}/> },
+    { label: "Channels for Conversations", content: <ChannelConversation handleTabChange={handleTabChange}/> },
+    { label: "Payment/Payout Info", content: <Payment handleTabChange={handleTabChange}/> },
+    { label: "Publish", content: <Publish handleTabChange={handleTabChange}/> },
   ];
 
   return (
@@ -39,7 +45,7 @@ function Settings() {
         </p>
       </div>
       <div>
-        <TabComponent tabs={tabData} />
+        <TabComponent tabs={tabData} value={activeTab} onChange={handleTabChange} />
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const schema = yup.object().shape({
   website: yup.string().url("Please enter a valid URL"),
 });
 
-export const useBusinessProfile = () => {
+export const useBusinessProfile = ({handleTabChange}) => {
   const [updateBusinessProfile, { isLoading }] = useUpdateBusinessProfileMutation();
   const userData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export const useBusinessProfile = () => {
       business_logo:  userData?.business_logo || "",
       about: userData?.about || "",
       business_primary_category: userData?.business_primary_category || "",
-      business_secondary_categories: userData?.business_secondary_categories || [],
+      business_secondary_categories: userData?.business_secondary_categories && userData?.business_secondary_categories?.split(",") || [],
       website: userData?.website || "",
     },
   });
@@ -65,8 +65,10 @@ export const useBusinessProfile = () => {
   };
 
   const onSubmit = async (data, saveAndPublish = false) => {
+
     try {
-        console.log("data", data);
+    
+
       // Create FormData for file upload
       const formData = new FormData();
       Object.keys(data).forEach(key => {
@@ -85,6 +87,7 @@ export const useBusinessProfile = () => {
 
       const response = await updateBusinessProfile(formData).unwrap();
       console.log("response", response);
+      handleTabChange(3);
       //  IF uploads already contains the url then remove the base url
       const business_logo = response.BusinessProfile.business_logo.includes('uploads/') ? response.BusinessProfile.business_logo.split('uploads/')[1] : response.BusinessProfile.business_logo;
       const payload = {
@@ -93,7 +96,7 @@ export const useBusinessProfile = () => {
         business_name: response.BusinessProfile.business_name,
         about: response.BusinessProfile.about,
         business_primary_category: response.BusinessProfile.business_primary_category,
-        business_secondary_categories: response.BusinessProfile.business_secondary_categories.split(','),
+        business_secondary_categories: response.BusinessProfile.business_secondary_categories,
         website: response.BusinessProfile.website,
       }
       dispatch(setUser(payload));
