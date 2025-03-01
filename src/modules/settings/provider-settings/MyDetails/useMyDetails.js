@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-
+import { usePublishMutation } from "../../../../services/settings";
 import { useUpdateMyDetailsMutation } from "../../../../services/settings";
+import { setUser } from "../../../../redux/reducers/authSlice";
 
 export const useMyDetails = ({ handleTabChange }) => {
+    const [publishMyDetails] = usePublishMutation();
+
     const [updateMyDetails, { isLoading }] = useUpdateMyDetailsMutation();
-    const dispatch   = useDispatch();
+    const dispatch = useDispatch();
 
     const userData = useSelector((state) => state.auth.user);
 
+    console.log("userData sales_representative", userData?.sales_representative);
     const {
         register,
         handleSubmit,
@@ -39,7 +43,9 @@ export const useMyDetails = ({ handleTabChange }) => {
                 if (key === 'personal_image' && formData[key] instanceof File) {
                     payload.append(key, formData[key]);
                 } else {
-                    payload.append(key, formData[key]);
+                    if(key != 'publish'){
+                        payload.append(key, formData[key]);
+                    }
                 }
             });
 
@@ -47,7 +53,12 @@ export const useMyDetails = ({ handleTabChange }) => {
             // Dispatch update profile action
             const response = await updateMyDetails(payload).unwrap();
 
-            if (response.success) {
+            if (response) {
+                console.log("formData.publish", formData.publish);
+                if(formData.publish==true){
+                    await publishMyDetails(userData?.id);
+                }
+
                 handleTabChange(1);
                 // toast.success("Profile updated successfully!");
                 reset(formData); // Reset form with new values
@@ -60,6 +71,8 @@ export const useMyDetails = ({ handleTabChange }) => {
         }
     };
 
+
+    console.log("userData...", userData);
     // File change handler
     const handleFileChange = (e, fieldName) => {
         const file = e.target.files[0];
@@ -125,6 +138,6 @@ export const useMyDetails = ({ handleTabChange }) => {
         handleFileChange,
         formatPhoneNumber,
         validationRules,
-        userData
+        userData,
     };
 };

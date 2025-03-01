@@ -137,7 +137,6 @@ const BusinessProfileModule = ({handleTabChange}) => {
                     onFileSelect={handleFileChange}
                     fieldName="business_logo"
                     existingImage={watch("business_logo")}
-                    // existingImage={watch("business_logo")}
                   />
                 </div>
               </div>
@@ -262,7 +261,7 @@ const BusinessProfileModule = ({handleTabChange}) => {
               </button>
               <button
                 type="submit"
-                onClick={handleSubmit((data) => onSubmit(data, true))}
+                onClick={() => setValue('publish', true)}
                 disabled={isLoading}
                 className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
               >

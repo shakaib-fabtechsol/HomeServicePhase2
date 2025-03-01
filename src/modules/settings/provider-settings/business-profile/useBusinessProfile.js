@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useUpdateBusinessProfileMutation } from "../../../../services/settings";
+import { useUpdateBusinessProfileMutation,usePublishMutation } from "../../../../services/settings";
 import { setUser } from "../../../../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +16,7 @@ const schema = yup.object().shape({
 });
 
 export const useBusinessProfile = ({handleTabChange}) => {
+  const [publishBusinessProfile] = usePublishMutation();
   const [updateBusinessProfile, { isLoading }] = useUpdateBusinessProfileMutation();
   const userData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -30,12 +31,12 @@ export const useBusinessProfile = ({handleTabChange}) => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      business_name: userData?.business_name || "",
-      business_logo:  userData?.business_logo || "",
-      about: userData?.about || "",
-      business_primary_category: userData?.business_primary_category || "",
-      business_secondary_categories: userData?.business_secondary_categories && userData?.business_secondary_categories?.split(",") || [],
-      website: userData?.website || "",
+      business_name: userData?.businessProfile?.business_name || "",
+      business_logo:  userData?.businessProfile?.business_logo || "",
+      about: userData?.businessProfile?.about || "",
+      business_primary_category: userData?.businessProfile?.business_primary_category || "",
+      business_secondary_categories: userData?.businessProfile?.business_secondary_categories && userData?.businessProfile?.business_secondary_categories?.split(",") || [],
+      website: userData?.businessProfile?.website || "",
     },
   });
 
@@ -79,27 +80,20 @@ export const useBusinessProfile = ({handleTabChange}) => {
             formData.append(key, formData[key]);
           }
         else {
-          formData.append(key, data[key]);
+          if(key != 'publish'){
+            formData.append(key, data[key]);
+          }
         }
       });
       formData.append('user_id', userData?.id);
 
 
       const response = await updateBusinessProfile(formData).unwrap();
+      if(data.publish ){
+        await publishBusinessProfile(userData?.id);
+      }
       console.log("response", response);
       handleTabChange(3);
-      //  IF uploads already contains the url then remove the base url
-      const business_logo = response.BusinessProfile.business_logo.includes('uploads/') ? response.BusinessProfile.business_logo.split('uploads/')[1] : response.BusinessProfile.business_logo;
-      const payload = {
-        ...response.user,
-        business_logo:   "uploads/" + business_logo,
-        business_name: response.BusinessProfile.business_name,
-        about: response.BusinessProfile.about,
-        business_primary_category: response.BusinessProfile.business_primary_category,
-        business_secondary_categories: response.BusinessProfile.business_secondary_categories,
-        website: response.BusinessProfile.website,
-      }
-      dispatch(setUser(payload));
     } catch (error) {
       console.error('Error submitting form:', error);
     }

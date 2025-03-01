@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PasswordModule from "../../modules/settings/provider-settings/Password";
-const Password = () => {
+const Password = ({handleTabChange}) => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -88,7 +88,7 @@ const Password = () => {
     //     </div>
     //   </form>
     // </div>
-    <PasswordModule/>
+    <PasswordModule handleTabChange={handleTabChange} />
   );
 };
 

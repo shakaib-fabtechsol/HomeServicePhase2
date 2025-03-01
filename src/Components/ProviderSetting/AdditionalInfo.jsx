@@ -6,6 +6,7 @@ import { useAddAdditionalInfoMutation } from "../../services/settings";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/authSlice";
+import Loader from "../MUI/Loader";
 
 const AdditionalInfo = ({ handleTabChange }) => {
   const dispatch = useDispatch();
@@ -15,11 +16,11 @@ const AdditionalInfo = ({ handleTabChange }) => {
   console.log("userData",userData)
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
-      about_video: userData?.about_video || "",
-      technician_photo: userData?.technician_photo || "",
-      vehicle_photo: userData?.vehicle_photo || "",
-      facility_photo: userData?.facility_photo || "",
-      project_photo: userData?.project_photo || "",
+      about_video: userData?.businessProfile?.about_video || "",
+      technician_photo: userData?.businessProfile?.technician_photo || "",
+      vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
+      facility_photo: userData?.businessProfile?.facility_photo || "",
+      project_photo: userData?.businessProfile?.project_photo || "",
     }
   });
 
@@ -74,25 +75,6 @@ const AdditionalInfo = ({ handleTabChange }) => {
       const response = await addAdditionalInfo(submitData).unwrap();
 
       if (response) {
-        // Handle file paths correctly
-        const processFilePath = (path) => {
-          if (!path) return "";
-          return path.includes('uploads/') ? path : `uploads/${path}`;
-        };
-
-        console.log("response.......",response)
-
-        const payload = {
-          ...userData,
-          about_video: processFilePath(response.BusinessProfile.about_video),
-          technician_photo: processFilePath(response.BusinessProfile.technician_photo),
-          vehicle_photo: processFilePath(response.BusinessProfile.vehicle_photo),
-          facility_photo: processFilePath(response.BusinessProfile.facility_photo),
-          project_photo: processFilePath(response.BusinessProfile.project_photo),
-        };
-
-        dispatch(setUser(payload));
-        
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -100,7 +82,7 @@ const AdditionalInfo = ({ handleTabChange }) => {
           timer: 1500,
           showConfirmButton: false,
         }).then(() => {
-          handleTabChange(4);
+          handleTabChange(5);
         });
       }
     } catch (error) {
@@ -111,6 +93,10 @@ const AdditionalInfo = ({ handleTabChange }) => {
       });
     }
   };
+
+  if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <div>
@@ -177,11 +163,11 @@ const AdditionalInfo = ({ handleTabChange }) => {
             type="button"
             onClick={() => {
               const defaultValues = {
-                about_video: userData?.about_video || "",
-                technician_photo: userData?.technician_photo || "",
-                vehicle_photo: userData?.vehicle_photo || "",
-                facility_photo: userData?.facility_photo || "",
-                project_photo: userData?.project_photo || "",
+                about_video: userData?.businessProfile?.about_video || "",
+                technician_photo: userData?.businessProfile?.technician_photo || "",
+                vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
+                facility_photo: userData?.businessProfile?.facility_photo || "",
+                project_photo: userData?.businessProfile?.project_photo || "",
               };
               Object.keys(defaultValues).forEach(key => setValue(key, defaultValues[key]));
             }}

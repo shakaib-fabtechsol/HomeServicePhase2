@@ -1,69 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import upload from "../../assets/img/upload.png";
 import fileicon from "../../assets/img/fileicon.png";
 
-export default function PreviewMedia({ onFileSelect, fieldName }) {
+export default function PreviewVideo({
+  onFileSelect,
+  fieldName,
+  existingVideo,
+}) {
   const [file, setFile] = useState(null);
-  const [filePreview, setFilePreview] = useState(null);
+  const [videoPreview, setVideoPreview] = useState(existingVideo || null);
   const [showPreview, setShowPreview] = useState(false);
 
-  // Supported formats for video and image
-  const supportedFormats = [".mp4", ".mov", ".avi", ".mkv", ".webm", ".jpg", ".jpeg", ".png", ".gif"];
+  useEffect(() => {
+    if (!file && existingVideo) {
+      setVideoPreview(import.meta.env.VITE_BASE_URL + "uploads/" + existingVideo);
+      setShowPreview(true);
+    }
+  }, [existingVideo]);
 
-  // Handle file drop from drag-and-drop
+  console.log("existingVideo>>>>>>>>", existingVideo);
+
   const handleFileDrop = (e) => {
     e.preventDefault();
     const uploadedFile = e.dataTransfer.files[0];
-    if (uploadedFile && isFileSupported(uploadedFile)) {
-      processFile(uploadedFile);
+    if (uploadedFile && uploadedFile.type.startsWith('video/')) {
+      handleVideoFile(uploadedFile, e);
     } else {
-      alert("Unsupported file format. Please upload a video or image file.");
+      alert('Please upload a video file');
     }
   };
 
-  // Handle file selection via file input
   const handleFileClick = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = supportedFormats.join(",");
+    fileInput.accept = "video/*";
     fileInput.onchange = (e) => handleFileSelect(e);
     fileInput.click();
   };
 
-  // Handle file input change
   const handleFileSelect = (e) => {
     const uploadedFile = e.target.files[0];
-    if (uploadedFile && isFileSupported(uploadedFile)) {
-      processFile(uploadedFile);
+    if (uploadedFile && uploadedFile.type.startsWith('video/')) {
+      handleVideoFile(uploadedFile, e);
     } else {
-      alert("Unsupported file format. Please upload a video or image file.");
+      alert('Please upload a video file');
     }
   };
 
-  // Check if the file is supported
-  const isFileSupported = (file) => {
-    return supportedFormats.some((format) =>
-      file.name.toLowerCase().endsWith(format)
-    );
-  };
-
-  // Process the file and create a preview
-  const processFile = (uploadedFile) => {
+  const handleVideoFile = (uploadedFile, e) => {
     setFile(uploadedFile);
-    setFilePreview(URL.createObjectURL(uploadedFile));
+    setVideoPreview(URL.createObjectURL(uploadedFile));
     setShowPreview(true);
-    onFileSelect({ target: { files: [uploadedFile] } }, fieldName);
+    onFileSelect(e, fieldName);
   };
 
-  // Remove the file
   const handleRemoveFile = () => {
     setFile(null);
-    setFilePreview(null);
+    setVideoPreview(null);
     setShowPreview(false);
   };
 
-  // Determine if the file is an image
-  const isImage = file && file.type.startsWith("image/");
+  const handleShowPreview = () => {
+    setShowPreview(true);
+  };
 
   return (
     <div
@@ -72,20 +71,20 @@ export default function PreviewMedia({ onFileSelect, fieldName }) {
       onDragOver={(e) => e.preventDefault()}
     >
       <div
-        className="upload-box w-full border border-solid border-[#cdcdcd] rounded-lg p-4 text-center cursor-pointer"
+        className="upload-box w-full border border-solid border-1 border-[#cdcdcd] rounded-lg p-4 text-center cursor-pointer"
         onClick={handleFileClick}
       >
-        {file ? (
+        {file || existingVideo ? (
           <div className="upload-placeholder flex flex-col items-center justify-center min-h-[180px]">
             <img src={upload} alt="upload" className="w-[50px] mb-4" />
             <p className="text-gray-500">
-              <strong>File Uploaded Successfully</strong>
+              <strong>Video Uploaded Successfully</strong>
             </p>
             <p className="text-gray-500">
-              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop to change file
+              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop to change video
             </p>
             <p className="text-sm text-gray-400">
-              Supported formats: {supportedFormats.join(", ")}
+              MP4, WebM, or OGG (max. 100MB)
             </p>
           </div>
         ) : (
@@ -95,31 +94,35 @@ export default function PreviewMedia({ onFileSelect, fieldName }) {
               <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop
             </p>
             <p className="text-sm text-gray-400">
-              Supported formats: {supportedFormats.join(", ")}
+              MP4, WebM, or OGG (max. 100MB)
             </p>
           </div>
         )}
       </div>
 
-      {file && (
+      {(file || existingVideo) && (
         <div className="file-actions mt-4">
           <div className="file-info flex items-center justify-between border rounded-lg p-2">
             <div className="flex items-center">
               <img src={fileicon} alt="fileicon" className="w-[20px]" />
               <div className="file-details ml-2">
-                <p className="file-name text-sm font-medium">{file.name}</p>
+                <p className="file-name text-sm font-medium">
+                  {file ? file.name : "Existing Video"}
+                </p>
               </div>
               <p
                 className="show-preview text-[#0F91D2] mt-2 ms-8 cursor-pointer"
-                onClick={() => setShowPreview(!showPreview)}
+                onClick={handleShowPreview}
               >
-                {showPreview ? "Hide Preview" : "Show Preview"}
+                Show Preview
               </p>
             </div>
             <div className="flex px-4">
-              <p className="file-size text-xs me-2 text-gray-500">
-                {(file.size / 1024 / 1024).toFixed(2)} MB
-              </p>
+              {file && (
+                <p className="file-size text-xs me-2 text-gray-500">
+                  {(file.size / 1024 / 1024).toFixed(2)} MB
+                </p>
+              )}
               <button
                 className="remove-file text-red-500 font-bold text-xs"
                 onClick={handleRemoveFile}
@@ -131,23 +134,15 @@ export default function PreviewMedia({ onFileSelect, fieldName }) {
         </div>
       )}
 
-      {showPreview && filePreview && (
-        <div className="media-preview mt-4">
-          {isImage ? (
-            <img
-              src={filePreview}
-              alt="preview"
-              className="rounded-lg border border-gray-200 w-full max-w-[400px]"
-            />
-          ) : (
-            <video
-              controls
-              src={filePreview}
-              className="rounded-lg border border-gray-200 w-full max-w-[400px]"
-            >
-              Your browser does not support the video tag.
-            </video>
-          )}
+      {showPreview && videoPreview && (
+        <div className="video-preview mt-4">
+          <video 
+            controls 
+            className="rounded-lg border border-gray-200 w-full max-w-[400px]"
+          >
+            <source src={videoPreview} type={file?.type || "video/mp4"} />
+            Your browser does not support the video tag.
+          </video>
         </div>
       )}
     </div>

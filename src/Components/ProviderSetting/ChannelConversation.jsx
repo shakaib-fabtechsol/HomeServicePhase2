@@ -4,16 +4,19 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useAddConversationMutation } from "../../services/settings";
 import { useSelector ,useDispatch} from "react-redux";
+import { setUser } from "../../redux/reducers/authSlice";
+import Loader from "../MUI/Loader";
 
-const ChannelConversation = () => {
+const ChannelConversation = ({handleTabChange}) => {
   const userData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [addConversation, { isLoading }] = useAddConversationMutation();
   const [toggles, setToggles] = useState({
-    call: false,
-    text: false,
-    email: false,
-    address: false,
-    chat: false,
+    call: !!userData?.businessProfile?.conversation_call_number,
+    text: !!userData?.businessProfile?.conversation_text_number,
+    email: !!userData?.businessProfile?.conversation_email,
+    address: !!userData?.businessProfile?.conversation_address,
+    chat: !!userData?.businessProfile?.conversation_chat,
     form: false,
   });
 
@@ -24,14 +27,37 @@ const ChannelConversation = () => {
     setValue,
     watch
   } = useForm({
-    mode: "onChange"
+    mode: "onChange",
+    defaultValues: {
+      conversation_call_number: userData?.businessProfile?.conversation_call_number,
+      conversation_text_number: userData?.businessProfile?.conversation_text_number,
+      conversation_email: userData?.businessProfile?.conversation_email,
+      conversation_address: userData?.businessProfile?.conversation_address,
+    }
+    
   });
 
   const handleToggle = (field) => {
-    setToggles((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
+    setToggles((prev) => {
+      const newState = {
+        ...prev,
+        [field]: !prev[field],
+      };
+      
+      // Clear the corresponding form value when toggle is turned off
+      const fieldMap = {
+        call: 'conversation_call_number',
+        text: 'conversation_text_number',
+        email: 'conversation_email',
+        address: 'conversation_address'
+      };
+
+      if (!newState[field]) {
+        setValue(fieldMap[field], undefined);
+      }
+
+      return newState;
+    });
   };
 
   // Validation patterns
@@ -50,13 +76,16 @@ const ChannelConversation = () => {
     try {
       const formData = new FormData();
       formData.append('id', userData.id);
-      formData.append('conversation_call_number', data.conversation_call_number);
-      formData.append('conversation_text_number', data.conversation_text_number);
-      formData.append('conversation_email', data.conversation_email);
-      formData.append('conversation_address', data.conversation_address);
-      const response = await addConversation(formData);
       
-      if (response?.data) {
+      // Only append values for enabled toggles
+      if (toggles.call) formData.append('conversation_call_number', data.conversation_call_number);
+      if (toggles.text) formData.append('conversation_text_number', data.conversation_text_number);
+      if (toggles.email) formData.append('conversation_email', data.conversation_email);
+      if (toggles.address) formData.append('conversation_address', data.conversation_address);
+
+      const response = await addConversation(formData);
+      if (response) {
+        handleTabChange(8);
         Swal.fire({
           icon: "success",
           title: "Success!",
@@ -73,6 +102,10 @@ const ChannelConversation = () => {
       });
     }
   };
+
+  if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <div>
@@ -94,7 +127,7 @@ const ChannelConversation = () => {
                   <label className="switch def-switch relative flex items-center">
                     <input
                       type="checkbox"
-                      checked={toggles.call}
+                      defaultChecked={toggles.call || watch("conversation_call_number")}
                       onChange={() => handleToggle("call")}
                       className="hidden peer"
                     />
@@ -138,7 +171,7 @@ const ChannelConversation = () => {
                   <label className="switch def-switch relative flex items-center">
                     <input
                       type="checkbox"
-                      checked={toggles.text}
+                      defaultChecked={toggles.text || watch("conversation_text_number")}
                       onChange={() => handleToggle("text")}
                       className="hidden peer"
                     />
@@ -182,7 +215,7 @@ const ChannelConversation = () => {
                   <label className="switch def-switch relative flex items-center">
                     <input
                       type="checkbox"
-                      checked={toggles.chat}
+                      defaultChecked={toggles.chat || watch("conversation_chat")}
                       onChange={() => handleToggle("chat")}
                       className="hidden peer"
                     />
@@ -212,7 +245,7 @@ const ChannelConversation = () => {
                   <label className="switch def-switch relative flex items-center">
                     <input
                       type="checkbox"
-                      checked={toggles.email}
+                      defaultChecked={toggles.email || watch("conversation_email")}
                       onChange={() => handleToggle("email")}
                       className="hidden peer"
                     />
@@ -256,7 +289,7 @@ const ChannelConversation = () => {
                   <label className="switch def-switch relative flex items-center">
                     <input
                       type="checkbox"
-                      checked={toggles.address}
+                      defaultChecked={toggles.address || watch("conversation_address")}
                       onChange={() => handleToggle("address")}
                       className="hidden peer"
                     />
