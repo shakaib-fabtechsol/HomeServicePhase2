@@ -1,22 +1,29 @@
-import React, { useEffect } from "react";
+
+import { CiHeart } from "react-icons/ci";
+import Plans from "../Plan/Plans";
+
+import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import servicedet from "../../assets/img/service-det.png";
+import { Box, Modal, Tab, Tabs, TabScrollButton } from "@mui/material";
 import PropTypes from "prop-types";
-import { Box, Modal, Tab, Tabs } from "@mui/material";
-import { FiPhone } from "react-icons/fi";
-import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
-import { TbMailDown } from "react-icons/tb";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
 } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
 import provider from "../../assets/img/provider.png";
-import { CiHeart } from "react-icons/ci";
-import Plans from "../Plan/Plans";
-
+import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
+import { FiPhone } from "react-icons/fi";
+import { TbMailDown } from "react-icons/tb";
+import { PiChats } from "react-icons/pi";
+import Basic from "../../Components/Plan/Basic";
+import Standard from "../../Components/Plan/Standard";
+import Premium from "../../Components/Plan/Premium";
+import axios from "axios"; // Import axios
+import Swal from "sweetalert2";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -83,6 +90,48 @@ function ServiceDetail({ backto, role }) {
   ];
 
   const navigate = useNavigate();
+
+
+  const handleDelete = (dealId) => {
+    if (!dealId) {
+      console.error("Deal ID is missing!");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("No token found, cannot delete deal.");
+      return;
+    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      showLoaderOnConfirm: true, // Shows loader on confirm button
+      allowOutsideClick: false, // Prevents closing on outside click
+      preConfirm: () => {
+        return axios
+          .get(
+            `https://homeservice.thefabulousshow.com/api/DeleteDeal/${dealId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+          .then(() => {
+            navigate("/provider/services"); // Redirect after success
+          })
+          .catch((error) => {
+            Swal.fire("Error!", "Failed to delete the deal.", "error");
+          });
+      },
+    });
+  };
 
   const tabData = [
     {
