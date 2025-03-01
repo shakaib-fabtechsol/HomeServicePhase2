@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { PROVIDES_TAGS } from '../providesTags';
 
 const baseQuery = fetchBaseQuery({ 
-    baseUrl: import.meta.env.VITE_BASE_URL_API,
+    baseUrl: 'https://marketplace.thefabulousshow.com/api',
     prepareHeaders: (headers, { getState }) => {
       const token = getState()?.auth?.token;
       if (token) {
