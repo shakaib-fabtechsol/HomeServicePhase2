@@ -8,6 +8,8 @@ const baseQuery = fetchBaseQuery({
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
+    }
+  })
 
 export const BASE_API = createApi({
   reducerPath: "api",
