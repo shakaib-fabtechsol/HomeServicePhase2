@@ -17,7 +17,7 @@ export default function SettingsPreview({
   useEffect(() => {
     if (!file) {
       console.log("existingImage", existingImage);
-      setFilePreview(import.meta.env.VITE_BASE_URL+ existingImage);
+      setFilePreview(import.meta.env.VITE_BASE_URL+ "uploads/" +  existingImage);
       setShowPreview(true);
     }
   }, [existingImage]);

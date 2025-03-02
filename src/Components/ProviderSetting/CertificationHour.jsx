@@ -1,26 +1,120 @@
 import React, { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
-import SettingsPreview from "../MUI/SettingsPreview";
 import { FaTrash } from "react-icons/fa6";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { useSelector, useDispatch } from "react-redux";
+import SettingsPreview from "../MUI/SettingsPreview";
+import { useAddCertificateHoursMutation, usePublishMutation } from "../../services/settings";
+import { setUser } from "../../redux/reducers/authSlice";
+import Loader from "../MUI/Loader";
+const CertificationHour = ({handleTabChange}) => {
+  const userData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [addCertificationHours, { isLoading }] = useAddCertificateHoursMutation();
+  const [publishCertificationHours] = usePublishMutation();
 
-const CertificationHour = () => {
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const {
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      insurance_certificate: userData?.businessProfile?.insurance_certificate,
+      license_certificate: userData?.businessProfile?.license_certificate,
+      award_certificate: userData?.businessProfile?.award_certificate,
+      regular_hour: userData?.businessProfile?.regular_hour && JSON.parse(userData?.businessProfile?.regular_hour) || userData?.businessProfile?.regular_hour,
+      special_hour: userData.businessProfile?.special_hour && JSON.parse(userData.businessProfile?.special_hour) || userData.businessProfile?.special_hour
+    }
+  });
+
+  const [formData, setFormData] = useState({
+    insurance_certificate: null,
+    license_certificate: null,
+    award_certificate: null
+  });
+
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
   const [schedule, setSchedule] = useState(
-    days.map((day) => ({
+    userData.businessProfile?.regular_hour && JSON.parse(userData.businessProfile?.regular_hour) || userData.businessProfile?.regular_hour ? JSON.parse(userData.businessProfile?.regular_hour) : days.map((day) => ({
       day,
       closed: false,
       slots: [{ start: "", end: "" }],
     }))
   );
+
+  // Validation function for time slots
+  const validateTimeSlots = (slots) => {
+    return slots.every(slot => slot.start && slot.end && slot.start < slot.end);
+  };
+
+  const handleFileChange = (e, fieldName) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5242880) { // 5MB limit
+        Swal.fire({
+          icon: 'error',
+          title: 'File too large',
+          text: 'File size should not exceed 5MB'
+        });
+        return;
+      }
+      
+      setFormData(prev => ({
+        ...prev,
+        [fieldName]: file
+      }));
+    }
+  };
+
+  const onSubmit = async () => {
+    try {
+      console.log("formData",formData)
+      // Validate regular hours
+      const invalidDays = schedule.filter(day => 
+        !day.closed && !validateTimeSlots(day.slots)
+      );
+
+
+      const formDataToSend = new FormData();
+      formDataToSend.append('user_id', userData.id);
+      
+      // Append certificates
+      Object.keys(formData).forEach(key => {
+        if (formData[key]) {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      // Append schedules
+      formDataToSend.append('regular_hour', JSON.stringify(schedule));
+      formDataToSend.append('special_hour', JSON.stringify(specialSchedule));
+
+      const response = await addCertificationHours(formDataToSend);
+      if (response?.data) {
+        
+        // dispatch(setUser(payload));
+        handleTabChange(4);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Certification and hours updated successfully',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error?.message || 'Something went wrong while updating'
+      });
+    }
+  };
 
   const updateSchedule = (dayIndex, newValues) => {
     setSchedule((prev) =>
@@ -30,15 +124,8 @@ const CertificationHour = () => {
     );
   };
 
-  const handleFileChange = (e, fieldName) => {
-    const uploadedFile = e.target.files[0];
-    setFormData((prevState) => ({
-      ...prevState,
-      [fieldName]: uploadedFile,
-    }));
-  };
-
-  const [specialSchedule, setSpecialSchedule] = useState([
+  const [specialSchedule, setSpecialSchedule] = useState(
+    userData.special_hour && JSON.parse(userData.special_hour) || userData.special_hour ? JSON.parse(userData.special_hour) : [
     {
       text: "",
       date: "",
@@ -53,6 +140,7 @@ const CertificationHour = () => {
     updatedSchedule[index] = { ...updatedSchedule[index], ...updatedFields };
     setSpecialSchedule(updatedSchedule);
   };
+
   const deleteSlot = (index) => {
     const updatedSchedule = specialSchedule.filter((_, i) => i !== index);
     setSpecialSchedule(updatedSchedule);
@@ -73,9 +161,15 @@ const CertificationHour = () => {
     updatespecialSchedule(index, { closed: !specialSchedule[index].closed });
   };
 
+  console.log("userData.........",userData)
+
+  if(isLoading){
+    return <Loader/>
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
             <p className="text-lg font-semibold text-[#181D27]">
@@ -96,6 +190,7 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="insurance_certificate"
+                  existingImage={watch("insurance_certificate")}
                 />
               </div>
             </div>
@@ -111,6 +206,7 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="license_certificate"
+                  existingImage={watch("license_certificate")}
                 />
               </div>
             </div>
@@ -126,6 +222,7 @@ const CertificationHour = () => {
                 <SettingsPreview
                   onFileSelect={handleFileChange}
                   fieldName="award_certificate"
+                  existingImage={watch("award_certificate")}
                 />
               </div>
             </div>
@@ -349,14 +446,26 @@ const CertificationHour = () => {
             </div>
           </div>
           <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
-            <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
+            <button
+              type="button"
+              onClick={() => reset()}
+              className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
+            >
               Cancel
             </button>
-            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
-              Save & Publish
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              {isLoading ? "Saving..." : "Save & Publish"}
             </button>
-            <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
-              Save
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              {isLoading ? "Saving..." : "Save"}
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@ import random1 from "../../assets/img/random1.png";
 import random2 from "../../assets/img/random2.png";
 import random3 from "../../assets/img/random3.png";
 
-const ProjectPhoto = () => {
+const ProjectPhoto = ({project_photo}) => {
     const accordionData = [
         {
             images: [random1, random2, random3],
@@ -12,9 +12,9 @@ const ProjectPhoto = () => {
     return (
         <div>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-3">
-                {accordionData[0].images.map((image, index) => (
+                {project_photo?.split(',')?.map((image, index) => (
                     <div key={index}>
-                        <img src={image} alt={`Image ${index + 1}`} />
+                        <img src={import.meta.env.VITE_BASE_URL + "uploads/" + image} alt={`Image ${index + 1}`} />
                     </div>
                 ))}
             </div>
