@@ -18,7 +18,6 @@ const PricingPackaging = ({ serviceId, setValue }) => {
   const navigate = useNavigate();
   const { dealid } = useParams();
 
-  // Fetch deal details via RTK Query.
   const { data: dealData, isLoading: isDealLoading, isError: isDealError } = useGetDealQuery(dealid, {
     skip: !dealid,
   });
@@ -71,7 +70,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     console.log("📦 PricingPackaging Received Service ID:", serviceId);
   }, [serviceId]);
 
-  // When dealData is available, populate form state.
+
   useEffect(() => {
     if (dealData && dealData.deal && dealData.deal) {
       const BasicInfo = dealData.deal;

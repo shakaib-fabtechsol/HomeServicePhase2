@@ -14,18 +14,15 @@ import { useSelector } from "react-redux";
 import Loader from "../../Components/MUI/Loader";
 import {
   useGetDealQuery,
-  usePublishDealMutation,
   useGetUserDetailsQuery,
   useDealPublishMutation
 } from "../../services/base-api/index";
 import {
-  IoChatbubbleEllipsesOutline,
   IoLocationOutline,
 } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
 
-import provider from "../../assets/img/provider.png";
-import axios from "axios"; // Importing axios
+import axios from "axios"; 
 import Swal from "sweetalert2";
 
 function CustomTabPanel(props) {
@@ -194,7 +191,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        const deal = response?.data?.deal?.[0] || {};
+        const deal = response?.data?.deal|| {};
         const uploads = deal.uploads?.[0] || {};
         const updatedData = {
           id: deal?.id || "",
@@ -348,15 +345,17 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
     fetchData();
   }, []);
-
   const imagePath = provider?.business_logo;
+  console.log(imagePath);
   const imageUrl = imagePath
-    ? `https://marketplace.thefabulousshow.com/api/uploads/${imagePath}`
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
     : "/default.png";
   const regularHours =
     provider && provider.length > 0
       ? JSON.parse(provider.regular_hour || "[]")
       : [];
+
+     
   const days = [
     "Sunday",
     "Monday",
@@ -417,7 +416,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                         </p>
                         <div className="flex items-center">
                           <IoLocationOutline className="me-2 myblack" />
-                          <p className="myblack ">{provider?.user?.location}</p>
+                          <p className="myblack ">{provider?.business_location}</p>
                         </div>
                       </div>
                       <div className="flex mt-2 items-center">
