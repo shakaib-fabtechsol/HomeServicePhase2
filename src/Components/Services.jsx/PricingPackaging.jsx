@@ -73,8 +73,8 @@ const PricingPackaging = ({ serviceId, setValue }) => {
 
   // When dealData is available, populate form state.
   useEffect(() => {
-    if (dealData && dealData.deal && dealData.deal[0]) {
-      const BasicInfo = dealData.deal[0];
+    if (dealData && dealData.deal && dealData.deal) {
+      const BasicInfo = dealData.deal;
       console.log("BasicInfo:", BasicInfo);
       setFormData({
         id: BasicInfo.id || "",
@@ -204,10 +204,10 @@ const PricingPackaging = ({ serviceId, setValue }) => {
         estimated_service_timing3: e.target?.estimated_service_timing3?.value,
       };
     }
-
+    console.log(dealid,"dealid");
     try {
       if (dealid) {
-        await updatePriceAndPackage({ ...payload, serviceId }).unwrap();
+        await updatePriceAndPackage({ ...payload, id:dealid }).unwrap();
       } else {
         await priceAndPackage(payload).unwrap();
       }
@@ -372,9 +372,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
 
   return (
     <>
-      {/* {dealid && !isApiLoaded ? (
-        <Loader />
-      ) : ( */}
+      
         <div>
           <form onSubmit={handleFormSubmit}>
             <div className="grid grid-cols-12">
@@ -1158,7 +1156,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
             </div>
           </form>
         </div>
-     
+    
     </>
   );
 };

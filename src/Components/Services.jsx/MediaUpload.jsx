@@ -3,22 +3,65 @@ import upload from "../../assets/img/upload.png";
 import { HiOutlineTrash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
-import fileicon from "../../assets/img/fileicon.png";
-import Loader from "../../Components/MUI/Loader";
+
 import { toast } from "react-toastify";
-import { useUploadMediaMutation, usePublishDealMutation,  } from "../../services/base-api/index"; // Adjust the import path
+import { useUploadMediaMutation, usePublishDealMutation } from "../../services/base-api/index"; 
+import axios from "axios";
+import {useSelector} from "react-redux"
 
 const MediaUpload = ({ serviceId, setValue }) => {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
-  const id = localStorage.getItem("id");
+  const token =useSelector((state)=>state.auth.token);
   const { dealid } = useParams();
+  const [deal, setDeal] = useState(null);
   const [publishValue, setPublishValue] = useState(1);
-  
+  console.log(videos);
+  console.log(images);
+
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
  
-
+  useEffect(() => {
+    if (dealid) {
+      axios
+        .get(`https://marketplace.thefabulousshow.com/api/Deal/${dealid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const dealData = response.data.deal;
+          setDeal(dealData);
+  
+          if (Array.isArray(response.data?.deal.uploads)) {
+          
+            const allImages = response.data?.deal.uploads
+              .filter(upload => upload.images) 
+              .map(upload => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`, 
+                name: upload.images.split("/").pop(),
+                isExisting: true,
+              }));
+            setImages(allImages);
+          
+            const allVideos = response.data?.deal.uploads
+              .filter(upload => upload.videos) 
+              .map(upload => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`, 
+                name: upload.videos.split("/").pop(),
+                isExisting: true,
+              }));
+            setVideos(allVideos);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching deal details:", error);
+        });
+    }
+  }, [dealid]);
+  
+ 
   useEffect(() => {
     return () => {
       images.forEach((image) => URL.revokeObjectURL(image.url));
@@ -75,12 +118,27 @@ const MediaUpload = ({ serviceId, setValue }) => {
     if (isUploading) return;
 
     const formData = new FormData();
-   
 
-    formData.append("deal_id", serviceId);
-    images.forEach((img) => formData.append("images[]", img.file));
-    videos.forEach((vid) => formData.append("videos[]", vid.file));
-   
+    // Append appropriate identifier:
+    // If editing, dealid exists, otherwise use serviceId for creation.
+    if (dealid) {
+      formData.append("deal_id", dealid);
+    } else {
+      formData.append("deal_id", serviceId);
+    }
+
+    images.forEach((img) => {
+      // Only append new files (existing ones don't have a file property)
+      if (img.file) {
+        formData.append("images[]", img.file);
+      }
+    });
+    videos.forEach((vid) => {
+      if (vid.file) {
+        formData.append("videos[]", vid.file);
+      }
+    });
+
     try {
       const result = await uploadMedia(formData).unwrap();
       console.log(result);
@@ -106,19 +164,20 @@ const MediaUpload = ({ serviceId, setValue }) => {
   };
 
   const handlePublish = async () => {
-     const dealid = localStorage.getItem("deal_id");
-      
-        if (!dealid) {
-          toast.error("Deal ID is missing. Please try again.");
-          return;
-        }
+    // Using localStorage for deal_id if available
+    const dealIdFromStorage = localStorage.getItem("deal_id");
+    if (!dealIdFromStorage) {
+      toast.error("Deal ID is missing. Please try again.");
+      return;
+    }
     try {
-      await publishDeal({ deal_id: dealid }).unwrap();
+      await publishDeal({ deal_id: dealIdFromStorage }).unwrap();
       toast.success("Deal published successfully!");
     } catch (error) {
       toast.error("Error publishing the deal.");
     }
   };
+
   const handleDrop = (event) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files).filter(isValidImage);
@@ -129,6 +188,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
     }));
     setImages((prevImages) => [...prevImages, ...newImages]);
   };
+
   const handleDropVideo = (event) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files).filter(isValidVideo);
@@ -144,6 +204,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
     <>
       <form onSubmit={handleFormSubmit}>
         <div className="mt-5">
+          {/* Image Upload Section */}
           <div className="file-upload-container">
             <div
               onDragOver={(e) => e.preventDefault()}
@@ -185,12 +246,13 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove image"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}
             </div>
           </div>
+          {/* Video Upload Section */}
           <div className="file-upload-container mt-5">
             <div
               onDragOver={(e) => e.preventDefault()}
@@ -224,6 +286,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                   <video
                     src={video.url}
                     className="w-full aspect-square rounded-lg border object-cover"
+                    controls
                   />
                   <button
                     type="button"
@@ -231,7 +294,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove video"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}

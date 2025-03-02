@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import {useParams} from "react-router-dom";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
@@ -16,6 +17,7 @@ import { FiPhone } from "react-icons/fi";
 import { TbMailDown } from "react-icons/tb";
 import { PiChats } from "react-icons/pi";
 import Swal from "sweetalert2";
+
 import Loader from "../../Components/MUI/Loader";
 
 import {
@@ -53,14 +55,13 @@ function a11yProps(index) {
 }
 
 function ServiceDetail() {
+  const { dealid } = useParams(); 
   useEffect(() => {
     document.title = "Service Details";
   }, []);
 
   const [value, setValue] = useState(0);
-  const location = useLocation();
   const navigate = useNavigate();
-  const dealid = location.state?.dealid || "";
   const token = useSelector((state) => state.auth.token);
   const {
     data: dealData,
@@ -70,15 +71,18 @@ function ServiceDetail() {
 
 
   const serviceDetails = dealData?.deal;
-  const pricingModel = serviceDetails ? serviceDetails[0]?.pricing_model : "";
+  console.log(serviceDetails);
+  const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
+  console.log(pricingModel);
   
   const {
     data: userData,
     isLoading: userLoading,
     error: userError,
-  } = useGetUserDetailsQuery(userId, { skip: !token || !userId });
+  } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
 
   const provider = userData?.businessProfile?.[0] || {};
+  console.log(provider);
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -162,11 +166,13 @@ function ServiceDetail() {
     (item) => item.day_name === currentDay
   );
 
-  const imagePath1 = serviceDetails[0]?.image;
+  const imagePath1 = dealData?.deal?.uploads[0]?.images;
+  console.log(imagePath1);
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/default.png";
 
+   
   return (
     <div className="pmain">
       <div className="navv">
@@ -183,7 +189,7 @@ function ServiceDetail() {
       <div className="btm">
         <div className="flex flex-col lg:flex-row justify-between ">
           <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
-            {serviceDetails[0]?.service_title || "N/A"}
+            {serviceDetails?.service_title || "N/A"}
           </h2>
           <div className="flex items-center justify-end mt-3 lg:mt-0">
             <button
@@ -342,20 +348,20 @@ function ServiceDetail() {
                   <CustomTabPanel value={value} index={0}>
                     <div className="flex justify-between">
                       <h2 className="text-2xl font-medium myhead">
-                        {serviceDetails[0]?.pricing_model}
+                        {serviceDetails?.pricing_model}
                       </h2>
                       <p className="text-3xl myhead font-bold">
-                        {serviceDetails[0]?.pricing_model === "Hourly"
-                          ? serviceDetails[0].hourly_final_list_price
-                          : serviceDetails[0]?.pricing_model === "Flat"
-                          ? serviceDetails[0].flat_rate_price
-                          : serviceDetails[0]?.pricing_model === "Custom"
-                          ? serviceDetails[0].price1
+                        {serviceDetails?.pricing_model === "Hourly"
+                          ? serviceDetails.hourly_final_list_price
+                          : serviceDetails?.pricing_model === "Flat"
+                          ? serviceDetails.flat_rate_price
+                          : serviceDetails?.pricing_model === "Custom"
+                          ? serviceDetails.price1
                           : "$200"}
                       </p>
                     </div>
                     <p className="text-sm myblack mt-2">
-                      {serviceDetails[0]?.fine_print
+                      {serviceDetails?.fine_print
                         ?.split("\n")
                         .map((line, index) => (
                           <React.Fragment key={index}>
@@ -365,19 +371,19 @@ function ServiceDetail() {
                         ))}
                     </p>
                     <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                      {serviceDetails[0]?.pricing_model === "Hourly" && (
+                      {serviceDetails?.pricing_model === "Hourly" && (
                         <li>
-                          {serviceDetails[0]?.hourly_estimated_service_time}
+                          {serviceDetails?.hourly_estimated_service_time}
                         </li>
                       )}
-                      {serviceDetails[0]?.pricing_model === "Flat" && (
+                      {serviceDetails?.pricing_model === "Flat" && (
                         <li>
-                          {serviceDetails[0]?.flat_estimated_service_time}
+                          {serviceDetails?.flat_estimated_service_time}
                         </li>
                       )}
-                      {serviceDetails[0]?.pricing_model === "Custom" && (
+                      {serviceDetails?.pricing_model === "Custom" && (
                         <li>
-                          {serviceDetails[0]?.estimated_service_timing1}
+                          {serviceDetails?.estimated_service_timing1}
                         </li>
                       )}
                     </ul>
@@ -406,7 +412,7 @@ function ServiceDetail() {
                         </p>
                         <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
                           <li>
-                            {serviceDetails[0]?.estimated_service_timing2}
+                            {serviceDetails?.estimated_service_timing2}
                           </li>
                         </ul>
                       </CustomTabPanel>
@@ -417,14 +423,14 @@ function ServiceDetail() {
                       <CustomTabPanel value={value} index={2}>
                         <div className="flex justify-between">
                           <h2 className="text-2xl font-medium myhead">
-                            {serviceDetails[0]?.pricing_model}
+                            {serviceDetails?.pricing_model}
                           </h2>
                           <p className="text-3xl myhead font-bold">
-                            {serviceDetails[0]?.price3}
+                            {serviceDetails?.price3}
                           </p>
                         </div>
                         <p className="text-sm myblack mt-2">
-                          {serviceDetails[0]?.fine_print
+                          {serviceDetails?.fine_print
                             ?.split("\n")
                             .map((line, index) => (
                               <React.Fragment key={index}>
@@ -435,7 +441,7 @@ function ServiceDetail() {
                         </p>
                         <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
                           <li>
-                            {serviceDetails[0]?.estimated_service_timing3}
+                            {serviceDetails?.estimated_service_timing3}
                           </li>
                         </ul>
                       </CustomTabPanel>
@@ -455,9 +461,9 @@ function ServiceDetail() {
         <div className="">
           <div className="flex flex-wrap mt-3">
             <div className="flex flex-wrap mt-3">
-              {serviceDetails[0]?.search_tags &&
-              serviceDetails[0]?.search_tags.length > 0
-                ? serviceDetails[0]?.search_tags
+              {serviceDetails?.search_tags &&
+              serviceDetails?.search_tags.length > 0
+                ? serviceDetails?.search_tags
                     .split(",")
                     .map((tag, index) => (
                       <span
@@ -474,7 +480,7 @@ function ServiceDetail() {
             Deal Description
           </h2>
           <p className="mt-2 myblack">
-            {serviceDetails[0]?.service_description ||
+            {serviceDetails?.service_description ||
               "No description available."}
           </p>
         </div>

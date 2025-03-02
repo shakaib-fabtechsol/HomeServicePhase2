@@ -91,8 +91,8 @@ export const BASE_API = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, args) => [
-        { type: "Deal", id: args.dealid },
+      invalidatesTags: (result, error, dealid) => [
+        { type: "Deal", id: dealid },
       ],
     }),
     

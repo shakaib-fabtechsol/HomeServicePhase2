@@ -8,4 +8,5 @@ export const END_POINTS = {
     // for settings
     MY_DETAILS: "/MyDetails",
     BUSINESS_PROFILE: "/BusinessProfile",
+    
 }

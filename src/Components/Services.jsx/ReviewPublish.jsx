@@ -256,11 +256,12 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (publishLoading) return;
+    if (loading) return;
 
-    const isEdit = !!dealid;
-    const id = isEdit ? deal_id : serviceId;
-    console.log(id);
+    // Determine if it's a create or edit operation
+    const isEdit = !!dealid; // If dealid exists, it's an edit operation
+    const id = isEdit ? dealid : serviceId; // Use dealid for edit, serviceId for create
+
     if (!id) {
       Swal.fire({
         icon: "error",
@@ -270,22 +271,32 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       return;
     }
 
+    setLoading(true);
+  
     if (!token) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "No token found. Please log in.",
       });
+      setLoading(false);
       return;
     }
 
     try {
-     
-      const response = await dealPublish(id).unwrap();
-      console.log("API Response:", response);
-      if (response?.success || response?.status === 200)
-        {
+      const url = isEdit
+        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}` // Edit
+        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`; // Create
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("API Response:", response?.data);
+
+      if (response.status === 200) {
         navigate("/provider/services");
+
         Swal.fire({
           icon: "success",
           title: "Success!",
@@ -298,7 +309,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         Swal.fire({
           icon: "error",
           title: "Error!",
-          text: response.message || "Failed to process request.",
+          text: response.data.message || "Failed to process request.",
           confirmButtonColor: "#D33",
         });
       }
@@ -309,6 +320,8 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         title: "Error",
         text: "There was an error processing the request.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 

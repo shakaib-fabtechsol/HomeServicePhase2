@@ -43,7 +43,8 @@ function BasicInfo({ setServiceId, setValue }) {
 
   useEffect(() => {
     if (dealData) {
-      const BasicInfo = dealData?.deal[0];
+      const BasicInfo = dealData?.deal;
+      console.log(BasicInfo, "BasicInfo");
       setFormData({
         id: BasicInfo.id || "",
         service_title: BasicInfo.service_title || "",
@@ -120,34 +121,33 @@ function BasicInfo({ setServiceId, setValue }) {
     "Cleaning Service",
     "Appliance Repair",
   ];
-   const handlePublish = async () => {
-       if (publishLoading) return;
-       setPublishLoading(true);
-     
-       const dealid = localStorage.getItem("deal_id");
-     
-       if (!dealid) {
-         toast.error("Deal ID is missing. Please try again.");
-         setPublishLoading(false);
-         return;
-       }
-     
-       try {
-         
-         const response = await publishDeal({ deal_id: dealid }).unwrap();
-     
-         if (response) {
-           setFormData((prev) => ({ ...prev, publish: 1 }));
-           toast.success("Published successfully!");
-           setPublishValue(1);
-         }
-       } catch (error) {
-         console.error("Error publishing deal:", error);
-         toast.error("Failed to publish. Please try again.");
-       } finally {
-         setPublishLoading(false);
-       }
-     };
+  const handlePublish = async () => {
+    if (publishLoading) return;
+    setPublishLoading(true);
+
+    const dealid = localStorage.getItem("deal_id");
+
+    if (!dealid) {
+      toast.error("Deal ID is missing. Please try again.");
+      setPublishLoading(false);
+      return;
+    }
+
+    try {
+      const response = await publishDeal({ deal_id: dealid }).unwrap();
+
+      if (response) {
+        setFormData((prev) => ({ ...prev, publish: 1 }));
+        toast.success("Published successfully!");
+        setPublishValue(1);
+      }
+    } catch (error) {
+      console.error("Error publishing deal:", error);
+      toast.error("Failed to publish. Please try again.");
+    } finally {
+      setPublishLoading(false);
+    }
+  };
 
   const handleAddTag = (e) => {
     if (e.key === "Enter" && inputValue.trim() !== "") {

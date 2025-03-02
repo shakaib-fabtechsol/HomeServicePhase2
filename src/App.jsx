@@ -93,6 +93,7 @@ function App() {
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
+          <Route path="/provider/newDeals/:dealid" element={<NewDeals />} />
           <Route path="/provider/notification" element={<Notification />} />
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
@@ -101,7 +102,8 @@ function App() {
           <Route path="/provider/orders" element={<Ordersp />} />
           <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
           <Route path="/provider/conversations" element={<Conversations />} />
-          <Route path="/provider/dealDetails" element={<DealDetails />} />
+          <Route path="/provider/dealDetails/:dealid" element={<DealDetails />} />
+
           <Route path="/provider/profile" element={<Profilep />} />
           <Route path="/provider/clientprofile" element={<ClientProfilep />} />
           <Route path="/provider/reports" element={<ReportsP />} />
