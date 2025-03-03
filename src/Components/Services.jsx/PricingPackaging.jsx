@@ -1,26 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import down from "../../assets/img/chevronDown.png";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../Components/MUI/Loader";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { 
+  useUploadMediaMutation, 
+  usePublishDealMutation, 
+  useFetchDealQuery,
+  useGetDealQuery,
+  usePriceAndPackageMutation,
+  useUpdatePriceAndPackageMutation 
+} from "../../services/base-api/index";
 
 const PricingPackaging = ({ serviceId, setValue }) => {
   const navigate = useNavigate();
-  const id = localStorage.getItem("id");
-  const [isApiLoaded, setIsApiLoaded] = useState(false);
+  const { dealid } = useParams();
+
+  const { data: dealData, isLoading: isDealLoading, isError: isDealError } = useGetDealQuery(dealid, {
+    skip: !dealid,
+  });
+
+  // Mutations for pricing/packaging and publishing.
+  const [priceAndPackage] = usePriceAndPackageMutation();
+  const [updatePriceAndPackage, { isLoading: isUpdating }] = useUpdatePriceAndPackageMutation();
+  const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
+  const [uploadMedia] = useUploadMediaMutation();
+
   const [loading, setLoading] = useState(false);
   const [publishValue, setPublishValue] = useState(1);
   const [publishLoading, setPublishLoading] = useState(false);
-  const { dealid } = useParams();
+
+  const user_id = localStorage.getItem("id");
   const [formdata, setFormData] = useState({
     id: "",
     pricing_model: "",
-    fine_print: "",
     flat_rate_price: "",
+    fine_print: "",
     flat_by_now_discount: "",
     flat_final_list_price: "",
     flat_estimated_service_time: "",
@@ -31,7 +48,6 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     title1: "",
     deliverable1: "",
     price1: "",
-
     by_now_discount1: "",
     final_list_price1: "",
     estimated_service_timing1: "",
@@ -48,123 +64,67 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     final_list_price3: "",
     estimated_service_timing3: "",
   });
-
-  const handleFocus = (e) => {
-    if (formdata.fine_print.trim() === "") {
-      setFormData({ ...formdata, fine_print: "•" });
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const bullet = "• ";
-      const { selectionStart, selectionEnd, value } = e.target;
-      const newValue =
-        value.substring(0, selectionStart) +
-        "\n" +
-        bullet +
-        value.substring(selectionEnd);
-      setFormData({ ...formdata, fine_print: newValue });
-      setTimeout(() => {
-        e.target.selectionStart = e.target.selectionEnd =
-          selectionStart + bullet.length + 1;
-      }, 0);
-    }
-  };
-
   const [selectedRate, setSelectedRate] = useState("Flat");
 
   useEffect(() => {
-    console.log("📦 PricingPackaging Received Service ID:", serviceId); // ✅ Debugging
+    console.log("📦 PricingPackaging Received Service ID:", serviceId);
   }, [serviceId]);
 
+
   useEffect(() => {
-    if (dealid) {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("No authentication token found. Please log in.");
-        return;
-      }
-
-      axios
-        .get(`https://homeservice.thefabulousshow.com/api/Deal/${dealid}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          const BasicInfo = response?.data?.deal[0];
-          console.log("BasicInfo:", BasicInfo);
-
-          if (BasicInfo) {
-            setFormData({
-              id: BasicInfo.id || "",
-              pricing_model: BasicInfo.pricing_model || "",
-              estimated_service_time: BasicInfo.estimated_service_time || "",
-
-              ...(BasicInfo.pricing_model === "Flat"
-                ? {
-                    fine_print: BasicInfo.fine_print,
-                    flat_rate_price: BasicInfo.flat_rate_price || "",
-                    flat_by_now_discount: BasicInfo.flat_by_now_discount || "",
-                    flat_final_list_price:
-                      BasicInfo.flat_final_list_price || "",
-                    flat_estimated_service_time:
-                      BasicInfo.flat_estimated_service_time || "",
-                  }
-                : BasicInfo.pricing_model === "Hourly"
-                ? {
-                    fine_print: BasicInfo.fine_print,
-                    hourly_rate: BasicInfo.hourly_rate || "",
-                    discount: BasicInfo.discount || "",
-                    hourly_final_list_price:
-                      BasicInfo.hourly_final_list_price || "",
-                    hourly_estimated_service_time:
-                      BasicInfo.hourly_estimated_service_time || "",
-                  }
-                : BasicInfo.pricing_model === "Custom"
-                ? {
-                    title1: BasicInfo.title1 || "",
-                    deliverable1: BasicInfo.deliverable1 || "",
-                    price1: BasicInfo.price1 || "",
-                    by_now_discount1: BasicInfo.by_now_discount1 || "",
-                    final_list_price1: BasicInfo.final_list_price1 || "",
-                    estimated_service_timing1:
-                      BasicInfo.estimated_service_timing1 || "",
-
-                    title2: BasicInfo.title2 || "",
-                    deliverable2: BasicInfo.deliverable2 || "",
-                    price2: BasicInfo.price2 || "",
-                    by_now_discount2: BasicInfo.by_now_discount2 || "",
-                    final_list_price2: BasicInfo.final_list_price2 || "",
-                    estimated_service_timing2:
-                      BasicInfo.estimated_service_timing2 || "",
-
-                    title3: BasicInfo.title3 || "",
-                    deliverable3: BasicInfo.deliverable3 || "",
-                    price3: BasicInfo.price3 || "",
-                    by_now_discount3: BasicInfo.by_now_discount3 || "",
-                    final_list_price3: BasicInfo.final_list_price3 || "",
-                    estimated_service_timing3:
-                      BasicInfo.estimated_service_timing3 || "",
-                  }
-                : {}),
-            });
-          }
-          setIsApiLoaded(true);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching deal data:", error);
-          if (error.response?.status === 401) {
-            console.error("Unauthorized. Redirecting to login...");
-          }
-        });
+    if (dealData && dealData.deal && dealData.deal) {
+      const BasicInfo = dealData.deal;
+      console.log("BasicInfo:", BasicInfo);
+      setFormData({
+        id: BasicInfo.id || "",
+        pricing_model: BasicInfo.pricing_model || "",
+        estimated_service_time: BasicInfo.estimated_service_time || "",
+        ...(BasicInfo.pricing_model === "Flat"
+          ? {
+              fine_print: BasicInfo.fine_print,
+              flat_rate_price: BasicInfo.flat_rate_price || "",
+              flat_by_now_discount: BasicInfo.flat_by_now_discount || "",
+              flat_final_list_price: BasicInfo.flat_final_list_price || "",
+              flat_estimated_service_time: BasicInfo.flat_estimated_service_time || "",
+            }
+          : BasicInfo.pricing_model === "Hourly"
+          ? {
+              fine_print: BasicInfo.fine_print,
+              hourly_rate: BasicInfo.hourly_rate || "",
+              discount: BasicInfo.discount || "",
+              hourly_final_list_price: BasicInfo.hourly_final_list_price || "",
+              hourly_estimated_service_time: BasicInfo.hourly_estimated_service_time || "",
+            }
+          : BasicInfo.pricing_model === "Custom"
+          ? {
+              title1: BasicInfo.title1 || "",
+              deliverable1: BasicInfo.deliverable1 || "",
+              price1: BasicInfo.price1 || "",
+              by_now_discount1: BasicInfo.by_now_discount1 || "",
+              final_list_price1: BasicInfo.final_list_price1 || "",
+              estimated_service_timing1: BasicInfo.estimated_service_timing1 || "",
+              title2: BasicInfo.title2 || "",
+              deliverable2: BasicInfo.deliverable2 || "",
+              price2: BasicInfo.price2 || "",
+              by_now_discount2: BasicInfo.by_now_discount2 || "",
+              final_list_price2: BasicInfo.final_list_price2 || "",
+              estimated_service_timing2: BasicInfo.estimated_service_timing2 || "",
+              title3: BasicInfo.title3 || "",
+              deliverable3: BasicInfo.deliverable3 || "",
+              price3: BasicInfo.price3 || "",
+              by_now_discount3: BasicInfo.by_now_discount3 || "",
+              final_list_price3: BasicInfo.final_list_price3 || "",
+              estimated_service_timing3: BasicInfo.estimated_service_timing3 || "",
+            }
+          : {}),
+      });
+      setSelectedRate(BasicInfo.pricing_model || "Flat");
+      setLoading(false);
     }
-  }, [dealid]);
+  }, [dealData]);
+
   const handleRateChange = (event) => {
     const newRate = event.target.value;
-
     setSelectedRate(newRate);
     setFormData((prevData) => ({
       ...prevData,
@@ -184,80 +144,57 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     ) {
       return `${numericValue} %`;
     }
-
     return `$${numericValue}`;
   };
 
-  const parseCurrency = (value, key) => {
+  const parseCurrency = (value) => {
     if (!value) return "";
-    let numericValue = value.replace(/[^0-9.]/g, "");
-
-    if (
-      key === "flat_by_now_discount" ||
-      key === "discount" ||
-      key === "by_now_discount1" ||
-      key === "by_now_discount2" ||
-      key === "by_now_discount3"
-    ) {
-      return numericValue;
-    }
-    return numericValue;
+    return value.replace(/[^0-9.]/g, "");
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     if (loading) return;
     setLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      setLoading(false);
-      return;
-    }
 
-    let formdata = {
-      user_id: id,
+    let payload = {
+      id:serviceId,
       pricing_model: selectedRate,
     };
 
     if (selectedRate === "Flat") {
-      formdata = {
-        ...formdata,
+      payload = {
+        ...payload,
         fine_print: e.target.FinePrint?.value || "",
         flat_rate_price: e.target.flat_rate_price?.value,
         flat_by_now_discount: e.target.flat_by_now_discount?.value,
         flat_final_list_price: e.target.flat_final_list_price?.value,
-        flat_estimated_service_time:
-          e.target.flat_estimated_service_time?.value,
+        flat_estimated_service_time: e.target.flat_estimated_service_time?.value,
       };
     } else if (selectedRate === "Hourly") {
-      formdata = {
-        ...formdata,
+      payload = {
+        ...payload,
         fine_print: e.target.FinePrint?.value || "",
         hourly_rate: e.target.hourly_rate.value,
         discount: e.target.discount ? e.target.discount?.value : null,
         hourly_final_list_price: e.target.hourly_final_list_price?.value,
-        hourly_estimated_service_time:
-          e.target.hourly_estimated_service_time?.value,
+        hourly_estimated_service_time: e.target.hourly_estimated_service_time?.value,
       };
     } else if (selectedRate === "Custom") {
-      formdata = {
-        ...formdata,
+      payload = {
+        ...payload,
         title1: e.target.title1?.value,
         deliverable1: e.target.deliverable1?.value,
         price1: e.target.price1?.value,
         by_now_discount1: e.target.by_now_discount1?.value,
         final_list_price1: e.target.final_list_price1?.value,
         estimated_service_timing1: e.target?.estimated_service_timing1?.value,
-
         title2: e.target.title2?.value,
         deliverable2: e.target.deliverable2?.value,
         price2: e.target.price2?.value,
         by_now_discount2: e.target.by_now_discount2?.value,
         final_list_price2: e.target.final_list_price2?.value,
         estimated_service_timing2: e.target?.estimated_service_timing2?.value,
-
         title3: e.target.title3?.value,
         deliverable3: e.target.deliverable3?.value,
         price3: e.target.price3?.value,
@@ -266,61 +203,34 @@ const PricingPackaging = ({ serviceId, setValue }) => {
         estimated_service_timing3: e.target?.estimated_service_timing3?.value,
       };
     }
-
+    console.log(dealid,"dealid");
     try {
-      const response = await fetch(
-        "https://homeservice.thefabulousshow.com/api/PriceAndPackage",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formdata),
-        }
-      );
-
-      const textResponse = await response.text();
-      console.log("Response Text:", textResponse);
-
-      let result;
-      try {
-        result = JSON.parse(textResponse);
-      } catch (error) {
-        console.error("Error parsing response:", error);
-        throw new Error("Response is not JSON");
-      }
-
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "Pricing details saved successfully.",
-          confirmButtonColor: "#0F91D2",
-        }).then(() => {
-          setValue(2); // Switch to Pricing & Packages tab (index 1)
-        });
-
-        e.target.reset();
-        setSelectedRate("Flat");
+      if (dealid) {
+        await updatePriceAndPackage({ ...payload, id:dealid }).unwrap();
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: result.message || "Failed to update pricing details.",
-          confirmButtonColor: "#D33",
-        });
+        await priceAndPackage(payload).unwrap();
       }
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: dealid
+          ? "Pricing details updated successfully."
+          : "Pricing details saved successfully.",
+        confirmButtonColor: "#0F91D2",
+      }).then(() => {
+        setValue(2);
+      });
+      e.target.reset();
+      setSelectedRate("Flat");
     } catch (error) {
-      console.error("Error updating pricing:", error);
       Swal.fire({
         icon: "error",
         title: "Error!",
-        text: "An error occurred while updating pricing. Please try again.",
+        text: error.data?.message || "Failed to update pricing details.",
         confirmButtonColor: "#D33",
       });
     } finally {
-      setLoading(false); // Ensure loading state is cleared
+      setLoading(false);
     }
   };
 
@@ -328,16 +238,11 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     const rawValue = parseCurrency(e.target.value);
     setFormData((prev) => {
       const updatedData = { ...prev, [key]: rawValue };
-
       if (updatedData.flat_rate_price && updatedData.flat_by_now_discount) {
         const flatRate = parseFloat(updatedData.flat_rate_price) || 0;
         const discount = parseFloat(updatedData.flat_by_now_discount) || 0;
-        updatedData.flat_final_list_price = (
-          flatRate -
-          (flatRate * discount) / 100
-        ).toFixed(2);
+        updatedData.flat_final_list_price = (flatRate - (flatRate * discount) / 100).toFixed(2);
       }
-
       return updatedData;
     });
   };
@@ -346,16 +251,11 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     const rawValue = parseCurrency(e.target.value);
     setFormData((prev) => {
       const updatedData = { ...prev, [key]: rawValue };
-
       if (updatedData.hourly_rate && updatedData.discount) {
         const hourlyRate = parseFloat(updatedData.hourly_rate) || 0;
         const discount = parseFloat(updatedData.discount) || 0;
-        updatedData.hourly_final_list_price = (
-          hourlyRate -
-          (hourlyRate * discount) / 100
-        ).toFixed(2);
+        updatedData.hourly_final_list_price = (hourlyRate - (hourlyRate * discount) / 100).toFixed(2);
       }
-
       return updatedData;
     });
   };
@@ -367,12 +267,8 @@ const PricingPackaging = ({ serviceId, setValue }) => {
       if (updatedData.price1 && updatedData.by_now_discount1) {
         const price = parseFloat(updatedData.price1) || 0;
         const discount = parseFloat(updatedData.by_now_discount1) || 0;
-        updatedData.final_list_price1 = (
-          price -
-          (price * discount) / 100
-        ).toFixed(2);
+        updatedData.final_list_price1 = (price - (price * discount) / 100).toFixed(2);
       }
-
       return updatedData;
     });
   };
@@ -384,12 +280,8 @@ const PricingPackaging = ({ serviceId, setValue }) => {
       if (updatedData.price2 && updatedData.by_now_discount2) {
         const price = parseFloat(updatedData.price2) || 0;
         const discount = parseFloat(updatedData.by_now_discount2) || 0;
-        updatedData.final_list_price2 = (
-          price -
-          (price * discount) / 100
-        ).toFixed(2);
+        updatedData.final_list_price2 = (price - (price * discount) / 100).toFixed(2);
       }
-
       return updatedData;
     });
   };
@@ -401,31 +293,21 @@ const PricingPackaging = ({ serviceId, setValue }) => {
       if (updatedData.price3 && updatedData.by_now_discount3) {
         const price = parseFloat(updatedData.price3) || 0;
         const discount = parseFloat(updatedData.by_now_discount3) || 0;
-        updatedData.final_list_price3 = (
-          price -
-          (price * discount) / 100
-        ).toFixed(2);
+        updatedData.final_list_price3 = (price - (price * discount) / 100).toFixed(2);
       }
-
       return updatedData;
     });
   };
+
   const handleBulletKeyDown = (fieldName) => (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       const bullet = "• ";
       const { selectionStart, selectionEnd, value } = e.target;
-      const newValue =
-        value.substring(0, selectionStart) +
-        "\n" +
-        bullet +
-        value.substring(selectionEnd);
+      const newValue = value.substring(0, selectionStart) + "\n" + bullet + value.substring(selectionEnd);
       setFormData((prev) => ({ ...prev, [fieldName]: newValue }));
-
-      // Set the cursor position after the inserted bullet.
       setTimeout(() => {
-        e.target.selectionStart = e.target.selectionEnd =
-          selectionStart + bullet.length + 1;
+        e.target.selectionStart = e.target.selectionEnd = selectionStart + bullet.length + 1;
       }, 0);
     }
   };
@@ -436,38 +318,60 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     }
   };
 
-  const handlePublish = async () => {
-    if (publishLoading) return;
-    setPublishLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("No token found. Please log in.");
-      setPublishLoading(true);
-      return;
-    }
-    try {
-      const response = await axios.get(
-        `https://homeservice.thefabulousshow.com/api/DealPublish/${dealid}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        setFormData((prev) => ({ ...prev, publish: publishValue }));
-        toast.success("Published successfully!");
-        setPublishValue(1);
-      }
-    } catch (error) {
-      console.error("Error publishing deal:", error);
-      toast.error("Failed to publish. Please try again.");
-    } finally {
-      setPublishLoading(false);
+  const handleFocus = (e) => {
+    if (formdata.fine_print.trim() === "") {
+      setFormData({ ...formdata, fine_print: "•" });
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const bullet = "• ";
+      const { selectionStart, selectionEnd, value } = e.target;
+      const newValue = value.substring(0, selectionStart) + "\n" + bullet + value.substring(selectionEnd);
+      setFormData({ ...formdata, fine_print: newValue });
+      setTimeout(() => {
+        e.target.selectionStart = e.target.selectionEnd = selectionStart + bullet.length + 1;
+      }, 0);
+    }
+  };
+
+    const handlePublish = async () => {
+      if (publishLoading) return;
+      setPublishLoading(true);
+    
+      const dealid = localStorage.getItem("deal_id");
+    
+      if (!dealid) {
+        toast.error("Deal ID is missing. Please try again.");
+        setPublishLoading(false);
+        return;
+      }
+    
+      try {
+        
+        const response = await publishDeal({ deal_id: dealid }).unwrap();
+    
+        if (response) {
+          setFormData((prev) => ({ ...prev, publish: 1 }));
+          toast.success("Published successfully!");
+          setPublishValue(1);
+        }
+      } catch (error) {
+        console.error("Error publishing deal:", error);
+        toast.error("Failed to publish. Please try again.");
+      } finally {
+        setPublishLoading(false);
+      }
+    };
+
+  if (isDealLoading || loading) return <Loader />;
+  if (isDealError) return <div>Error loading deal data.</div>;
+
   return (
     <>
-      {dealid && !isApiLoaded ? (
-        <Loader />
-      ) : (
+      
         <div>
           <form onSubmit={handleFormSubmit}>
             <div className="grid grid-cols-12">
@@ -615,7 +519,6 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                       </select>
                     </div>
                   </div>
-
                   <div className="col-span-12 mt-4">
                     <div className="flex flex-col">
                       <label htmlFor="FinePrint" className="font-semibold">
@@ -633,7 +536,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                         onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            fine_print: e.target.value , // Ensure it's always set
+                            fine_print: e.target.value, // Ensure it's always set
                           }))
                         }
                         onKeyDown={handleKeyDown}
@@ -744,11 +647,11 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                         className="myinput"
                         placeholder="Add specific deliverables for this deal. For example: what is included & what is not included."
                         rows={4}
-                        value={formdata.fine_print || ""}
+                        value={formdata.fine_print}
                         onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            fine_print: e.target.value || "", // Ensure it's always set
+                            fine_print: e.target.value, // Ensure it's always set
                           }))
                         }
                         onKeyDown={handleKeyDown}
@@ -1252,7 +1155,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
             </div>
           </form>
         </div>
-      )}
+    
     </>
   );
 };

@@ -12,4 +12,5 @@ export const PROVIDES_TAGS = [
     'UpdateClient',
     'Get',
     "GetSales"
+    'USER_DETAILS',
   ]

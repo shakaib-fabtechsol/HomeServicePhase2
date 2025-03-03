@@ -1,32 +1,33 @@
 
-import { CiHeart } from "react-icons/ci";
-import Plans from "../Plan/Plans";
-
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
-import servicedet from "../../assets/img/service-det.png";
-import { Box, Modal, Tab, Tabs, TabScrollButton } from "@mui/material";
+import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import {useParams} from "react-router-dom";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
 } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
-import provider from "../../assets/img/provider.png";
 import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
 import { FiPhone } from "react-icons/fi";
 import { TbMailDown } from "react-icons/tb";
 import { PiChats } from "react-icons/pi";
-import Basic from "../../Components/Plan/Basic";
-import Standard from "../../Components/Plan/Standard";
-import Premium from "../../Components/Plan/Premium";
-import axios from "axios"; // Import axios
 import Swal from "sweetalert2";
+
+import Loader from "../../Components/MUI/Loader";
+
+import {
+  useGetDealQuery,
+  useGetUserDetailsQuery,
+  useDeleteDealMutation,
+} from "../../services/base-api/index";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -34,9 +35,8 @@ function CustomTabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ height: "100%" }}
     >
-      {value === index && <Box sx={{ pt: 3, height: "100%" }}>{children}</Box>}
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -54,57 +54,47 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({ backto, role }) {
+function ServiceDetail() {
+  const { dealid } = useParams(); 
   useEffect(() => {
     document.title = "Service Details";
   }, []);
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const {
+    data: dealData,
+    isLoading: dealLoading,
+    error: dealError,
+  } = useGetDealQuery(dealid, { skip: !dealid });
+
+
+  const serviceDetails = dealData?.deal;
+  console.log(serviceDetails);
+  const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
+  console.log(pricingModel);
+  
+  const {
+    data: userData,
+    isLoading: userLoading,
+    error: userError,
+  } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
+
+  const provider = userData?.businessProfile?.[0] || {};
+  console.log(provider);
+
+  const [deleteDeal] = useDeleteDealMutation();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const [contactopen, setcontactOpen] = React.useState(false);
-  const handlecontactOpen = () => setcontactOpen(true);
-  const handlecontactClose = () => setcontactOpen(false);
-
-  const modalContacts = [
-    { path: "#", Icon: <FiPhone />, title: "Call Pro: (785) 712-6532" },
-    {
-      path: "#",
-      Icon: <BiMessageSquareDetail />,
-      title: "Text Pro: (708) 813-8989",
-    },
-    {
-      path: "#",
-      Icon: <BiMessageAltDetail />,
-      title: "Instant Chat",
-    },
-    { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
-    {
-      path: "#",
-      Icon: <IoLocationOutline />,
-      title: "Get Directions",
-    },
-  ];
-
-  const navigate = useNavigate();
-
 
   const handleDelete = (dealId) => {
     if (!dealId) {
       console.error("Deal ID is missing!");
       return;
     }
-
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("No token found, cannot delete deal.");
-      return;
-    }
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -113,52 +103,81 @@ function ServiceDetail({ backto, role }) {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
-      showLoaderOnConfirm: true, // Shows loader on confirm button
-      allowOutsideClick: false, // Prevents closing on outside click
-      preConfirm: () => {
-        return axios
-          .get(
-            `https://homeservice.thefabulousshow.com/api/DeleteDeal/${dealId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-          .then(() => {
-            navigate("/provider/services"); // Redirect after success
-          })
-          .catch((error) => {
-            Swal.fire("Error!", "Failed to delete the deal.", "error");
-          });
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false,
+      preConfirm: async () => {
+        try {
+          await deleteDeal(dealId).unwrap();
+          navigate("/provider/services"); 
+        } catch (error) {
+          Swal.fire("Error!", "Failed to delete the deal.", "error");
+        }
       },
     });
   };
 
-  const tabData = [
+  const [contactopen, setContactOpen] = useState(false);
+  const handlecontactOpen = () => setContactOpen(true);
+  const handlecontactClose = () => setContactOpen(false);
+
+  const modalContacts = [
+    { path: "#", Icon: <FiPhone />, title: "Call Pro: (785) 712-6532" },
     {
-      label: "Basic",
-      price: 200,
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
-      features: ["3 Workers", "Delivered Within 2 Days"],
+      path: "#",
+      Icon: <BiMessageSquareDetail />,
+      title: "Text Pro: (708) 813-8989",
     },
+    { path: "#", Icon: <BiMessageAltDetail />, title: "Instant Chat" },
+    { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
+    { path: "#", Icon: <PiChats />, title: "Direct Form" },
     {
-      label: "Standard",
-      price: 400,
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
-      features: ["3 Workers", "Delivered Within 2 Days"],
-    },
-    {
-      label: "Premium",
-      price: 600,
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus. Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim augue sed orci interdum vehicula.",
-      features: ["3 Workers", "Delivered Within 2 Days"],
+      path: "#",
+      Icon: <IoLocationOutline />,
+      title: "Get Directions",
     },
   ];
+ 
+  if (dealLoading || userLoading) {
+    return <Loader />;
+  }
+  if (!serviceDetails) {
+    return <div>No service details available.</div>;
+  }
 
+  // Prepare image URLs
+  const imagePath = provider?.business_logo;
+  const imageUrl = imagePath
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+    : "/default.png";
+
+  const regularHours =
+    provider && provider.regular_hour ? JSON.parse(provider.regular_hour || "[]") : [];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const currentDay = days[new Date().getDay()];
+  const currentDayData = regularHours.find(
+    (item) => item.day_name === currentDay
+  );
+
+  const imagePath1 = dealData?.deal?.uploads[0]?.images;
+  console.log(imagePath1);
+  const imageUrl1 = imagePath1
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
+    : "/default.png";
+
+   
   return (
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
-          <Link to={backto}>
+          <Link to="/provider/services">
             <FaArrowLeft className="me-4 text-xl" />
           </Link>
           <h2 className="text-2xl font-semibold">Service Details</h2>
@@ -168,128 +187,127 @@ function ServiceDetail({ backto, role }) {
         </p>
       </div>
       <div className="btm">
-        <div className="flex flex-col lg:flex-row justify-between items-center">
-          <h2 className="text-xl myhead font-semibold lg:me-2">
-            Aliquam erat volutpat. Ut semper ipsum in vestibulum laoreet.
+        <div className="flex flex-col lg:flex-row justify-between ">
+          <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
+            {serviceDetails?.service_title || "N/A"}
           </h2>
-          {role === "provider" && (
-            <div className="flex items-center w-full lg:w-auto gap-2 justify-end mt-3 lg:mt-0">
-              <>
-                <Link
-                  to="#"
-                  className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md inline-block"
-                >
-                  <FaRegTrashCan />
-                </Link>
-                <Link
-                  to="#"
-                  className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md inline-block"
-                >
-                  <FaPencilAlt />
-                </Link>
-              </>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-wrap justify-between mt-3 lg:sticky lg:top-0 lg:z-[99] lg:py-1 bg-white">
-          <div className="flex flex-wrap lg:flex-nowrap items-center w-full lg:w-[calc(100%-230px)]">
-            <img
-              onClick={() => navigate("/customer/ProfileDetails")}
-              src={provider}
-              alt=""
-              className="me-2 my-2 rounded-lg max-w-[120px] cursor-pointer"
-            />
-            <div className="my-2">
-              <div className="flex">
-                <p className="font-semibold myhead me-2">Provider Name</p>
-                <div className="flex">
-                  <IoIosStar className="me-2 text-[#F8C600]" />
-                  <p className="myblack text-sm">
-                    <span className="myhead font-semibold">4.9</span>(457)
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap mt-1">
-                <p className="myblack pe-3 me-2 border-e text-sm">
-                  House Cleaning
-                </p>
-                <div className="flex items-center">
-                  <IoLocationOutline className="me-1 myblack text-sm" />
-                  <p className="myblack text-sm">
-                    Address of the provider here
-                  </p>
-                </div>
-              </div>
-              <div className="flex mt-1">
-                <div className="flex me-2">
-                  <FaRegCalendarAlt className="me-2" />
-                  <p className="text-sm myblack">Hours:</p>
-                  <p className="text-sm text-[#34A853]"> Available</p>
-                </div>
-                <p className="text-sm myblack">Close 6PM</p>
-              </div>
-            </div>
-          </div>
-          <div className="w-full lg:max-w-[220px]">
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
-              {role !== "provider" && (
-                <button
-                  onClick={handlecontactOpen}
-                  className="flex gap-2 p-3 justify-center items-center font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full"
-                >
-                  <IoChatbubbleEllipsesOutline className="text-[#fff] text-xl" />
-                  <span>Contact Pro</span>
-                </button>
-              )}
-              <button className="flex gap-2 p-3 justify-center items-center border font-semibold rounded-lg text-[#535862] bg-[#fff] w-full">
-                <CiHeart className="text-xl" />
-                <span>Add to Favorites list</span>
-              </button>
-            </div>
+          <div className="flex items-center justify-end mt-3 lg:mt-0">
+            <button
+              className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
+              onClick={() => handleDelete(dealid)}
+            >
+              <FaRegTrashCan />
+            </button>
+            <Link
+              to={`/provider/NewDeals/${dealid}`}
+              className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
+            >
+              <FaPencilAlt />
+            </Link>
           </div>
         </div>
-        {role !== "provider" && (
-          <Modal
-            open={contactopen}
-            onClose={handlecontactClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            sx={{ m: 2 }}
-          >
-            <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
-              <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto scroll-x-hidden">
-                <p className="text-lg font-semibold">Contact Pro</p>
-                <div className="flex flex-col gap-3 mt-4">
-                  {modalContacts.map((contact, index) => (
-                    <Link
-                      key={index}
-                      className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
-                      to={contact.path}
-                    >
-                      <span className="text-[24px]">{contact.Icon}</span>
-                      <span>{contact.title}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Modal>
-        )}
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-12 xl:col-span-8">
-            <img src={servicedet} alt="" className="rounded-xl w-full" />
+            <div className="">
+              <div className="flex flex-wrap items-center">
+                <img
+                  onClick={() => navigate("/provider/ProfileDetails")}
+                  src={imageUrl}
+                  alt=""
+                  className="me-2 my-2 rounded-lg object-cover w-[100px] h-[100px] cursor-pointer"
+                  style={{ aspectRatio: "1/1" }}
+                />
+                <div className="my-2">
+                  <div className="flex">
+                    <Link to="/provider/ProfileDetails">
+                      <p className="font-semibold myhead me-2">
+                        {provider?.business_name}
+                      </p>
+                    </Link>
+                    <div className="flex">
+                      <IoIosStar className="me-2 text-[#F8C600]" />
+                      <p className="myblack text-sm">
+                        <span className="myhead font-semibold">4.9</span>(457)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap mt-2">
+                    <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
+                    <div className="flex items-center">
+                      <IoLocationOutline className="me-2 myblack" />
+                      <p className="myblack ">{provider?.business_location}</p>
+                    </div>
+                  </div>
+                  <div className="flex mt-2 items-center">
+                    <div className="flex me-2">
+                      <FaRegCalendarAlt className="me-2" />
+                      <p className="text-sm myblack">
+                        {currentDayData ? (
+                          <>{currentDayData.day_name}:&nbsp;</>
+                        ) : (
+                          "No data available for today."
+                        )}
+                      </p>
+                      <p className="text-sm text-[#34A853] font-[300]">
+                        {currentDayData?.day_status === "open"
+                          ? "Available"
+                          : "Unavailable"}
+                      </p>
+                      <p className="text-sm ml-2 lg:ml-10 myblack">
+                        {currentDayData?.day_status === "open" ? (
+                          <>
+                            Closed {currentDayData.regular_hour[0].end_time}{" "}
+                            {currentDayData.regular_hour.end_time.includes("AM") ||
+                            currentDayData.regular_hour[0].end_time.includes("PM")
+                              ? ""
+                              : currentDayData.regular_hour[0].end_time >= 12
+                              ? "PM"
+                              : "AM"}
+                          </>
+                        ) : (
+                          "Closed"
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Modal
+                open={contactopen}
+                onClose={handlecontactClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ m: 2 }}
+              >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
+                  <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto">
+                    <p className="text-lg font-semibold">Contact Pro</p>
+                    <div className="flex flex-col gap-3 mt-4">
+                      {modalContacts.map((contact, index) => (
+                        <Link
+                          key={index}
+                          className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
+                          to={contact.path}
+                        >
+                          <span className="text-[24px]">{contact.Icon}</span>
+                          <span>{contact.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Modal>
+            </div>
+            <img
+              src={imageUrl1}
+              alt=""
+              className="rounded-xl object-cover w-[1000px] h-[350px]"
+            />
           </div>
           <div className="col-span-12 xl:col-span-4">
             <div className="flex flex-col h-full gap-5">
               <div className="py-5 bg-[#FAFAFA] h-full border rounded-lg lg:px-6 px-4">
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+                <Box sx={{ width: "100%" }}>
                   <Box
                     sx={{
                       border: "1px solid #E9EAEB",
@@ -316,64 +334,155 @@ function ServiceDetail({ backto, role }) {
                         },
                       }}
                     >
-                      {tabData.map((tab, index) => (
-                        <Tab
-                          key={index}
-                          label={tab.label}
-                          {...a11yProps(index)}
-                        />
-                      ))}
+                      <Tab label="Basic" {...a11yProps(0)} />
+                      {pricingModel !== "Flat" &&
+                        pricingModel !== "Hourly" && (
+                          <Tab label="Standard" {...a11yProps(1)} />
+                        )}
+                      {pricingModel !== "Flat" &&
+                        pricingModel !== "Hourly" && (
+                          <Tab label="Premium" {...a11yProps(2)} />
+                        )}
                     </Tabs>
                   </Box>
-                  {tabData.map((tab, index) => (
-                    <CustomTabPanel key={index} value={value} index={index}>
-                      <Plans
-                        title={tab.label}
-                        price={tab.price}
-                        desc={tab.desc}
-                        features={tab.features}
-                      />
-                    </CustomTabPanel>
-                  ))}
+                  <CustomTabPanel value={value} index={0}>
+                    <div className="flex justify-between">
+                      <h2 className="text-2xl font-medium myhead">
+                        {serviceDetails?.pricing_model}
+                      </h2>
+                      <p className="text-3xl myhead font-bold">
+                        {serviceDetails?.pricing_model === "Hourly"
+                          ? serviceDetails.hourly_final_list_price
+                          : serviceDetails?.pricing_model === "Flat"
+                          ? serviceDetails.flat_rate_price
+                          : serviceDetails?.pricing_model === "Custom"
+                          ? serviceDetails.price1
+                          : "$200"}
+                      </p>
+                    </div>
+                    <p className="text-sm myblack mt-2">
+                      {serviceDetails?.fine_print
+                        ?.split("\n")
+                        .map((line, index) => (
+                          <React.Fragment key={index}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ))}
+                    </p>
+                    <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                      {serviceDetails?.pricing_model === "Hourly" && (
+                        <li>
+                          {serviceDetails?.hourly_estimated_service_time}
+                        </li>
+                      )}
+                      {serviceDetails?.pricing_model === "Flat" && (
+                        <li>
+                          {serviceDetails?.flat_estimated_service_time}
+                        </li>
+                      )}
+                      {serviceDetails?.pricing_model === "Custom" && (
+                        <li>
+                          {serviceDetails?.estimated_service_timing1}
+                        </li>
+                      )}
+                    </ul>
+                  </CustomTabPanel>
+
+                  {pricingModel !== "Flat" &&
+                    pricingModel !== "Hourly" && (
+                      <CustomTabPanel value={value} index={1}>
+                        <div className="flex justify-between">
+                          <h2 className="text-2xl font-medium myhead">
+                            {serviceDetails[0]?.pricing_model}
+                          </h2>
+                          <p className="text-3xl myhead font-bold">
+                            {serviceDetails[0]?.price2}
+                          </p>
+                        </div>
+                        <p className="text-sm myblack mt-2">
+                          {serviceDetails[0]?.fine_print
+                            ?.split("\n")
+                            .map((line, index) => (
+                              <React.Fragment key={index}>
+                                {line}
+                                <br />
+                              </React.Fragment>
+                            ))}
+                        </p>
+                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                          <li>
+                            {serviceDetails?.estimated_service_timing2}
+                          </li>
+                        </ul>
+                      </CustomTabPanel>
+                    )}
+
+                  {pricingModel !== "Flat" &&
+                    pricingModel !== "Hourly" && (
+                      <CustomTabPanel value={value} index={2}>
+                        <div className="flex justify-between">
+                          <h2 className="text-2xl font-medium myhead">
+                            {serviceDetails?.pricing_model}
+                          </h2>
+                          <p className="text-3xl myhead font-bold">
+                            {serviceDetails?.price3}
+                          </p>
+                        </div>
+                        <p className="text-sm myblack mt-2">
+                          {serviceDetails?.fine_print
+                            ?.split("\n")
+                            .map((line, index) => (
+                              <React.Fragment key={index}>
+                                {line}
+                                <br />
+                              </React.Fragment>
+                            ))}
+                        </p>
+                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                          <li>
+                            {serviceDetails?.estimated_service_timing3}
+                          </li>
+                        </ul>
+                      </CustomTabPanel>
+                    )}
                 </Box>
               </div>
+              <button
+                onClick={handlecontactOpen}
+                className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
+              >
+                <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
+                <span>Contact Pro</span>
+              </button>
             </div>
           </div>
         </div>
         <div className="">
           <div className="flex flex-wrap mt-3">
-            <p className="px-3 py-1 font-semibold text-sm rounded-full text-[#0F91D2] bg-[#E7F4FB]">
-              Cleaning
-            </p>
+            <div className="flex flex-wrap mt-3">
+              {serviceDetails?.search_tags &&
+              serviceDetails?.search_tags.length > 0
+                ? serviceDetails?.search_tags
+                    .split(",")
+                    .map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
+                      >
+                        {tag.trim()}
+                      </span>
+                    ))
+                : "No tags available"}
+            </div>
           </div>
           <h2 className="mt-4 text-xl myhead font-semibold">
             Deal Description
           </h2>
           <p className="mt-2 myblack">
-            Donec pulvinar consequat metus eget cursus. Donec nec quam eu arcu
-            elementum tempor eu pharetra mauris. Morbi et gravida purus, nec
-            sagittis risus. Nulla placerat justo ut dui aliquam efficitur.
-            Mauris aliquet mattis odio nec malesuada. Morbi at dui tristique,
-            dignissim enim ac, varius nulla. Donec venenatis libero nec ligula
-            laoreet laoreet. Sed quis lorem in mi suscipit dictum id nec diam.
-            Orci varius natoque penatibus et magnis dis parturient montes,
-            nascetur ridiculus mus. Nam at vehicula neque. Proin molestie
-            venenatis sem, ut imperdiet leo efficitur vel. Vestibulum nec
-            elementum lacus.
+            {serviceDetails?.service_description ||
+              "No description available."}
           </p>
-          <h2 className="mt-4 text-xl myhead font-semibold">Fine Print</h2>
-          <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-            <li>Pellentesque maximus augue in tellus fermentum viverra.</li>
-            <li>Nunc euismod erat et volutpat tincidunt.</li>
-            <li>In sit amet enim in nisl fermentum venenatis et ut dui.</li>
-            <li>
-              Phasellus vel orci pretium, tristique magna at, porttitor neque.
-            </li>
-            <li>
-              Integer mollis ligula eu tortor porttitor, sit amet elementum
-              dolor feugiat.
-            </li>
-          </ul>
         </div>
       </div>
     </div>

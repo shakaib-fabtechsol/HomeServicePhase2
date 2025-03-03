@@ -3,21 +3,65 @@ import upload from "../../assets/img/upload.png";
 import { HiOutlineTrash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
-import fileicon from "../../assets/img/fileicon.png";
-import Loader from "../../Components/MUI/Loader";
+
 import { toast } from "react-toastify";
+import { useUploadMediaMutation, usePublishDealMutation } from "../../services/base-api/index"; 
 import axios from "axios";
+import {useSelector} from "react-redux"
 
 const MediaUpload = ({ serviceId, setValue }) => {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
-  const id = localStorage.getItem("id");
+  const token =useSelector((state)=>state.auth.token);
   const { dealid } = useParams();
-  const [loading, setLoading] = useState(false);
+  const [deal, setDeal] = useState(null);
   const [publishValue, setPublishValue] = useState(1);
-  const [publishLoading, setPublishLoading] = useState(false);
+  console.log(videos);
+  console.log(images);
 
-
+  const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
+  const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
+ 
+  useEffect(() => {
+    if (dealid) {
+      axios
+        .get(`https://marketplace.thefabulousshow.com/api/Deal/${dealid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const dealData = response.data.deal;
+          setDeal(dealData);
+  
+          if (Array.isArray(response.data?.deal.uploads)) {
+          
+            const allImages = response.data?.deal.uploads
+              .filter(upload => upload.images) 
+              .map(upload => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`, 
+                name: upload.images.split("/").pop(),
+                isExisting: true,
+              }));
+            setImages(allImages);
+          
+            const allVideos = response.data?.deal.uploads
+              .filter(upload => upload.videos) 
+              .map(upload => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`, 
+                name: upload.videos.split("/").pop(),
+                isExisting: true,
+              }));
+            setVideos(allVideos);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching deal details:", error);
+        });
+    }
+  }, [dealid]);
+  
+ 
   useEffect(() => {
     return () => {
       images.forEach((image) => URL.revokeObjectURL(image.url));
@@ -34,7 +78,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files).filter(isValidImage);
     const newImages = files.map((file) => ({
-      file, // store the actual file
+      file,
       url: URL.createObjectURL(file),
       name: file.name,
     }));
@@ -45,12 +89,93 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const handleVideoUpload = (event) => {
     const files = Array.from(event.target.files).filter(isValidVideo);
     const newVideos = files.map((file) => ({
-      file, // store the actual file
+      file,
       url: URL.createObjectURL(file),
       name: file.name,
     }));
     setVideos((prevVideos) => [...prevVideos, ...newVideos]);
     event.target.value = "";
+  };
+
+  const handleRemoveImage = (imageUrl) => {
+    setImages((prevImages) => {
+      const updatedImages = prevImages.filter((img) => img.url !== imageUrl);
+      URL.revokeObjectURL(imageUrl);
+      return updatedImages;
+    });
+  };
+
+  const handleRemoveVideo = (videoUrl) => {
+    setVideos((prevVideos) => {
+      const updatedVideos = prevVideos.filter((vid) => vid.url !== videoUrl);
+      URL.revokeObjectURL(videoUrl);
+      return updatedVideos;
+    });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (isUploading) return;
+
+    const formData = new FormData();
+
+    // Append appropriate identifier:
+    // If editing, dealid exists, otherwise use serviceId for creation.
+    if (dealid) {
+      formData.append("deal_id", dealid);
+    } else {
+      formData.append("deal_id", serviceId);
+    }
+
+    images.forEach((img) => {
+      // Only append new files (existing ones don't have a file property)
+      if (img.file) {
+        formData.append("images[]", img.file);
+      }
+    });
+    videos.forEach((vid) => {
+      if (vid.file) {
+        formData.append("videos[]", vid.file);
+      }
+    });
+
+    try {
+      const result = await uploadMedia(formData).unwrap();
+      console.log(result);
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Media saved successfully.",
+      }).then(() => {
+        if (typeof setValue === "function") {
+          setValue(3);
+        }
+      });
+      setImages([]);
+      setVideos([]);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: error.data?.message || "Failed to update media.",
+      });
+      console.error("Error during media upload:", error);
+    }
+  };
+
+  const handlePublish = async () => {
+    // Using localStorage for deal_id if available
+    const dealIdFromStorage = localStorage.getItem("deal_id");
+    if (!dealIdFromStorage) {
+      toast.error("Deal ID is missing. Please try again.");
+      return;
+    }
+    try {
+      await publishDeal({ deal_id: dealIdFromStorage }).unwrap();
+      toast.success("Deal published successfully!");
+    } catch (error) {
+      toast.error("Error publishing the deal.");
+    }
   };
 
   const handleDrop = (event) => {
@@ -75,146 +200,11 @@ const MediaUpload = ({ serviceId, setValue }) => {
     setVideos((prevVideos) => [...prevVideos, ...newVideos]);
   };
 
-  const handleRemoveImage = (imageUrl) => {
-    setImages((prevImages) => {
-      const updatedImages = prevImages.filter((img) => img.url !== imageUrl);
-      URL.revokeObjectURL(imageUrl);
-      return updatedImages;
-    });
-  };
-
-  const handleRemoveVideo = (videoUrl) => {
-    setVideos((prevVideos) => {
-      const updatedVideos = prevVideos.filter((vid) => vid.url !== videoUrl);
-      URL.revokeObjectURL(videoUrl);
-      return updatedVideos;
-    });
-  };
-
-  useEffect(() => {
-    if (dealid) {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No authentication token found. Please log in.");
-        return;
-      }
-      axios
-        .get(`https://homeservice.thefabulousshow.com/api/Deal/${dealid}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          const BasicInfo = response?.data?.deal?.[0];
-          if (BasicInfo?.image) {
-            const imagePath = BasicInfo.image;
-            const imageUrl = `https://homeservice.thefabulousshow.com/uploads/${imagePath}`;
-            console.log("Fetched image URL:", imageUrl);
-           
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching deal data:", error);
-          if (error.response?.status === 401) {
-            console.error("Unauthorized. Redirecting to login...");
-          }
-        });
-    }
-  }, [dealid]);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (loading) return;
-    setLoading(true);
-  
-    const token = localStorage.getItem("token");
-    if (!token) {
-      Swal.fire({ icon: "error", title: "No token found. Please log in." });
-      setLoading(false);
-      return;
-    }
-  
-    const formData = new FormData();
-   
-    images.forEach((img, index) => {
-      formData.append("image", img.file);
-    });
-   
-    videos.forEach((vid, index) => {
-      formData.append("video", vid.file);
-    });
-    
-    try {
-      const response = await fetch(
-        "https://homeservice.thefabulousshow.com/api/MediaUpload",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-           
-          },
-          body: formData,
-        }
-      );
-  
-      const result = await response.json();
-      console.log("Response:", result);
-  
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "Media saved successfully.",
-        }).then(() => {
-          if (typeof setValue === "function") {
-            setValue(3);
-          }
-        });
-        setImages([]);
-        setVideos([]);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: result.message || "Failed to update media.",
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "An error occurred while updating media. Please try again.",
-      });
-      console.error("Error during media upload:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  useEffect(() => {
-    console.log("📦 MediaUpload Received Service ID:", serviceId);
-  }, [serviceId]);
-
-  const handlePublish = async () => {
-    setPublishLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      await axios.get(
-        `https://homeservice.thefabulousshow.com/api/DealPublish/${dealid}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      toast.success("Deal published successfully!");
-    } catch (error) {
-      toast.error("Error publishing the deal.");
-    } finally {
-      setPublishLoading(false);
-    }
-  };
-
   return (
     <>
       <form onSubmit={handleFormSubmit}>
         <div className="mt-5">
+          {/* Image Upload Section */}
           <div className="file-upload-container">
             <div
               onDragOver={(e) => e.preventDefault()}
@@ -256,12 +246,13 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove image"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}
             </div>
           </div>
+          {/* Video Upload Section */}
           <div className="file-upload-container mt-5">
             <div
               onDragOver={(e) => e.preventDefault()}
@@ -295,6 +286,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                   <video
                     src={video.url}
                     className="w-full aspect-square rounded-lg border object-cover"
+                    controls
                   />
                   <button
                     type="button"
@@ -302,7 +294,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove video"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}
@@ -331,21 +323,21 @@ const MediaUpload = ({ serviceId, setValue }) => {
             <button
               type="button"
               className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
-                publishLoading ? "opacity-50 cursor-not-allowed" : ""
+                isPublishing ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handlePublish}
-              disabled={publishLoading}
+              disabled={isPublishing}
             >
-              {publishLoading ? "Publishing..." : "Publish"}
+              {isPublishing ? "Publishing..." : "Publish"}
             </button>
             <button
               type="submit"
               className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
+                isUploading ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              disabled={loading}
+              disabled={isUploading}
             >
-              {loading ? "Saving..." : "Save & Next"}
+              {isUploading ? "Saving..." : "Save & Next"}
             </button>
           </div>
         </div>

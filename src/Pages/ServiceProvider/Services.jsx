@@ -8,6 +8,7 @@ import user2 from "../../assets/img/client3.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Services() {
   useEffect(() => {
@@ -18,24 +19,24 @@ function Services() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [services, setServices] = useState([]);
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); 
-    setLoading(true); // Start loading
+    setLoading(true);
 
     axios
-      .get("https://homeservice.thefabulousshow.com/api/Deals", {
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         setServices(response.data.deals);
-        setLoading(false); // Stop loading after data is received
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching deals:", error);
-        setLoading(false); // Stop loading even if there's an error
+        setLoading(false);
       });
   }, []);
 
@@ -80,7 +81,7 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
-                title={service.title}
+                title={service.service_title}
                 price={
                   service.pricing_model === "Flat"
                     ? service.flat_rate_price
@@ -88,19 +89,27 @@ function Services() {
                     ? service.hourly_final_list_price
                     : service.price1
                 }
-                tags={service.tags}
-                image={service.image}
+                tags={service.search_tags}
+                image={service.images}
                 publish={service.publish}
                 userimg={service.userimg}
-                username={service.username}
+                username={service.user_name}
                 description={service.service_description}
                 category={service.service_category}
                 dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={"/provider/dealDetails"}
+                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+
                 videos={service.videos}
                 imgs={service.images}
+                Days={
+                  service.pricing_model === "Flat"
+                    ? service.flat_estimated_service_time
+                    : service?.pricing_model == "Hourly"
+                    ? service.hourly_estimated_service_time
+                    : service.estimated_service_timing
+                }
                 totalReviews={service.totalReviews}
               />
             ))
