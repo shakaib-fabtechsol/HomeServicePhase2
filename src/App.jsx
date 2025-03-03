@@ -116,7 +116,6 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route element={<CustomerLayout />}>
             <Route path="/customer/dashboard" element={<Dashboardc />} />
             <Route path="/customer/orderdetails" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
@@ -134,7 +133,6 @@ function App() {
             <Route path="/customer/payments" element={<Payments />} />
             <Route path="/customer/dealDetails" element={<DealDetailsC />} />
             <Route path="/customer/reports" element={<ReportsC />} />
-          </Route>
         </Route>
 
 
