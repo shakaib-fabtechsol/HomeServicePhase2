@@ -11,6 +11,6 @@ export const PROVIDES_TAGS = [
     'PROFILE',
     'UpdateClient',
     'Get',
-    "GetSales"
+    "GetSales",
     'USER_DETAILS',
   ]
