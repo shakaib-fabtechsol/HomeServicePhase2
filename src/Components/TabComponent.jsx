@@ -35,7 +35,6 @@ function a11yProps(index) {
 
 export default function TabComponent({ tabs ,value, onChange}) {
 
- 
 
   return (  
     <Box sx={{ width: '100%' }}>
