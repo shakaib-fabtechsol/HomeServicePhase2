@@ -14,14 +14,14 @@ export const salesAPIs = BASE_API.injectEndpoints({
       query: (id) => ({
         url: id?`/SuperAdmin/ViewSalesReps/${id}`:null,
       }),
+      providesTags:["singlesale"]
     }),
     sendInvitation: builder.mutation({
       query: (data) => ({
         url: `${PRO_POINTS?.SEND_INVITATION}`,
         method: 'POST',
         body: data,
-      }),
-      invalidatesTags: ["UpdateClient"]
+      })
     }),
     deleteSale: builder.mutation({
       query: (id) => ({
@@ -29,10 +29,18 @@ export const salesAPIs = BASE_API.injectEndpoints({
         method: 'GET',
       }),
       invalidatesTags: ["GetSales"]
-    })
+    }),
+    updateSale: builder.mutation({
+      query: (data) => ({
+        url: `${PRO_POINTS?.UPDATE_SALE}`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ["GetSales","singlesale"]
+    }),
 
 
   }),
 });
 
-export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useSendInvitationMutation} = salesAPIs;
+export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useSendInvitationMutation,useUpdateSaleMutation} = salesAPIs;

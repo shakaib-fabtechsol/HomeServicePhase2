@@ -22,10 +22,24 @@ export const authAPIs = BASE_API.injectEndpoints({
         body: data,
       }),
     }),
+    updateAdmin: builder.mutation({
+      query: (data) => ({
+        url: `${END_POINTS.UPDATE_ADMIN}`,
+        method: 'POST',
+        body: data,
+      })
+    }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.UPDATE_SECURITY,
+        method: 'POST',
+        body: data,
+      })
+    }),
 
     termsUpdate: builder.mutation({
       query: (data) => ({
-        url: `${END_POINTS.TERMS_UPDATE}?id=${data.id}&terms=${data.terms}`,
+        url: END_POINTS.TERMS_UPDATE,
         method: 'POST',
         body: data,
       }),
@@ -33,5 +47,5 @@ export const authAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const { useGetUserQuery, useLoginMutation, useRegisterMutation, useTermsUpdateMutation } = authAPIs;
+export const { useGetUserQuery, useLoginMutation, useRegisterMutation, useTermsUpdateMutation, useUpdateAdminMutation ,useUpdatePasswordMutation} = authAPIs;
 

@@ -16,7 +16,9 @@ export const END_POINTS = {
     ADD_PAYMENT_DETAILS:"/AddPaymentDetails",
     ADD_BUSINESS_LOCATION:"/AddBusinessLocation",
     SETTING_PUBLISH:"/SettingPublish",
-    USER_DETAILS:"/UserDetails"
+    USER_DETAILS:"/UserDetails",
+    UPDATE_ADMIN:"/SuperAdmin/UpdatePersonal",
+    UPDATE_SECURITY:"/SuperAdmin/Security"
 }
 
 export const PRO_POINTS = {
@@ -24,7 +26,9 @@ export const PRO_POINTS = {
     GET_CLIENTS: "/SuperAdmin/Customers",
     GET_SALES: "/SuperAdmin/GetAllSaleRep",
     UPDATE_CLIENT:"/SuperAdmin/UpdateCustomer",
-    SEND_INVITATION:"/SuperAdmin/sendInvite"
+    UPDATE_SALE:"/SuperAdmin/UpdateSalesReps",
+    SEND_INVITATION:"/SuperAdmin/sendInvite",
+    AddPRICING:"/SuperAdmin/AddPriceDetails"
     
 
 }

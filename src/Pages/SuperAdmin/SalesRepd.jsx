@@ -10,13 +10,9 @@ import { useGetsaleByIdQuery } from "../../services/sales";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function SalesRepd() {
   const location=useLocation();
-  const { id } = location.state || {};
+  const { id } = location.state || {};  
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetsaleByIdQuery(id);
-
-
-    console.log(data,"this is data for the sales")
-
 
   if (isError) {
     Swal.fire({
@@ -33,7 +29,26 @@ export default function SalesRepd() {
   useEffect(() => {
     document.title = "Sales Rep details";
   }, []);
-  const permissions = ["Permissions 1", "Permissions 2", "Permissions 3"];
+  const permissions = [{
+    id: 1,
+    name: "Permissions 1",
+    assign_permission_1: data?.GetSalesReps?.assign_permission_1,
+    client_permission_1:data?.GetSalesReps?.client_permission_1
+
+
+  }, {
+    id: 2,
+    name: "Permissions 2",     
+    assign_permission_1: data?.GetSalesReps?.assign_permission_2,
+    client_permission_1:data?.GetSalesReps?.client_permission_2   
+  }, {
+    id: 3,
+    name: "Permissions 3",
+    assign_permission_1: data?.GetSalesReps?.assign_permission_3,
+    client_permission_1:data?.GetSalesReps?.client_permission_3
+  }
+  
+  ];
   if (isLoading) {
     return (
       <div className="loader">
@@ -78,10 +93,12 @@ export default function SalesRepd() {
             </div>
           </div>
         </div>
-        <Link to="/superadmin/editsalesrep" className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
+        <div onClick={()=>{
+          navigate("/superadmin/editsalesrep", { state: { id: data?.GetSalesReps?.id } })
+        }} className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
           <FaRegPenToSquare className="me-2 text-[#fff]" />
           <span>Edit</span>
-        </Link>
+        </div>
       </div>
       {/* <div className="mt-4 border-b border-[#00000033] pb-3">
         <h2 className="md:text-lg font-medium myhead">About Me</h2>
@@ -112,11 +129,12 @@ export default function SalesRepd() {
                {permissions.map((permission, index) => (
                  <div key={index} className="grid grid-cols-12 gap-2">
                    <div className="col-span-8">
-                     <p className="text-sm sm:text-base md:text-lg font-semibold">{permission}</p>
+                     <p className="text-sm sm:text-base md:text-lg font-semibold">{permission.name}</p>
                    </div>
                    <div className="col-span-2">
                      <input
                        className="accent-[#0F91D2] size-4"
+                       checked={permission?.client_permission_1}
                        type="checkbox"
                        name={`permission${index + 1}AllClients`}
                        id={`permission${index + 1}AllClients`}
@@ -125,6 +143,7 @@ export default function SalesRepd() {
                    <div className="col-span-2">
                      <input
                        className="accent-[#0F91D2] size-4"
+                       checked={permission?.assign_permission_1}
                        type="checkbox"
                        name={`permission${index + 1}AssignedOnly`}
                        id={`permission${index + 1}AssignedOnly`}

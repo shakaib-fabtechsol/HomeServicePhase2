@@ -133,10 +133,10 @@ export default function Sales() {
     provider.phone,
     <div className="flex items-center gap-2">
 
-      <LuEye className="text-[20px]" onClick={() => navigate(`/superadmin/salesrepd`, { state: { id: provider?.id } })} />
-      <Link to="/superadmin/editsalesrep">
-        <SlPencil className="text-[20px]" />
-      </Link>
+      <LuEye className="text-[20px] pointer" onClick={() => navigate(`/superadmin/salesrepd`, { state: { id: provider?.id } })} />
+ 
+        <SlPencil onClick={() => navigate(`/superadmin/editsalesrep`, { state: { id: provider?.id } })} className="text-[20px] pointer" />
+
       <button>
         <HiOutlineTrash
           onClick={() => {

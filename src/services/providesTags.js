@@ -13,4 +13,6 @@ export const PROVIDES_TAGS = [
     'Get',
     'GetSales',
     'USER_DETAILS',
+    `singlesale`,
+    "Pricing"
   ]
