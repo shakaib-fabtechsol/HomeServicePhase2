@@ -3,19 +3,21 @@ import upload from "../../assets/img/upload.png";
 import { HiOutlineTrash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
-import fileicon from "../../assets/img/fileicon.png";
-import Loader from "../../Components/MUI/Loader";
+import { useGetDealQuery } from "../../services/base-api/index";
 import { toast } from "react-toastify";
 import {
   useUploadMediaMutation,
   usePublishDealMutation,
-} from "../../services/base-api/index"; // Adjust the import path
+} from "../../services/base-api/index";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const MediaUpload = ({ serviceId, setValue }) => {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
-  const id = localStorage.getItem("id");
+  const token = useSelector((state) => state.auth.token);
   const { dealid } = useParams();
+  const [deal, setDeal] = useState(null);
   const [publishValue, setPublishValue] = useState(1);
 
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
@@ -114,12 +116,13 @@ const MediaUpload = ({ serviceId, setValue }) => {
       return;
     }
     try {
-      await publishDeal({ deal_id: dealid }).unwrap();
+      await publishDeal({ deal_id: dealIdFromStorage }).unwrap();
       toast.success("Deal published successfully!");
     } catch (error) {
       toast.error("Error publishing the deal.");
     }
   };
+
   const handleDrop = (event) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files).filter(isValidImage);
@@ -130,6 +133,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
     }));
     setImages((prevImages) => [...prevImages, ...newImages]);
   };
+
   const handleDropVideo = (event) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files).filter(isValidVideo);
@@ -186,7 +190,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove image"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}
@@ -225,6 +229,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                   <video
                     src={video.url}
                     className="w-full aspect-square rounded-lg border object-cover"
+                    controls
                   />
                   <button
                     type="button"
@@ -232,7 +237,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
                     className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
                     aria-label="Remove video"
                   >
-                    X
+                    <HiOutlineTrash />
                   </button>
                 </div>
               ))}

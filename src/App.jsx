@@ -93,6 +93,7 @@ function App() {
           <Route path="/provider/dashboard" element={<Dashboard />} />
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/newDeals" element={<NewDeals />} />
+          <Route path="/provider/newDeals/:dealid" element={<NewDeals />} />
           <Route path="/provider/notification" element={<Notification />} />
           <Route path="/provider/support" element={<Support />} />
           <Route path="/provider/favourites" element={<Favourites />} />
@@ -104,7 +105,8 @@ function App() {
             element={<OrderDetailsp />}
           />
           <Route path="/provider/conversations" element={<Conversations />} />
-          <Route path="/provider/dealDetails" element={<DealDetails />} />
+          <Route path="/provider/dealDetails/:dealid" element={<DealDetails />} />
+
           <Route path="/provider/profile" element={<Profilep />} />
           <Route path="/provider/clientprofile" element={<ClientProfilep />} />
           <Route path="/provider/reports" element={<ReportsP />} />
@@ -117,7 +119,6 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route element={<CustomerLayout />}>
             <Route path="/customer/dashboard" element={<Dashboardc />} />
             <Route path="/customer/orderdetails" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
@@ -135,7 +136,6 @@ function App() {
             <Route path="/customer/payments" element={<Payments />} />
             <Route path="/customer/dealDetails" element={<DealDetailsC />} />
             <Route path="/customer/reports" element={<ReportsC />} />
-          </Route>
         </Route>
 
         <Route

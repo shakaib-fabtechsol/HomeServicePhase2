@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { IoChatboxEllipsesOutline, IoHomeOutline } from "react-icons/io5";
 import Sidebar from "./Sidebar";
@@ -11,12 +11,19 @@ import { CgSupport } from "react-icons/cg";
 import { MdHomeRepairService } from "react-icons/md";
 import { LuUsersRound } from "react-icons/lu";
 import { HiOutlineClipboardList } from "react-icons/hi";
+import { useGetSalesRapQuery } from "../services/sales/index";
+import { useDispatch } from "react-redux";
+
+import { setUser } from "../redux/reducers/authSlice";
 
 export default function SalesLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [value, setValue] = useState({});
+  console.log(value?.setting);
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const sidebarData = [
@@ -67,11 +74,24 @@ export default function SalesLayout() {
     },
   ];
 
+  const { data, isLoading, error, refetch } = useGetSalesRapQuery(4);
+
+  useEffect(() => {
+    if (data) {
+      setValue(data);
+      if (data?.user) {
+        dispatch(setUser(data.user));
+      }
+    }
+  }, [data, dispatch]);
+
   const userInfo = {
-    name: "Mike Bird",
-    email: "mikebird@untitledui.com",
+    name: value?.setting?.name,
+    email: value?.setting?.email,
     profileLink: "/sales/profile",
+    personal_image: value?.setting?.personal_image,
   };
+
   return (
     <div className="mainpage">
       <MainNav toggleSidebar={toggleSidebar} />

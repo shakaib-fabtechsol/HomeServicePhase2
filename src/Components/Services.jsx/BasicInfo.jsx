@@ -43,7 +43,7 @@ function BasicInfo({ setServiceId, setValue }) {
 
   useEffect(() => {
     if (dealData) {
-      const BasicInfo = dealData?.deal[0];
+      const BasicInfo = dealData?.deal;
       setFormData({
         id: BasicInfo.id || "",
         service_title: BasicInfo.service_title || "",

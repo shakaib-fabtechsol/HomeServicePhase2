@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
-import servicedet from "../../assets/img/service-det.png";
+
 import PropTypes from "prop-types";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import { FiPhone } from "react-icons/fi";
-import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
-import { TbMailDown } from "react-icons/tb";
-import { PiChats } from "react-icons/pi";
+
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../Components/MUI/Loader";
 import {
   useGetDealQuery,
-  usePublishDealMutation,
   useGetUserDetailsQuery,
   useDealPublishMutation,
+  useDealPublishMutation,
 } from "../../services/base-api/index";
-import {
-  IoChatbubbleEllipsesOutline,
-  IoLocationOutline,
-} from "react-icons/io5";
+import { IoLocationOutline } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
 
-import provider from "../../assets/img/provider.png";
-import axios from "axios"; // Importing axios
+import axios from "axios";
 import Swal from "sweetalert2";
 
 function CustomTabPanel(props) {
@@ -63,7 +56,6 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   const [provider, setProviderData] = useState({});
   const { dealid } = useParams();
   const token = useSelector((state) => state.auth.token);
-  console.log(dealid);
   const [value, setValued] = useState(0);
   const deal_id = localStorage.getItem("deal_id");
   const {
@@ -175,9 +167,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   const [publishValue, setPublishValue] = useState(1);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log("📦 ReviewPublish Received Service ID:", serviceId);
-  }, [serviceId]);
+  useEffect(() => {}, [serviceId]);
 
   useEffect(() => {
     if (!dealid) return;
@@ -194,7 +184,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        const deal = response?.data?.deal?.[0] || {};
+        const deal = response?.data?.deal || {};
         const uploads = deal.uploads?.[0] || {};
         const updatedData = {
           id: deal?.id || "",
@@ -252,15 +242,14 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       .finally(() => setLoading(false));
   }, [dealid]);
 
-  console.log("formdata", formdata);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (publishLoading) return;
+    if (loading) return;
 
-    const isEdit = !!dealid;
-    const id = isEdit ? deal_id : serviceId;
-    console.log(id);
+    // Determine if it's a create or edit operation
+    const isEdit = !!dealid; // If dealid exists, it's an edit operation
+    const id = isEdit ? dealid : serviceId; // Use dealid for edit, serviceId for create
+
     if (!id) {
       Swal.fire({
         icon: "error",
@@ -270,12 +259,15 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       return;
     }
 
+    setLoading(true);
+
     if (!token) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "No token found. Please log in.",
       });
+      setLoading(false);
       return;
     }
 
@@ -284,6 +276,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       console.log("API Response:", response);
       if (response?.success || response?.status === 200) {
         navigate("/provider/services");
+
         Swal.fire({
           icon: "success",
           title: "Success!",
@@ -296,7 +289,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         Swal.fire({
           icon: "error",
           title: "Error!",
-          text: response.message || "Failed to process request.",
+          text: response.data.message || "Failed to process request.",
           confirmButtonColor: "#D33",
         });
       }
@@ -307,6 +300,8 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         title: "Error",
         text: "There was an error processing the request.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -324,7 +319,6 @@ const ReviewPublish = ({ serviceId, setValue }) => {
           }
         );
 
-        console.log("API Response:", response.data);
         setProviderData(response.data?.businessProfile[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -333,15 +327,15 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
     fetchData();
   }, []);
-
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
-    ? `https://marketplace.thefabulousshow.com/api/uploads/${imagePath}`
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
     : "/default.png";
   const regularHours =
     provider && provider.length > 0
       ? JSON.parse(provider.regular_hour || "[]")
       : [];
+
   const days = [
     "Sunday",
     "Monday",
@@ -402,7 +396,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                         </p>
                         <div className="flex items-center">
                           <IoLocationOutline className="me-2 myblack" />
-                          <p className="myblack ">{provider?.user?.location}</p>
+                          <p className="myblack ">
+                            {provider?.business_location}
+                          </p>
                         </div>
                       </div>
                       <div className="flex mt-2 items-center">

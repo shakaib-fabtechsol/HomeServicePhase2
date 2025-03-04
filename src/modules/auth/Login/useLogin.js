@@ -29,6 +29,8 @@ export const useLogin = () => {
 
   const handleLoginSuccess = (response) => {
     const { token, user } = response;
+
+    console.log(token,"this is token data for the user")
     dispatch(login({ token, user }));
     const targetRoute = ROLE_ROUTES[user.role] || ROLE_ROUTES.default;
 

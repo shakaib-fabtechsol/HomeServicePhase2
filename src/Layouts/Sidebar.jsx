@@ -46,6 +46,11 @@ const SidebarSection = ({ items }) => {
 };
 
 const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
+  const image = userInfo?.personal_image;
+  const image2 = "/service1.jpg";
+  const personal_image = image
+    ? `https://marketplace.thefabulousshow.com/uploads/${image} `
+    : image2;
   return (
     <div
       className={`left text-white bg-white fixed md:static h-full transition-transform duration-300 ease-in-out ${
@@ -55,7 +60,7 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
       <div className="left-mid h-[calc(100dvh-184px)]">
         <div className="list flex flex-col h-full justify-between">
           <div className="flex flex-col justify-between h-full">
-            {sidebarData.map((section, index) => (
+            {sidebarData?.map((section, index) => (
               <SidebarSection key={index} {...section} />
             ))}
           </div>

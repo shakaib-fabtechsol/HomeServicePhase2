@@ -6,8 +6,18 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import PersonalInfo from "../../Components/SuperAdmin/settings/PersonalInfo";
 import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/reducers/authSlice";
 
 export default function Settingsa() {
+
+  const Admin = useSelector(selectCurrentUser);
+  const [value,setValue] = React.useState(0);
+  const changetab = (value) => {
+
+    setValue(value);
+
+  }
   useEffect(() => {
     document.title = "Settings";
   }, []);
@@ -19,7 +29,7 @@ export default function Settingsa() {
           <p>Personal Information</p>
         </div>
       ),
-      content: <PersonalInfo />,
+      content: <PersonalInfo Admin={Admin} />,
     },
     {
       label: (
@@ -28,7 +38,8 @@ export default function Settingsa() {
           <p>Security</p>
         </div>
       ),
-      content: <Security />,
+    
+      content: <Security Admin={Admin} />,
     },
   ];
   return (
@@ -40,7 +51,7 @@ export default function Settingsa() {
         </p>
       </div>
       <div className="border border-[#A2A1A833] rounded-[10px] p-3">
-        <TabComponent tabs={tabData} />
+        <TabComponent tabs={tabData} onChange={changetab} value={value} />
       </div>
     </>
   );

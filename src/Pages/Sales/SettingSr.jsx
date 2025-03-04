@@ -6,9 +6,21 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import PersonalInfo from "../../Components/SuperAdmin/settings/PersonalInfo";
 import Security from "../../Components/SuperAdmin/settings/Security";
 import Notifications from "../../Components/SuperAdmin/settings/Notifications";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { selectCurrentUser } from "../../redux/reducers/authSlice";
 
-export default function SettingSr() {
+
+
+export default function Settingsa() {
+
+  const Admin = useSelector(selectCurrentUser);
+  const [value,setValue] = React.useState(0);
+  const changetab = (value) => {
+
+    setValue(value);
+
+  }
   useEffect(() => {
     document.title = "Settings";
   }, []);
@@ -20,7 +32,7 @@ export default function SettingSr() {
           <p>Personal Information</p>
         </div>
       ),
-      content: <PersonalInfo />,
+      content: <PersonalInfo Admin={Admin} />,
     },
     {
       label: (
@@ -29,21 +41,22 @@ export default function SettingSr() {
           <p>Security</p>
         </div>
       ),
-      content: <Security />,
+    
+      content: <Security Admin={Admin} />,
     },
-    // {
-    //   label: (
-    //     <div className="flex items-baseline gap-1">
-    //       <IoNotificationsOutline />
-    //       <p>Notifications</p>
-    //     </div>
-    //   ),
-    //   content: <Notifications />,
-    // },
   ];
   return (
-    <div className="border border-[#A2A1A833] rounded-[10px] p-3 px-6">
-      <TabComponent tabs={tabData} />
-    </div>
+    <>
+      <div className="mb-2">
+        <h2 className="font-semibold text-3xl">Settings</h2>
+        <p className="text-gray-600">
+        Manage your account preferences and settings.
+        </p>
+      </div>
+      <div className="border border-[#A2A1A833] rounded-[10px] p-3">
+        <TabComponent tabs={tabData} onChange={changetab} value={value} />
+      </div>
+    </>
   );
 }
+

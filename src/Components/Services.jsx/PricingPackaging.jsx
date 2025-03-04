@@ -18,7 +18,6 @@ const PricingPackaging = ({ serviceId, setValue }) => {
   const navigate = useNavigate();
   const { dealid } = useParams();
 
-  // Fetch deal details via RTK Query.
   const {
     data: dealData,
     isLoading: isDealLoading,
@@ -72,15 +71,11 @@ const PricingPackaging = ({ serviceId, setValue }) => {
   });
   const [selectedRate, setSelectedRate] = useState("Flat");
 
-  useEffect(() => {
-    console.log("📦 PricingPackaging Received Service ID:", serviceId);
-  }, [serviceId]);
+  useEffect(() => {}, [serviceId]);
 
-  // When dealData is available, populate form state.
   useEffect(() => {
-    if (dealData && dealData.deal && dealData.deal[0]) {
-      const BasicInfo = dealData.deal[0];
-      console.log("BasicInfo:", BasicInfo);
+    if (dealData && dealData.deal && dealData.deal) {
+      const BasicInfo = dealData.deal;
       setFormData({
         id: BasicInfo.id || "",
         pricing_model: BasicInfo.pricing_model || "",
@@ -217,10 +212,9 @@ const PricingPackaging = ({ serviceId, setValue }) => {
         estimated_service_timing3: e.target?.estimated_service_timing3?.value,
       };
     }
-
     try {
       if (dealid) {
-        await updatePriceAndPackage({ ...payload, serviceId }).unwrap();
+        await updatePriceAndPackage({ ...payload, id: dealid }).unwrap();
       } else {
         await priceAndPackage(payload).unwrap();
       }

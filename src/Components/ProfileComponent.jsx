@@ -30,8 +30,15 @@ import client1 from "../assets/img/client2.png";
 import client2 from "../assets/img/client3.png";
 import RegularHour from "./AdditionalPhoto/RegularHour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
-
+import { useLocation } from "react-router-dom";
+import { useGetproviderByIdQuery } from "../services/serviceprovider";
+import Loader from "./MUI/Loader";
 const ProfileComponent = ({ serviceDetailTo, userRole }) => {
+    const location = useLocation();
+    const state = location.state || {}; 
+    console.log(state?.Id,"Id of provider");
+
+    const {data,isLoading,isError}=useGetproviderByIdQuery(state?.Id)
   const services = [
     {
       id: 1,
@@ -161,6 +168,18 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
   const handleModalClose = () => {
     setActiveModal(null);
   };
+
+  console.log(data,"this is for the detail page")
+
+  if(isLoading) return (
+    <div className="flex items-center justify-center h-screen">
+      <Loader />
+    </div>
+)
+
+  if(isError) return (<div className="text-center flex items-center justify-center"><h1>Something went wrong</h1></div>)
+
+
 
   return (
     <div>
@@ -296,7 +315,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
           </div>
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-          {services.map((service, index) => (
+          {data?.deals?.map((service, index) => (
             <ServiceBox
               key={index}
               title={service.title}
