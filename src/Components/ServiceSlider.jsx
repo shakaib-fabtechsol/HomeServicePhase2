@@ -86,8 +86,9 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
         </button>
       </div>
       <Slider ref={sliderRef} {...settings}>
-        {dealsVideo.length > 0 &&
-          Array.isArray(dealsVideo) &&dealsVideo?.map((video, index) => (
+        {dealsVideo?.length > 0 &&
+          Array.isArray(dealsVideo) &&
+          dealsVideo?.map((video, index) => (
             <div key={index} className="px-[1px]">
               <div className="outline-none aspect-video rounded-[8px] overflow-hidden relative">
                 <video
@@ -109,12 +110,10 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
             </div>
           ))}
         {dealslidedata.length > 0 &&
-          Array.isArray(dealslidedata) && dealslidedata.map((slide, index) => (
+          Array.isArray(dealslidedata) &&
+          dealslidedata.map((slide, index) => (
             <div key={index} className="px-[1px]">
-              <div
-                
-                className="outline-none aspect-video rounded-[8px] overflow-hidden"
-              >
+              <div className="outline-none aspect-video rounded-[8px] overflow-hidden">
                 <img
                   src={slide}
                   alt="Service Image"

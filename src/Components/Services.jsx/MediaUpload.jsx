@@ -6,7 +6,10 @@ import { useParams } from "react-router-dom";
 import fileicon from "../../assets/img/fileicon.png";
 import Loader from "../../Components/MUI/Loader";
 import { toast } from "react-toastify";
-import { useUploadMediaMutation, usePublishDealMutation,  } from "../../services/base-api/index"; // Adjust the import path
+import {
+  useUploadMediaMutation,
+  usePublishDealMutation,
+} from "../../services/base-api/index"; // Adjust the import path
 
 const MediaUpload = ({ serviceId, setValue }) => {
   const [images, setImages] = useState([]);
@@ -14,10 +17,9 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const id = localStorage.getItem("id");
   const { dealid } = useParams();
   const [publishValue, setPublishValue] = useState(1);
-  
+
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
- 
 
   useEffect(() => {
     return () => {
@@ -75,12 +77,11 @@ const MediaUpload = ({ serviceId, setValue }) => {
     if (isUploading) return;
 
     const formData = new FormData();
-   
 
     formData.append("deal_id", serviceId);
     images.forEach((img) => formData.append("images[]", img.file));
     videos.forEach((vid) => formData.append("videos[]", vid.file));
-   
+
     try {
       const result = await uploadMedia(formData).unwrap();
       console.log(result);
@@ -106,12 +107,12 @@ const MediaUpload = ({ serviceId, setValue }) => {
   };
 
   const handlePublish = async () => {
-     const dealid = localStorage.getItem("deal_id");
-      
-        if (!dealid) {
-          toast.error("Deal ID is missing. Please try again.");
-          return;
-        }
+    const dealid = localStorage.getItem("deal_id");
+
+    if (!dealid) {
+      toast.error("Deal ID is missing. Please try again.");
+      return;
+    }
     try {
       await publishDeal({ deal_id: dealid }).unwrap();
       toast.success("Deal published successfully!");

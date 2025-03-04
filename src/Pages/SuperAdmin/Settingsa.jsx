@@ -36,7 +36,7 @@ export default function Settingsa() {
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Settings</h2>
         <p className="text-gray-600">
-        Manage your account preferences and settings.
+          Manage your account preferences and settings.
         </p>
       </div>
       <div className="border border-[#A2A1A833] rounded-[10px] p-3">

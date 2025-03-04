@@ -86,7 +86,7 @@ export default function AddTaskModal({ close }) {
         </div>
         <div className="mt-4 flex justify-end gap-3">
           <button
-          onClick={close}
+            onClick={close}
             className="text-[#16151C] py-2 px-4 border border-[#A2A1A833] rounded-[10px]"
             type="button"
           >

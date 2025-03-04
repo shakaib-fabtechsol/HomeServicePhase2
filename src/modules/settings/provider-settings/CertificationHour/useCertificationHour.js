@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAddCertificateHoursMutation } from "../../../../services/settings";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../../../redux/reducers/authSlice";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useState } from "react";
 
 const schema = yup.object().shape({
@@ -40,7 +40,7 @@ export const useCertificationHour = ({ handleTabChange }) => {
       insurance_expiry: userData?.insurance_expiry || "",
       working_hours_from: userData?.working_hours_from || "",
       working_hours_to: userData?.working_hours_to || "",
-      days_available: userData?.days_available?.split(',') || [],
+      days_available: userData?.days_available?.split(",") || [],
     },
   });
 
@@ -117,23 +117,28 @@ export const useCertificationHour = ({ handleTabChange }) => {
   const handleFileChange = (e, fieldName) => {
     const file = e.target.files[0];
     if (file) {
-      const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+      const validTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+      ];
       const maxSize = 5 * 1024 * 1024; // 5MB
 
       if (!validTypes.includes(file.type)) {
         Swal.fire({
-          icon: 'error',
-          title: 'Invalid File Type',
-          text: 'Please upload a valid file (PDF, JPG, JPEG, PNG)',
+          icon: "error",
+          title: "Invalid File Type",
+          text: "Please upload a valid file (PDF, JPG, JPEG, PNG)",
         });
         return;
       }
 
       if (file.size > maxSize) {
         Swal.fire({
-          icon: 'error',
-          title: 'File Too Large',
-          text: 'File size should be less than 5MB',
+          icon: "error",
+          title: "File Too Large",
+          text: "File size should be less than 5MB",
         });
         return;
       }
@@ -148,44 +153,48 @@ export const useCertificationHour = ({ handleTabChange }) => {
 
   const onSubmit = async (data) => {
     try {
-        console.log("data>>>>>>", data);
+      console.log("data>>>>>>", data);
       const formData = new FormData();
-      Object.keys(data).forEach(key => {
-        if (key === 'days_available') {
-          formData.append(key, data[key].join(','));
-        } else if ((key === 'certification_file' || key === 'insurance_document') && data[key] instanceof File) {
+      Object.keys(data).forEach((key) => {
+        if (key === "days_available") {
+          formData.append(key, data[key].join(","));
+        } else if (
+          (key === "certification_file" || key === "insurance_document") &&
+          data[key] instanceof File
+        ) {
           formData.append(key, data[key]);
         } else {
           formData.append(key, data[key]);
         }
       });
-      formData.append('user_id', userData?.id);
+      formData.append("user_id", userData?.id);
 
       // Add schedule data
-      formData.append('schedule', JSON.stringify(schedule));
-      formData.append('special_schedule', JSON.stringify(specialSchedule));
+      formData.append("schedule", JSON.stringify(schedule));
+      formData.append("special_schedule", JSON.stringify(specialSchedule));
 
       const response = await updateCertification(formData).unwrap();
 
       Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Certification hours updated successfully',
+        icon: "success",
+        title: "Success",
+        text: "Certification hours updated successfully",
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
         handleTabChange(4);
-        dispatch(setUser({
-          ...userData,
-          ...response.data,
-        }));
+        dispatch(
+          setUser({
+            ...userData,
+            ...response.data,
+          })
+        );
       });
-
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error?.data?.message || 'Failed to update certification hours',
+        icon: "error",
+        title: "Error",
+        text: error?.data?.message || "Failed to update certification hours",
       });
     }
   };

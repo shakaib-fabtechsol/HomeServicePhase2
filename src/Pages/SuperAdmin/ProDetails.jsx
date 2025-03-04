@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProfileComponent from '../../Components/ProfileComponent'
+import ProfileComponent from "../../Components/ProfileComponent";
 
 export default function ProDetails() {
   useEffect(() => {
@@ -7,7 +7,10 @@ export default function ProDetails() {
   }, []);
   return (
     <div>
-      <ProfileComponent userRole="superadmin" serviceDetailTo="/superadmin/dealDetails"/>
+      <ProfileComponent
+        userRole="superadmin"
+        serviceDetailTo="/superadmin/dealDetails"
+      />
     </div>
-  )
+  );
 }

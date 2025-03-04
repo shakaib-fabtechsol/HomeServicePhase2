@@ -11,13 +11,14 @@ export default function SettingsPreview({
   const [filePreview, setFilePreview] = useState(existingImage || null);
   const [showPreview, setShowPreview] = useState(false);
 
-
   console.log("filePreview......", file);
   // Update filePreview when existingImage changes
   useEffect(() => {
     if (!file) {
       console.log("existingImage", existingImage);
-      setFilePreview(import.meta.env.VITE_BASE_URL+ "uploads/" +  existingImage);
+      setFilePreview(
+        import.meta.env.VITE_BASE_URL + "uploads/" + existingImage
+      );
       setShowPreview(true);
     }
   }, [existingImage]);
@@ -82,7 +83,8 @@ export default function SettingsPreview({
               <strong>File Uploaded Successfully</strong>
             </p>
             <p className="text-gray-500">
-              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop to change image
+              <strong className="text-[#0F91D2]">Click to upload</strong> or
+              drag and drop to change image
             </p>
             <p className="text-sm text-gray-400">
               SVG, PNG, or JPG (max. 800×400px)
@@ -92,7 +94,8 @@ export default function SettingsPreview({
           <div className="upload-placeholder flex flex-col items-center justify-center min-h-[180px]">
             <img src={upload} alt="upload" className="w-[50px] mb-4" />
             <p className="text-gray-500">
-              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop
+              <strong className="text-[#0F91D2]">Click to upload</strong> or
+              drag and drop
             </p>
             <p className="text-sm text-gray-400">
               SVG, PNG, or JPG (max. 800×400px)

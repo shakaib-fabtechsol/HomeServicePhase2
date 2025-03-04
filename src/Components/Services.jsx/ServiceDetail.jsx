@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
@@ -68,10 +67,9 @@ function ServiceDetail() {
     error: dealError,
   } = useGetDealQuery(dealid, { skip: !dealid });
 
-
   const serviceDetails = dealData?.deal;
   const pricingModel = serviceDetails ? serviceDetails[0]?.pricing_model : "";
-  
+
   const {
     data: userData,
     isLoading: userLoading,
@@ -104,7 +102,7 @@ function ServiceDetail() {
       preConfirm: async () => {
         try {
           await deleteDeal(dealId).unwrap();
-          navigate("/provider/services"); 
+          navigate("/provider/services");
         } catch (error) {
           Swal.fire("Error!", "Failed to delete the deal.", "error");
         }
@@ -132,7 +130,7 @@ function ServiceDetail() {
       title: "Get Directions",
     },
   ];
- 
+
   if (dealLoading || userLoading) {
     return <Loader />;
   }
@@ -147,7 +145,9 @@ function ServiceDetail() {
     : "/default.png";
 
   const regularHours =
-    provider && provider.regular_hour ? JSON.parse(provider.regular_hour || "[]") : [];
+    provider && provider.regular_hour
+      ? JSON.parse(provider.regular_hour || "[]")
+      : [];
   const days = [
     "Sunday",
     "Monday",
@@ -251,12 +251,16 @@ function ServiceDetail() {
                         {currentDayData?.day_status === "open" ? (
                           <>
                             Closed {currentDayData.regular_hour[0].end_time}{" "}
-                            {currentDayData.regular_hour[0].end_time.includes("AM") ||
-                            currentDayData.regular_hour[0].end_time.includes("PM")
+                            {currentDayData.regular_hour[0].end_time.includes(
+                              "AM"
+                            ) ||
+                            currentDayData.regular_hour[0].end_time.includes(
+                              "PM"
+                            )
                               ? ""
                               : currentDayData.regular_hour[0].end_time >= 12
-                              ? "PM"
-                              : "AM"}
+                                ? "PM"
+                                : "AM"}
                           </>
                         ) : (
                           "Closed"
@@ -329,14 +333,12 @@ function ServiceDetail() {
                       }}
                     >
                       <Tab label="Basic" {...a11yProps(0)} />
-                      {pricingModel !== "Flat" &&
-                        pricingModel !== "Hourly" && (
-                          <Tab label="Standard" {...a11yProps(1)} />
-                        )}
-                      {pricingModel !== "Flat" &&
-                        pricingModel !== "Hourly" && (
-                          <Tab label="Premium" {...a11yProps(2)} />
-                        )}
+                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                        <Tab label="Standard" {...a11yProps(1)} />
+                      )}
+                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                        <Tab label="Premium" {...a11yProps(2)} />
+                      )}
                     </Tabs>
                   </Box>
                   <CustomTabPanel value={value} index={0}>
@@ -348,10 +350,10 @@ function ServiceDetail() {
                         {serviceDetails[0]?.pricing_model === "Hourly"
                           ? serviceDetails[0].hourly_final_list_price
                           : serviceDetails[0]?.pricing_model === "Flat"
-                          ? serviceDetails[0].flat_rate_price
-                          : serviceDetails[0]?.pricing_model === "Custom"
-                          ? serviceDetails[0].price1
-                          : "$200"}
+                            ? serviceDetails[0].flat_rate_price
+                            : serviceDetails[0]?.pricing_model === "Custom"
+                              ? serviceDetails[0].price1
+                              : "$200"}
                       </p>
                     </div>
                     <p className="text-sm myblack mt-2">
@@ -376,70 +378,62 @@ function ServiceDetail() {
                         </li>
                       )}
                       {serviceDetails[0]?.pricing_model === "Custom" && (
-                        <li>
-                          {serviceDetails[0]?.estimated_service_timing1}
-                        </li>
+                        <li>{serviceDetails[0]?.estimated_service_timing1}</li>
                       )}
                     </ul>
                   </CustomTabPanel>
 
-                  {pricingModel !== "Flat" &&
-                    pricingModel !== "Hourly" && (
-                      <CustomTabPanel value={value} index={1}>
-                        <div className="flex justify-between">
-                          <h2 className="text-2xl font-medium myhead">
-                            {serviceDetails[0]?.pricing_model}
-                          </h2>
-                          <p className="text-3xl myhead font-bold">
-                            {serviceDetails[0]?.price2}
-                          </p>
-                        </div>
-                        <p className="text-sm myblack mt-2">
-                          {serviceDetails[0]?.fine_print
-                            ?.split("\n")
-                            .map((line, index) => (
-                              <React.Fragment key={index}>
-                                {line}
-                                <br />
-                              </React.Fragment>
-                            ))}
+                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                    <CustomTabPanel value={value} index={1}>
+                      <div className="flex justify-between">
+                        <h2 className="text-2xl font-medium myhead">
+                          {serviceDetails[0]?.pricing_model}
+                        </h2>
+                        <p className="text-3xl myhead font-bold">
+                          {serviceDetails[0]?.price2}
                         </p>
-                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                          <li>
-                            {serviceDetails[0]?.estimated_service_timing2}
-                          </li>
-                        </ul>
-                      </CustomTabPanel>
-                    )}
+                      </div>
+                      <p className="text-sm myblack mt-2">
+                        {serviceDetails[0]?.fine_print
+                          ?.split("\n")
+                          .map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                      </p>
+                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                        <li>{serviceDetails[0]?.estimated_service_timing2}</li>
+                      </ul>
+                    </CustomTabPanel>
+                  )}
 
-                  {pricingModel !== "Flat" &&
-                    pricingModel !== "Hourly" && (
-                      <CustomTabPanel value={value} index={2}>
-                        <div className="flex justify-between">
-                          <h2 className="text-2xl font-medium myhead">
-                            {serviceDetails[0]?.pricing_model}
-                          </h2>
-                          <p className="text-3xl myhead font-bold">
-                            {serviceDetails[0]?.price3}
-                          </p>
-                        </div>
-                        <p className="text-sm myblack mt-2">
-                          {serviceDetails[0]?.fine_print
-                            ?.split("\n")
-                            .map((line, index) => (
-                              <React.Fragment key={index}>
-                                {line}
-                                <br />
-                              </React.Fragment>
-                            ))}
+                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                    <CustomTabPanel value={value} index={2}>
+                      <div className="flex justify-between">
+                        <h2 className="text-2xl font-medium myhead">
+                          {serviceDetails[0]?.pricing_model}
+                        </h2>
+                        <p className="text-3xl myhead font-bold">
+                          {serviceDetails[0]?.price3}
                         </p>
-                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                          <li>
-                            {serviceDetails[0]?.estimated_service_timing3}
-                          </li>
-                        </ul>
-                      </CustomTabPanel>
-                    )}
+                      </div>
+                      <p className="text-sm myblack mt-2">
+                        {serviceDetails[0]?.fine_print
+                          ?.split("\n")
+                          .map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                      </p>
+                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                        <li>{serviceDetails[0]?.estimated_service_timing3}</li>
+                      </ul>
+                    </CustomTabPanel>
+                  )}
                 </Box>
               </div>
               <button

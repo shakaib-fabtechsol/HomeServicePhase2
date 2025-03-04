@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
-import { signUpSchema } from './validationSchema';
-import { useRegisterMutation } from '../../../services/auth';
+import { signUpSchema } from "./validationSchema";
+import { useRegisterMutation } from "../../../services/auth";
 
 export const useSignUp = () => {
   const navigate = useNavigate();
@@ -22,11 +22,11 @@ export const useSignUp = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(signUpSchema),
-    mode: 'onChange',
+    mode: "onChange",
   });
 
-  useEffect (() => {
-    document.title = 'Signup';
+  useEffect(() => {
+    document.title = "Signup";
   }, []);
 
   const onSubmit = async (data) => {
@@ -38,22 +38,22 @@ export const useSignUp = () => {
         password: data.password,
         role: userType,
       }).unwrap();
-      
+
       if (response?.user) {
         reset();
         const userId = response?.user?.id; // Extract the user ID from the API response
         Swal.fire({
-          icon: 'success',
-          title: 'Good Job',
-          text: 'You must accept the terms of service to sign up.',
+          icon: "success",
+          title: "Good Job",
+          text: "You must accept the terms of service to sign up.",
           showConfirmButton: false,
         });
-  
+
         // Navigate to PrivacyPolicy page with the user ID
-        navigate('/PrivacyPolicy', { state: { userId } });
+        navigate("/PrivacyPolicy", { state: { userId } });
       }
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error("Registration failed:", error);
     }
   };
 

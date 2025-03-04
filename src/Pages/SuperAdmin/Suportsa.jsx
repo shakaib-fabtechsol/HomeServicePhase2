@@ -1,10 +1,8 @@
-import React from 'react'
-import CommonSupportData from '../../Components/Common/CommonSupportData'
+import React from "react";
+import CommonSupportData from "../../Components/Common/CommonSupportData";
 
 function Suportsa() {
-  return (
-    <CommonSupportData />
-  )
+  return <CommonSupportData />;
 }
 
-export default Suportsa
+export default Suportsa;

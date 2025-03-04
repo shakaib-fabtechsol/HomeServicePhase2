@@ -1,8 +1,11 @@
-import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser, selectIsAuthenticated } from '../redux/reducers/authSlice';
-import { ROUTES, ROLES } from '../config/routeConfig';
-import PropTypes from 'prop-types';
+import { Navigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+} from "../redux/reducers/authSlice";
+import { ROUTES, ROLES } from "../config/routeConfig";
+import PropTypes from "prop-types";
 
 export const PrivateRoute = ({ children, allowedRoles }) => {
   const location = useLocation();
@@ -33,11 +36,9 @@ export const PrivateRoute = ({ children, allowedRoles }) => {
 
   // Not authenticated - redirect to login
   if (!isAuthenticated) {
-    return <Navigate 
-      to={ROUTES.PUBLIC.LOGIN} 
-      state={{ from: location }} 
-      replace 
-    />;
+    return (
+      <Navigate to={ROUTES.PUBLIC.LOGIN} state={{ from: location }} replace />
+    );
   }
 
   // Check role authorization

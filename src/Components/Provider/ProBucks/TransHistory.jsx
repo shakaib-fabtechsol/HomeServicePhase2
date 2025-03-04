@@ -58,8 +58,8 @@ export default function TransHistory() {
           row.direction === "Receive"
             ? receive
             : row.direction === "Sent"
-            ? sent
-            : null
+              ? sent
+              : null
         }
         alt="img"
       />

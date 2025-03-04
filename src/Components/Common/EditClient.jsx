@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import camera from "../../assets/img/cameraicon.png";
 import { Link } from "react-router-dom";
 
-export default function EditClient({oncancel,onsave}) {
+export default function EditClient({ oncancel, onsave }) {
   const [image, setImage] = useState(null);
 
   const handleImageChange = (event) => {

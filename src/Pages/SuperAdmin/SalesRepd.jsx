@@ -47,7 +47,10 @@ export default function SalesRepd() {
             </div>
           </div>
         </div>
-        <Link to="/superadmin/editsalesrep" className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
+        <Link
+          to="/superadmin/editsalesrep"
+          className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto"
+        >
           <FaRegPenToSquare className="me-2 text-[#fff]" />
           <span>Edit</span>
         </Link>

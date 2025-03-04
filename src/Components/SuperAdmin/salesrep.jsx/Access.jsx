@@ -19,7 +19,9 @@ export default function Access() {
           {permissions.map((permission, index) => (
             <div key={index} className="grid grid-cols-12 gap-2">
               <div className="col-span-8">
-                <p className="text-sm sm:text-base md:text-lg font-semibold">{permission}</p>
+                <p className="text-sm sm:text-base md:text-lg font-semibold">
+                  {permission}
+                </p>
               </div>
               <div className="col-span-2">
                 <input
@@ -42,7 +44,8 @@ export default function Access() {
         </div>
       </div>
       <div className="mt-10 flex justify-end gap-3">
-        <Link to="/superadmin/sales"
+        <Link
+          to="/superadmin/sales"
           className="text-[#16151C] py-2 px-4 border border-[#A2A1A833] rounded-[10px]"
           type="button"
         >

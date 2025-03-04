@@ -65,7 +65,6 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
     return "#CCCCCC";
   };
 
-  
   const [Budget, setBudget] = useState(100);
   const [distance, setDistance] = useState(10);
 
@@ -133,82 +132,80 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       <div className="">
         <HeroSection />
         <h2 className="text-lg mt-8">Filters</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 max-w-[800px] mt-2">
-            <div ref={budgetDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleBudgetDropdown}
-                className="border w-full text-start focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Budget
-              </button>
-              {isBudgetDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {Budget >= 10000
-                      ? `${(Budget / 1000).toFixed(0)}K`
-                      : Budget}{" "}
-                    $
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100000"
-                    value={Budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 max-w-[800px] mt-2">
+          <div ref={budgetDropdownRef} className="me-3 my-1 relative">
+            <button
+              onClick={toggleBudgetDropdown}
+              className="border w-full text-start focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
+            >
+              Budget
+            </button>
+            {isBudgetDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {Budget >= 10000 ? `${(Budget / 1000).toFixed(0)}K` : Budget}{" "}
+                  $
                 </div>
-              )}
-            </div>
-            {selects.map((select, index) => (
-              <div key={index} className="me-3 my-1">
-                <select
-                  name={select.name}
-                  id={select.id}
-                  style={{
-                    backgroundImage: `url(${Down})`,
-                    backgroundPosition: "calc(100% - 5px)",
-                  }}
-                  className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2 appearance-none bg-no-repeat pe-5"
-                >
-                  {select.options.map((option, index) => (
-                    <option
-                      className="first:hidden"
-                      key={index}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={Budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  className="w-full cursor-pointer custom-slider"
+                />
               </div>
-            ))}
-            <div ref={locationDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleLocationDropdown}
-                className="border text-start w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Location/Distance
-              </button>
-              {isLocationDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {distance} km
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    value={distance}
-                    onChange={(e) => setDistance(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
-                </div>
-              )}
-            </div>
+            )}
           </div>
+          {selects.map((select, index) => (
+            <div key={index} className="me-3 my-1">
+              <select
+                name={select.name}
+                id={select.id}
+                style={{
+                  backgroundImage: `url(${Down})`,
+                  backgroundPosition: "calc(100% - 5px)",
+                }}
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2 appearance-none bg-no-repeat pe-5"
+              >
+                {select.options.map((option, index) => (
+                  <option
+                    className="first:hidden"
+                    key={index}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+          <div ref={locationDropdownRef} className="me-3 my-1 relative">
+            <button
+              onClick={toggleLocationDropdown}
+              className="border text-start w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
+            >
+              Location/Distance
+            </button>
+            {isLocationDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {distance} km
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                  className="w-full cursor-pointer custom-slider"
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      
+
       <div>
         <div className="grid lg:grid-cols-2 gap-4 mt-4">
           <div className="border rounded-xl">

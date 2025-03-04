@@ -99,7 +99,10 @@ function App() {
           <Route path="/provider/payments" element={<Payments />} />
           <Route path="/provider/probucks" element={<ProBucksp />} />
           <Route path="/provider/orders" element={<Ordersp />} />
-          <Route path="/provider/orderdetails" element={<OrderDetailsp />} />
+          <Route
+            path="/provider/orderdetails/:id"
+            element={<OrderDetailsp />}
+          />
           <Route path="/provider/conversations" element={<Conversations />} />
           <Route path="/provider/dealDetails" element={<DealDetails />} />
           <Route path="/provider/profile" element={<Profilep />} />
@@ -135,12 +138,13 @@ function App() {
           </Route>
         </Route>
 
-
-        <Route element={
-          <PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
-            <SuperAdminLayout />
-          </PrivateRoute>
-        }>
+        <Route
+          element={
+            <PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+              <SuperAdminLayout />
+            </PrivateRoute>
+          }
+        >
           <Route path="/superadmin/dashboard" element={<Dashboardsa />} />
           <Route path="/superadmin/providers" element={<Providers />} />
           <Route path="/superadmin/prodetails" element={<ProDetails />} />
@@ -165,7 +169,14 @@ function App() {
           <Route path="/superadmin/dealDetails" element={<DealDetailsS />} />
         </Route>
 
-        <Route element={ <PrivateRoute allowedRoles={[ROLES.SALES]}> <SalesLayout /> </PrivateRoute>}>
+        <Route
+          element={
+            <PrivateRoute allowedRoles={[ROLES.SALES]}>
+              {" "}
+              <SalesLayout />{" "}
+            </PrivateRoute>
+          }
+        >
           <Route path="/sales/dashboard" element={<Dashboardsr />} />
           <Route path="/sales/services" element={<Servicessr />} />
           <Route path="/sales/prodetails" element={<Prodetailssr1 />} />

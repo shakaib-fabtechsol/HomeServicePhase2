@@ -86,8 +86,8 @@ function Services() {
                   service.pricing_model === "Flat"
                     ? service.flat_rate_price
                     : service?.pricing_model == "Hourly"
-                    ? service.hourly_final_list_price
-                    : service.price1
+                      ? service.hourly_final_list_price
+                      : service.price1
                 }
                 tags={service.search_tags}
                 image={service.images}
@@ -106,8 +106,8 @@ function Services() {
                   service.pricing_model === "Flat"
                     ? service.flat_estimated_service_time
                     : service?.pricing_model == "Hourly"
-                    ? service.hourly_estimated_service_time
-                    : service.estimated_service_timing
+                      ? service.hourly_estimated_service_time
+                      : service.estimated_service_timing
                 }
                 totalReviews={service.totalReviews}
               />

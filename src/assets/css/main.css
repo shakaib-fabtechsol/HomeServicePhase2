@@ -5,43 +5,47 @@
 }
 
 @font-face {
-  font-family: 'inter';
-  src: url('../font/inter-regular-webfont.woff2') format('woff2'),
-    url('../font/inter-regular-webfont.woff') format('woff');
+  font-family: "inter";
+  src:
+    url("../font/inter-regular-webfont.woff2") format("woff2"),
+    url("../font/inter-regular-webfont.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'inter';
-  src: url('../font/inter-medium-webfont.woff2') format('woff2'),
-    url('../font/inter-medium-webfont.woff') format('woff');
+  font-family: "inter";
+  src:
+    url("../font/inter-medium-webfont.woff2") format("woff2"),
+    url("../font/inter-medium-webfont.woff") format("woff");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'inter';
-  src: url('../font/inter-semibold-webfont.woff2') format('woff2'),
-    url('../font/inter-semibold-webfont.woff') format('woff');
+  font-family: "inter";
+  src:
+    url("../font/inter-semibold-webfont.woff2") format("woff2"),
+    url("../font/inter-semibold-webfont.woff") format("woff");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'inter';
-  src: url('../font/inter-bold-webfont.woff2') format('woff2'),
-    url('../font/inter-bold-webfont.woff') format('woff');
+  font-family: "inter";
+  src:
+    url("../font/inter-bold-webfont.woff2") format("woff2"),
+    url("../font/inter-bold-webfont.woff") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 
 :root {
-  --blue: #1A73E8;
+  --blue: #1a73e8;
 }
 
 body {
-  font-family: 'poppins';
+  font-family: "poppins";
 }
 
 textarea {
@@ -62,8 +66,8 @@ textarea {
   height: calc(100dvh -131px);
   width: 250px;
   z-index: 99;
-  border-right: 1px solid #E9EAEB;
-  border-top: 1px solid #E9EAEB;
+  border-right: 1px solid #e9eaeb;
+  border-top: 1px solid #e9eaeb;
 }
 
 .logodiv {
@@ -90,7 +94,7 @@ textarea {
   padding: 0;
 }
 
-.list>ul>li {
+.list > ul > li {
   justify-content: center;
   color: #fff;
 }
@@ -104,13 +108,13 @@ textarea {
 }
 
 .sidelink.active {
-  background-color: #E7F4FB;
+  background-color: #e7f4fb;
   border-radius: 5px;
-  color: #0F91D2;
+  color: #0f91d2;
 }
 
 .sidelink.active svg {
-  color: #0F91D2 !important;
+  color: #0f91d2 !important;
 }
 
 .right {
@@ -174,13 +178,13 @@ input[type="time"].hide-clock::-webkit-calendar-picker-indicator {
   overflow: hidden;
 }
 
-@media screen and (min-width:769px) {
+@media screen and (min-width: 769px) {
   .left {
     display: block !important;
   }
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   .main {
     position: relative;
   }
@@ -192,5 +196,4 @@ input[type="time"].hide-clock::-webkit-calendar-picker-indicator {
   .right {
     width: 100% !important;
   }
-
 }

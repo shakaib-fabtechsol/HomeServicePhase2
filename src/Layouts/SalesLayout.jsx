@@ -70,7 +70,7 @@ export default function SalesLayout() {
   const userInfo = {
     name: "Mike Bird",
     email: "mikebird@untitledui.com",
-    profileLink: "/sales/profile"
+    profileLink: "/sales/profile",
   };
   return (
     <div className="mainpage">

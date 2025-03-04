@@ -7,21 +7,29 @@ const SidebarItem = ({ to, icon: Icon, label, toChild, toChild2 }) => {
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: false });
 
-  const isChildActive = toChild ? useMatch({ path: useResolvedPath(toChild).pathname, end: false }) : false;
-  const isChildActive2 = toChild2 ? useMatch({ path: useResolvedPath(toChild2).pathname, end: false }) : false;
+  const isChildActive = toChild
+    ? useMatch({ path: useResolvedPath(toChild).pathname, end: false })
+    : false;
+  const isChildActive2 = toChild2
+    ? useMatch({ path: useResolvedPath(toChild2).pathname, end: false })
+    : false;
 
   return (
     <li className="mx-1">
-   <NavLink
+      <NavLink
         to={to}
-        className={isActive || isChildActive || isChildActive2 ? "sidelink active" : "sidelink"}
+        className={
+          isActive || isChildActive || isChildActive2
+            ? "sidelink active"
+            : "sidelink"
+        }
       >
-      <div className="flex items-center">
-        <Icon className="me-2 text-xl" />
-        <p className="mb-0 font-medium">{label}</p>
-      </div>
-    </NavLink>
-  </li>
+        <div className="flex items-center">
+          <Icon className="me-2 text-xl" />
+          <p className="mb-0 font-medium">{label}</p>
+        </div>
+      </NavLink>
+    </li>
   );
 };
 
@@ -51,31 +59,30 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
               <SidebarSection key={index} {...section} />
             ))}
           </div>
-
         </div>
       </div>
-          <div className="left-bottom border-t-2">
-            <div className="flex items-center px-4 pt-3">
-              <Link to={userInfo.profileLink}>
-                <img
-                  src={user}
-                  alt="logo"
-                  className="rounded-full pe-2 max-w-[70px]"
-                />
+      <div className="left-bottom border-t-2">
+        <div className="flex items-center px-4 pt-3">
+          <Link to={userInfo.profileLink}>
+            <img
+              src={user}
+              alt="logo"
+              className="rounded-full pe-2 max-w-[70px]"
+            />
+          </Link>
+          <div className="logouts">
+            <div className="flex justify-between items-center">
+              <p className="font-bold text-black">{userInfo.name}</p>
+              <Link to="/login">
+                <MdLogout className="text-2xl text-black" />
               </Link>
-              <div className="logouts">
-                <div className="flex justify-between items-center">
-                  <p className="font-bold text-black">{userInfo.name}</p>
-                  <Link to="/login">
-                    <MdLogout className="text-2xl text-black" />
-                  </Link>
-                </div>
-                <p className="mb-0 font-medium text-sm text-black">
-                  {userInfo.email}
-                </p>
-              </div>
             </div>
+            <p className="mb-0 font-medium text-sm text-black">
+              {userInfo.email}
+            </p>
           </div>
+        </div>
+      </div>
     </div>
   );
 };

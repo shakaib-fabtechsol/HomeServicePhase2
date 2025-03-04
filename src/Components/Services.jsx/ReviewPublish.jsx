@@ -16,7 +16,7 @@ import {
   useGetDealQuery,
   usePublishDealMutation,
   useGetUserDetailsQuery,
-  useDealPublishMutation
+  useDealPublishMutation,
 } from "../../services/base-api/index";
 import {
   IoChatbubbleEllipsesOutline,
@@ -280,11 +280,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     }
 
     try {
-     
       const response = await dealPublish(id).unwrap();
       console.log("API Response:", response);
-      if (response?.success || response?.status === 200)
-        {
+      if (response?.success || response?.status === 200) {
         navigate("/provider/services");
         Swal.fire({
           icon: "success",
@@ -435,9 +433,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                                 )
                                   ? ""
                                   : currentDayData.regular_hour[0].end_time >=
-                                    12
-                                  ? "PM"
-                                  : "AM"}
+                                      12
+                                    ? "PM"
+                                    : "AM"}
                               </>
                             ) : (
                               "Closed"
@@ -506,10 +504,10 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                             {formdata?.pricing_model === "Hourly"
                               ? "" + formdata.hourly_final_list_price
                               : formdata?.pricing_model === "Flat"
-                              ? "" + formdata.flat_rate_price
-                              : formdata?.pricing_model === "Custom"
-                              ? "" + formdata.price1
-                              : "$200"}
+                                ? "" + formdata.flat_rate_price
+                                : formdata?.pricing_model === "Custom"
+                                  ? "" + formdata.price1
+                                  : "$200"}
                           </p>
                         </div>
                         <p className="text-sm myblack mt-2">
