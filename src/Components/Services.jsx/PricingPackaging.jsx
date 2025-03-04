@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import { 
   useUploadMediaMutation, 
   usePublishDealMutation, 
-  useFetchDealQuery,
   useGetDealQuery,
   usePriceAndPackageMutation,
   useUpdatePriceAndPackageMutation 
