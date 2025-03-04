@@ -33,6 +33,12 @@ export const PRO_POINTS = {
     
 
 }
+
+export const SALEREP_POINTS = {
+    GET_CUSTOMERS: "/SaleRep/SaleCustomers",
+    
+
+}
 export const SALE_POINTS = {
     GET_SALES: "/SaleRep/GetSettingSale",
   };

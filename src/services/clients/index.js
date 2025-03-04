@@ -1,6 +1,6 @@
 
 import { BASE_API } from '../base-api';
-import { PRO_POINTS } from '../../constants/endpoint';
+import { PRO_POINTS, SALEREP_POINTS } from '../../constants/endpoint';
 
 export const serviceProviderAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -38,3 +38,17 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
 });
 
 export const { useGetclientByIdQuery,useGetclientsQuery,useUpdateClientMutation,useDeleteClientMutation} = serviceProviderAPIs;
+
+export const salesrepsAPIs = BASE_API.injectEndpoints({
+  endpoints: (builder) => ({
+    getCustomersByReps: builder.query({
+      query: (data) => ({
+        url: `${SALEREP_POINTS.GET_CUSTOMERS}?clients=${data?.providers}&page=${data?.page}&search=${data?.search||""}`,
+      }),
+    }),
+
+
+
+  }),
+});
+export const { useGetCustomersByRepsQuery } = salesrepsAPIs;
