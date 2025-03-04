@@ -8,7 +8,7 @@ import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { useDeleteClientMutation, useGetclientsQuery } from "../../services/clients";
+import { useDeleteClientMutation, useGetCustomersByRepsQuery } from "../../services/clients";
 import Loader from "../../Components/MUI/Loader";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineTrash } from "react-icons/hi";
@@ -21,7 +21,7 @@ export default function Clientssr() {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { data: clientsdata, isLoading: loading, isError: error, isFetching } = useGetclientsQuery({ page: page + 1, providers: rowsPerPage, search: search });
+  const { data: clientsdata, isLoading: loading, isError: error, isFetching } = useGetCustomersByRepsQuery({ page: page + 1, providers: rowsPerPage, search: search });
   const [deletecustomer, { isLoading: deleting, isError }] = useDeleteClientMutation();
   const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.data?.length).fill(false));
 
