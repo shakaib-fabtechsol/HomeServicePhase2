@@ -5,20 +5,20 @@ import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useGetDealQuery } from "../../services/base-api/index";
 import { toast } from "react-toastify";
-import { useUploadMediaMutation, usePublishDealMutation } from "../../services/base-api/index"; 
+import {
+  useUploadMediaMutation,
+  usePublishDealMutation,
+} from "../../services/base-api/index";
 import axios from "axios";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 
 const MediaUpload = ({ serviceId, setValue }) => {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
-  const token =useSelector((state)=>state.auth.token);
+  const token = useSelector((state) => state.auth.token);
   const { dealid } = useParams();
   const [deal, setDeal] = useState(null);
   const [publishValue, setPublishValue] = useState(1);
-  console.log(videos);
-  console.log(images);
-
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
   const { data, error, isLoading } = useGetDealQuery(dealid, {
@@ -51,6 +51,45 @@ const MediaUpload = ({ serviceId, setValue }) => {
   }, [data]);
 
  
+
+  useEffect(() => {
+    if (dealid) {
+      axios
+        .get(`https://marketplace.thefabulousshow.com/api/Deal/${dealid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const dealData = response.data.deal;
+          setDeal(dealData);
+
+          if (Array.isArray(response.data?.deal.uploads)) {
+            const allImages = response.data?.deal.uploads
+              .filter((upload) => upload.images)
+              .map((upload) => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`,
+                name: upload.images.split("/").pop(),
+                isExisting: true,
+              }));
+            setImages(allImages);
+
+            const allVideos = response.data?.deal.uploads
+              .filter((upload) => upload.videos)
+              .map((upload) => ({
+                url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`,
+                name: upload.videos.split("/").pop(),
+                isExisting: true,
+              }));
+            setVideos(allVideos);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching deal details:", error);
+        });
+    }
+  }, [dealid]);
+
   useEffect(() => {
     return () => {
       images.forEach((image) => URL.revokeObjectURL(image.url));

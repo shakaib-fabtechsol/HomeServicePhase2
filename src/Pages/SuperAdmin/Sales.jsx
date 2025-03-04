@@ -2,71 +2,73 @@ import React, { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import client1 from "../../assets/img/client1.png";
-import client2 from "../../assets/img/client2.png";
-import client3 from "../../assets/img/client3.png";
-import client4 from "../../assets/img/client4.png";
 import { FiSearch } from "react-icons/fi";
 import { LuEye, LuPlus } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import { HiOutlineTrash } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "@mui/material";
 import InviteSRmodal from "../../Components/SuperAdmin/InviteSRmodal";
+import { useDeleteSaleMutation, useGetsalesQuery } from "../../services/sales";
+import Loader from "../../Components/MUI/Loader";
+import confirmDelete from "../../constants/deleteconfirm";
+import Swal from "sweetalert2";
+import PaginationComponent from "../../Components/Pagination";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 export default function Sales() {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { data, isLoading: loading, isError, isFetching } = useGetsalesQuery({ page: page + 1, providers: rowsPerPage, search: searchTerm });
+  const [deletesale, { isLoading: deleting }] = useDeleteSaleMutation()
   useEffect(() => {
     document.title = "Sales Reps";
   }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event, newPage) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0)
+  };
 
   const [addtaskopen, setaddtaskOpen] = React.useState(false);
   const handleaddtaskOpen = () => setaddtaskOpen(true);
   const handleaddtaskClose = () => setaddtaskOpen(false);
 
-  const serviceProviders = [
-    {
-      logo: client1,
-      id: "#ID234",
-      name: "Mike Bird",
-      email: "dan_reid@icloud.com",
-      phone: "+5997186491311",
-    },
-    {
-      logo: client2,
-      id: "#ID234",
-      name: "Brittany Spurlock",
-      email: "tracy_sullivan@yahoo.com",
-      phone: "+3822981276772",
-    },
-    {
-      logo: client3,
-      id: "#ID234",
-      name: "Jami Bird",
-      email: "delores_acosta@outlook.com",
-      phone: "+2930285126591",
-    },
-    {
-      logo: client4,
-      id: "#ID234",
-      name: "Tabbetha Sells",
-      email: "myrna_wood@yahoo.com",
-      phone: "+0852672848459",
-    },
-  ];
-
   const [checkedRows, setCheckedRows] = useState(
-    new Array(serviceProviders.length).fill(false)
+    new Array(data?.GetSaleRep?.data?.length).fill(false)
   );
 
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceProviders.length).fill(isChecked));
+    setCheckedRows(new Array(data?.GetSaleRep?.data?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
     const newCheckedRows = [...checkedRows];
     newCheckedRows[index] = event.target.checked;
     setCheckedRows(newCheckedRows);
+  };
+
+
+  const handleDelete = async (id) => {
+    try {
+      await deletesale(id).unwrap();
+      Swal.fire("Deleted!", "Sale has been deleted.", "success").then(() => {
+        navigate("/superadmin/sales");
+      });
+
+    } catch (error) {
+      Swal.fire("Error", "Sale to delete customer. Please try again.", "error").then(() => {
+        navigate("/superadmin/sales");
+      });
+    }
   };
 
   const isAllChecked = checkedRows.every(Boolean);
@@ -101,7 +103,7 @@ export default function Sales() {
     "Action",
   ];
 
-  const tablebody = serviceProviders.map((provider, index) => [
+  const tablebody = data?.GetSaleRep?.data?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -122,7 +124,7 @@ export default function Sales() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
+        src={`${BASE_URL}/uploads/${provider?.personal_image}`}
         alt={provider.name}
       />
       <p>{provider.name}</p>
@@ -130,17 +132,38 @@ export default function Sales() {
     provider.email,
     provider.phone,
     <div className="flex items-center gap-2">
-      <Link to="/superadmin/salesrepd">
-        <LuEye className="text-[20px]" />
-      </Link>
-      <Link to="/superadmin/editsalesrep">
-        <SlPencil className="text-[20px]" />
-      </Link>
+
+      <LuEye className="text-[20px] pointer" onClick={() => navigate(`/superadmin/salesrepd`, { state: { id: provider?.id } })} />
+ 
+        <SlPencil onClick={() => navigate(`/superadmin/editsalesrep`, { state: { id: provider?.id } })} className="text-[20px] pointer" />
+
       <button>
-        <HiOutlineTrash className="text-[20px]" />
+        <HiOutlineTrash
+          onClick={() => {
+            confirmDelete("Sales").then((result) => {
+              if (result && provider?.id) {
+                handleDelete(provider?.id);
+              }
+            })
+          }}
+          className="text-[20px]" />
       </button>
     </div>,
   ]);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  if (isError) {
+    return (
+      <div className="error">
+        <p>Error loading sales. Please try again.</p>
+      </div>
+    );
+  }
+
+
   return (
     <div>
       <div className="mb-2">
@@ -160,6 +183,8 @@ export default function Sales() {
               name="search"
               id="search"
               placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearch}
             />
           </label>
           <div className="ms-auto">
@@ -174,7 +199,15 @@ export default function Sales() {
         </div>
       </div>
       <div className="mt-5">
-        <Table headers={tableheader} rows={tablebody} />
+        {loading || isFetching || deleting ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
+        <PaginationComponent
+          count={data?.total_sales_rap}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+
       </div>
       <Modal
         open={addtaskopen}
@@ -190,3 +223,4 @@ export default function Sales() {
     </div>
   );
 }
+

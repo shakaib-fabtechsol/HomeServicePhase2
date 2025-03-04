@@ -1,17 +1,50 @@
 import React, { useState } from "react";
 import camera from "../../../assets/img/cameraicon.png";
 import editround from "../../../assets/img/editround.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useUpdateAdminMutation } from "../../../services/auth";
+import Loader from "../../MUI/Loader";
+import Swal from "sweetalert2";
+const BASE_URL = import.meta.env.VITE_BASE_URL
+import {setUser} from "../../../redux/reducers/authSlice";
+export default function PersonalInfo({Admin}) {
+  const dispatch = useDispatch();
 
-export default function PersonalInfo() {
+  const [updateAmin, { isLoading: updateLoading }] = useUpdateAdminMutation();
+  const schema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required")
+      .min(3, "Name must be at least 3 characters"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Invalid email address"),
+    phone: Yup.string()
+      .required("Phone number is required")
+      .min(10, "Phone number must be at least 10 characters"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: Admin?.name || "",
+      phone:Admin?.phone || "",
+      email: Admin?.email || "",
+    },
+  });
+
   const [image, setImage] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImage(reader.result);
-      reader.readAsDataURL(file);
-    }
+    setImage(file);
+
   };
 
   const inputData = [
@@ -37,8 +70,50 @@ export default function PersonalInfo() {
       name: "phone",
     },
   ];
+  const onSubmit = async (data) => {
+
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      if (key === "personal_image") {
+        formData.append(key, image); 
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+    formData.append("id", Admin?.id);
+    try {
+     const response = await updateAmin(formData).unwrap();
+      console.log(response,"this is response data")
+      if(response?.user){
+        dispatch(setUser(response?.user));
+      }
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome Back!',
+        text: ' Profile update Successfully',
+        timer: 1500,
+        showConfirmButton: false,
+      })
+  
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Failed',
+        text: error?.message || 'Failed to update Profile. Please try again.',
+      });
+
+    }
+  };
+  if (updateLoading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:pe-7">
         <div className="flex flex-col gap-3 order-2 sm:order-1">
           {inputData.map((field, index) => (
@@ -52,7 +127,13 @@ export default function PersonalInfo() {
                 type={field.type}
                 id={field.id}
                 name={field.name}
+                {...register(field.name)}
               />
+              {errors[field.name] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors[field.name].message}
+                </p>
+              )}
             </div>
           ))}
         </div>
@@ -62,13 +143,18 @@ export default function PersonalInfo() {
             <div className="relative rounded-full">
               <label className="w-full aspect-square bg-[#A2A1A80D] border border-[#A2A1A833] flex items-center justify-center cursor-pointer rounded-full overflow-hidden">
                 {image ? (
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
+                  // If image is a File object, show preview
+                  typeof image === "string" ? (
+                    <img src={image} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <img src={URL.createObjectURL(image)} alt="Preview" className="w-full h-full object-cover" />
+                  )
+                ) : Admin?.personal_image ? (
+                  // If no new file is uploaded, show existing image from URL
+                  <img src={`${BASE_URL}/uploads/${Admin?.personal_image}`} alt="Client Image" className="w-full h-full object-cover" />
                 ) : (
-                  <img src={camera} alt="img" />
+                  // Default camera icon
+                  <img src={camera} alt="Default" />
                 )}
                 <input
                   id="profile-img"
@@ -108,6 +194,7 @@ export default function PersonalInfo() {
           Save
         </button>
       </div>
-    </div>
+    </form>
   );
 }
+

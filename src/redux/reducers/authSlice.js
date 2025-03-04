@@ -12,7 +12,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }) => {
-      state.token = payload.token;
+      state.token = payload?.token;
       state.isLoggedIn = true;
       state.user = payload.user;
 
