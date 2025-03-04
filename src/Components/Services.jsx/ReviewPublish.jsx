@@ -13,7 +13,6 @@ import {
   useGetDealQuery,
   useGetUserDetailsQuery,
   useDealPublishMutation,
-  useDealPublishMutation,
 } from "../../services/base-api/index";
 import { IoLocationOutline } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
