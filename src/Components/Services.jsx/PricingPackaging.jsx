@@ -5,6 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../Components/MUI/Loader";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { 
+  useUploadMediaMutation, 
+  usePublishDealMutation, 
 import {
   useUploadMediaMutation,
   usePublishDealMutation,

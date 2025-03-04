@@ -3,6 +3,7 @@ import upload from "../../assets/img/upload.png";
 import { HiOutlineTrash } from "react-icons/hi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useGetDealQuery } from "../../services/base-api/index";
 import { toast } from "react-toastify";
 import {
   useUploadMediaMutation,
@@ -20,6 +21,36 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const [publishValue, setPublishValue] = useState(1);
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
+  const { data, error, isLoading } = useGetDealQuery(dealid, {
+    skip: !dealid, 
+  });
+  useEffect(() => {
+    if (data && data.deal) {
+      const dealData = data.deal;
+      setDeal(dealData);
+      if (Array.isArray(dealData.uploads)) {
+        const allImages = dealData.uploads
+          .filter((upload) => upload.images)
+          .map((upload) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`,
+            name: upload.images.split("/").pop(),
+            isExisting: true,
+          }));
+        setImages(allImages);
+
+        const allVideos = dealData.uploads
+          .filter((upload) => upload.videos)
+          .map((upload) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`,
+            name: upload.videos.split("/").pop(),
+            isExisting: true,
+          }));
+        setVideos(allVideos);
+      }
+    }
+  }, [data]);
+
+ 
 
   useEffect(() => {
     if (dealid) {
@@ -115,9 +146,6 @@ const MediaUpload = ({ serviceId, setValue }) => {
     if (isUploading) return;
 
     const formData = new FormData();
-
-    // Append appropriate identifier:
-    // If editing, dealid exists, otherwise use serviceId for creation.
     if (dealid) {
       formData.append("deal_id", dealid);
     } else {
@@ -125,7 +153,6 @@ const MediaUpload = ({ serviceId, setValue }) => {
     }
 
     images.forEach((img) => {
-      // Only append new files (existing ones don't have a file property)
       if (img.file) {
         formData.append("images[]", img.file);
       }
@@ -161,7 +188,6 @@ const MediaUpload = ({ serviceId, setValue }) => {
   };
 
   const handlePublish = async () => {
-    // Using localStorage for deal_id if available
     const dealIdFromStorage = localStorage.getItem("deal_id");
     if (!dealIdFromStorage) {
       toast.error("Deal ID is missing. Please try again.");
@@ -201,7 +227,6 @@ const MediaUpload = ({ serviceId, setValue }) => {
     <>
       <form onSubmit={handleFormSubmit}>
         <div className="mt-5">
-          {/* Image Upload Section */}
           <div className="file-upload-container">
             <div
               onDragOver={(e) => e.preventDefault()}
@@ -249,7 +274,6 @@ const MediaUpload = ({ serviceId, setValue }) => {
               ))}
             </div>
           </div>
-          {/* Video Upload Section */}
           <div className="file-upload-container mt-5">
             <div
               onDragOver={(e) => e.preventDefault()}

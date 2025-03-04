@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
-import servicedet from "../../assets/img/service-det.png";
+
 import PropTypes from "prop-types";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import { FiPhone } from "react-icons/fi";
-import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
-import { TbMailDown } from "react-icons/tb";
-import { PiChats } from "react-icons/pi";
+
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../Components/MUI/Loader";
@@ -275,8 +272,8 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
     try {
       const url = isEdit
-        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}` // Edit
-        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`; // Create
+        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}`
+        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`; 
 
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
