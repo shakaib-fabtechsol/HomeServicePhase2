@@ -19,6 +19,11 @@ export const END_POINTS = {
   USER_DETAILS: "/UserDetails",
   UPDATE_ADMIN: "/SuperAdmin/UpdatePersonal",
   UPDATE_SECURITY: "/SuperAdmin/Security",
+  CUSTOM_ORDERS: "/OrdersList",
+  GET_ORDER_DETAILS: "/GetOrderDetails",
+  ORDER_CONFIRMED: "/OrderConfirm",
+  ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
+  ORDER_AFTER_IMAGES: "/OrdeAfterImages",
 };
 
 export const PRO_POINTS = {
