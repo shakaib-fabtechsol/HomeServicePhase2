@@ -47,7 +47,7 @@ const SidebarSection = ({ items }) => {
 
 const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
   const image = userInfo?.personal_image;
-  const image2 = "/service1.jpg";
+  const image2 = {user};
   const personal_image = image
     ? `https://marketplace.thefabulousshow.com/uploads/${image} `
     : image2;

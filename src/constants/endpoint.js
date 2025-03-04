@@ -41,5 +41,6 @@ export const SALEREP_POINTS = {
 }
 export const SALE_POINTS = {
     GET_SALES: "/SaleRep/GetSettingSale",
+    
   };
 
