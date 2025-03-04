@@ -52,4 +52,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useTermsUpdateMutation,
+  useUpdateAdminMutation,
+  useUpdatePasswordMutation,
 } = authAPIs;
