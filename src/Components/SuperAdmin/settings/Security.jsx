@@ -1,6 +1,27 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { useUpdatePasswordMutation } from "../../../services/auth";
+import Loader from "../../MUI/Loader";
 
-export default function Security() {
+export default function Security({Admin}) {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [updatePassword,{isLoading}] = useUpdatePasswordMutation();
+
+  const onSubmit = async (data) => {
+    try {
+      if(Admin?.id){
+       const response= await updatePassword({current_password:data.OldPassword,password:data.NewPassword,id:Admin?.id}).unwrap();
+        Swal.fire("Success", response?.message, "success");
+
+      }else{
+        Swal.fire("Error", "Failed to update password", "error");
+      }
+    } catch (error) {
+      Swal.fire("Error", "Failed to update password", error?.data?.message);
+    }
+  };
+
   const inputData = [
     {
       label: "Old Password",
@@ -8,6 +29,7 @@ export default function Security() {
       type: "password",
       id: "OldPassword",
       name: "OldPassword",
+      validation: { required: "Old Password is required" },
     },
     {
       label: "New Password",
@@ -15,6 +37,7 @@ export default function Security() {
       type: "password",
       id: "NewPassword",
       name: "NewPassword",
+      validation: { required: "New Password is required", minLength: { value: 8, message: "Password must be at least 8 characters" } },
     },
     {
       label: "Re-Enter New Password",
@@ -22,10 +45,15 @@ export default function Security() {
       type: "password",
       id: "Re-EnterNewP",
       name: "Re-EnterNewP",
+      validation: { required: "Re-Enter New Password is required", validate: value => value === document.getElementById("NewPassword").value || "Passwords do not match" },
     },
   ];
+
+  if(isLoading){
+    return <Loader/>
+  }
   return (
-    <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3 md:max-w-[500px]">
         {inputData.map((field, index) => (
           <div key={index}>
@@ -37,8 +65,9 @@ export default function Security() {
               placeholder={field.placeholder}
               type={field.type}
               id={field.id}
-              name={field.name}
+              {...register(field.name, field.validation)}
             />
+            {errors[field.name] && <p className="text-red-500 text-sm">{errors[field.name].message}</p>}
           </div>
         ))}
       </div>
@@ -56,6 +85,7 @@ export default function Security() {
           Save
         </button>
       </div>
-    </div>
+    </form>
   );
 }
+

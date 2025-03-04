@@ -1,22 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import AmountInput from "../AmountInput";
+import Swal from "sweetalert2";
 
-export default function TransFee() {
+export default function TransFee({data,updatePrice,user_id}) {
+  const { register, handleSubmit ,setValue,watch} = useForm({
+    defaultValues: {
+      customer_service_fee: data?.customer_service_fee,
+      provider_service_fee: data?.provider_service_fee,
+    },
+  });
+  useEffect(()=>{
+    setValue("customer_service_fee", data?.customer_service_fee)
+    setValue("provider_service_fee", data?.provider_service_fee)
+  },[data,watch])
+  const onSubmit = async (formdata) => {
+   
+    try {
+      await updatePrice({...formdata,user_id}).unwrap()
+      Swal.fire({
+        icon: 'success',
+        text: 'Pricing Add Successfully',
+        timer: 1500,
+        showConfirmButton: false,
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Failed',
+        text: error?.message || 'Failed to add Pricing. Please try again.',
+      });
+    }
+
+  };
+
   const inputsdata = [
     {
       label: "Customer Service fee",
       grouptext: "%",
-      id: "CustomerServicefee",
+      id: "customer_service_fee",
     },
     {
       label: "Provider service fee",
       grouptext: "%",
-      id: "Providerservicefee",
+      id: "provider_service_fee",
     },
   ];
   return (
     <div>
-      <form action="">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="md:max-w-[400px] flex flex-col gap-3">
           {inputsdata.map((input, index) => (
             <div key={index}>
@@ -28,6 +60,7 @@ export default function TransFee() {
                 id={input.id}
                 name={input.id}
                 className={"mt-1"}
+                register={register}
               />
             </div>
           ))}
@@ -42,3 +75,4 @@ export default function TransFee() {
     </div>
   );
 }
+

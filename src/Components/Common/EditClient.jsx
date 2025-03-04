@@ -59,36 +59,47 @@ export default function EditClient({ oncancel, onsave }) {
   }
 
   const onSubmit = async (data) => {
-    console.log(data, "data")
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (key === "personal_image") {
-        formData.append(key, image); 
-      } else {
-        formData.append(key, data[key]);
-      }
-    });
-    formData.append("id", id);
-    try {
-      await updateClient(formData).unwrap();
-      Swal.fire({
-        icon: 'success',
-        title: 'Welcome Back!',
-        text: 'Customer update Successfully',
-        timer: 1500,
-        showConfirmButton: false,
-      }).then(() => {
-        navigate(onsave);
-      });
-      navigate(onsave);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Update Failed',
-        text: error?.data?.message || 'Failed to update client. Please try again.',
-      });
 
+    const formData = new FormData();
+    if (data.name !== clientData?.Customer?.name) {
+      formData.append("name", data.name);
     }
+    if (data.phone !== clientData?.Customer?.phone) {
+      formData.append("phone", data.phone);
+    }
+    if (data.email !== clientData?.Customer?.email) {
+      formData.append("email", data.email);
+    }
+    if (data.location !== clientData?.Customer?.location) {
+      formData.append("location", data.location);
+    }
+
+    if (image) {
+      formData.append("personal_image", image);
+    }
+  
+    formData.append("id", id);
+
+      try {
+        await updateClient(formData).unwrap();
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome Back!',
+          text: 'Customer update Successfully',
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate(onsave);
+        });
+        navigate(onsave);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Update Failed',
+          text: error?.message || 'Failed to update client. Please try again.',
+        });
+
+      }
   };
 
   return (
