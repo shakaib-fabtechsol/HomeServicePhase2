@@ -71,39 +71,40 @@ export default function PersonalInfo({Admin}) {
     },
   ];
   const onSubmit = async (data) => {
-
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
-      if (key === "personal_image") {
-        formData.append(key, image); 
-      } else {
-        formData.append(key, data[key]);
-      }
+      formData.append(key, data[key]);
     });
+   
+    if (image) {
+      formData.append("personal_image", image);
+    }
     formData.append("id", Admin?.id);
+  
     try {
-     const response = await updateAmin(formData).unwrap();
-      console.log(response,"this is response data")
-      if(response?.user){
-        dispatch(setUser(response?.user));
+      const response = await updateAmin(formData).unwrap();
+      console.log(response, "this is response data");
+      if (response?.user) {
+        dispatch(setUser(response.user));
       }
       Swal.fire({
-        icon: 'success',
-        title: 'Welcome Back!',
-        text: ' Profile update Successfully',
+        icon: "success",
+        title: "Welcome Back!",
+        text: "Profile updated successfully",
         timer: 1500,
         showConfirmButton: false,
-      })
-  
+      });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Update Failed',
-        text: error?.message || 'Failed to update Profile. Please try again.',
+        icon: "error",
+        title: "Update Failed",
+        text:
+          error?.message ||
+          "Failed to update Profile. Please try again.",
       });
-
     }
   };
+  
   if (updateLoading) {
     return (
       <div className="loader">

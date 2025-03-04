@@ -1,6 +1,7 @@
 
 import { BASE_API } from '../base-api';
 import { PRO_POINTS } from '../../constants/endpoint';
+import { SALE_POINTS} from '../../constants/endpoint';
 
 export const salesAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -38,9 +39,14 @@ export const salesAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["GetSales","singlesale"]
     }),
-
+    getSalesRap: builder.query({
+      query: (id) => ({
+        url: `${SALE_POINTS?.GET_SALES}/${id}`,
+        method: "GET",
+      }),
+    }),
 
   }),
 });
 
-export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useSendInvitationMutation,useUpdateSaleMutation} = salesAPIs;
+export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;
