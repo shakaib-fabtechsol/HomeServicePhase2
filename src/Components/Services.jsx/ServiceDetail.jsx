@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
@@ -6,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
@@ -55,7 +54,7 @@ function a11yProps(index) {
 }
 
 function ServiceDetail() {
-  const { dealid } = useParams(); 
+  const { dealid } = useParams();
   useEffect(() => {
     document.title = "Service Details";
   }, []);
@@ -68,13 +67,8 @@ function ServiceDetail() {
     isLoading: dealLoading,
     error: dealError,
   } = useGetDealQuery(dealid, { skip: !dealid });
-
-
   const serviceDetails = dealData?.deal;
-  console.log(serviceDetails);
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
-  console.log(pricingModel);
-  
   const {
     data: userData,
     isLoading: userLoading,
@@ -82,7 +76,6 @@ function ServiceDetail() {
   } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
 
   const provider = userData?.businessProfile?.[0] || {};
-  console.log(provider);
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -108,7 +101,7 @@ function ServiceDetail() {
       preConfirm: async () => {
         try {
           await deleteDeal(dealId).unwrap();
-          navigate("/provider/services"); 
+          navigate("/provider/services");
         } catch (error) {
           Swal.fire("Error!", "Failed to delete the deal.", "error");
         }
@@ -136,7 +129,7 @@ function ServiceDetail() {
       title: "Get Directions",
     },
   ];
- 
+
   if (dealLoading || userLoading) {
     return <Loader />;
   }
@@ -151,7 +144,9 @@ function ServiceDetail() {
     : "/default.png";
 
   const regularHours =
-    provider && provider.regular_hour ? JSON.parse(provider.regular_hour || "[]") : [];
+    provider && provider.regular_hour
+      ? JSON.parse(provider.regular_hour || "[]")
+      : [];
   const days = [
     "Sunday",
     "Monday",
@@ -165,14 +160,10 @@ function ServiceDetail() {
   const currentDayData = regularHours.find(
     (item) => item.day_name === currentDay
   );
-
   const imagePath1 = dealData?.deal?.uploads[0]?.images;
-  console.log(imagePath1);
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/default.png";
-
-   
   return (
     <div className="pmain">
       <div className="navv">
@@ -257,8 +248,12 @@ function ServiceDetail() {
                         {currentDayData?.day_status === "open" ? (
                           <>
                             Closed {currentDayData.regular_hour[0].end_time}{" "}
-                            {currentDayData.regular_hour.end_time.includes("AM") ||
-                            currentDayData.regular_hour[0].end_time.includes("PM")
+                            {currentDayData.regular_hour.end_time.includes(
+                              "AM"
+                            ) ||
+                            currentDayData.regular_hour[0].end_time.includes(
+                              "PM"
+                            )
                               ? ""
                               : currentDayData.regular_hour[0].end_time >= 12
                               ? "PM"
@@ -335,14 +330,12 @@ function ServiceDetail() {
                       }}
                     >
                       <Tab label="Basic" {...a11yProps(0)} />
-                      {pricingModel !== "Flat" &&
-                        pricingModel !== "Hourly" && (
-                          <Tab label="Standard" {...a11yProps(1)} />
-                        )}
-                      {pricingModel !== "Flat" &&
-                        pricingModel !== "Hourly" && (
-                          <Tab label="Premium" {...a11yProps(2)} />
-                        )}
+                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                        <Tab label="Standard" {...a11yProps(1)} />
+                      )}
+                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                        <Tab label="Premium" {...a11yProps(2)} />
+                      )}
                     </Tabs>
                   </Box>
                   <CustomTabPanel value={value} index={0}>
@@ -372,80 +365,68 @@ function ServiceDetail() {
                     </p>
                     <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
                       {serviceDetails?.pricing_model === "Hourly" && (
-                        <li>
-                          {serviceDetails?.hourly_estimated_service_time}
-                        </li>
+                        <li>{serviceDetails?.hourly_estimated_service_time}</li>
                       )}
                       {serviceDetails?.pricing_model === "Flat" && (
-                        <li>
-                          {serviceDetails?.flat_estimated_service_time}
-                        </li>
+                        <li>{serviceDetails?.flat_estimated_service_time}</li>
                       )}
                       {serviceDetails?.pricing_model === "Custom" && (
-                        <li>
-                          {serviceDetails?.estimated_service_timing1}
-                        </li>
+                        <li>{serviceDetails?.estimated_service_timing1}</li>
                       )}
                     </ul>
                   </CustomTabPanel>
 
-                  {pricingModel !== "Flat" &&
-                    pricingModel !== "Hourly" && (
-                      <CustomTabPanel value={value} index={1}>
-                        <div className="flex justify-between">
-                          <h2 className="text-2xl font-medium myhead">
-                            {serviceDetails[0]?.pricing_model}
-                          </h2>
-                          <p className="text-3xl myhead font-bold">
-                            {serviceDetails[0]?.price2}
-                          </p>
-                        </div>
-                        <p className="text-sm myblack mt-2">
-                          {serviceDetails[0]?.fine_print
-                            ?.split("\n")
-                            .map((line, index) => (
-                              <React.Fragment key={index}>
-                                {line}
-                                <br />
-                              </React.Fragment>
-                            ))}
+                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                    <CustomTabPanel value={value} index={1}>
+                      <div className="flex justify-between">
+                        <h2 className="text-2xl font-medium myhead">
+                          {serviceDetails[0]?.pricing_model}
+                        </h2>
+                        <p className="text-3xl myhead font-bold">
+                          {serviceDetails[0]?.price2}
                         </p>
-                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                          <li>
-                            {serviceDetails?.estimated_service_timing2}
-                          </li>
-                        </ul>
-                      </CustomTabPanel>
-                    )}
+                      </div>
+                      <p className="text-sm myblack mt-2">
+                        {serviceDetails[0]?.fine_print
+                          ?.split("\n")
+                          .map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                      </p>
+                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                        <li>{serviceDetails?.estimated_service_timing2}</li>
+                      </ul>
+                    </CustomTabPanel>
+                  )}
 
-                  {pricingModel !== "Flat" &&
-                    pricingModel !== "Hourly" && (
-                      <CustomTabPanel value={value} index={2}>
-                        <div className="flex justify-between">
-                          <h2 className="text-2xl font-medium myhead">
-                            {serviceDetails?.pricing_model}
-                          </h2>
-                          <p className="text-3xl myhead font-bold">
-                            {serviceDetails?.price3}
-                          </p>
-                        </div>
-                        <p className="text-sm myblack mt-2">
-                          {serviceDetails?.fine_print
-                            ?.split("\n")
-                            .map((line, index) => (
-                              <React.Fragment key={index}>
-                                {line}
-                                <br />
-                              </React.Fragment>
-                            ))}
+                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                    <CustomTabPanel value={value} index={2}>
+                      <div className="flex justify-between">
+                        <h2 className="text-2xl font-medium myhead">
+                          {serviceDetails?.pricing_model}
+                        </h2>
+                        <p className="text-3xl myhead font-bold">
+                          {serviceDetails?.price3}
                         </p>
-                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                          <li>
-                            {serviceDetails?.estimated_service_timing3}
-                          </li>
-                        </ul>
-                      </CustomTabPanel>
-                    )}
+                      </div>
+                      <p className="text-sm myblack mt-2">
+                        {serviceDetails?.fine_print
+                          ?.split("\n")
+                          .map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                      </p>
+                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                        <li>{serviceDetails?.estimated_service_timing3}</li>
+                      </ul>
+                    </CustomTabPanel>
+                  )}
                 </Box>
               </div>
               <button
@@ -463,16 +444,14 @@ function ServiceDetail() {
             <div className="flex flex-wrap mt-3">
               {serviceDetails?.search_tags &&
               serviceDetails?.search_tags.length > 0
-                ? serviceDetails?.search_tags
-                    .split(",")
-                    .map((tag, index) => (
-                      <span
-                        key={index}
-                        className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
-                      >
-                        {tag.trim()}
-                      </span>
-                    ))
+                ? serviceDetails?.search_tags.split(",").map((tag, index) => (
+                    <span
+                      key={index}
+                      className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
+                    >
+                      {tag.trim()}
+                    </span>
+                  ))
                 : "No tags available"}
             </div>
           </div>
@@ -480,8 +459,7 @@ function ServiceDetail() {
             Deal Description
           </h2>
           <p className="mt-2 myblack">
-            {serviceDetails?.service_description ||
-              "No description available."}
+            {serviceDetails?.service_description || "No description available."}
           </p>
         </div>
       </div>
