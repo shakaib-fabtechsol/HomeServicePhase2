@@ -23,7 +23,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -39,7 +39,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "Julia Maria",
       userimg: client2,
       rating: 4.3,
@@ -55,7 +55,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -71,7 +71,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -87,7 +87,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "Julia Maria",
       userimg: client2,
       rating: 4.3,
@@ -103,7 +103,7 @@ function CatalogResult() {
       image: "",
       videos: [cardvideo, cardvideo],
       images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews:1500,
+      totalReviews: 1500,
       username: "John Doe",
       userimg: client1,
       rating: 4.3,
@@ -124,10 +124,9 @@ function CatalogResult() {
       <div>
         <div className="container-fluid px-2">
           <div className="flex flex-col md:mt-8 md:flex-row justify-between">
-            <div className="max-[100%] md:max-w-[280px] mt-2 w-full">
-            </div>
+            <div className="max-[100%] md:max-w-[280px] mt-2 w-full"></div>
             <div className="filter-other mt-5 md:mt-0">
-            <p className="text-lg">
+              <p className="text-lg">
                 Showing full catalog results, giving you the{" "}
                 <b>widest variety</b> of <b>services</b>...{" "}
               </p>

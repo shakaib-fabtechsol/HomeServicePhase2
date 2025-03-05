@@ -1,20 +1,21 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useUpdatePasswordMutation } from "../../../services/auth";
-import Loader from "../../MUI/Loader";
-
-export default function Security({Admin}) {
+import { logout } from "../../../redux/reducers/authSlice";
+import { useNavigate } from "react-router-dom";
+export default function Security({ Admin, updatePassword }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [updatePassword,{isLoading}] = useUpdatePasswordMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      if(Admin?.id){
-       const response= await updatePassword({current_password:data.OldPassword,password:data.NewPassword,id:Admin?.id}).unwrap();
+      if (Admin?.id) {
+        const response = await updatePassword({ current_password: data.OldPassword, password: data.NewPassword, id: Admin?.id }).unwrap();
         Swal.fire("Success", response?.message, "success");
+        logout()
+        navigate("/login")
 
-      }else{
+      } else {
         Swal.fire("Error", "Failed to update password", "error");
       }
     } catch (error) {
@@ -49,9 +50,6 @@ export default function Security({Admin}) {
     },
   ];
 
-  if(isLoading){
-    return <Loader/>
-  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3 md:max-w-[500px]">

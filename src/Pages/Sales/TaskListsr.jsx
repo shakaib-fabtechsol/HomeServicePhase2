@@ -79,7 +79,10 @@ export default function TaskListsr() {
           />
         </label>
         <div className="ms-auto">
-          <button onClick={handleaddtaskOpen} className="text-white bg-[#0F91D2] border border-[#0F91D2] flex items-center gap-2 py-2 px-4 rounded-[8px] text-sm font-semibold">
+          <button
+            onClick={handleaddtaskOpen}
+            className="text-white bg-[#0F91D2] border border-[#0F91D2] flex items-center gap-2 py-2 px-4 rounded-[8px] text-sm font-semibold"
+          >
             <FaPlus /> <span>Add Task</span>
           </button>
         </div>

@@ -8,7 +8,9 @@ function PaymentCard({ title, trend, percentage, amount }) {
         <p className="font-medium">{title}</p>
         <div
           className={`flex items-center px-4 py-1 rounded-full text-sm ${
-            trend === "up" ? "bg-[#DCEEE1] text-[#34A853]" : "bg-[#F7DBDE] text-[#C71026]"
+            trend === "up"
+              ? "bg-[#DCEEE1] text-[#34A853]"
+              : "bg-[#F7DBDE] text-[#C71026]"
           }`}
         >
           {trend === "up" ? <IoMdTrendingUp /> : <IoMdTrendingDown />}

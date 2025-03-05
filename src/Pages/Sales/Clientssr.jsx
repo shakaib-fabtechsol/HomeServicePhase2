@@ -16,13 +16,13 @@ import confirmDelete from "../../constants/deleteconfirm";
 import Swal from "sweetalert2";
 import PaginationComponent from "../../Components/Pagination";
 const BASE_URL = import.meta.env.VITE_BASE_URL
+import camera from "../../assets/img/userprofile.png";
 export default function Clientssr() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { data: clientsdata, isLoading: loading, isError: error, isFetching } = useGetCustomersByRepsQuery({ page: page + 1, providers: rowsPerPage, search: search });
-  const [deletecustomer, { isLoading: deleting, isError }] = useDeleteClientMutation();
   const [checkedRows, setCheckedRows] = useState(new Array(clientsdata?.Customers?.data?.length).fill(false));
 
   const handleChangePage = (event, newPage) => {
@@ -48,13 +48,8 @@ export default function Clientssr() {
     setCheckedRows(newCheckedRows);
   };
 
-  console.log(clientsdata)
-
   const isAllChecked = checkedRows.every(Boolean);
   const isIndeterminate = checkedRows.some(Boolean) && !checkedRows.every(Boolean);
-  console.log(clientsdata, "this is client data")
-
-
   const tableheader = [
     <FormControlLabel
       key="parent-checkbox"
@@ -83,19 +78,6 @@ export default function Clientssr() {
     "Address",
     "Action",
   ];
-  const handleDelete = async (id) => {
-    try {
-      const response = await deletecustomer(id).unwrap();
-      Swal.fire("Deleted!", "Customer has been deleted.", "success").then(() => {
-        navigate("/sales/clients");
-      });
-
-    } catch (error) {
-      Swal.fire("Error", "Failed to delete customer. Please try again.", "error").then(() => {
-        navigate("/sales/clients");
-      });
-    }
-  };
 
 
   const tablebody = clientsdata?.Customers?.data?.map((provider, index) => [
@@ -119,7 +101,7 @@ export default function Clientssr() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={`${BASE_URL}/uploads/${provider?.personal_image}`} // Replace with your image URL or path provider?.personal_image}
+        src={provider?.personal_image?`${BASE_URL}/uploads/${provider?.personal_image}`:camera} // Replace with your image URL or path provider?.personal_image}
         alt={provider?.name}
       />
       <p>{provider?.name}</p>
@@ -138,7 +120,7 @@ export default function Clientssr() {
         navigate(`/sales/editclient`, { state: { id: provider?.id } });
       }} />
 
-      <HiOutlineTrash onClick={() => {
+      {/* <HiOutlineTrash onClick={() => {
         confirmDelete("Client").then((result) => {
           if (result && provider?.id) {
             handleDelete(provider?.id);
@@ -146,7 +128,7 @@ export default function Clientssr() {
           }
         })
       }}
-        className="text-[20px]" />
+        className="text-[20px]" /> */}
 
     </div>,
   ]);
@@ -195,7 +177,7 @@ export default function Clientssr() {
         </div>
       </div>
       <div className="mt-5">
-        {isFetching || loading || deleting ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
+        {isFetching || loading? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
 
         <PaginationComponent
           count={clientsdata?.total_customers}

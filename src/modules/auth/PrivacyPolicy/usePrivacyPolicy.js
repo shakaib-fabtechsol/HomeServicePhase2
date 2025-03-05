@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTermsUpdateMutation } from '../../../services/auth';
-import Swal from 'sweetalert2';
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTermsUpdateMutation } from "../../../services/auth";
+import Swal from "sweetalert2";
 
 export const usePrivacyPolicy = () => {
   const location = useLocation();
@@ -9,7 +9,6 @@ export const usePrivacyPolicy = () => {
   const userId = location.state?.userId;
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [termsUpdate, { isLoading }] = useTermsUpdateMutation();
-
 
   useEffect(() => {
     document.title = "Privacy Policy";
@@ -33,25 +32,25 @@ export const usePrivacyPolicy = () => {
 
     try {
       const response = await termsUpdate({
-        id: userId, 
-        terms: termsAccepted ? 1 : 0
+        id: userId,
+        terms: termsAccepted ? 1 : 0,
       }).unwrap();
 
-      
       if (response?.user) {
         Swal.fire({
           icon: "success",
           title: "User Created",
           text: "Your account has been created successfully.",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-        navigate('/');
+        navigate("/");
       } else {
         Swal.fire({
           icon: "error",
           title: "Update Failed",
-          text: response.message || "An error occurred while updating the user.",
+          text:
+            response.message || "An error occurred while updating the user.",
         });
       }
     } catch (error) {
@@ -68,6 +67,6 @@ export const usePrivacyPolicy = () => {
     handleTermsAccept,
     handleSubmit,
     userId,
-    isLoading
+    isLoading,
   };
 };

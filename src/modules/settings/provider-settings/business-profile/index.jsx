@@ -1,9 +1,8 @@
-import React from "react";
 import SettingsPreview from "../../../../Components/MUI/SettingsPreview";
 import { Autocomplete, TextField } from "@mui/material";
 import { useBusinessProfile } from "./useBusinessProfile";
 import Loader from "../../../../Components/MUI/Loader";
-const BusinessProfileModule = ({handleTabChange}) => {
+const BusinessProfileModule = ({ handleTabChange }) => {
   const {
     register,
     handleSubmit,
@@ -14,7 +13,7 @@ const BusinessProfileModule = ({handleTabChange}) => {
     onSubmit,
     setValue,
     watch,
-  } = useBusinessProfile({handleTabChange});
+  } = useBusinessProfile({ handleTabChange });
 
   const Businesscategories = [
     "Plumbing",
@@ -80,10 +79,10 @@ const BusinessProfileModule = ({handleTabChange}) => {
   ];
 
   const handleSecondaryCategories = (_, values) => {
-    setValue('business_secondary_categories', values);
+    setValue("business_secondary_categories", values);
   };
-  if(isLoading) {
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
@@ -102,7 +101,10 @@ const BusinessProfileModule = ({handleTabChange}) => {
             <div className="py-8 border-b">
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
-                  <label className="text-sm font-semibold" htmlFor="business_name">
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="business_name"
+                  >
                     Business name*
                   </label>
                   <p className="text-[#535862] text-sm">
@@ -112,12 +114,18 @@ const BusinessProfileModule = ({handleTabChange}) => {
                 <div className="sm:col-span-2">
                   <input
                     {...register("business_name")}
-                    className={`border ${errors.business_name ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
+                    className={`border ${
+                      errors.business_name
+                        ? "border-red-500"
+                        : "border-[#D5D7DA]"
+                    } p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     type="text"
                     placeholder="Enter business name"
                   />
                   {errors.business_name && (
-                    <p className="text-red-500 text-sm mt-1">{errors.business_name.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.business_name.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -172,7 +180,11 @@ const BusinessProfileModule = ({handleTabChange}) => {
                 <div className="sm:col-span-2">
                   <select
                     {...register("business_primary_category")}
-                    className={`border ${errors.business_primary_category ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
+                    className={`border ${
+                      errors.business_primary_category
+                        ? "border-red-500"
+                        : "border-[#D5D7DA]"
+                    } p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     id="PrimaryCat"
                   >
                     <option value="" hidden>
@@ -190,7 +202,9 @@ const BusinessProfileModule = ({handleTabChange}) => {
                     )}
                   </select>
                   {errors.business_primary_category && (
-                    <p className="text-red-500 text-sm mt-1">{errors.business_primary_category.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.business_primary_category.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -240,13 +254,17 @@ const BusinessProfileModule = ({handleTabChange}) => {
                 <div className="sm:col-span-2">
                   <input
                     {...register("website")}
-                    className={`border ${errors.website ? 'border-red-500' : 'border-[#D5D7DA]'} p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
+                    className={`border ${
+                      errors.website ? "border-red-500" : "border-[#D5D7DA]"
+                    } p-3 rounded-[8px] w-full shadow-[0px_1px_2px_0px_#0A0D120D] focus:outline-none`}
                     type="text"
                     id="Website"
                     placeholder="Enter your website URL"
                   />
                   {errors.website && (
-                    <p className="text-red-500 text-sm mt-1">{errors.website.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.website.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -261,7 +279,7 @@ const BusinessProfileModule = ({handleTabChange}) => {
               </button>
               <button
                 type="submit"
-                onClick={() => setValue('publish', true)}
+                onClick={() => setValue("publish", true)}
                 disabled={isLoading}
                 className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
               >

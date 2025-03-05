@@ -127,12 +127,7 @@ function ServiceBox({
        
         <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
           <div>
-            {Array.isArray(tags) &&
-              tags.map((tag, index) => (
-                <span key={index} className="mr-2">
-                  #{tag}
-                </span>
-              ))}
+            {tags}
           </div>
           <div className="flex items-center">
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />

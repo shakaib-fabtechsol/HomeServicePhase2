@@ -9,13 +9,19 @@ import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { selectCurrentUser } from "../../redux/reducers/authSlice";
+import { useUpdateAdminMutation, useUpdatePasswordMutation } from "../../services/auth";
+import { useUpdateSalesMutation, useUpdateSalesPasswordMutation } from "../../services/settings";
+import Loader from "../../Components/MUI/Loader";
 
 
 
 export default function Settingsa() {
 
   const Admin = useSelector(selectCurrentUser);
-  const [value,setValue] = React.useState(0);
+  const [updateAdmin, { isLoading: updateLoading }] = useUpdateSalesMutation();
+    const [updatePassword,{isLoading}] = useUpdateSalesPasswordMutation();
+
+  const [value, setValue] = React.useState(0);
   const changetab = (value) => {
 
     setValue(value);
@@ -32,7 +38,7 @@ export default function Settingsa() {
           <p>Personal Information</p>
         </div>
       ),
-      content: <PersonalInfo Admin={Admin} />,
+      content: <PersonalInfo Admin={Admin} updateAdmin={updateAdmin} />,
     },
     {
       label: (
@@ -41,16 +47,24 @@ export default function Settingsa() {
           <p>Security</p>
         </div>
       ),
-    
-      content: <Security Admin={Admin} />,
+
+      content: <Security Admin={Admin} updatePassword={updatePassword} />,
     },
   ];
+  if (updateLoading || isLoading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Settings</h2>
         <p className="text-gray-600">
-        Manage your account preferences and settings.
+          Manage your account preferences and settings.
         </p>
       </div>
       <div className="border border-[#A2A1A833] rounded-[10px] p-3">

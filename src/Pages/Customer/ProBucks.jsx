@@ -1,10 +1,8 @@
-import React from 'react'
-import CommonProBucks from '../../Components/Common/CommonProBucks'
+import React from "react";
+import CommonProBucks from "../../Components/Common/CommonProBucks";
 
 function ProBucksp() {
-  return (
-    <CommonProBucks />
-  )
+  return <CommonProBucks />;
 }
 
-export default ProBucksp
+export default ProBucksp;

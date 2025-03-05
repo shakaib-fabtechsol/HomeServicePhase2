@@ -16,7 +16,6 @@ function TabPanel(props) {
   }, []);
   const { children, value, index, ...other } = props;
 
- 
   return (
     <div
       role="tabpanel"
@@ -34,11 +33,11 @@ function TabPanel(props) {
 
 function NewDeals() {
   const [value, setValue] = React.useState(0);
-  const [serviceId, setServiceId] = useState(null); 
+  const [serviceId, setServiceId] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(" NewDeals Updated Service ID:", serviceId); 
+    console.log(" NewDeals Updated Service ID:", serviceId);
   }, [serviceId]);
 
   const handleChange = (event, newValue) => {
@@ -106,7 +105,7 @@ function NewDeals() {
                 <MediaUpload setValue={setValue} serviceId={serviceId} />
               </TabPanel>
               <TabPanel value={value} index={3}>
-                <ReviewPublish setValue={setValue} serviceId={serviceId}/>
+                <ReviewPublish setValue={setValue} serviceId={serviceId} />
               </TabPanel>
             </>
           )}

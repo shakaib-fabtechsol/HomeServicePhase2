@@ -19,6 +19,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const { dealid } = useParams();
   const [deal, setDeal] = useState(null);
   const [publishValue, setPublishValue] = useState(1);
+
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
   const { data, error, isLoading } = useGetDealQuery(dealid, {
@@ -167,8 +168,9 @@ const MediaUpload = ({ serviceId, setValue }) => {
   };
 
   const handlePublish = async () => {
-    const dealIdFromStorage = localStorage.getItem("deal_id");
-    if (!dealIdFromStorage) {
+    const dealid = localStorage.getItem("deal_id");
+
+    if (!dealid) {
       toast.error("Deal ID is missing. Please try again.");
       return;
     }

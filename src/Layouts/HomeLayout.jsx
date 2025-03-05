@@ -12,7 +12,7 @@ import FilterNav from "./FilterNav";
 
 function HomeLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const logolink ='/'
+  const logolink = "/";
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -25,7 +25,7 @@ function HomeLayout() {
       <div className="main flex">
         <div className="right w-full">
           <div className="right-bottom px-0">
-              <Outlet />
+            <Outlet />
           </div>
         </div>
       </div>

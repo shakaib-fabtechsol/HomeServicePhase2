@@ -13,19 +13,18 @@ import TabComponent from "../../Components/TabComponent";
 import Publish from "../../Components/ProviderSetting/Publish";
 import { useGetUserDetailsQuery } from "../../services/settings";
 import { setUser } from "../../redux/reducers/authSlice";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 function Settings() {
-  const userData = useSelector(state => state.auth.user);
+  const userData = useSelector((state) => state.auth.user);
   const [activeTab, setActiveTab] = useState(0);
-  const {data,isLoading} = useGetUserDetailsQuery(userData?.id);
-  console.log("userData...............", data);  
+  const { data, isLoading } = useGetUserDetailsQuery(userData?.id);
+  console.log("userData...............", data);
   const dispatch = useDispatch();
 
   const handleTabChange = (newValue) => {
     setActiveTab(newValue);
   };
-
 
   useEffect(() => {
     document.title = "Settings";
@@ -38,21 +37,51 @@ function Settings() {
         social: data.getSocial[0] || {},
       };
 
-console.log("payload..........", payload);
+      console.log("payload..........", payload);
       dispatch(setUser(payload));
     }
   }, [data, dispatch]);
   const tabData = [
-    { label: "Personal Profile", content: <MyDetail handleTabChange={handleTabChange}/> },
-    { label: "Service Area", content: <ServiceArea handleTabChange={handleTabChange}/> },
-    { label: "Business Profile", content: <BusinessProfile handleTabChange={handleTabChange}/> },
-    { label: "Certifications & Hours", content: <CertificationHour handleTabChange={handleTabChange}/> },
-    { label: "Additional Info", content: <AdditionalInfo handleTabChange={handleTabChange}/> },
-    { label: "Social Profiles", content: <SocialProfile handleTabChange={handleTabChange}/> },
-    { label: "Password", content: <Password handleTabChange={handleTabChange}/> },
-    { label: "Channels for Conversations", content: <ChannelConversation handleTabChange={handleTabChange}/> },
-    { label: "Payment/Payout Info", content: <Payment handleTabChange={handleTabChange}/> },
-    { label: "Publish", content: <Publish handleTabChange={handleTabChange}/> },
+    {
+      label: "Personal Profile",
+      content: <MyDetail handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Service Area",
+      content: <ServiceArea handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Business Profile",
+      content: <BusinessProfile handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Certifications & Hours",
+      content: <CertificationHour handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Additional Info",
+      content: <AdditionalInfo handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Social Profiles",
+      content: <SocialProfile handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Password",
+      content: <Password handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Channels for Conversations",
+      content: <ChannelConversation handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Payment/Payout Info",
+      content: <Payment handleTabChange={handleTabChange} />,
+    },
+    {
+      label: "Publish",
+      content: <Publish handleTabChange={handleTabChange} />,
+    },
   ];
 
   return (
@@ -65,7 +94,11 @@ console.log("payload..........", payload);
         </p>
       </div>
       <div>
-        <TabComponent tabs={tabData} value={activeTab} onChange={handleTabChange} />
+        <TabComponent
+          tabs={tabData}
+          value={activeTab}
+          onChange={handleTabChange}
+        />
       </div>
     </div>
   );

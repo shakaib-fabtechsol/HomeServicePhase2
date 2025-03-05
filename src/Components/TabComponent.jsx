@@ -1,8 +1,8 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,38 +29,39 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-export default function TabComponent({ tabs ,value, onChange}) {
-
-
-  return (  
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 0, borderColor: 'divider', overflowX: 'auto' }}>
+export default function TabComponent({ tabs, value, onChange }) {
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 0, borderColor: "divider", overflowX: "auto" }}>
         <Tabs
-          indicatorColor='transparent'
+          indicatorColor="transparent"
           variant="scrollable"
           scrollButtons="auto"
-          sx={{ fontFamily: "Inter", minHeight: "32px", borderBottom: "solid 1px #E9EAEB",
-           }}
+          sx={{
+            fontFamily: "Inter",
+            minHeight: "32px",
+            borderBottom: "solid 1px #E9EAEB",
+          }}
           value={value}
           onChange={onChange}
           aria-label="custom tabs example"
           TabScrollButtonProps={{
             sx: {
-              width:"10px",
-              background:"#fff",
-             
-              height:"20px",
-              margin:"14px 0 0",
-              boxShadow:"rgba(149, 157, 165, 0.2) 0px 8px 24px;",
+              width: "10px",
+              background: "#fff",
+
+              height: "20px",
+              margin: "14px 0 0",
+              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px;",
               "&:hover": { color: "#0056b3" },
             },
           }}
         >
-        {tabs.map((tab, index) => (
+          {tabs.map((tab, index) => (
             <Tab
               sx={{
                 fontFamily: "Inter",
@@ -73,7 +74,7 @@ export default function TabComponent({ tabs ,value, onChange}) {
                 position: "relative",
                 minHeight: "32px",
                 padding: { xs: "5px 10px", sm: "5px 14px 16px" },
-                '&.Mui-selected': {
+                "&.Mui-selected": {
                   color: "#0F91D2 !important",
                   borderBottom: "solid 3px #0F91D2",
                   fontFamily: "Inter",

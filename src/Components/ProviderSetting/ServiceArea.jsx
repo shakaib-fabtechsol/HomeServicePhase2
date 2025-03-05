@@ -20,21 +20,29 @@ import Swal from "sweetalert2";
 import Loader from "../MUI/Loader";
 const GOOGLE_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0";
 const libraries = ["places"];
-const ServiceArea = ({handleTabChange}) => {
-  const userData = useSelector(state=>state.auth.user)
+const ServiceArea = ({ handleTabChange }) => {
+  const userData = useSelector((state) => state.auth.user);
 
-  const [serviceType, setServiceType] = useState(userData?.businessProfile?.service_location_type || "location");
-  const [location, setLocation] = useState(userData?.businessProfile?.business_location || "");
-  const [serviceLocation, setServiceLocation] = useState(userData?.businessProfile?.service_location || "");
+  const [serviceType, setServiceType] = useState(
+    userData?.businessProfile?.service_location_type || "location"
+  );
+  const [location, setLocation] = useState(
+    userData?.businessProfile?.business_location || ""
+  );
+  const [serviceLocation, setServiceLocation] = useState(
+    userData?.businessProfile?.service_location || ""
+  );
   const [locations, setLocations] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [isBulk, setIsBulk] = useState(false);
   const [bulkText, setBulkText] = useState("");
   const [locationsList, setLocationsList] = useState([]);
-  const [value2, setValue2] = useState(userData?.businessProfile?.location_miles || 10);
+  const [value2, setValue2] = useState(
+    userData?.businessProfile?.location_miles || 10
+  );
   const [mapUrl, setMapUrl] = useState("");
   const [lat, setLat] = useState(null);
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [lng, setLng] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [addBusinessLocation] = useAddBusinessLocationMutation();
@@ -59,7 +67,7 @@ const ServiceArea = ({handleTabChange}) => {
 
     return () => clearInterval(checkGoogle);
   }, []);
-// parameter
+  // parameter
   const onPlaceSelected = (locationType) => {
     console.log("locationType....", locationType);
     if (!autocompleteRef.current) return;
@@ -74,9 +82,9 @@ const ServiceArea = ({handleTabChange}) => {
     const latitude = place.geometry.location.lat();
     const longitude = place.geometry.location.lng();
     const address = place.formatted_address;
-    if(locationType === "location"){
+    if (locationType === "location") {
       setLocation(address);
-    }else{
+    } else {
       setServiceLocation(address);
     }
     setLat(latitude);
@@ -133,50 +141,47 @@ const ServiceArea = ({handleTabChange}) => {
     }
   };
 
-  const submisstion=async()=>{
+  const submisstion = async () => {
     const payload = {
       business_location: location,
       radius: value2,
       service_location_type: serviceType,
       locations: locationsList,
-      restrict_location:"",
+      restrict_location: "",
       service_location: serviceLocation,
-      location_miles: value2
-    }
+      location_miles: value2,
+    };
     setIsLoading(true);
-    const formData = new FormData()
-    formData.append("user_id", userData.id)
-    formData.append("business_location", payload.business_location)
-    formData.append("radius", payload.radius)
-    formData.append("service_location_type", payload.service_location_type)
-    formData.append("locations", payload.locations)
-    formData.append("restrict_location", payload.restrict_location)
-    formData.append("service_location", payload.service_location)
-    formData.append("location_miles", payload.location_miles)
+    const formData = new FormData();
+    formData.append("user_id", userData.id);
+    formData.append("business_location", payload.business_location);
+    formData.append("radius", payload.radius);
+    formData.append("service_location_type", payload.service_location_type);
+    formData.append("locations", payload.locations);
+    formData.append("restrict_location", payload.restrict_location);
+    formData.append("service_location", payload.service_location);
+    formData.append("location_miles", payload.location_miles);
     if (serviceType === "radius") {
       formData.append("service_radius", value2);
-    } 
-    const response = await addBusinessLocation(formData)
+    }
+    const response = await addBusinessLocation(formData);
     console.log("response....", response);
     if (response?.data) {
-
       setIsLoading(false);
       handleTabChange(2);
       Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Service area updated successfully',
+        icon: "success",
+        title: "Success!",
+        text: "Service area updated successfully",
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
       });
     }
     setIsLoading(false);
+  };
 
-  }
-
-
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <div className="w-full">
@@ -205,7 +210,6 @@ const ServiceArea = ({handleTabChange}) => {
                   type="radio"
                   name="serviceType"
                   className="form-radio"
-
                   checked={serviceType === "radius"}
                   onChange={() => setServiceType("radius")}
                 />
@@ -224,9 +228,9 @@ const ServiceArea = ({handleTabChange}) => {
                   </label>
                   <div className="flex items-center border py-2 rounded-lg px-3 relative w-full">
                     <Autocomplete
-                    className="w-full"
+                      className="w-full"
                       onLoad={(auto) => (autocompleteRef.current = auto)}
-                      onPlaceChanged={()=>onPlaceSelected("location")}
+                      onPlaceChanged={() => onPlaceSelected("location")}
                     >
                       <input
                         type="text"
@@ -269,7 +273,12 @@ const ServiceArea = ({handleTabChange}) => {
 
                   {isBulk ? (
                     <div className="relative flex flex-col mb-2 border rounded-lg px-3 py-2">
-                      <Autocomplete className="w-full" onPlaceChanged={()=>onPlaceSelected("service_location")}>
+                      <Autocomplete
+                        className="w-full"
+                        onPlaceChanged={() =>
+                          onPlaceSelected("service_location")
+                        }
+                      >
                         <textarea
                           id="bulkLoc"
                           rows="4"
@@ -283,7 +292,12 @@ const ServiceArea = ({handleTabChange}) => {
                     </div>
                   ) : (
                     <div className="flex items-center border py-2 rounded-lg px-3 mb-2">
-                      <Autocomplete className="w-full" onPlaceChanged={()=>onPlaceSelected("service_location")}> 
+                      <Autocomplete
+                        className="w-full"
+                        onPlaceChanged={() =>
+                          onPlaceSelected("service_location")
+                        }
+                      >
                         <input
                           type="text"
                           defaultValue={serviceLocation}
@@ -412,19 +426,24 @@ const ServiceArea = ({handleTabChange}) => {
                 </GoogleMap>
               </div>
             )}
-
           </div>
-            <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
-              <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
-                Cancel
-              </button>
-              <button onClick={submisstion} className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
-                Save & Publish
-              </button>
-              <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]" onClick={submisstion}>
-                Save
-              </button>
-            </div>
+          <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
+            <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
+              Cancel
+            </button>
+            <button
+              onClick={submisstion}
+              className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+            >
+              Save & Publish
+            </button>
+            <button
+              className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
+              onClick={submisstion}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </LoadScript>
     </div>

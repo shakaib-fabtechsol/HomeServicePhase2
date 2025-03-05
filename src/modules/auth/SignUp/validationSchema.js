@@ -1,20 +1,16 @@
-import * as yup from 'yup';
-import { VALIDATION_MESSAGES } from '../../../constants/messages';
+import * as yup from "yup";
+import { VALIDATION_MESSAGES } from "../../../constants/messages";
 
 export const signUpSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required(VALIDATION_MESSAGES.REQUIRED.NAME),
-  
+  name: yup.string().required(VALIDATION_MESSAGES.REQUIRED.NAME),
+
   email: yup
     .string()
     .email(VALIDATION_MESSAGES.FORMAT.EMAIL)
     .required(VALIDATION_MESSAGES.REQUIRED.EMAIL),
-  
-  phone: yup
-    .string()
-    .required(VALIDATION_MESSAGES.REQUIRED.PHONE),
-  
+
+  phone: yup.string().required(VALIDATION_MESSAGES.REQUIRED.PHONE),
+
   password: yup
     .string()
     .required(VALIDATION_MESSAGES.REQUIRED.PASSWORD)

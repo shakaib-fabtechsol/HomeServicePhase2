@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import SupportSlider from "../SupportSlider";
 
-export default function CommonSupport({Role}) {
+export default function CommonSupport({ Role }) {
   useEffect(() => {
     document.title = "Support";
   }, []);
@@ -29,7 +29,6 @@ export default function CommonSupport({Role}) {
       id: "Subject",
       name: "Subject",
     },
- 
   ];
   return (
     <div className="border border-[#A2A1A833] rounded-[10px] p-3 px-6">

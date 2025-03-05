@@ -452,9 +452,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                                 )
                                   ? ""
                                   : currentDayData.regular_hour[0].end_time >=
-                                    12
-                                  ? "PM"
-                                  : "AM"}
+                                      12
+                                    ? "PM"
+                                    : "AM"}
                               </>
                             ) : (
                               "Closed"
@@ -523,10 +523,10 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                             {formdata?.pricing_model === "Hourly"
                               ? "" + formdata.hourly_final_list_price
                               : formdata?.pricing_model === "Flat"
-                              ? "" + formdata.flat_rate_price
-                              : formdata?.pricing_model === "Custom"
-                              ? "" + formdata.price1
-                              : "$200"}
+                                ? "" + formdata.flat_rate_price
+                                : formdata?.pricing_model === "Custom"
+                                  ? "" + formdata.price1
+                                  : "$200"}
                           </p>
                         </div>
                         <p className="text-sm myblack mt-2">

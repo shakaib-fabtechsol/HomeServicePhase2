@@ -4,7 +4,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Autocomplete, TextField } from "@mui/material";
 import BusinessProfileModule from "../../modules/settings/provider-settings/business-profile";
 
-const BusinessProfile = ({handleTabChange}) => {
+const BusinessProfile = ({ handleTabChange }) => {
   const handlereset = () => {
     setFormData({
       business_name: "",
@@ -97,7 +97,7 @@ const BusinessProfile = ({handleTabChange}) => {
 
   return (
     <>
-    <BusinessProfileModule handleTabChange={handleTabChange}/>
+      <BusinessProfileModule handleTabChange={handleTabChange} />
       {/* <form>
         <div className="max-w-[600px">
           <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
@@ -176,7 +176,7 @@ const BusinessProfile = ({handleTabChange}) => {
                 </div>
               </div>
             </div> */}
-            {/* <div className="py-8 border-b">
+      {/* <div className="py-8 border-b">
               <div className="grid sm:grid-cols-3 gap-2 max-w-[800px]">
                 <div>
                   <p className="text-sm font-semibold" htmlFor="about">
@@ -293,7 +293,7 @@ const BusinessProfile = ({handleTabChange}) => {
             </div>
           </div>
         </div>
-      </form> */} 
+      </form> */}
     </>
   );
 };

@@ -1,18 +1,23 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import { FiMessageCircle, FiPhoneCall, FiMail, FiMessageSquare } from "react-icons/fi";
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import {
+  FiMessageCircle,
+  FiPhoneCall,
+  FiMail,
+  FiMessageSquare,
+} from "react-icons/fi";
 import { useEffect, useState } from "react";
-import CallPro from '../../Components/Provider/CallPro';
+import CallPro from "../../Components/Provider/CallPro";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { HiOutlinePhone } from "react-icons/hi2";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
-import TextPro from '../../Components/Provider/TextPro';
-import EmailPro from '../../Components/Provider/EmailPro';
-import InstantChat from '../../Components/Provider/InstantChat';
+import TextPro from "../../Components/Provider/TextPro";
+import EmailPro from "../../Components/Provider/EmailPro";
+import InstantChat from "../../Components/Provider/InstantChat";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,7 +44,7 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -54,22 +59,42 @@ export default function Conversations() {
   };
 
   const tabs = [
-    { label: "Instant Chat", icon: <IoChatboxEllipsesOutline /> , content: <InstantChat /> },
-    { label: "Call Pro", icon: <HiOutlinePhone /> , content: <CallPro /> },
-    { label: "Text Pro", icon: <IoChatbubbleEllipsesOutline />, content: <TextPro /> },
+    {
+      label: "Instant Chat",
+      icon: <IoChatboxEllipsesOutline />,
+      content: <InstantChat />,
+    },
+    { label: "Call Pro", icon: <HiOutlinePhone />, content: <CallPro /> },
+    {
+      label: "Text Pro",
+      icon: <IoChatbubbleEllipsesOutline />,
+      content: <TextPro />,
+    },
     { label: "Email Pro", icon: <FiMail />, content: <EmailPro /> },
-    { label: "Get Location", icon: <SlLocationPin />, content: <p>location content</p> },
+    {
+      label: "Get Location",
+      icon: <SlLocationPin />,
+      content: <p>location content</p>,
+    },
   ];
 
   return (
     <div>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 0, borderColor: 'divider', overflowX: 'auto' }}>
+      <Box sx={{ width: "100%" }}>
+        <Box
+          sx={{ borderBottom: 0, borderColor: "divider", overflowX: "auto" }}
+        >
           <Tabs
-            indicatorColor='transparent'
+            indicatorColor="transparent"
             variant="scrollable"
             scrollButtons="auto"
-            sx={{ fontFamily: "Inter", minHeight: "32px", borderBottom:"1px solid #D7D7D7", paddingBottom:"16px", paddingTop:"16px"  }}
+            sx={{
+              fontFamily: "Inter",
+              minHeight: "32px",
+              borderBottom: "1px solid #D7D7D7",
+              paddingBottom: "16px",
+              paddingTop: "16px",
+            }}
             value={value}
             onChange={handleChange}
             aria-label="custom tabs example"
@@ -93,7 +118,7 @@ export default function Conversations() {
                   borderRadius: "6px",
                   fontWeight: "600",
                   gap: "5px",
-                  '&.Mui-selected': {
+                  "&.Mui-selected": {
                     color: "#fff !important",
                     border: "1px solid #0F91D2",
                     background: "#0F91D2",
@@ -101,7 +126,12 @@ export default function Conversations() {
                   },
                 }}
                 key={index}
-                label={<><span className='text-2xl'>{tab.icon}</span> <span>{tab.label}</span></>}
+                label={
+                  <>
+                    <span className="text-2xl">{tab.icon}</span>{" "}
+                    <span>{tab.label}</span>
+                  </>
+                }
                 {...a11yProps(index)}
               />
             ))}

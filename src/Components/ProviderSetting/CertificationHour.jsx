@@ -5,13 +5,17 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import SettingsPreview from "../MUI/SettingsPreview";
-import { useAddCertificateHoursMutation, usePublishMutation } from "../../services/settings";
+import {
+  useAddCertificateHoursMutation,
+  usePublishMutation,
+} from "../../services/settings";
 import { setUser } from "../../redux/reducers/authSlice";
 import Loader from "../MUI/Loader";
-const CertificationHour = ({handleTabChange}) => {
+const CertificationHour = ({ handleTabChange }) => {
   const userData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  const [addCertificationHours, { isLoading }] = useAddCertificateHoursMutation();
+  const [addCertificationHours, { isLoading }] =
+    useAddCertificateHoursMutation();
   const [publishCertificationHours] = usePublishMutation();
 
   const {
@@ -19,99 +23,118 @@ const CertificationHour = ({handleTabChange}) => {
     formState: { errors },
     setValue,
     watch,
-    reset
+    reset,
   } = useForm({
     mode: "onChange",
     defaultValues: {
       insurance_certificate: userData?.businessProfile?.insurance_certificate,
       license_certificate: userData?.businessProfile?.license_certificate,
       award_certificate: userData?.businessProfile?.award_certificate,
-      regular_hour: userData?.businessProfile?.regular_hour && JSON.parse(userData?.businessProfile?.regular_hour) || userData?.businessProfile?.regular_hour,
-      special_hour: userData.businessProfile?.special_hour && JSON.parse(userData.businessProfile?.special_hour) || userData.businessProfile?.special_hour
-    }
+      regular_hour:
+        (userData?.businessProfile?.regular_hour &&
+          JSON.parse(userData?.businessProfile?.regular_hour)) ||
+        userData?.businessProfile?.regular_hour,
+      special_hour:
+        (userData.businessProfile?.special_hour &&
+          JSON.parse(userData.businessProfile?.special_hour)) ||
+        userData.businessProfile?.special_hour,
+    },
   });
 
   const [formData, setFormData] = useState({
     insurance_certificate: null,
     license_certificate: null,
-    award_certificate: null
+    award_certificate: null,
   });
 
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const [schedule, setSchedule] = useState(
-    userData.businessProfile?.regular_hour && JSON.parse(userData.businessProfile?.regular_hour) || userData.businessProfile?.regular_hour ? JSON.parse(userData.businessProfile?.regular_hour) : days.map((day) => ({
-      day,
-      closed: false,
-      slots: [{ start: "", end: "" }],
-    }))
+    (userData.businessProfile?.regular_hour &&
+      JSON.parse(userData.businessProfile?.regular_hour)) ||
+      userData.businessProfile?.regular_hour
+      ? JSON.parse(userData.businessProfile?.regular_hour)
+      : days.map((day) => ({
+          day,
+          closed: false,
+          slots: [{ start: "", end: "" }],
+        }))
   );
 
   // Validation function for time slots
   const validateTimeSlots = (slots) => {
-    return slots.every(slot => slot.start && slot.end && slot.start < slot.end);
+    return slots.every(
+      (slot) => slot.start && slot.end && slot.start < slot.end
+    );
   };
 
   const handleFileChange = (e, fieldName) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5242880) { // 5MB limit
+      if (file.size > 5242880) {
+        // 5MB limit
         Swal.fire({
-          icon: 'error',
-          title: 'File too large',
-          text: 'File size should not exceed 5MB'
+          icon: "error",
+          title: "File too large",
+          text: "File size should not exceed 5MB",
         });
         return;
       }
-      
-      setFormData(prev => ({
+
+      setFormData((prev) => ({
         ...prev,
-        [fieldName]: file
+        [fieldName]: file,
       }));
     }
   };
 
   const onSubmit = async () => {
     try {
-      console.log("formData",formData)
+      console.log("formData", formData);
       // Validate regular hours
-      const invalidDays = schedule.filter(day => 
-        !day.closed && !validateTimeSlots(day.slots)
+      const invalidDays = schedule.filter(
+        (day) => !day.closed && !validateTimeSlots(day.slots)
       );
 
-
       const formDataToSend = new FormData();
-      formDataToSend.append('user_id', userData.id);
-      
+      formDataToSend.append("user_id", userData.id);
+
       // Append certificates
-      Object.keys(formData).forEach(key => {
+      Object.keys(formData).forEach((key) => {
         if (formData[key]) {
           formDataToSend.append(key, formData[key]);
         }
       });
 
       // Append schedules
-      formDataToSend.append('regular_hour', JSON.stringify(schedule));
-      formDataToSend.append('special_hour', JSON.stringify(specialSchedule));
+      formDataToSend.append("regular_hour", JSON.stringify(schedule));
+      formDataToSend.append("special_hour", JSON.stringify(specialSchedule));
 
       const response = await addCertificationHours(formDataToSend);
       if (response?.data) {
-        
         // dispatch(setUser(payload));
         handleTabChange(4);
         Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Certification and hours updated successfully',
+          icon: "success",
+          title: "Success!",
+          text: "Certification and hours updated successfully",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
       }
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error?.message || 'Something went wrong while updating'
+        icon: "error",
+        title: "Oops...",
+        text: error?.message || "Something went wrong while updating",
       });
     }
   };
@@ -125,15 +148,19 @@ const CertificationHour = ({handleTabChange}) => {
   };
 
   const [specialSchedule, setSpecialSchedule] = useState(
-    userData.special_hour && JSON.parse(userData.special_hour) || userData.special_hour ? JSON.parse(userData.special_hour) : [
-    {
-      text: "",
-      date: "",
-      hour: [{ start: "", end: "" }],
-      closed: false,
-      Open24Hours: false,
-    },
-  ]);
+    (userData.special_hour && JSON.parse(userData.special_hour)) ||
+      userData.special_hour
+      ? JSON.parse(userData.special_hour)
+      : [
+          {
+            text: "",
+            date: "",
+            hour: [{ start: "", end: "" }],
+            closed: false,
+            Open24Hours: false,
+          },
+        ]
+  );
 
   const updatespecialSchedule = (index, updatedFields) => {
     const updatedSchedule = [...specialSchedule];
@@ -161,10 +188,10 @@ const CertificationHour = ({handleTabChange}) => {
     updatespecialSchedule(index, { closed: !specialSchedule[index].closed });
   };
 
-  console.log("userData.........",userData)
+  console.log("userData.........", userData);
 
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
