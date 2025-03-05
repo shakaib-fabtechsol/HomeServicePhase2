@@ -65,17 +65,18 @@ function ServiceDetail() {
   const {
     data: dealData,
     isLoading: dealLoading,
-    error: dealError,
   } = useGetDealQuery(dealid, { skip: !dealid });
   const serviceDetails = dealData?.deal;
+ 
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
   const {
     data: userData,
     isLoading: userLoading,
-    error: userError,
+  
   } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
 
-  const provider = userData?.businessProfile?.[0] || {};
+  const provider = userData?.businessProfile[0]|| {};
+  console.log(provider,"valueeeeeeeeeeeee");
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -137,7 +138,7 @@ function ServiceDetail() {
     return <div>No service details available.</div>;
   }
 
-  // Prepare image URLs
+ 
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
@@ -160,10 +161,21 @@ function ServiceDetail() {
   const currentDayData = regularHours.find(
     (item) => item.day_name === currentDay
   );
-  const imagePath1 = dealData?.deal?.uploads[0]?.images;
+
+  let imageArray = [];
+
+  if (typeof  dealData?.deal?.images === "string") {
+    try {
+      imageArray = JSON.parse( dealData?.deal.images);
+    } catch (error) {
+      console.error("Error parsing images:", error);
+    }
+  }
+  const imagePath1 =
+    Array.isArray(imageArray) && imageArray.length > 0 ? imageArray[0] : "";
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
-    : "/default.png";
+    : "";
   return (
     <div className="pmain">
       <div className="navv">

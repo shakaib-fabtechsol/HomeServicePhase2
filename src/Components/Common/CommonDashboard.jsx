@@ -3,56 +3,53 @@ import { FaArrowRight, FaSearch } from "react-icons/fa";
 import ServiceBox from "../../Components/ServiceBox";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
-import userimg1 from "../../assets/img/client1.png";
-import userimg2 from "../../assets/img/client2.png";
-import cardvideo from "../../assets/img/cardvideo.mp4";
-import slideimg from "../../assets/img/service1new.jpeg";
 import Down from "../../assets/img/chevronDown.png";
-const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
+import axios from "axios";
+import { useSelector } from "react-redux";
+import {useGetOrderQuery} from "../../services/sales/index"
+const CommonDashboard = ({ orderto, conversationto, }) => {
   useEffect(() => {
     document.title = "Home";
   }, []);
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      publish: 2,
-      userimg: userimg2,
-      username: "Julia Maria",
-      Rating: 4.5,
-      Liked: true,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2500,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      publish: 2,
-      userimg: userimg1,
-      username: "John Doe",
-      Rating: 4.9,
-      Liked: false,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2500,
-    },
-  ];
+
+  const token = useSelector((state) => state.auth.token);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    axios
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setServices(response.data.deals);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching deals:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  const {
+    data: userData,
+    isLoading: userLoading,
+  } = useGetOrderQuery();
+  
+  const data = userData || {}; 
+  
+  console.log(data);
+  
+
+
+  
 
   const projectStatuses = [
-    {
-      title: "Web software develop, Progressive web app",
-      status: "Delivered",
-      bgColor: "#46D20F",
-    },
+   
     {
       title: "Web software develop, Progressive web app",
       status: "In Progress",
@@ -65,7 +62,6 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
     return "#CCCCCC";
   };
 
-  
   const [Budget, setBudget] = useState(100);
   const [distance, setDistance] = useState(10);
 
@@ -101,6 +97,10 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
     };
   }, []);
 
+
+
+ 
+
   const selects = [
     {
       name: "Reviews",
@@ -133,82 +133,80 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       <div className="">
         <HeroSection />
         <h2 className="text-lg mt-8">Filters</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 max-w-[800px] mt-2">
-            <div ref={budgetDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleBudgetDropdown}
-                className="border w-full text-start focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Budget
-              </button>
-              {isBudgetDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {Budget >= 10000
-                      ? `${(Budget / 1000).toFixed(0)}K`
-                      : Budget}{" "}
-                    $
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100000"
-                    value={Budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 max-w-[800px] mt-2">
+          <div ref={budgetDropdownRef} className="me-3 my-1 relative">
+            <button
+              onClick={toggleBudgetDropdown}
+              className="border w-full text-start focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
+            >
+              Budget
+            </button>
+            {isBudgetDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {Budget >= 10000 ? `${(Budget / 1000).toFixed(0)}K` : Budget}{" "}
+                  $
                 </div>
-              )}
-            </div>
-            {selects.map((select, index) => (
-              <div key={index} className="me-3 my-1">
-                <select
-                  name={select.name}
-                  id={select.id}
-                  style={{
-                    backgroundImage: `url(${Down})`,
-                    backgroundPosition: "calc(100% - 5px)",
-                  }}
-                  className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2 appearance-none bg-no-repeat pe-5"
-                >
-                  {select.options.map((option, index) => (
-                    <option
-                      className="first:hidden"
-                      key={index}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={Budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  className="w-full cursor-pointer custom-slider"
+                />
               </div>
-            ))}
-            <div ref={locationDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleLocationDropdown}
-                className="border text-start w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Location/Distance
-              </button>
-              {isLocationDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {distance} km
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    value={distance}
-                    onChange={(e) => setDistance(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
-                </div>
-              )}
-            </div>
+            )}
           </div>
+          {selects.map((select, index) => (
+            <div key={index} className="me-3 my-1">
+              <select
+                name={select.name}
+                id={select.id}
+                style={{
+                  backgroundImage: `url(${Down})`,
+                  backgroundPosition: "calc(100% - 5px)",
+                }}
+                className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2 appearance-none bg-no-repeat pe-5"
+              >
+                {select.options.map((option, index) => (
+                  <option
+                    className="first:hidden"
+                    key={index}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+          <div ref={locationDropdownRef} className="me-3 my-1 relative">
+            <button
+              onClick={toggleLocationDropdown}
+              className="border text-start w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
+            >
+              Location/Distance
+            </button>
+            {isLocationDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {distance} km
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                  className="w-full cursor-pointer custom-slider"
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      
+
       <div>
         <div className="grid lg:grid-cols-2 gap-4 mt-4">
           <div className="border rounded-xl">
@@ -267,25 +265,46 @@ const CommonDashboard = ({ orderto, conversationto, serviceDetailTo }) => {
       </div>
       <h2 className="text-xl font-semibold mt-5">Recently Viewed</h2>
       <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {services.map((service) => (
-          <ServiceBox
-            key={service.id}
-            title={service.title}
-            price={service.price}
-            description={service.description}
-            tags={service.tags}
-            image={service.image}
-            serviceDetailTo={serviceDetailTo}
-            publish={service.publish}
-            userimg={service.userimg}
-            username={service.username}
-            Rating={service.Rating}
-            Liked={service.Liked}
-            videos={service.videos}
-            imgs={service.images}
-            totalReviews={service.totalReviews}
-          />
-        ))}
+        {services.length > 0 ? (
+          services
+            .slice(0, 3)
+            .map((service) => (
+              <ServiceBox
+                key={service.id}
+                title={service.service_title}
+                price={
+                  service.pricing_model === "Flat"
+                    ? service.flat_rate_price
+                    : service?.pricing_model == "Hourly"
+                    ? service.hourly_final_list_price
+                    : service.price1
+                }
+                tags={service.search_tags}
+                image={service.images}
+                publish={service.publish}
+                userimg={service.userimg}
+                username={service.user_name}
+                description={service.service_description}
+                category={service.service_category}
+                dealid={service.id}
+                Rating={service.rating}
+                Liked={service.Liked}
+                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                videos={service.videos}
+                imgs={service.images}
+                Days={
+                  service.pricing_model === "Flat"
+                    ? service.flat_estimated_service_time
+                    : service?.pricing_model == "Hourly"
+                    ? service.hourly_estimated_service_time
+                    : service.estimated_service_timing
+                }
+                totalReviews={service.totalReviews}
+              />
+            ))
+        ) : (
+          <p>No services found</p>
+        )}
       </div>
     </div>
   );

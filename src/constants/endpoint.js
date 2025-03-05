@@ -44,3 +44,10 @@ export const SALE_POINTS = {
     
   };
 
+
+  export const GET_ORDER={
+   ORDER:"GetInprogressOrder"
+
+   
+  }
+

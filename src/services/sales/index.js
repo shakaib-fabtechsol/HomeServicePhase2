@@ -2,6 +2,7 @@
 import { BASE_API } from '../base-api';
 import { PRO_POINTS } from '../../constants/endpoint';
 import { SALE_POINTS} from '../../constants/endpoint';
+import {GET_ORDER} from "../../constants/endpoint";
 
 export const salesAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -45,8 +46,14 @@ export const salesAPIs = BASE_API.injectEndpoints({
         method: "GET",
       }),
     }),
+    getOrder: builder.query({
+      query: () => ({
+        url: `${GET_ORDER?.ORDER}/`,
+        method: "GET",
+      }),
+    }),
 
   }),
 });
 
-export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;
+export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useGetOrderQuery,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;

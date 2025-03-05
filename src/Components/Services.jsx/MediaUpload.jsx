@@ -22,35 +22,8 @@ const MediaUpload = ({ serviceId, setValue }) => {
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
   const { data, error, isLoading } = useGetDealQuery(dealid, {
-    skip: !dealid, 
+    skip: !dealid,
   });
-  useEffect(() => {
-    if (data && data.deal) {
-      const dealData = data.deal;
-      setDeal(dealData);
-      if (Array.isArray(dealData.uploads)) {
-        const allImages = dealData.uploads
-          .filter((upload) => upload.images)
-          .map((upload) => ({
-            url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`,
-            name: upload.images.split("/").pop(),
-            isExisting: true,
-          }));
-        setImages(allImages);
-
-        const allVideos = dealData.uploads
-          .filter((upload) => upload.videos)
-          .map((upload) => ({
-            url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`,
-            name: upload.videos.split("/").pop(),
-            isExisting: true,
-          }));
-        setVideos(allVideos);
-      }
-    }
-  }, [data]);
-
- 
 
   useEffect(() => {
     if (dealid) {
@@ -64,31 +37,31 @@ const MediaUpload = ({ serviceId, setValue }) => {
           const dealData = response.data.deal;
           setDeal(dealData);
 
-          if (Array.isArray(response.data?.deal.uploads)) {
-            const allImages = response.data?.deal.uploads
-              .filter((upload) => upload.images)
-              .map((upload) => ({
-                url: `https://marketplace.thefabulousshow.com/uploads/${upload.images}`,
-                name: upload.images.split("/").pop(),
-                isExisting: true,
-              }));
-            setImages(allImages);
+          const parsedImages = dealData?.images
+            ? JSON.parse(dealData.images)
+            : [];
+          const parsedVideos = dealData?.videos
+            ? JSON.parse(dealData.videos)
+            : [];
 
-            const allVideos = response.data?.deal.uploads
-              .filter((upload) => upload.videos)
-              .map((upload) => ({
-                url: `https://marketplace.thefabulousshow.com/uploads/${upload.videos}`,
-                name: upload.videos.split("/").pop(),
-                isExisting: true,
-              }));
-            setVideos(allVideos);
-          }
+          const allImages = parsedImages.map((image) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${image}`,
+            name: image.split("/").pop(),
+            isExisting: true,
+          }));
+          setImages(allImages);
+          const allVideos = parsedVideos.map((video) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${video}`,
+            name: video.split("/").pop(),
+            isExisting: true,
+          }));
+          setVideos(allVideos);
         })
         .catch((error) => {
           console.error("Error fetching deal details:", error);
         });
     }
-  }, [dealid]);
+  }, [dealid, token]);
 
   useEffect(() => {
     return () => {
@@ -152,14 +125,19 @@ const MediaUpload = ({ serviceId, setValue }) => {
       formData.append("deal_id", serviceId);
     }
 
+    // Append both new files and existing media names
     images.forEach((img) => {
       if (img.file) {
         formData.append("images[]", img.file);
+      } else if (img.isExisting) {
+        formData.append("images[]", img.name);
       }
     });
     videos.forEach((vid) => {
       if (vid.file) {
         formData.append("videos[]", vid.file);
+      } else if (vid.isExisting) {
+        formData.append("videos[]", vid.name);
       }
     });
 
@@ -175,6 +153,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
           setValue(3);
         }
       });
+     
       setImages([]);
       setVideos([]);
     } catch (error) {

@@ -3,10 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
-import user1 from "../../assets/img/client2.png";
-import user2 from "../../assets/img/client3.png";
-import cardvideo from "../../assets/img/cardvideo.mp4";
-import slideimg from "../../assets/img/service1new.jpeg";
+
 import axios from "axios";
 import { useSelector } from "react-redux";
 

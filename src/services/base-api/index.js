@@ -41,8 +41,8 @@ export const BASE_API = createApi({
     }),
 
     getUserDetails: builder.query({
-      query: (userId) => `UserDetails/${userId}`,
-      providesTags: (result, error, userId) => [{ type: "User", id: userId }],
+      query: () => `UserDetails`,
+     
     }),
     uploadMedia: builder.mutation({
       query: (formData) => ({
@@ -94,8 +94,7 @@ export const BASE_API = createApi({
         { type: "Deal", id: dealid },
       ],
     }),
-    
-
+   
     
   }),
 });
