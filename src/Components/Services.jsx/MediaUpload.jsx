@@ -125,8 +125,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
     } else {
       formData.append("deal_id", serviceId);
     }
-
-    // Append both new files and existing media names
+   
     images.forEach((img) => {
       if (img.file) {
         formData.append("images[]", img.file);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 
+
 import PropTypes from "prop-types";
 import { Box,  Tab, Tabs } from "@mui/material";
 
@@ -351,9 +352,11 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
   const provider = userData?.businessProfile?.[0] || {};
   const imagePath = provider?.business_logo;
+
   const imageUrl = imagePath
-    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
-    : "/default.png";
+  ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+  : "/service1.png";
+
   const regularHours =
     provider && provider.length > 0
       ? JSON.parse(provider.regular_hour || "[]")

@@ -81,7 +81,7 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
-                dealid={service.id}
+              
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"

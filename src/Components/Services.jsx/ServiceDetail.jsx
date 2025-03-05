@@ -6,6 +6,7 @@ import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+// import  logo from "../../src/assets/img/before.1.jpg";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
@@ -143,7 +144,7 @@ function ServiceDetail() {
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
-    : "/default.png";
+    : "/service1.png";
 
   const regularHours =
     provider && provider.regular_hour
@@ -176,7 +177,7 @@ function ServiceDetail() {
     Array.isArray(imageArray) && imageArray.length > 0 ? imageArray[0] : "";
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
-    : "";
+    : "/service1.png";
   return (
     <div className="pmain">
       <div className="navv">

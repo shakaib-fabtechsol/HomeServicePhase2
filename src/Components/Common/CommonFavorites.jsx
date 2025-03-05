@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ServiceBox from "../ServiceBox";
-import { FaTh, FaList } from "react-icons/fa";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
-import user1 from "../../assets/img/client2.png";
+
 import user2 from "../../assets/img/client3.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
+
 
 const CommonFavorites = ({ serviceDetailTo }) => {
   useEffect(() => {
@@ -31,54 +31,7 @@ const CommonFavorites = ({ serviceDetailTo }) => {
       images: [slideimg, slideimg, slideimg, slideimg],
       totalReviews: 2600,
     },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      userimg: user1,
-      username: "Julia",
-      publish: 0,
-      Liked: true,
-      Rating: 4.5,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2600,
-    },
-    {
-      id: 3,
-      title: "Electrical Repair",
-      price: 70,
-      description: "Expert electrical services for your home.",
-      tags: ["Electric", "Repair"],
-      image: "",
-      username: "John Doe",
-      userimg: user2,
-      publish: 1,
-      Liked: true,
-      Rating: 4.5,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2600,
-    },
-    {
-      id: 4,
-      title: "Carpet Cleaning",
-      price: 40,
-      description: "Deep carpet cleaning services.",
-      tags: ["Cleaning", "Carpet"],
-      image: "",
-      userimg: user1,
-      username: "Julia",
-      publish: 0,
-      Liked: true,
-      Rating: 4.5,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2600,
-    },
+    
   ];
 
   return (

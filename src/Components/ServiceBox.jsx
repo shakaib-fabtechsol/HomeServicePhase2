@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
+import {useSelector} from "react-redux";
 import {useFavouriteMutation} from "../../src/services/sales/index"
 function ServiceBox({
   tags = [],
@@ -24,6 +25,7 @@ function ServiceBox({
 }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
+  const user=useSelector((state)=>state.auth.user);
 
 
   const [favourite, { isLoading: favLoading, error: favError }] = useFavouriteMutation();
@@ -33,8 +35,9 @@ function ServiceBox({
    
     const payload = {
       
-      deal_id:dealid, 
-      liked: !liked, 
+      deal_id:dealid,
+      user_id:user?.id, 
+     
     };
   
     try {

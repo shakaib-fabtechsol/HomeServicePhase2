@@ -52,6 +52,11 @@ export const salesAPIs = BASE_API.injectEndpoints({
         url: `${GET_ORDER.ORDER}`,
       }),
     }),
+    // Favourite:builder.mutation({
+    //   query:(data)=>({
+    //     url:`${FAV?.}`
+    //   })
+    // })
    
     Favourite: builder.mutation({
       query: (data) => ({
