@@ -15,7 +15,7 @@ import confirmDelete from "../../constants/deleteconfirm";
 import Swal from "sweetalert2";
 import PaginationComponent from "../../Components/Pagination";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-
+import camera from "../../assets/img/userprofile.png";
 
 export default function Sales() {
   const navigate = useNavigate();
@@ -124,7 +124,7 @@ export default function Sales() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={`${BASE_URL}/uploads/${provider?.personal_image}`}
+        src={provider?.personal_image?`${BASE_URL}/uploads/${provider?.personal_image}`:camera}
         alt={provider.name}
       />
       <p>{provider.name}</p>

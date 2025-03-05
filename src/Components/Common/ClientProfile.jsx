@@ -1,40 +1,7 @@
 import React from "react";
-import { useGetsaleclientByIdQuery } from "../../services/clients";
-import { useLocation, useNavigate } from "react-router-dom";
-import Loader from "../MUI/Loader";
-import Swal from "sweetalert2";
+
 const BASE_URL = import.meta.env.VITE_BASE_URL
-
-export default function ClientProfile() {
-
-  const location=useLocation();
-  const { id } = location.state || {};
-  const navigate = useNavigate();
-  const { data: clientData, isLoading, isError } = useGetsaleclientByIdQuery(id);
-
-  if (isLoading) {
-    return (
-      <div className="loader">
-        <Loader />
-      </div>
-    );
-  }
-
-  if (isError) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Client Not Found',
-      text: clientData?.error?.message || 'Failed to get client. Please try again.',
-    }).then(() => {
-      navigate('/sales/clients');
-    })
-  }
-  // name: clientData?.Customer?.name || "",
-  // phone: clientData?.Customer?.phone || "",
-  // email: clientData?.Customer?.email || "",
-  // location: clientData?.Customer?.location || "",
-
-
+export default function ClientProfile({clientData}) {
   return (
     <div className="border border-[#A2A1A833] p-3 rounded-[10px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:pe-7 mt-4">

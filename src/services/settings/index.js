@@ -142,8 +142,15 @@ export const settingsAPIsforSales = BASE_API.injectEndpoints({
         body: data,
       }),
     }),
+    updateSalesPassword: builder.mutation({
+      query: (data) => ({
+        url: SALEREP_POINTS?.UPDATE_SALES_SECURITY,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useUpdateSalesMutation } = settingsAPIsforSales;
+export const { useUpdateSalesMutation,useUpdateSalesPasswordMutation } = settingsAPIsforSales;
 

@@ -25,21 +25,8 @@ export default function EditSalesRep() {
     setValue(tab);
 
   }
-  if (isLoading || updateClientLoading) {
-    return (
-      <div >
-        <Loader />
-      </div>
-    );
-  }
 
-  if (isError) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Client Not Found',
-      text: clientData?.error?.message || 'Failed to get client. Please try again.',
-    })
-  }
+
 
 
   const tabData = [
@@ -62,6 +49,21 @@ export default function EditSalesRep() {
       content: <Access data={data?.GetSalesReps} id={id} updateSale={updateSale} />,
     },
   ];
+  if (isError) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Client Not Found',
+      text: clientData?.error?.message || 'Failed to get client. Please try again.',
+    })
+  }
+  if (isLoading || updateClientLoading) {
+    return (
+      <div >
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="mb-2">

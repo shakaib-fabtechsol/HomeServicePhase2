@@ -80,14 +80,11 @@ export default function Access({ data, id, updateSale }) {
               <p className="text-xs sm:text-sm font-semibold">Assigned Only</p>
             </div>
           </div>
-          {permissions.map((permission, index) => (
+          {permissions?.map((permission, index) => (
             <div key={index} className="grid grid-cols-12 gap-2">
               <div className="col-span-8">
                 <p className="text-sm sm:text-base md:text-lg font-semibold">
-                  {permission}
-                </p>
-                <p className="text-sm sm:text-base md:text-lg font-semibold">
-                  {permission.name}
+                  {permission?.name}
                 </p>
               </div>
               <div className="col-span-2">
@@ -127,3 +124,4 @@ export default function Access({ data, id, updateSale }) {
     </div>
   );
 }
+
