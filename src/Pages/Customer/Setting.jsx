@@ -11,9 +11,11 @@ import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
 
 function Setting() {
+  const [value,setValue]=useState(0);
   useEffect(() => {
     document.title = "Setting";
   }, []);
+  
   const tabData = [
     { label: "My details", content: <MyDetail /> },
     { label: "Social Profiles", content: <SocialProfile />},
@@ -22,6 +24,10 @@ function Setting() {
     { label: "Payment/Payout Info", content: <Payment /> },
   ];
 
+  const onchange=(input)=>{
+    setValue(input)
+  }
+
   return (
     <div>
       <div className="my-2">
@@ -29,7 +35,7 @@ function Setting() {
         <p className="myblack mb-4">Track, manage and forecast your customers and orders.</p>
       </div>
       <div className="mt-5">
-        <TabComponent tabs={tabData}/>
+        <TabComponent tabs={tabData} onChange={onchange} value={value}/>
       </div>
     </div>
   );

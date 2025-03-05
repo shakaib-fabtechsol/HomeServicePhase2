@@ -5,15 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useUpdateAdminMutation } from "../../../services/auth";
-import Loader from "../../MUI/Loader";
+
 import Swal from "sweetalert2";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 import {setUser} from "../../../redux/reducers/authSlice";
-export default function PersonalInfo({Admin}) {
+export default function PersonalInfo({Admin,updateAdmin}) {
   const dispatch = useDispatch();
 
-  const [updateAmin, { isLoading: updateLoading }] = useUpdateAdminMutation();
+
   const schema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
@@ -82,7 +81,7 @@ export default function PersonalInfo({Admin}) {
     formData.append("id", Admin?.id);
   
     try {
-      const response = await updateAmin(formData).unwrap();
+      const response = await updateAdmin(formData).unwrap();
       console.log(response, "this is response data");
       if (response?.user) {
         dispatch(setUser(response.user));
@@ -105,13 +104,6 @@ export default function PersonalInfo({Admin}) {
     }
   };
   
-  if (updateLoading) {
-    return (
-      <div className="loader">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

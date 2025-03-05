@@ -4,9 +4,9 @@ import Swal from "sweetalert2";
 import { useUpdatePasswordMutation } from "../../../services/auth";
 import Loader from "../../MUI/Loader";
 
-export default function Security({Admin}) {
+export default function Security({Admin,updatePassword}) {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [updatePassword,{isLoading}] = useUpdatePasswordMutation();
+
 
   const onSubmit = async (data) => {
     try {
@@ -49,9 +49,6 @@ export default function Security({Admin}) {
     },
   ];
 
-  if(isLoading){
-    return <Loader/>
-  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3 md:max-w-[500px]">

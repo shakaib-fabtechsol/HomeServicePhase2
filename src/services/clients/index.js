@@ -45,10 +45,24 @@ export const salesrepsAPIs = BASE_API.injectEndpoints({
       query: (data) => ({
         url: `${SALEREP_POINTS.GET_CUSTOMERS}?clients=${data?.providers}&page=${data?.page}&search=${data?.search||""}`,
       }),
+      providesTags: ["UpdateSaleClient"],
     }),
-
-
+    getsaleclientById: builder.query({
+      query: (id) => ({
+        url: id?`${SALEREP_POINTS?.GET_SINGLE_CUSTOMER}/${id}`:null,
+      }),
+      providesTags: ["UpdateSaleClient"],
+    }),
+    
+    updatesaleClient: builder.mutation({
+      query: (data) => ({
+        url: `${SALEREP_POINTS?.EDIT_CUSTOMER}`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ["UpdateSaleClient"]
+    }),
 
   }),
 });
-export const { useGetCustomersByRepsQuery } = salesrepsAPIs;
+export const { useGetCustomersByRepsQuery,useGetsaleclientByIdQuery,useUpdatesaleClientMutation } = salesrepsAPIs;

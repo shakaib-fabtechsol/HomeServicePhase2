@@ -4,7 +4,7 @@ import camera from "../../assets/img/cameraicon.png";
 import { Link, useNavigate } from "react-router-dom";
 import LocationInput from "../LocationInput";
 import { useLocation } from "react-router-dom";
-import { useGetclientByIdQuery, useUpdateClientMutation } from "../../services/clients";
+import { useGetsaleclientByIdQuery, useUpdateClientMutation, useUpdatesaleClientMutation } from "../../services/clients";
 import Loader from "../MUI/Loader";
 import Swal from "sweetalert2";
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -12,7 +12,7 @@ export default function EditClient({ oncancel, onsave }) {
   const location = useLocation();
   const { id } = location.state || {};
   const navigate = useNavigate();
-  const { data: clientData, isLoading, isError } = useGetclientByIdQuery(id);
+  const { data: clientData, isLoading, isError } = useGetsaleclientByIdQuery(id);
   const [image, setImage] = React.useState(null);
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
@@ -34,7 +34,7 @@ export default function EditClient({ oncancel, onsave }) {
     }
   }, [clientData, reset]);
 
-  const [updateClient, { isLoading: updateClientLoading, isError: updateClientError }] = useUpdateClientMutation();
+  const [updateClient, { isLoading: updateClientLoading }] = useUpdatesaleClientMutation();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
