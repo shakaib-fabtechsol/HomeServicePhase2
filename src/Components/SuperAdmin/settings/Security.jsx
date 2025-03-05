@@ -1,9 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useUpdatePasswordMutation } from "../../../services/auth";
-import Loader from "../../MUI/Loader";
-
 export default function Security({Admin,updatePassword}) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
