@@ -20,7 +20,7 @@ function ProviderLayout() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const logolink ='/provider/dashboard'
+  const logolink = "/provider/dashboard";
   const sidebarData = [
     {
       items: [
@@ -69,7 +69,7 @@ function ProviderLayout() {
   const userInfo = {
     name: "Mike Bird",
     email: "mikebird@untitledui.com",
-    profileLink: "/provider/profile"
+    profileLink: "/provider/profile",
   };
 
   return (

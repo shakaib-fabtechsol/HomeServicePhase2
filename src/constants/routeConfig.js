@@ -1,5 +1,3 @@
-
-
 export const ROLE_ROUTES = {
   0: '/superadmin/dashboard',  // Super Admin role
   1: '/customer/dashboard',  // Customer role

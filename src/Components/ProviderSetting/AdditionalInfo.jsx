@@ -13,7 +13,7 @@ const AdditionalInfo = ({ handleTabChange }) => {
   const userData = useSelector((state) => state.auth.user);
   const [addAdditionalInfo, { isLoading }] = useAddAdditionalInfoMutation();
 
-  console.log("userData",userData)
+  console.log("userData", userData);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       about_video: userData?.businessProfile?.about_video || "",
@@ -21,7 +21,7 @@ const AdditionalInfo = ({ handleTabChange }) => {
       vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
       facility_photo: userData?.businessProfile?.facility_photo || "",
       project_photo: userData?.businessProfile?.project_photo || "",
-    }
+    },
   });
 
   const formData = watch();
@@ -30,29 +30,30 @@ const AdditionalInfo = ({ handleTabChange }) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
       // Add file validation if needed
-      const validTypes = ['video/mp4', 'image/jpeg', 'image/png', 'image/jpg'];
+      const validTypes = ["video/mp4", "image/jpeg", "image/png", "image/jpg"];
       const maxSize = 10 * 1024 * 1024; // 10MB
 
       if (!validTypes.includes(uploadedFile.type)) {
         Swal.fire({
-          icon: 'error',
-          title: 'Invalid File Type',
-          text: fieldName === 'about_video' 
-            ? 'Please upload a valid video file (MP4)' 
-            : 'Please upload a valid image file (JPG, JPEG, PNG)',
+          icon: "error",
+          title: "Invalid File Type",
+          text:
+            fieldName === "about_video"
+              ? "Please upload a valid video file (MP4)"
+              : "Please upload a valid image file (JPG, JPEG, PNG)",
         });
         return;
       }
 
       if (uploadedFile.size > maxSize) {
         Swal.fire({
-          icon: 'error',
-          title: 'File Too Large',
-          text: 'File size should be less than 10MB',
+          icon: "error",
+          title: "File Too Large",
+          text: "File size should be less than 10MB",
         });
         return;
       }
-      
+
       setValue(fieldName, uploadedFile);
     }
   };
@@ -60,16 +61,16 @@ const AdditionalInfo = ({ handleTabChange }) => {
   const onSubmit = async (data) => {
     try {
       const submitData = new FormData();
-      
+
       // Only append files that are actually Files (newly uploaded) or existing strings (URLs)
       Object.keys(data).forEach((key) => {
         if (data[key]) {
-          if (data[key] instanceof File || typeof data[key] === 'string') {
+          if (data[key] instanceof File || typeof data[key] === "string") {
             submitData.append(key, data[key]);
           }
         }
       });
-      
+
       submitData.append("user_id", userData?.id);
 
       const response = await addAdditionalInfo(submitData).unwrap();
@@ -94,8 +95,8 @@ const AdditionalInfo = ({ handleTabChange }) => {
     }
   };
 
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
@@ -122,8 +123,8 @@ const AdditionalInfo = ({ handleTabChange }) => {
               </p>
             </div>
             <div className="md:col-span-2">
-              <PreviewVideo 
-                onFileSelect={handleFileChange} 
+              <PreviewVideo
+                onFileSelect={handleFileChange}
                 fieldName="about_video"
                 existingVideo={watch("about_video")}
               />
@@ -141,14 +142,16 @@ const AdditionalInfo = ({ handleTabChange }) => {
           <div key={name} className="py-8 border-b">
             <div className="grid md:grid-cols-3 gap-2 max-w-[1000px]">
               <div>
-                <p className="text-sm font-semibold text-[#414651]">Upload {label}</p>
+                <p className="text-sm font-semibold text-[#414651]">
+                  Upload {label}
+                </p>
                 <p className="text-[#535862] text-sm">
                   Optional info which will be publicly displayed.
                 </p>
               </div>
               <div className="md:col-span-2">
-                <SettingsPreview 
-                  onFileSelect={handleFileChange} 
+                <SettingsPreview
+                  onFileSelect={handleFileChange}
                   fieldName={name}
                   existingImage={watch(name)}
                 />
@@ -164,12 +167,15 @@ const AdditionalInfo = ({ handleTabChange }) => {
             onClick={() => {
               const defaultValues = {
                 about_video: userData?.businessProfile?.about_video || "",
-                technician_photo: userData?.businessProfile?.technician_photo || "",
+                technician_photo:
+                  userData?.businessProfile?.technician_photo || "",
                 vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
                 facility_photo: userData?.businessProfile?.facility_photo || "",
                 project_photo: userData?.businessProfile?.project_photo || "",
               };
-              Object.keys(defaultValues).forEach(key => setValue(key, defaultValues[key]));
+              Object.keys(defaultValues).forEach((key) =>
+                setValue(key, defaultValues[key])
+              );
             }}
             className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
             disabled={isLoading}

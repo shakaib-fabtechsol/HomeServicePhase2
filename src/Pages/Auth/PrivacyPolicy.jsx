@@ -4,9 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import PrivacyPolicyModule from "../../modules/auth/PrivacyPolicy";
 
 function PrivacyPolicy() {
-  return (
-    <PrivacyPolicyModule />
-  );
+  return <PrivacyPolicyModule />;
 }
 
 export default PrivacyPolicy;

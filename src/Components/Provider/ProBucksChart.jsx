@@ -44,8 +44,7 @@ const options = {
   },
 };
 
-
-const ProBucksChart = ({data}) => {
+const ProBucksChart = ({ data }) => {
   return (
     <div className="h-[300px]">
       <Bar options={options} data={data} />

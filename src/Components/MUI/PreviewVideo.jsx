@@ -13,7 +13,9 @@ export default function PreviewVideo({
 
   useEffect(() => {
     if (!file && existingVideo) {
-      setVideoPreview(import.meta.env.VITE_BASE_URL + "uploads/" + existingVideo);
+      setVideoPreview(
+        import.meta.env.VITE_BASE_URL + "uploads/" + existingVideo
+      );
       setShowPreview(true);
     }
   }, [existingVideo]);
@@ -23,10 +25,10 @@ export default function PreviewVideo({
   const handleFileDrop = (e) => {
     e.preventDefault();
     const uploadedFile = e.dataTransfer.files[0];
-    if (uploadedFile && uploadedFile.type.startsWith('video/')) {
+    if (uploadedFile && uploadedFile.type.startsWith("video/")) {
       handleVideoFile(uploadedFile, e);
     } else {
-      alert('Please upload a video file');
+      alert("Please upload a video file");
     }
   };
 
@@ -40,10 +42,10 @@ export default function PreviewVideo({
 
   const handleFileSelect = (e) => {
     const uploadedFile = e.target.files[0];
-    if (uploadedFile && uploadedFile.type.startsWith('video/')) {
+    if (uploadedFile && uploadedFile.type.startsWith("video/")) {
       handleVideoFile(uploadedFile, e);
     } else {
-      alert('Please upload a video file');
+      alert("Please upload a video file");
     }
   };
 
@@ -81,7 +83,8 @@ export default function PreviewVideo({
               <strong>Video Uploaded Successfully</strong>
             </p>
             <p className="text-gray-500">
-              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop to change video
+              <strong className="text-[#0F91D2]">Click to upload</strong> or
+              drag and drop to change video
             </p>
             <p className="text-sm text-gray-400">
               MP4, WebM, or OGG (max. 100MB)
@@ -91,7 +94,8 @@ export default function PreviewVideo({
           <div className="upload-placeholder flex flex-col items-center justify-center min-h-[180px]">
             <img src={upload} alt="upload" className="w-[50px] mb-4" />
             <p className="text-gray-500">
-              <strong className="text-[#0F91D2]">Click to upload</strong> or drag and drop
+              <strong className="text-[#0F91D2]">Click to upload</strong> or
+              drag and drop
             </p>
             <p className="text-sm text-gray-400">
               MP4, WebM, or OGG (max. 100MB)
@@ -136,8 +140,8 @@ export default function PreviewVideo({
 
       {showPreview && videoPreview && (
         <div className="video-preview mt-4">
-          <video 
-            controls 
+          <video
+            controls
             className="rounded-lg border border-gray-200 w-full max-w-[400px]"
           >
             <source src={videoPreview} type={file?.type || "video/mp4"} />

@@ -1,9 +1,7 @@
 import LoginModule from "../../modules/auth/Login";
 
 function Login() {
-  return (
-    <LoginModule />
-  )
+  return <LoginModule />;
 }
 
 export default Login;

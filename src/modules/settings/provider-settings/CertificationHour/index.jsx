@@ -51,7 +51,9 @@ const CertificationHourModule = ({ handleTabChange }) => {
                   {...register("insurance_certificate")}
                 />
                 {errors.insurance_certificate && (
-                  <p className="text-red-500 text-sm mt-1">{errors.insurance_certificate.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.insurance_certificate.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -71,7 +73,9 @@ const CertificationHourModule = ({ handleTabChange }) => {
                   {...register("license_certificate")}
                 />
                 {errors.license_certificate && (
-                  <p className="text-red-500 text-sm mt-1">{errors.license_certificate.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.license_certificate.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -104,14 +108,19 @@ const CertificationHourModule = ({ handleTabChange }) => {
               </div>
               <div className="sm:col-span-2">
                 {schedule.map((item, dayIndex) => (
-                  <div key={item.day} className="mb-4 md:grid grid-cols-3 gap-2">
+                  <div
+                    key={item.day}
+                    className="mb-4 md:grid grid-cols-3 gap-2"
+                  >
                     <div>
                       <p>{item.day}</p>
                       <label className="flex gap-2 mt-2">
                         <input
                           type="checkbox"
                           checked={item.closed}
-                          onChange={() => updateSchedule(dayIndex, { closed: !item.closed })}
+                          onChange={() =>
+                            updateSchedule(dayIndex, { closed: !item.closed })
+                          }
                         />
                         Closed
                       </label>
@@ -124,7 +133,10 @@ const CertificationHourModule = ({ handleTabChange }) => {
                     {!item.closed && (
                       <div className="col-start-2 col-end-4">
                         {item.slots.map((slot, slotIndex) => (
-                          <div key={slotIndex} className="flex items-center gap-2 mt-2">
+                          <div
+                            key={slotIndex}
+                            className="flex items-center gap-2 mt-2"
+                          >
                             <input
                               type="time"
                               className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
@@ -147,9 +159,13 @@ const CertificationHourModule = ({ handleTabChange }) => {
                             />
                             <button
                               type="button"
-                              onClick={() => updateSchedule(dayIndex, {
-                                slots: item.slots.filter((_, i) => i !== slotIndex),
-                              })}
+                              onClick={() =>
+                                updateSchedule(dayIndex, {
+                                  slots: item.slots.filter(
+                                    (_, i) => i !== slotIndex
+                                  ),
+                                })
+                              }
                             >
                               <FaTrash />
                             </button>
@@ -158,9 +174,11 @@ const CertificationHourModule = ({ handleTabChange }) => {
                         <button
                           type="button"
                           className="py-2"
-                          onClick={() => updateSchedule(dayIndex, {
-                            slots: [...item.slots, { start: "", end: "" }],
-                          })}
+                          onClick={() =>
+                            updateSchedule(dayIndex, {
+                              slots: [...item.slots, { start: "", end: "" }],
+                            })
+                          }
                         >
                           <FaPlusCircle />
                         </button>
@@ -176,9 +194,12 @@ const CertificationHourModule = ({ handleTabChange }) => {
           <div className="py-8 border-b">
             <div className="grid lg:grid-cols-3 gap-2 max-w-[1000px]">
               <div>
-                <p className="text-sm font-semibold">Special Hours of Operation</p>
+                <p className="text-sm font-semibold">
+                  Special Hours of Operation
+                </p>
                 <p className="text-[#535862] text-sm">
-                  This is to show your hours around holidays. This will be publicly displayed.
+                  This is to show your hours around holidays. This will be
+                  publicly displayed.
                 </p>
               </div>
               <div className="sm:col-span-2">
@@ -244,56 +265,60 @@ const CertificationHourModule = ({ handleTabChange }) => {
                           </label>
                         </div>
 
-                        {!item.closed && !item.Open24Hours && item.hour?.map((slot, slotIndex) => (
-                          <div
-                            key={slotIndex}
-                            className="grid grid-cols-2 gap-4 mt-2"
-                          >
-                            <div>
-                              <input
-                                type="time"
-                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
-                                value={slot.start}
-                                onChange={(e) => {
-                                  const slots = [...item.hour];
-                                  slots[slotIndex] = {
-                                    ...slots[slotIndex],
-                                    start: e.target.value
-                                  };
-                                  updatespecialSchedule(dayIndex, {
-                                    hour: slots,
-                                  });
-                                }}
-                              />
+                        {!item.closed &&
+                          !item.Open24Hours &&
+                          item.hour?.map((slot, slotIndex) => (
+                            <div
+                              key={slotIndex}
+                              className="grid grid-cols-2 gap-4 mt-2"
+                            >
+                              <div>
+                                <input
+                                  type="time"
+                                  className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
+                                  value={slot.start}
+                                  onChange={(e) => {
+                                    const slots = [...item.hour];
+                                    slots[slotIndex] = {
+                                      ...slots[slotIndex],
+                                      start: e.target.value,
+                                    };
+                                    updatespecialSchedule(dayIndex, {
+                                      hour: slots,
+                                    });
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <input
+                                  type="time"
+                                  className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
+                                  value={slot.end}
+                                  onChange={(e) => {
+                                    const slots = [...item.hour];
+                                    slots[slotIndex] = {
+                                      ...slots[slotIndex],
+                                      end: e.target.value,
+                                    };
+                                    updatespecialSchedule(dayIndex, {
+                                      hour: slots,
+                                    });
+                                  }}
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <input
-                                type="time"
-                                className="border border-[#D5D7DA] p-3 rounded-[8px] w-full shadow"
-                                value={slot.end}
-                                onChange={(e) => {
-                                  const slots = [...item.hour];
-                                  slots[slotIndex] = {
-                                    ...slots[slotIndex],
-                                    end: e.target.value
-                                  };
-                                  updatespecialSchedule(dayIndex, {
-                                    hour: slots,
-                                  });
-                                }}
-                              />
-                            </div>
-                          </div>
-                        ))}
+                          ))}
 
                         {!item.closed && !item.Open24Hours && (
                           <div className="flex gap-3 mt-2 w-full">
                             <button
                               type="button"
                               className="py-2 sm:w-auto"
-                              onClick={() => updatespecialSchedule(dayIndex, {
-                                hour: [...item.hour, { start: "", end: "" }]
-                              })}
+                              onClick={() =>
+                                updatespecialSchedule(dayIndex, {
+                                  hour: [...item.hour, { start: "", end: "" }],
+                                })
+                              }
                             >
                               <FaPlusCircle />
                             </button>
@@ -302,7 +327,6 @@ const CertificationHourModule = ({ handleTabChange }) => {
                       </div>
                     </div>
                   ))}
-
                 </div>
               </div>
             </div>

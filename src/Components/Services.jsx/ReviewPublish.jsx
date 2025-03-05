@@ -271,15 +271,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     }
 
     try {
-      const url = isEdit
-        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}`
-        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`; 
-
-      const response = await axios.get(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.status === 200) {
+      const response = await dealPublish(id).unwrap();
+      console.log("API Response:", response);
+      if (response?.success || response?.status === 200) {
         navigate("/provider/services");
 
         Swal.fire({
@@ -434,9 +428,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                                 )
                                   ? ""
                                   : currentDayData.regular_hour[0].end_time >=
-                                    12
-                                  ? "PM"
-                                  : "AM"}
+                                      12
+                                    ? "PM"
+                                    : "AM"}
                               </>
                             ) : (
                               "Closed"
@@ -505,10 +499,10 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                             {formdata?.pricing_model === "Hourly"
                               ? "" + formdata.hourly_final_list_price
                               : formdata?.pricing_model === "Flat"
-                              ? "" + formdata.flat_rate_price
-                              : formdata?.pricing_model === "Custom"
-                              ? "" + formdata.price1
-                              : "$200"}
+                                ? "" + formdata.flat_rate_price
+                                : formdata?.pricing_model === "Custom"
+                                  ? "" + formdata.price1
+                                  : "$200"}
                           </p>
                         </div>
                         <p className="text-sm myblack mt-2">

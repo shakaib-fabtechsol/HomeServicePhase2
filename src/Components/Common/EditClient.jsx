@@ -7,14 +7,19 @@ import { useLocation } from "react-router-dom";
 import { useGetsaleclientByIdQuery, useUpdateClientMutation, useUpdatesaleClientMutation } from "../../services/clients";
 import Loader from "../MUI/Loader";
 import Swal from "sweetalert2";
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function EditClient({ oncancel, onsave }) {
   const location = useLocation();
   const { id } = location.state || {};
   const navigate = useNavigate();
   const { data: clientData, isLoading, isError } = useGetsaleclientByIdQuery(id);
   const [image, setImage] = React.useState(null);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     defaultValues: {
       name: clientData?.Customer?.name || "",
       phone: clientData?.Customer?.phone || "",
@@ -39,7 +44,6 @@ export default function EditClient({ oncancel, onsave }) {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
-
   };
 
   if (isLoading || updateClientLoading) {
@@ -52,14 +56,14 @@ export default function EditClient({ oncancel, onsave }) {
 
   if (isError) {
     Swal.fire({
-      icon: 'error',
-      title: 'Client Not Found',
-      text: clientData?.error?.message || 'Failed to get client. Please try again.',
-    })
+      icon: "error",
+      title: "Client Not Found",
+      text:
+        clientData?.error?.message || "Failed to get client. Please try again.",
+    });
   }
 
   const onSubmit = async (data) => {
-
     const formData = new FormData();
     if (data.name !== clientData?.Customer?.name) {
       formData.append("name", data.name);
@@ -77,29 +81,28 @@ export default function EditClient({ oncancel, onsave }) {
     if (image) {
       formData.append("personal_image", image);
     }
-  
+
     formData.append("id", id);
 
-      try {
-        await updateClient(formData).unwrap();
-        Swal.fire({
-          icon: 'success',
-          title: 'Welcome Back!',
-          text: 'Customer update Successfully',
-          timer: 1500,
-          showConfirmButton: false,
-        }).then(() => {
-          navigate(onsave);
-        });
+    try {
+      await updateClient(formData).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: "Welcome Back!",
+        text: "Customer update Successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
         navigate(onsave);
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Update Failed',
-          text: error?.message || 'Failed to update client. Please try again.',
-        });
-
-      }
+      });
+      navigate(onsave);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: error?.message || "Failed to update client. Please try again.",
+      });
+    }
   };
 
   return (
@@ -115,13 +118,25 @@ export default function EditClient({ oncancel, onsave }) {
           {image ? (
             // If image is a File object, show preview
             typeof image === "string" ? (
-              <img src={image} alt="Preview" className="w-full h-full object-cover" />
+              <img
+                src={image}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
             ) : (
-              <img src={URL.createObjectURL(image)} alt="Preview" className="w-full h-full object-cover" />
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
             )
           ) : clientData?.Customer?.personal_image ? (
             // If no new file is uploaded, show existing image from URL
-            <img src={`${BASE_URL}/uploads/${clientData?.Customer?.personal_image}`} alt="Client Image" className="w-full h-full object-cover" />
+            <img
+              src={`${BASE_URL}/uploads/${clientData?.Customer?.personal_image}`}
+              alt="Client Image"
+              className="w-full h-full object-cover"
+            />
           ) : (
             // Default camera icon
             <img src={camera} alt="Default" />
@@ -135,7 +150,6 @@ export default function EditClient({ oncancel, onsave }) {
           />
         </label>
 
-
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div>
             <input
@@ -144,8 +158,9 @@ export default function EditClient({ oncancel, onsave }) {
               placeholder="Name"
               {...register("name", { required: "Name is required" })}
             />
-            {errors.name && <p className="text-red-600">{errors.name.message}</p>}
-
+            {errors.name && (
+              <p className="text-red-600">{errors.name.message}</p>
+            )}
           </div>
           <div>
             <input
@@ -154,8 +169,9 @@ export default function EditClient({ oncancel, onsave }) {
               placeholder="Phone"
               {...register("phone", { required: "Phone is required" })}
             />
-            {errors.phone && <p className="text-red-600">{errors.phone.message}</p>}
-
+            {errors.phone && (
+              <p className="text-red-600">{errors.phone.message}</p>
+            )}
           </div>
 
           <div>
@@ -165,8 +181,9 @@ export default function EditClient({ oncancel, onsave }) {
               placeholder="Email"
               {...register("email", { required: "Email is required" })}
             />
-            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
-
+            {errors.email && (
+              <p className="text-red-600">{errors.email.message}</p>
+            )}
           </div>
           <div>
             <LocationInput
@@ -174,7 +191,9 @@ export default function EditClient({ oncancel, onsave }) {
               label="Business Location"
               placeholder="Enter your  location"
             />
-            {errors?.location && <p className="text-red-600">{errors?.location?.message}</p>}
+            {errors?.location && (
+              <p className="text-red-600">{errors?.location?.message}</p>
+            )}
           </div>
         </div>
         <div className="mt-4 flex justify-end gap-3">

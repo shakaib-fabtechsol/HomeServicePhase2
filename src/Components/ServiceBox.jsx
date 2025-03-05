@@ -29,15 +29,14 @@ function ServiceBox({
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
   const imageUrl = image
-  ? `https://marketplace.thefabulousshow.com/uploads/${image}`
-  : null;
+    ? `https://marketplace.thefabulousshow.com/uploads/${image}`
+    : null;
 
+  const imageToShow = imageUrl || defaultuser;
 
-const imageToShow = imageUrl || defaultuser;
-
-{
-  console.log("publish", publish);
-}
+  {
+    console.log("publish", publish);
+  }
   return (
     <div className="border rounded-lg">
       <div className="px-3 pt-3">
@@ -116,13 +115,11 @@ const imageToShow = imageUrl || defaultuser;
           <p className="mb-0 text-lg font-extrabold">{price ?? "N/A"}</p>
         </div>
         <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
-          <div>
-            {tags}
-          </div>
+          <div>{tags}</div>
           <div className="flex items-center">
             <span className="text-[#0F91D2]">Avg</span>
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />
-            <span className="text-[#717171]">{Days ??"N/A"}</span>
+            <span className="text-[#717171]">{Days ?? "N/A"}</span>
           </div>
         </div>
       </div>

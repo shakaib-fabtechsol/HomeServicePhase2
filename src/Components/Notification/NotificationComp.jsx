@@ -23,8 +23,10 @@ export default function NotificationComp({ data }) {
                 <p className="text-sm sm:text-base lg:text-lg font-semibold text-black  w-[140px]">
                   {notification.Name}
                 </p>
-                <p className="text-sm notification-text sm:text-base lg:text-lg font-extralight text-[#535862] sm:w-[calc(100%-100px)] 
-                 ">
+                <p
+                  className="text-sm notification-text sm:text-base lg:text-lg font-extralight text-[#535862] sm:w-[calc(100%-100px)] 
+                 "
+                >
                   {`${notification.task}: ${notification.comment}`}
                 </p>
               </div>

@@ -124,7 +124,8 @@ export default function PersonalInfo({ data, id, updateSale }) {
         ))}
       </div>
       <div className="mt-4 flex justify-end gap-3">
-        <Link to="/superadmin/sales"
+        <Link
+          to="/superadmin/sales"
           className="text-[#16151C] py-2 px-4 border border-[#A2A1A833] rounded-[10px]"
           type="button"
         >

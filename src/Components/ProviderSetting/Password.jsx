@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PasswordModule from "../../modules/settings/provider-settings/Password";
-const Password = ({handleTabChange}) => {
+const Password = ({ handleTabChange }) => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {

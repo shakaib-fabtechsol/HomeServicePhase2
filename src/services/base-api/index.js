@@ -1,15 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PROVIDES_TAGS } from "../providesTags";
 
-const baseQuery = fetchBaseQuery({ 
-    baseUrl: import.meta.env.VITE_BASE_URL_API,
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState()?.auth?.token;
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
+const baseQuery = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_BASE_URL_API,
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState()?.auth?.token;
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
-  })
+  },
+});
 
 export const BASE_API = createApi({
   reducerPath: "api",
@@ -62,7 +62,7 @@ export const BASE_API = createApi({
     deleteDeal: builder.mutation({
       query: (dealId) => ({
         url: `DeleteDeal/${dealId}`,
-        method: 'GET', 
+        method: "GET",
       }),
     }),
 
@@ -80,7 +80,7 @@ export const BASE_API = createApi({
     dealPublish: builder.mutation({
       query: (id) => ({
         url: `DealPublish/${id}`,
-        method: 'GET', 
+        method: "GET",
       }),
     }),
 
@@ -94,9 +94,6 @@ export const BASE_API = createApi({
         { type: "Deal", id: dealid },
       ],
     }),
-    
-
-    
   }),
 });
 

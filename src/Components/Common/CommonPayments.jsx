@@ -309,7 +309,7 @@ export default function CommonPayments() {
                       ID
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                     Date
+                      Date
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                       Customer Name
@@ -423,13 +423,17 @@ export default function CommonPayments() {
                   </div>
                 </div>
               </div>
-             <div className="flex my-3">
+              <div className="flex my-3">
                 <div className="flex items-center">
-                  <GrLocation className="me-2"/>
-                  <span className="font-semibold text-sm me-2">Service Location: </span>
+                  <GrLocation className="me-2" />
+                  <span className="font-semibold text-sm me-2">
+                    Service Location:{" "}
+                  </span>
                 </div>
-                <p className="text-sm">Lorem Ipsum is simply dummy text of the printing and</p>
-             </div>
+                <p className="text-sm">
+                  Lorem Ipsum is simply dummy text of the printing and
+                </p>
+              </div>
               <div className="mt-4">
                 <p className="font-semibold">Deliverables</p>
                 <div className="my-2">
@@ -445,21 +449,27 @@ export default function CommonPayments() {
                 <table className="w-full mt-4">
                   <thead className="text-xs ">
                     <tr className="align-middle">
-                      <td className="p-3 font-semibold text-[16px]">Services</td>
+                      <td className="p-3 font-semibold text-[16px]">
+                        Services
+                      </td>
                       <td className="p-3">Price</td>
                       <td className="p-3">Total</td>
                     </tr>
                   </thead>
                   <tbody className="text-xs ">
                     <tr className="align-middle">
-                      <td className="p-3">Service Name <br></br>Discription</td>
+                      <td className="p-3">
+                        Service Name <br></br>Discription
+                      </td>
                       <td className="p-3">4,000.00</td>
                       <td className="p-3">4,000.00</td>
                     </tr>
                     <tr className="align-middle">
                       <td className="p-3">Charges</td>
                       <td className="p-3 bg-[#F8F8F8]">Total(USD)</td>
-                      <td className="p-3 text-lg font-bold bg-[#F8F8F8]">3200.00</td>
+                      <td className="p-3 text-lg font-bold bg-[#F8F8F8]">
+                        3200.00
+                      </td>
                     </tr>
                   </tbody>
                 </table>

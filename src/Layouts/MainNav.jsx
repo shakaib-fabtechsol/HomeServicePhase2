@@ -12,7 +12,10 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const MainNav = ({ toggleSidebar, logolink }) => {
   const location = useLocation();
-  const isHomeOrCatalog = location.pathname === "/" || location.pathname === "/catalogResult" || location.pathname === "/dealdetails";
+  const isHomeOrCatalog =
+    location.pathname === "/" ||
+    location.pathname === "/catalogResult" ||
+    location.pathname === "/dealdetails";
 
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
@@ -42,7 +45,10 @@ const MainNav = ({ toggleSidebar, logolink }) => {
                 />
               </div>
             </div>
-            <button type="submit" className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1">
+            <button
+              type="submit"
+              className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1"
+            >
               <FaSearch />
             </button>
           </div>
@@ -52,8 +58,12 @@ const MainNav = ({ toggleSidebar, logolink }) => {
       <div className="flex items-center">
         {isHomeOrCatalog ? (
           <>
-            <Link to="/login" className="me-3">Sign In</Link>
-            <Link to="/register" className="border-2 rounded-lg px-4 py-2">Join Now</Link>
+            <Link to="/login" className="me-3">
+              Sign In
+            </Link>
+            <Link to="/register" className="border-2 rounded-lg px-4 py-2">
+              Join Now
+            </Link>
           </>
         ) : (
           <>
