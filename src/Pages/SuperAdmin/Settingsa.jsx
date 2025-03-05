@@ -30,7 +30,7 @@ export default function Settingsa() {
           <p>Personal Information</p>
         </div>
       ),
-      content: <PersonalInfo Admin={Admin} updateAmin={updateAmin} />,
+      content: <PersonalInfo Admin={Admin} updateAdmin={updateAmin} />,
     },
     {
       label: (

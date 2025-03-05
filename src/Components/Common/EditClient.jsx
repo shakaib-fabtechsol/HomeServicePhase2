@@ -4,15 +4,14 @@ import camera from "../../assets/img/cameraicon.png";
 import { Link, useNavigate } from "react-router-dom";
 import LocationInput from "../LocationInput";
 import { useLocation } from "react-router-dom";
-import { useGetsaleclientByIdQuery, useUpdateClientMutation, useUpdatesaleClientMutation } from "../../services/clients";
-import Loader from "../MUI/Loader";
+
 import Swal from "sweetalert2";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-export default function EditClient({ oncancel, onsave }) {
+export default function EditClient({ oncancel, onsave,clientData,updateClient }) {
   const location = useLocation();
   const { id } = location.state || {};
   const navigate = useNavigate();
-  const { data: clientData, isLoading, isError } = useGetsaleclientByIdQuery(id);
+
   const [image, setImage] = React.useState(null);
   const {
     register,
@@ -39,29 +38,14 @@ export default function EditClient({ oncancel, onsave }) {
     }
   }, [clientData, reset]);
 
-  const [updateClient, { isLoading: updateClientLoading }] = useUpdatesaleClientMutation();
+ 
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
   };
 
-  if (isLoading || updateClientLoading) {
-    return (
-      <div className="loader">
-        <Loader />
-      </div>
-    );
-  }
 
-  if (isError) {
-    Swal.fire({
-      icon: "error",
-      title: "Client Not Found",
-      text:
-        clientData?.error?.message || "Failed to get client. Please try again.",
-    });
-  }
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -207,7 +191,7 @@ export default function EditClient({ oncancel, onsave }) {
           <button
             className="text-white bg-[#0F91D2] py-2 px-6 border border-[#A2A1A833] rounded-[10px]"
             type="submit"
-            disabled={updateClientLoading}
+            // disabled={updateClientLoading}
           >
             Save
           </button>

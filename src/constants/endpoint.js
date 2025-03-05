@@ -43,8 +43,13 @@ export const SALEREP_POINTS = {
     GET_CUSTOMERS: "/SaleRep/SaleCustomers",
     GET_SINGLE_CUSTOMER: "/SaleRep/SaleCustomer",
     EDIT_CUSTOMER: "/SaleRep/UpdateSaleCustomer",
-    UPDATE_SALES: "/SaleRep/SalesPersonal"
-
+    UPDATE_SALES: "/SaleRep/SalesPersonal",
+    UPDATE_SALES_SECURITY:"/SaleRep/SalesSecurity",
+    GET_ALL_TASKS:"/SaleRep/FetchAllTask",
+    Add_TASK:"/SaleRep/AddTask",
+    UPDATE_TASK:"/SaleRep/UpdateTask",
+    VIEW_TASK:"/SaleRep/ViewTask",
+    DELETE_TASK:"/SaleRep/DeleteTask"
 
 }
 export const SALE_POINTS = {

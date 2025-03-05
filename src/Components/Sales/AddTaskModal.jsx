@@ -1,33 +1,55 @@
 import React from "react";
 import { FaXmark } from "react-icons/fa6";
 import BlueSwitch from "../SuperAdmin/settings/BlueSwitch";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useAddtaskMutation } from "../../services/salesrep";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  desc: yup.string().max(200, "Description should not be more than 200 characters"),
-  date: yup.date().required("Due date is required"),
-  time: yup.string().required("Due time is required"),
+  test: yup.string().required("Name is required"),
+  due_datetime: yup.date().required("Due date/time is required"),
+  status: yup.string().required("Status is required"),
+  description: yup
+    .string()
+    .max(200, "Description should not be more than 200 characters"),
 });
 
 export default function AddTaskModal({ close }) {
+  const [addtask,{isLoading}]=useAddtaskMutation();
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     watch,
+    setValue, // ✅ Use setValue to manually update file input
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      test: "",
+      due_datetime: "",
+      notification: false,
+      status: "",
+      description: "",
+      files: null, // ✅ Ensure files is initialized properly
+    },
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const response=addtask(data)
+      console.log(response,"response data")
+
+
+    } catch (error) {
+      console.log(error,"this is error data")
+    }
     close();
   };
 
-  const fileName = watch("uploadfile", "")?.[0]?.name || "";
+  const file = watch("files"); // ✅ Watch for the file state
+  const fileName = file ? file.name : ""; // ✅ Get file name safely
 
   return (
     <div className="max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
@@ -48,48 +70,84 @@ export default function AddTaskModal({ close }) {
           </p>
         </div>
         <div className="mt-4">
-          <label className="text-sm font-medium" htmlFor="name">
+          <label className="text-sm font-medium" htmlFor="test">
             Name the task
           </label>
           <input
             className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] mt-1"
             type="text"
-            {...register("name")}
+            {...register("test")}
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          {errors.test && (
+            <p className="text-red-500 text-sm mt-1">{errors.test.message}</p>
           )}
         </div>
         <div className="mt-4">
-          <label className="text-sm font-medium" htmlFor="desc">
+          <label className="text-sm font-medium" htmlFor="due_datetime">
+            Due Date/Time
+          </label>
+          <input
+            className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] mt-1"
+            type="datetime-local"
+            {...register("due_datetime")}
+          />
+          {errors.due_datetime && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.due_datetime.message}
+            </p>
+          )}
+        </div>
+        <div className="mt-4">
+          <p className="text-sm font-medium">Activate Notifications</p>
+          <div className="flex items-center gap-4 mt-2">
+            <label
+              className="text-[#787486] font-medium text-sm"
+              htmlFor="notification"
+            >
+              Task will be reminded
+            </label>
+            <Controller
+              name="notification"
+              control={control}
+              render={({ field }) => (
+                <BlueSwitch
+                  {...field}
+                  checked={field.value === 1} // Convert 1 to true for the switch
+                  onChange={(e) => field.onChange(e.target.checked ? 1 : 0)}
+                  id="notification"
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label className="text-sm font-medium" htmlFor="status">
+            Status
+          </label>
+          <select
+            className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] mt-1"
+            {...register("status")}
+          >
+            <option value="">Select</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+          </select>
+          {errors.status && (
+            <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+          )}
+        </div>
+        <div className="mt-4">
+          <label className="text-sm font-medium" htmlFor="description">
             Description
           </label>
           <textarea
             className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] mt-1"
-            {...register("desc")}
+            {...register("description")}
             rows={4}
           ></textarea>
-          {errors.desc && (
-            <p className="text-red-500 text-sm mt-1">{errors.desc.message}</p>
-          )}
-        </div>
-        <div className="mt-4">
-          <p className="text-sm font-medium">Due Date/Time</p>
-          <div className="grid grid-cols-5 gap-4 mt-1">
-            <input
-              className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] col-span-3 hide-calendar"
-              type="date"
-              {...register("date")}
-            />
-            <input
-              className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] col-span-2 hide-clock"
-              type="time"
-              {...register("time")}
-            />
-          </div>
-          {(errors.date || errors.time) && (
+          {errors.description && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.date?.message || errors.time?.message}
+              {errors.description.message}
             </p>
           )}
         </div>
@@ -98,28 +156,18 @@ export default function AddTaskModal({ close }) {
           <input
             className="hidden"
             type="file"
-            name="uploadfile"
-            id="uploadfile"
-            {...register("uploadfile")}
+            id="files"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setValue("files", file); // ✅ Use setValue to update file field
+            }}
           />
           <label
             className="text-[#787486] font-medium text-sm border border-dotted rounded-[4px] border-[#787486] py-2 mt-2 cursor-pointer px-3 inline-block"
-            htmlFor="uploadfile"
+            htmlFor="files"
           >
             {fileName ? `+ ${fileName}` : "+ Attach File"}
           </label>
-        </div>
-        <div className="mt-4">
-          <p className="text-sm font-medium">Activate Notifications</p>
-          <div className="flex items-center gap-4 mt-2">
-            <label
-              className="text-[#787486] font-medium text-sm"
-              htmlFor="reminder"
-            >
-              Task will be reminder
-            </label>
-            <BlueSwitch {...register("reminder")} defaultChecked={false} id="reminder" />
-          </div>
         </div>
         <div className="mt-4 flex justify-end gap-3">
           <button
@@ -140,4 +188,3 @@ export default function AddTaskModal({ close }) {
     </div>
   );
 }
-
