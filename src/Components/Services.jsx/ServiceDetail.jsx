@@ -102,6 +102,7 @@ function ServiceDetail() {
         try {
           await deleteDeal(dealId).unwrap();
           navigate("/provider/services");
+          navigate("/provider/services");
         } catch (error) {
           Swal.fire("Error!", "Failed to delete the deal.", "error");
         }
@@ -256,8 +257,8 @@ function ServiceDetail() {
                             )
                               ? ""
                               : currentDayData.regular_hour[0].end_time >= 12
-                              ? "PM"
-                              : "AM"}
+                                ? "PM"
+                                : "AM"}
                           </>
                         ) : (
                           "Closed"
@@ -347,10 +348,10 @@ function ServiceDetail() {
                         {serviceDetails?.pricing_model === "Hourly"
                           ? serviceDetails.hourly_final_list_price
                           : serviceDetails?.pricing_model === "Flat"
-                          ? serviceDetails.flat_rate_price
-                          : serviceDetails?.pricing_model === "Custom"
-                          ? serviceDetails.price1
-                          : "$200"}
+                            ? serviceDetails.flat_rate_price
+                            : serviceDetails?.pricing_model === "Custom"
+                              ? serviceDetails.price1
+                              : "$200"}
                       </p>
                     </div>
                     <p className="text-sm myblack mt-2">
@@ -398,6 +399,31 @@ function ServiceDetail() {
                       </p>
                       <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
                         <li>{serviceDetails?.estimated_service_timing2}</li>
+                      </ul>
+                    </CustomTabPanel>
+                  )}
+                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
+                    <CustomTabPanel value={value} index={1}>
+                      <div className="flex justify-between">
+                        <h2 className="text-2xl font-medium myhead">
+                          {serviceDetails[0]?.pricing_model}
+                        </h2>
+                        <p className="text-3xl myhead font-bold">
+                          {serviceDetails[0]?.price2}
+                        </p>
+                      </div>
+                      <p className="text-sm myblack mt-2">
+                        {serviceDetails[0]?.fine_print
+                          ?.split("\n")
+                          .map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                      </p>
+                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                        <li>{serviceDetails[0]?.estimated_service_timing2}</li>
                       </ul>
                     </CustomTabPanel>
                   )}

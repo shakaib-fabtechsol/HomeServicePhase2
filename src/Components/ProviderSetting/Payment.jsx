@@ -5,19 +5,17 @@ import Swal from "sweetalert2";
 import { useAddPaymentDetailsMutation } from "../../services/settings";
 import { setUser } from "../../redux/reducers/authSlice";
 
-
 const Payment = () => {
   const userData = useSelector((state) => state.auth.user);
   const [addPaymentDetails, { isLoading }] = useAddPaymentDetailsMutation();
   const dispatch = useDispatch();
-
 
   console.log("userData>>>>>>>", userData);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -27,49 +25,50 @@ const Payment = () => {
       ssn: userData?.payment?.ssn || "",
       account_number: userData?.payment?.account_number || "",
       bank_routing_number: userData?.payment?.bank_routing_number || "",
-    }
+    },
   });
 
   const patterns = {
     accountNumber: {
       value: /^\d{10,12}$/,
-      message: "Account number must be 10-12 digits"
+      message: "Account number must be 10-12 digits",
     },
     routingNumber: {
       value: /^\d{9}$/,
-      message: "Routing number must be 9 digits"
+      message: "Routing number must be 9 digits",
     },
     ssn: {
       value: /^\d{9}$/,
-      message: "SSN/TIN must be 9 digits"
-    }
+      message: "SSN/TIN must be 9 digits",
+    },
   };
 
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
       formData.append("user_id", userData.id);
-      Object.keys(data).forEach(key => {
+      Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
 
       const response = await addPaymentDetails(formData);
       if (response) {
-
         // handleTabChange(9);
         Swal.fire({
           icon: "success",
           title: "Success!",
           text: "Payment details updated successfully",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error?.message || "Something went wrong while updating payment details"
+        text:
+          error?.message ||
+          "Something went wrong while updating payment details",
       });
     }
   };
@@ -89,7 +88,10 @@ const Payment = () => {
             <div className="grid border-b py-4 grid-cols-1 md:grid-cols-12">
               <div className="col-span-12 md:col-span-4 lg:col-span-3">
                 <div>
-                  <label htmlFor="account_holder_name" className="font-semibold">
+                  <label
+                    htmlFor="account_holder_name"
+                    className="font-semibold"
+                  >
                     Account Holder Name*
                   </label>
                   <p className="text-[#535862] text-sm">
@@ -102,13 +104,15 @@ const Payment = () => {
                 <input
                   type="text"
                   {...register("account_holder_name", {
-                    required: "Account holder name is required"
+                    required: "Account holder name is required",
                   })}
                   placeholder="Enter account holder name"
-                  className={`myinput focus-none w-full ${errors.account_holder_name ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.account_holder_name ? "border-red-500" : ""}`}
                 />
                 {errors.account_holder_name && (
-                  <span className="text-red-500 text-sm">{errors.account_holder_name.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.account_holder_name.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -125,9 +129,9 @@ const Payment = () => {
               <div className="col-span-12 md:col-span-8 lg:col-span-6">
                 <select
                   {...register("bank", {
-                    required: "Please select a bank"
+                    required: "Please select a bank",
                   })}
-                  className={`myinput focus-none w-full ${errors.bank ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.bank ? "border-red-500" : ""}`}
                 >
                   <option value="">Select a bank</option>
                   <option value="bank1">Bank 1</option>
@@ -135,7 +139,9 @@ const Payment = () => {
                   <option value="bank3">Bank 3</option>
                 </select>
                 {errors.bank && (
-                  <span className="text-red-500 text-sm">{errors.bank.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.bank.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -153,13 +159,15 @@ const Payment = () => {
                 <input
                   type="text"
                   {...register("branch_name", {
-                    required: "Branch name/code is required"
+                    required: "Branch name/code is required",
                   })}
                   placeholder="Enter"
-                  className={`myinput focus-none w-full ${errors.branch_name ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.branch_name ? "border-red-500" : ""}`}
                 />
                 {errors.branch_name && (
-                  <span className="text-red-500 text-sm">{errors.branch_name.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.branch_name.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -177,13 +185,15 @@ const Payment = () => {
                 <input
                   type="text"
                   {...register("ssn", {
-                    pattern: patterns.ssn
+                    pattern: patterns.ssn,
                   })}
                   placeholder="Enter"
-                  className={`myinput focus-none w-full ${errors.ssn ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.ssn ? "border-red-500" : ""}`}
                 />
                 {errors.ssn && (
-                  <span className="text-red-500 text-sm">{errors.ssn.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.ssn.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -202,13 +212,15 @@ const Payment = () => {
                   type="text"
                   {...register("account_number", {
                     required: "Account number is required",
-                    pattern: patterns.accountNumber
+                    pattern: patterns.accountNumber,
                   })}
                   placeholder="Enter here..."
-                  className={`myinput focus-none w-full ${errors.account_number ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.account_number ? "border-red-500" : ""}`}
                 />
                 {errors.account_number && (
-                  <span className="text-red-500 text-sm">{errors.account_number.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.account_number.message}
+                  </span>
                 )}
               </div>
             </div>
@@ -227,13 +239,15 @@ const Payment = () => {
                   type="text"
                   {...register("bank_routing_number", {
                     required: "Routing number is required",
-                    pattern: patterns.routingNumber
+                    pattern: patterns.routingNumber,
                   })}
                   placeholder="Enter here..."
-                  className={`myinput focus-none w-full ${errors.bank_routing_number ? 'border-red-500' : ''}`}
+                  className={`myinput focus-none w-full ${errors.bank_routing_number ? "border-red-500" : ""}`}
                 />
                 {errors.bank_routing_number && (
-                  <span className="text-red-500 text-sm">{errors.bank_routing_number.message}</span>
+                  <span className="text-red-500 text-sm">
+                    {errors.bank_routing_number.message}
+                  </span>
                 )}
               </div>
             </div>

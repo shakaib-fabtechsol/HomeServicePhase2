@@ -6,7 +6,7 @@ import MaskedInput from "react-text-mask";
 import { useMyDetails } from "./useMyDetails";
 import Loader from "../../../../Components/MUI/Loader";
 
-const MyDetailModule = ({handleTabChange}) => {
+const MyDetailModule = ({ handleTabChange }) => {
   const {
     register,
     handleSubmit,
@@ -16,11 +16,10 @@ const MyDetailModule = ({handleTabChange}) => {
     onSubmit,
     handleFileChange,
     isLoading,
-    
-    // phoneNumber, 
-    // setPhoneNumber,
-  } = useMyDetails({handleTabChange});
 
+    // phoneNumber,
+    // setPhoneNumber,
+  } = useMyDetails({ handleTabChange });
 
   const referredBySales = watch("sales_referred");
   const selectedOption = watch("sales_representative");
@@ -50,16 +49,18 @@ const MyDetailModule = ({handleTabChange}) => {
     /\d/,
   ];
 
-if(isLoading){
-  return <Loader/>
-}
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         {/* Personal Profile Header */}
         <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
-          <p className="text-lg font-semibold text-[#181D27]">Personal Profile</p>
+          <p className="text-lg font-semibold text-[#181D27]">
+            Personal Profile
+          </p>
           <p className="text-[#535862] text-sm">
             Update your personal profile details.
           </p>
@@ -150,17 +151,14 @@ if(isLoading){
               <SettingsPreview
                 onFileSelect={(e) => handleFileChange(e, "personal_image")}
                 fieldName="personal_image"
-                existingImage ={watch("personal_image")}
+                existingImage={watch("personal_image")}
               />
             </div>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
             <div>
-              <label
-                className="text-sm font-semibold"
-                htmlFor="sales_referred"
-              >
+              <label className="text-sm font-semibold" htmlFor="sales_referred">
                 Were you referred by a Sales Representative?
               </label>
             </div>
@@ -171,7 +169,7 @@ if(isLoading){
                 name="sales_referred"
                 value={referredBySales}
                 {...register("sales_referred")}
-              //   onChange={handleReferralChange}
+                //   onChange={handleReferralChange}
               >
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
@@ -194,7 +192,9 @@ if(isLoading){
                   labelId="sales_representative"
                   {...register("sales_representative")}
                   value={selectedOption}
-                  onChange={(e) => setValue("sales_representative", e.target.value)}
+                  onChange={(e) =>
+                    setValue("sales_representative", e.target.value)
+                  }
                   renderValue={(selected) => {
                     const selectedOpt = options.find(
                       (option) => option.value === selected
@@ -263,7 +263,7 @@ if(isLoading){
           </button>
           <button
             type="submit"
-            onClick={()=>setValue('publish', true)}
+            onClick={() => setValue("publish", true)}
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
           >
             Save & Publish

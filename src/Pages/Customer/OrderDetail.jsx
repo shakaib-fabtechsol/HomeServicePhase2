@@ -253,7 +253,10 @@ const OrderDetail = () => {
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2">
           <div>
-            <button onClick={handlephotosOpen} className="bg-[#0F91D2] text-white sm:text-sm text-xs py-3 2xl:px-6 px-3 shadow-lg rounded-md">
+            <button
+              onClick={handlephotosOpen}
+              className="bg-[#0F91D2] text-white sm:text-sm text-xs py-3 2xl:px-6 px-3 shadow-lg rounded-md"
+            >
               Mark as complete
             </button>
           </div>

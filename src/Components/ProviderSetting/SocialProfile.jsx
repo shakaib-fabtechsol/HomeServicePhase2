@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 import SocialProfileModule from "../../modules/settings/provider-settings/SocialProfile";
 
-const SocialProfile = ({handleTabChange}) => {
+const SocialProfile = ({ handleTabChange }) => {
   const [selectedSocial, setSelectedSocial] = useState(null);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -44,9 +44,7 @@ const SocialProfile = ({handleTabChange}) => {
     { name: "Google Business", avatar: Business, link: "" },
   ];
 
-  return (
-   <SocialProfileModule handleTabChange={handleTabChange}/>
-  );
+  return <SocialProfileModule handleTabChange={handleTabChange} />;
 };
 
 export default SocialProfile;

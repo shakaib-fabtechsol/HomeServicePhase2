@@ -7,47 +7,45 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../Components/MUI/Loader";
 import Swal from "sweetalert2";
 import { useGetsaleByIdQuery } from "../../services/sales";
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function SalesRepd() {
-  const location=useLocation();
-  const { id } = location.state || {};  
+  const location = useLocation();
+  const { id } = location.state || {};
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetsaleByIdQuery(id);
 
   if (isError) {
     Swal.fire({
-      icon: 'error',
-      title: 'Sale Not Found',
-      text: data?.error?.message || 'Failed to get sales. Please try again.',
+      icon: "error",
+      title: "Sale Not Found",
+      text: data?.error?.message || "Failed to get sales. Please try again.",
     }).then(() => {
-      navigate('/superadmin/sales');
-    })
+      navigate("/superadmin/sales");
+    });
   }
-
-
 
   useEffect(() => {
     document.title = "Sales Rep details";
   }, []);
-  const permissions = [{
-    id: 1,
-    name: "Permissions 1",
-    assign_permission_1: data?.GetSalesReps?.assign_permission_1,
-    client_permission_1:data?.GetSalesReps?.client_permission_1
-
-
-  }, {
-    id: 2,
-    name: "Permissions 2",     
-    assign_permission_1: data?.GetSalesReps?.assign_permission_2,
-    client_permission_1:data?.GetSalesReps?.client_permission_2   
-  }, {
-    id: 3,
-    name: "Permissions 3",
-    assign_permission_1: data?.GetSalesReps?.assign_permission_3,
-    client_permission_1:data?.GetSalesReps?.client_permission_3
-  }
-  
+  const permissions = [
+    {
+      id: 1,
+      name: "Permissions 1",
+      assign_permission_1: data?.GetSalesReps?.assign_permission_1,
+      client_permission_1: data?.GetSalesReps?.client_permission_1,
+    },
+    {
+      id: 2,
+      name: "Permissions 2",
+      assign_permission_1: data?.GetSalesReps?.assign_permission_2,
+      client_permission_1: data?.GetSalesReps?.client_permission_2,
+    },
+    {
+      id: 3,
+      name: "Permissions 3",
+      assign_permission_1: data?.GetSalesReps?.assign_permission_3,
+      client_permission_1: data?.GetSalesReps?.client_permission_3,
+    },
   ];
   if (isLoading) {
     return (
@@ -88,14 +86,21 @@ export default function SalesRepd() {
             <div className="mt-1">
               <div className="flex items-center gap-1">
                 <IoLocationOutline className="text-[#535862]" />
-                <p className="text-[#535862]">{data?.GetSalesReps?.location || "N/A"}</p>
+                <p className="text-[#535862]">
+                  {data?.GetSalesReps?.location || "N/A"}
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div onClick={()=>{
-          navigate("/superadmin/editsalesrep", { state: { id: data?.GetSalesReps?.id } })
-        }} className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto">
+        <div
+          onClick={() => {
+            navigate("/superadmin/editsalesrep", {
+              state: { id: data?.GetSalesReps?.id },
+            });
+          }}
+          className="flex py-3 justify-center items-center px-6 rounded-lg text-[#fff] bg-[#0F91D2] ms-auto"
+        >
           <FaRegPenToSquare className="me-2 text-[#fff]" />
           <span>Edit</span>
         </div>
@@ -115,46 +120,49 @@ export default function SalesRepd() {
         </p>
       </div> */}
       <div>
-           <div className="overflow-x-auto">
-             <div className="flex flex-col gap-5 min-w-[400px]">
-               <div className="grid grid-cols-12 gap-2">
-                 <div className="col-span-8"></div>
-                 <div className="col-span-2">
-                   <p className="text-xs sm:text-sm font-semibold">All Clients</p>
-                 </div>
-                 <div className="col-span-2">
-                   <p className="text-xs sm:text-sm font-semibold">Assigned Only</p>
-                 </div>
-               </div>
-               {permissions.map((permission, index) => (
-                 <div key={index} className="grid grid-cols-12 gap-2">
-                   <div className="col-span-8">
-                     <p className="text-sm sm:text-base md:text-lg font-semibold">{permission.name}</p>
-                   </div>
-                   <div className="col-span-2">
-                     <input
-                       className="accent-[#0F91D2] size-4"
-                       checked={permission?.client_permission_1}
-                       type="checkbox"
-                       name={`permission${index + 1}AllClients`}
-                       id={`permission${index + 1}AllClients`}
-                     />
-                   </div>
-                   <div className="col-span-2">
-                     <input
-                       className="accent-[#0F91D2] size-4"
-                       checked={permission?.assign_permission_1}
-                       type="checkbox"
-                       name={`permission${index + 1}AssignedOnly`}
-                       id={`permission${index + 1}AssignedOnly`}
-                     />
-                   </div>
-                 </div>
-               ))}
-             </div>
-           </div>
-
-         </div>
+        <div className="overflow-x-auto">
+          <div className="flex flex-col gap-5 min-w-[400px]">
+            <div className="grid grid-cols-12 gap-2">
+              <div className="col-span-8"></div>
+              <div className="col-span-2">
+                <p className="text-xs sm:text-sm font-semibold">All Clients</p>
+              </div>
+              <div className="col-span-2">
+                <p className="text-xs sm:text-sm font-semibold">
+                  Assigned Only
+                </p>
+              </div>
+            </div>
+            {permissions.map((permission, index) => (
+              <div key={index} className="grid grid-cols-12 gap-2">
+                <div className="col-span-8">
+                  <p className="text-sm sm:text-base md:text-lg font-semibold">
+                    {permission.name}
+                  </p>
+                </div>
+                <div className="col-span-2">
+                  <input
+                    className="accent-[#0F91D2] size-4"
+                    checked={permission?.client_permission_1}
+                    type="checkbox"
+                    name={`permission${index + 1}AllClients`}
+                    id={`permission${index + 1}AllClients`}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <input
+                    className="accent-[#0F91D2] size-4"
+                    checked={permission?.assign_permission_1}
+                    type="checkbox"
+                    name={`permission${index + 1}AssignedOnly`}
+                    id={`permission${index + 1}AssignedOnly`}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

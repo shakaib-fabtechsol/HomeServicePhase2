@@ -32,7 +32,7 @@ function Register() {
                 <p className="font-medium">Looking for Service?</p>
                 <Link
                   to="/signup"
-                  state={{ userType: "1" }} 
+                  state={{ userType: "1" }}
                   className="btn-blue font-semibold rounded-lg px-3 py-2 w-full text-[#fff] mt-3 flex justify-center"
                 >
                   Register as a Customer
@@ -43,7 +43,7 @@ function Register() {
                 <p className="font-medium">Looking for Work?</p>
                 <Link
                   to="/signup"
-                  state={{ userType: "2" }} 
+                  state={{ userType: "2" }}
                   className="btn-blue font-semibold rounded-lg px-3 py-2 w-full text-[#fff] mt-3 flex justify-center"
                 >
                   Register as a Service Provider

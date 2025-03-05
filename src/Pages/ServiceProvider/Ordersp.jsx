@@ -10,108 +10,89 @@ import ServiceDet from "../../assets/img/service-det.png";
 import { IoCalendarOutline, IoLocationOutline } from "react-icons/io5";
 import DateModal from "../../Components/Provider/DateModal";
 import { Modal } from "@mui/material";
-import PhotosModal from "../../Components/Provider/PhotosModal";
+import DeliveryModal from "../../Components/Provider/DeliveryModal";
 import Table from "../../Components/Table";
 import customer from "../../assets/img/client1.png";
-import UploadPhotos from "../../Components/Provider/UploadPhotos";
+import { useGetCustomerOrdersQuery } from "../../services/order";
+import LoadingSpinner from "../../Components/Common/LoadingSpinner";
+import RemoteError from "../../Components/Common/RemoteError";
+import OrderStatus from "../../Components/Common/OrderStatus";
+import OrderBeforeImagesModal from "../../Components/Common/OrderBeforeImagesModal";
+import OrderAfterImagesModal from "../../Components/Common/OrderAfterImagesModal";
 
+const tableHeader = ["Service", "Customer", "Status", "Scheduled"];
 export default function Ordersp() {
   useEffect(() => {
     document.title = "Orders";
   }, []);
 
+  const [beforeModalOrder, setBeforeModalOrder] = React.useState(null);
+  const [deliverModalOrder, setDeliverModalOrder] = React.useState(null);
+  const [afterModalOrder, setAfterModalOrder] = React.useState(false);
   const [dateopen, setdateOpen] = React.useState(false);
+
   const handledateOpen = () => setdateOpen(true);
   const handledateClose = () => setdateOpen(false);
 
-  const [photosopen, setphotosOpen] = React.useState(false);
-  const handlephotosOpen = () => setphotosOpen(true);
-  const handlephotosClose = () => setphotosOpen(false);
+  const handleDeliverModalOpen = React.useCallback((orderData) => {
+    setDeliverModalOrder(orderData);
+  }, []);
+  const handleDeliverModalClose = React.useCallback(
+    () => setDeliverModalOrder(null),
+    []
+  );
+  const handleBeforeOpen = React.useCallback(
+    (orderData) => setBeforeModalOrder(orderData),
+    []
+  );
+  const handleBeforeClose = React.useCallback(
+    () => setBeforeModalOrder(null),
+    []
+  );
+  const handleAfterOpen = React.useCallback(
+    (orderData) => setAfterModalOrder(orderData),
+    []
+  );
+  const handleAfterClose = React.useCallback(
+    () => setAfterModalOrder(null),
+    []
+  );
 
-  const [Beforeopen, setBeforeOpen] = React.useState(false);
-  const handleBeforeOpen = () => setBeforeOpen(true);
-  const handleBeforeClose = () => setBeforeOpen(false);
-
-  const [Afteropen, setAfterOpen] = React.useState(false);
-  const handleAfterOpen = () => setAfterOpen(true);
-  const handleAfterClose = () => setAfterOpen(false);
-
-  const tableHeader = ["Service", "Customer", "Status", "Scheduled"];
-  const orders = [
-    {
-      serviceName: "Service Name",
-      serviceimg: ServiceDet,
-      customerimg: customer,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: "$200",
-      provider: "Tatiana Dorwart",
-      date: "Dec 21, 2024",
-      location: "Lorem Ipsum is simply dummy text of the printing",
-      status: "New",
-    },
-    {
-      serviceName: "Service Name",
-      serviceimg: ServiceDet,
-      customerimg: customer,
-      description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-      price: "$150",
-      provider: "John Doe",
-      date: "Dec 21, 2024",
-      location: "Lorem Ipsum is simply dummy text of the printing",
-      status: "Scheduled",
-    },
-    {
-      serviceName: "Service Name",
-      serviceimg: ServiceDet,
-      customerimg: customer,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: "$200",
-      provider: "Tatiana Dorwart",
-      date: "Dec 21, 2024",
-      location: "Lorem Ipsum is simply dummy text of the printing",
-      status: "In Progress",
-    },
-    {
-      serviceName: "Service Name",
-      serviceimg: ServiceDet,
-      customerimg: customer,
-      description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-      price: "$150",
-      provider: "John Doe",
-      date: "Dec 21, 2024",
-      location: "Lorem Ipsum is simply dummy text of the printing",
-      status: "Completed",
-    },
-  ];
-
-  const tablerows = orders.map((order) => [
-    <div className="flex items-center gap-2">
+  const { data, isFetching, error, isError } = useGetCustomerOrdersQuery();
+  const tableRows = data?.orders?.map((orderDetails) => [
+    <div
+      key={`${orderDetails.order.id}-service`}
+      className="flex items-center gap-2"
+    >
       <img
-        src={order.serviceimg}
+        src={ServiceDet}
         alt=""
         className="w-[112px] max-w-[112px] h-[88px] rounded-lg object-cover"
       />
       <div>
         <p className="text-nowrap text-sm text-[#181D27]">
-          {order.serviceName}
+          {orderDetails.order.service_title}
         </p>
         <p className="text-xs text-wrap text-[#535862] line-clamp-2 w-[250px]">
-          {order.description}
+          Lorem Ipsum is simply dummy text of the printing
         </p>
         <div>
-          <p className="font-extrabold text-lg text-[#181D27]">{order.price}</p>
+          <p className="font-extrabold text-lg text-[#181D27]">
+            {orderDetails.order.total_amount}
+          </p>
         </div>
       </div>
     </div>,
-    <div>
+    <div key={`${orderDetails.order.id}-customer`}>
       <div className="flex items-center gap-2">
         <img
-          src={order.customerimg}
+          src={customer}
           alt=""
           className="size-12 max-w-12 rounded-full object-cover"
         />
+        {/* <img src={getImageUrl(order.personal_image)} alt='' className='size-12 max-w-12 rounded-full object-cover' /> */}
         <div>
-          <h6>{order.provider}</h6>
+          <h6>{orderDetails.order.name}</h6>
           <div className="flex items-center gap-1 mt-1">
             <Link className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
               <LuPhone /> Phone Call
@@ -128,31 +109,24 @@ export default function Ordersp() {
       <div className="mt-2 text-xs flex items-center gap-1">
         <IoLocationOutline />
         <p className="text-[10px]">
-          <span className="font-semibold">Service Location</span> : {order.location}
+          <span className="font-semibold">Service Location</span> : Lorem Ipsum
+          is simply dummy text of the printing
         </p>
       </div>
     </div>,
-    <p
-      className={`inline text-xs py-1 px-2 rounded-[4px] ${
-        order.status === "New"
-          ? "bg-[#0F91D21A]  text-[#0F91D2]"
-          : order.status === "Scheduled"
-          ? "bg-[#D20F8A1A]  text-[#D20F8A]"
-          : order.status === "In Progress"
-          ? "bg-[#FB86031A]  text-[#FB8603]"
-          : order.status === "Completed"
-          ? "bg-[#4CB53C1A]  text-[#4CB53C]"
-          : ""
-      }`}
+    <OrderStatus
+      key={`${orderDetails.order.id}-status`}
+      status={orderDetails.order.status}
+    />,
+    <div
+      key={`${orderDetails.order.id}-Scheduled`}
+      className="flex text-nowrap gap-5 items-center"
     >
-      {order.status}
-    </p>,
-    <div className="flex text-nowrap gap-5 items-center">
       <div className="w-max">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => {
-              if (order.status === "New") {
+              if (orderDetails.order.status === "New") {
                 handledateOpen();
               }
             }}
@@ -160,17 +134,21 @@ export default function Ordersp() {
           >
             <IoCalendarOutline className="text-sm" />
             <p className="text-[#535862] text-xs">
-              {order.status === "New" ? "Schedule" : order.date}
+              {orderDetails.order.status === "New"
+                ? "Schedule"
+                : orderDetails.order.date}
             </p>
           </button>
           <button
-            onClick={handleBeforeOpen}
+            disabled={orderDetails.order?.type === "delivered"}
+            onClick={handleBeforeOpen.bind(null, orderDetails)}
             className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             Before
           </button>
           <button
-            onClick={handleAfterOpen}
+            disabled={orderDetails.order?.type === "delivered"}
+            onClick={handleAfterOpen.bind(null, orderDetails)}
             className="bg-white text-[#0F91D2] text-xs py-2 px-3 text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             After
@@ -180,25 +158,33 @@ export default function Ordersp() {
       <div>
         <div>
           <Link
-            to="/provider/orderdetails"
+            to={`/provider/orderdetails/${orderDetails.order.id}`}
             className="bg-white text-[#343434] text-xs p-2 min-w-[100px] text-center border border-[#D7D7D7] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
           >
             View Details
           </Link>
         </div>
-        {order.status !== "Completed" && (
-          <div className="mt-2">
-            <button
-              onClick={handlephotosOpen}
-              className="text-white bg-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
-            >
-              Deliver
-            </button>
-          </div>
-        )}
+
+        <div className="mt-2">
+          <button
+            disabled={orderDetails.order.type === "delivered"}
+            onClick={handleDeliverModalOpen.bind(null, orderDetails)}
+            className="text-white bg-[#0F91D2] text-xs p-2 min-w-[100px] text-center border border-[#0F91D2] text-nowrap rounded-lg inline-block shadow-[0px_1px_2px_0px_#0A0D120D]"
+          >
+            {orderDetails.order.type == "delivered" ? "Delivered" : "Deliver"}
+          </button>
+        </div>
       </div>
     </div>,
   ]);
+
+  const allBeforeImages = deliverModalOrder?.before_images?.at(0)
+    ? JSON.parse(deliverModalOrder.before_images.at(0))
+    : [];
+
+  const allAfterImages = deliverModalOrder?.after_images?.at(0)
+    ? JSON.parse(deliverModalOrder.after_images.at(0))
+    : [];
 
   return (
     <div>
@@ -221,7 +207,13 @@ export default function Ordersp() {
         </div>
       </div>
       <div className="mt-4">
-        <Table headers={tableHeader} rows={tablerows} />
+        {isFetching ? (
+          <LoadingSpinner />
+        ) : isError ? (
+          <RemoteError hasError={isError} message={error?.message} />
+        ) : data ? (
+          <Table headers={tableHeader} rows={tableRows} />
+        ) : null}
       </div>
       <Modal
         open={dateopen}
@@ -235,38 +227,32 @@ export default function Ordersp() {
         </div>
       </Modal>
       <Modal
-        open={photosopen}
-        onClose={handlephotosClose}
+        open={!!deliverModalOrder}
+        onClose={handleDeliverModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{ m: 2 }}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
-          <PhotosModal close={handlephotosClose} />
+          <DeliveryModal
+            afterImgs={allAfterImages}
+            beforeImgs={allBeforeImages}
+            orderId={deliverModalOrder?.order?.id}
+            close={handleDeliverModalClose}
+          />
         </div>
       </Modal>
-      <Modal
-        open={Beforeopen}
+
+      <OrderBeforeImagesModal
+        orderId={beforeModalOrder?.order?.id}
+        isOpen={!!beforeModalOrder}
         onClose={handleBeforeClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ m: 2 }}
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
-          <UploadPhotos title={"Before Photos"} close={handleBeforeClose} />
-        </div>
-      </Modal>
-      <Modal
-        open={Afteropen}
+      />
+      <OrderAfterImagesModal
+        orderId={afterModalOrder?.order?.id}
+        isOpen={!!afterModalOrder}
         onClose={handleAfterClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ m: 2 }}
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
-          <UploadPhotos title={"After Photos"} close={handleAfterClose} />
-        </div>
-      </Modal>
+      />
     </div>
   );
 }
