@@ -35,12 +35,9 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
       });
   }, []);
 
-  const {
-    data: userData,
-    isLoading: userLoading,
-  } = useGetOrderQuery();
+  const { data: orderData, isLoading, error } = useGetOrderQuery();
   
-  const data = userData || {}; 
+  const data = orderData; 
   
   console.log(data);
   

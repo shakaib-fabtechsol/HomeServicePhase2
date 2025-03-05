@@ -48,11 +48,10 @@ export const salesAPIs = BASE_API.injectEndpoints({
     }),
     getOrder: builder.query({
       query: () => ({
-        url: `${GET_ORDER?.ORDER}/`,
-        method: "GET",
+        url: `${GET_ORDER.ORDER}`,
       }),
     }),
-
+    
   }),
 });
 
