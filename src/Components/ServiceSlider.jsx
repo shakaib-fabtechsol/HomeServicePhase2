@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import Slider from "react-slick";
 
-export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
+export default function ServiceSlider({ mediaItems = [] }) {
   const sliderRef = useRef(null);
   var settings = {
     dots: false,
@@ -86,9 +86,9 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
         </button>
       </div>
       <Slider ref={sliderRef} {...settings}>
-        {dealsVideo?.length > 0 &&
-          Array.isArray(dealsVideo) &&
-          dealsVideo?.map((video, index) => (
+        {mediaItems?.length > 0 &&
+          Array.isArray(mediaItems) &&
+          mediaItems?.map((video, index) => (
             <div key={index} className="px-[1px]">
               <div className="outline-none aspect-video rounded-[8px] overflow-hidden relative">
                 <video
@@ -99,7 +99,9 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
                   muted
                   loop
                   playsInline
+                  controls
                 ></video>
+
                 <button
                   onClick={() => handleFullScreen(index)}
                   className="absolute bottom-2 outline-none right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded"
@@ -109,14 +111,13 @@ export default function ServiceSlider({ dealsVideo = [], dealslidedata = [] }) {
               </div>
             </div>
           ))}
-        {dealslidedata.length > 0 &&
-          Array.isArray(dealslidedata) &&
-          dealslidedata.map((slide, index) => (
+        {mediaItems .length > 0 &&
+          Array.isArray(mediaItems ) && mediaItems .map((slide, index) => (
             <div key={index} className="px-[1px]">
               <div className="outline-none aspect-video rounded-[8px] overflow-hidden">
                 <img
                   src={slide}
-                  alt="Service Image"
+                  alt=""
                   className="w-full h-full object-cover"
                 />
               </div>

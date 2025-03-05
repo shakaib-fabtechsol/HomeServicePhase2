@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
+import {  FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 
 import PropTypes from "prop-types";
-import { Box, Modal, Tab, Tabs } from "@mui/material";
-import { FiPhone } from "react-icons/fi";
+import { Box,  Tab, Tabs } from "@mui/material";
+
 
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,7 +12,6 @@ import Loader from "../../Components/MUI/Loader";
 import {
   useGetDealQuery,
   useGetUserDetailsQuery,
-  useDealPublishMutation,
 } from "../../services/base-api/index";
 import { IoLocationOutline } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
@@ -51,12 +50,13 @@ function a11yProps(index) {
 
 const ReviewPublish = ({ serviceId, setValue }) => {
   const [isApiLoaded, setIsApiLoaded] = useState(false);
-  const [dealPublish, { isLoading: publishLoading }] = useDealPublishMutation();
-  const [provider, setProviderData] = useState({});
+
   const { dealid } = useParams();
   const token = useSelector((state) => state.auth.token);
   const [value, setValued] = useState(0);
   const deal_id = localStorage.getItem("deal_id");
+  const [loading, setLoading] = useState(false);
+  const [publishValue, setPublishValue] = useState(1);
   const {
     data: dealResponse,
     error: dealError,
@@ -64,14 +64,18 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   } = useGetDealQuery(deal_id, {
     skip: !deal_id || !token,
   });
+  const { data: userData, isLoading: userLoading } = useGetUserDetailsQuery(
+    dealid,
+    { skip: !token || !dealid }
+  );
   const handleChange = (event, newValue) => {
     setValued(newValue);
   };
 
-  const userId = localStorage.getItem("id");
-  const { data: userDetails } = useGetUserDetailsQuery(userId, {
-    skip: !token || !userId,
-  });
+  const navigate = useNavigate();
+  useEffect(() => {}, [serviceId]);
+
+ 
 
   const [formdata, setFormData] = useState({
     service_title: "",
@@ -111,18 +115,33 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     final_list_price3: "",
     estimated_service_timing3: "",
   });
+ 
 
   useEffect(() => {
-    if (dealResponse && dealResponse.deal) {
+    if (dealResponse?.deal) {
       const deal = dealResponse.deal;
-      const uploads = deal.uploads?.[0] || {};
+      console.log(deal);
+
+      let imageArray = [];
+
+      if (typeof deal?.images === "string") {
+        try {
+          imageArray = JSON.parse(deal.images);
+        } catch (error) {
+          console.error("Error parsing images:", error);
+        }
+      }
+      const imagePath =
+        Array.isArray(imageArray) && imageArray.length > 0 ? imageArray[0] : "";
+
+      const image = imagePath
+        ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+        : "/default.png";
       const updatedData = {
         id: deal.id || "",
         publish: deal.publish || "",
-        imagePath: uploads.images || "",
-        image: uploads.images
-          ? `https://marketplace.thefabulousshow.com/uploads/${uploads.images}`
-          : "/default.png",
+        imagePath,
+        image,
         commercial: deal.commercial || "0",
         residential: deal.residential || "0",
         service_category: deal.service_category || "",
@@ -131,42 +150,48 @@ const ReviewPublish = ({ serviceId, setValue }) => {
         fine_print: deal.fine_print || "",
         pricing_model: deal.pricing_model || "",
       };
+      switch (deal.pricing_model) {
+        case "Flat":
+          Object.assign(updatedData, {
+            flat_rate_price: deal.flat_rate_price || "",
+            flat_by_now_discount: deal.flat_by_now_discount || "",
+            flat_final_list_price: deal.flat_final_list_price || "",
+            flat_estimated_service_time: deal.flat_estimated_service_time || "",
+          });
+          break;
 
-      const pricingModel = deal.pricing_model;
-      if (pricingModel === "Flat") {
-        updatedData.flat_rate_price = deal.flat_rate_price || "";
-        updatedData.flat_by_now_discount = deal.flat_by_now_discount || "";
-        updatedData.flat_final_list_price = deal.flat_final_list_price || "";
-        updatedData.flat_estimated_service_time =
-          deal.flat_estimated_service_time || "";
-      } else if (pricingModel === "Hourly") {
-        updatedData.hourly_rate = deal.hourly_rate || "";
-        updatedData.discount = deal.discount || "";
-        updatedData.hourly_final_list_price =
-          deal.hourly_final_list_price || "";
-        updatedData.hourly_estimated_service_time =
-          deal.hourly_estimated_service_time || "";
-      } else if (pricingModel === "Custom") {
-        for (let i = 1; i <= 3; i++) {
-          updatedData[`title${i}`] = deal[`title${i}`] || "";
-          updatedData[`deliverable${i}`] = deal[`deliverable${i}`] || "";
-          updatedData[`price${i}`] = deal[`price${i}`] || "";
-          updatedData[`by_now_discount${i}`] =
-            deal[`by_now_discount${i}`] || "";
-          updatedData[`final_list_price${i}`] =
-            deal[`final_list_price${i}`] || "";
-          updatedData[`estimated_service_timing${i}`] =
-            deal[`estimated_service_timing${i}`] || "";
-        }
+        case "Hourly":
+          Object.assign(updatedData, {
+            hourly_rate: deal.hourly_rate || "",
+            discount: deal.discount || "",
+            hourly_final_list_price: deal.hourly_final_list_price || "",
+            hourly_estimated_service_time:
+              deal.hourly_estimated_service_time || "",
+          });
+          break;
+
+        case "Custom":
+          for (let i = 1; i <= 3; i++) {
+            Object.assign(updatedData, {
+              [`title${i}`]: deal[`title${i}`] || "",
+              [`deliverable${i}`]: deal[`deliverable${i}`] || "",
+              [`price${i}`]: deal[`price${i}`] || "",
+              [`by_now_discount${i}`]: deal[`by_now_discount${i}`] || "",
+              [`final_list_price${i}`]: deal[`final_list_price${i}`] || "",
+              [`estimated_service_timing${i}`]:
+                deal[`estimated_service_timing${i}`] || "",
+            });
+          }
+          break;
+
+        default:
+          break;
       }
+
       setFormData(updatedData);
     }
   }, [dealResponse]);
-  const [loading, setLoading] = useState(false);
-  const [publishValue, setPublishValue] = useState(1);
-
-  const navigate = useNavigate();
-  useEffect(() => {}, [serviceId]);
+  
 
   useEffect(() => {
     if (!dealid) return;
@@ -184,14 +209,28 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       })
       .then((response) => {
         const deal = response?.data?.deal || {};
-        const uploads = deal.uploads?.[0] || {};
+        console.log(deal?.images, "valueeee");
+        let imageArray = [];
+
+        if (typeof deal?.images === "string") {
+          try {
+            imageArray = JSON.parse(deal.images);
+          } catch (error) {
+            console.error("Error parsing images:", error);
+          }
+        }
+        const imagePath =
+          Array.isArray(imageArray) && imageArray.length > 0
+            ? imageArray[0]
+            : "";
+
+        const image = imagePath
+          ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+          : "/default.pnz";
         const updatedData = {
           id: deal?.id || "",
           publish: deal?.publish || "",
-          imagePath: uploads.images || "",
-          image: uploads.images
-            ? `https://marketplace.thefabulousshow.com/uploads/${uploads.images}`
-            : "/default.png",
+          image,
           commercial: deal?.commercial || "0",
           residential: deal?.residential || "0",
           service_category: deal?.service_category || "",
@@ -271,9 +310,15 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     }
 
     try {
-      const response = await dealPublish(id).unwrap();
-      console.log("API Response:", response);
-      if (response?.success || response?.status === 200) {
+      const url = isEdit
+        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}`
+        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status === 200) {
         navigate("/provider/services");
 
         Swal.fire({
@@ -304,28 +349,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userId = localStorage.getItem("id");
-
-        if (!token || !userId) return;
-
-        const response = await axios.get(
-          `https://marketplace.thefabulousshow.com/api/UserDetails/${userId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setProviderData(response.data?.businessProfile[0]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const provider = userData?.businessProfile?.[0] || {};
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
@@ -443,7 +467,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                 </div>
                 <div className=" ">
                   <img
-                    src={formdata.image}
+                    src={formdata?.image}
                     alt="Service Image"
                     className="rounded-xl object-cover w-[1000px] h-[350px]"
                   />
@@ -583,13 +607,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                       )}
                     </Box>
                   </div>
-                  {/* <button
-                    onClick={handlecontactOpen}
-                    className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
-                  >
-                    <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
-                    <span>Contact Pro</span>
-                  </button> */}
+                 
                 </div>
               </div>
             </div>

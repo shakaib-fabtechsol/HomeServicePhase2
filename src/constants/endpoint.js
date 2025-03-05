@@ -4,7 +4,6 @@ export const END_POINTS = {
     LOGOUT: "/logout",
     GET_USER: "/get-user",
     TERMS_UPDATE: "/UpdateUser",
-    // for settings
     MY_DETAILS: "/MyDetails",
     BUSINESS_PROFILE: "/BusinessProfile",
     ADD_CERTIFICATE_HOURS: "/AddCertificateHours",
@@ -54,6 +53,19 @@ export const SALEREP_POINTS = {
 }
 export const SALE_POINTS = {
     GET_SALES: "/SaleRep/GetSettingSale",
+    
+  };
 
-};
+
+  export const GET_ORDER={
+   ORDER:"/GetInprogressOrder"
+
+   
+  }
+  export const FAV={
+   FAVOURITES:"/FavoritService"
+ 
+    
+   }
+  
 

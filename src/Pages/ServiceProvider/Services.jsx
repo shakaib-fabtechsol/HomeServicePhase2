@@ -3,10 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
-import user1 from "../../assets/img/client2.png";
-import user2 from "../../assets/img/client3.png";
-import cardvideo from "../../assets/img/cardvideo.mp4";
-import slideimg from "../../assets/img/service1new.jpeg";
+
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -39,6 +36,9 @@ function Services() {
         setLoading(false);
       });
   }, []);
+
+
+
 
   const filteredServices = services?.filter((service) =>
     service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -81,6 +81,7 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
+                dealid={service.id}
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"
@@ -102,7 +103,8 @@ function Services() {
                 serviceDetailTo={`/provider/dealDetails/${service.id}`}
 
                 videos={service.videos}
-                imgs={service.images}
+                imgs={service.personal_image
+                }
                 Days={
                   service.pricing_model === "Flat"
                     ? service.flat_estimated_service_time
