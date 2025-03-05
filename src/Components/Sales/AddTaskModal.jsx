@@ -5,51 +5,107 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAddtaskMutation } from "../../services/salesrep";
-
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
 const schema = yup.object().shape({
-  test: yup.string().required("Name is required"),
+  name: yup.string().required("Name is required"),
   due_datetime: yup.date().required("Due date/time is required"),
   status: yup.string().required("Status is required"),
+  files:yup.string().required("file is required"),
   description: yup
-    .string()
-    .max(200, "Description should not be more than 200 characters"),
+    .string().
+    required("Description is required") .max(200, "Description should not be more than 200 characters"),
+    
 });
 
 export default function AddTaskModal({ close }) {
-  const [addtask,{isLoading}]=useAddtaskMutation();
+  const [addtask, { isLoading, isError, error }] = useAddtaskMutation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    watch,
+  watch,
     setValue, // ✅ Use setValue to manually update file input
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      test: "",
+      name: "",
       due_datetime: "",
-      notification: false,
+      notification: 0,
       status: "",
       description: "",
       files: null, // ✅ Ensure files is initialized properly
     },
   });
 
+
   const onSubmit = async (data) => {
+    const date = new Date(data.due_datetime);
+    const formattedDateTime = `${date.getFullYear()}-${String(
+      date.getMonth() + 1
+    ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(
+      date.getHours()
+    ).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(
+      date.getSeconds()
+    ).padStart(2, "0")}`;
+  
+    data.due_datetime = formattedDateTime; // Update the formatted date-time
+  
+    console.log("After Formatting:", data.due_datetime);
+  
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      if (key === "files") {
+        if (data[key]) {
+          formData.append("files", data[key]);
+        }
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+  
     try {
-      const response=addtask(data)
-      console.log(response,"response data")
-
-
+      const response = await addtask(formData).unwrap();
+  
+      console.log(response, "response data");
+      Swal.fire({
+        icon: "success",
+        title: "Welcome Back!",
+        text: "Add Task Successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        close();
+      });
     } catch (error) {
-      console.log(error,"this is error data")
+      console.log(error, "this is error data");
     }
     close();
   };
+  
+
 
   const file = watch("files"); // ✅ Watch for the file state
   const fileName = file ? file.name : ""; // ✅ Get file name safely
+
+
+  if (isError) {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Failed to Add Task',
+      text: error?.message || 'Failed to Add Task',
+    }).then(() => {
+      close();
+    })
+  }
+  
+
+
+  
 
   return (
     <div className="max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
@@ -75,11 +131,11 @@ export default function AddTaskModal({ close }) {
           </label>
           <input
             className="block border outline-none border-[#787486] w-full p-2 rounded-[8px] mt-1"
-            type="text"
-            {...register("test")}
+            type="name"
+            {...register("name")}
           />
-          {errors.test && (
-            <p className="text-red-500 text-sm mt-1">{errors.test.message}</p>
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
         </div>
         <div className="mt-4">
@@ -169,6 +225,9 @@ export default function AddTaskModal({ close }) {
             {fileName ? `+ ${fileName}` : "+ Attach File"}
           </label>
         </div>
+        {errors.files && (
+            <p className="text-red-500 text-sm mt-1">{errors.files.message}</p>
+          )}
         <div className="mt-4 flex justify-end gap-3">
           <button
             onClick={close}
@@ -180,8 +239,9 @@ export default function AddTaskModal({ close }) {
           <button
             className="text-white bg-[#0F91D2] py-2 px-6 border border-[#A2A1A833] rounded-[10px]"
             type="submit"
+            disabled={isLoading}
           >
-            Save
+            {isLoading?<Loader/>:"Save"}
           </button>
         </div>
       </form>
