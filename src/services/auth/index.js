@@ -1,7 +1,7 @@
 // Auth Services
 
-import { BASE_API } from '../base-api';
-import { END_POINTS } from '../../constants/endpoint.js';
+import { BASE_API } from "../base-api";
+import { END_POINTS } from "../../constants/endpoint.js";
 
 export const authAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,41 +11,47 @@ export const authAPIs = BASE_API.injectEndpoints({
     login: builder.mutation({
       query: (data) => ({
         url: END_POINTS.LOGIN,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
     }),
     register: builder.mutation({
       query: (data) => ({
         url: END_POINTS.REGISTER,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
     }),
     updateAdmin: builder.mutation({
       query: (data) => ({
         url: `${END_POINTS.UPDATE_ADMIN}`,
-        method: 'POST',
+        method: "POST",
         body: data,
-      })
+      }),
     }),
     updatePassword: builder.mutation({
       query: (data) => ({
         url: END_POINTS.UPDATE_SECURITY,
-        method: 'POST',
+        method: "POST",
         body: data,
-      })
+      }),
     }),
 
     termsUpdate: builder.mutation({
       query: (data) => ({
         url: END_POINTS.TERMS_UPDATE,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
     }),
   }),
 });
 
-export const { useGetUserQuery, useLoginMutation, useRegisterMutation, useTermsUpdateMutation, useUpdateAdminMutation ,useUpdatePasswordMutation} = authAPIs;
-
+export const {
+  useGetUserQuery,
+  useLoginMutation,
+  useRegisterMutation,
+  useTermsUpdateMutation,
+  useUpdateAdminMutation,
+  useUpdatePasswordMutation,
+} = authAPIs;

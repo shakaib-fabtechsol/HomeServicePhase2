@@ -68,22 +68,22 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
       </div>
       <div className="left-bottom border-t-2">
         <div className="flex items-center px-4 pt-3">
-          <Link to={userInfo?.profileLink}>
+          <Link to={userInfo.profileLink}>
             <img
-              src={personal_image}
+              src={user}
               alt="logo"
-              className="rounded-full pe-2 w-24 h-10  object-cover"
+              className="rounded-full pe-2 max-w-[70px]"
             />
           </Link>
           <div className="logouts">
             <div className="flex justify-between items-center">
-              <p className="font-bold text-black">{userInfo?.name}</p>
+              <p className="font-bold text-black">{userInfo.name}</p>
               <Link to="/login">
                 <MdLogout className="text-2xl text-black" />
               </Link>
             </div>
             <p className="mb-0 font-medium text-sm text-black">
-              {userInfo?.email}
+              {userInfo.email}
             </p>
           </div>
         </div>

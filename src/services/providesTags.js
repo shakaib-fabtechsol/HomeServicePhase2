@@ -17,3 +17,4 @@ export const PROVIDES_TAGS = [
     "Pricing",
     "UpdateSaleClient"
   ]
+

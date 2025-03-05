@@ -3,14 +3,14 @@ import google from "../../../assets/img/google.png";
 import logo from "../../../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import "react-phone-input-2/lib/style.css";
-import {useLogin} from "./useLogin"
+import { useLogin } from "./useLogin";
 import Loader from "../../../Components/MUI/Loader";
 
 function LoginModule() {
   const { register, handleSubmit, errors, isLoading, onSubmit } = useLogin();
 
-  if(isLoading) {
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <div className="w-full justify-center flex h-[100dvh]">
@@ -41,13 +41,15 @@ function LoginModule() {
               <input
                 type="email"
                 id="email"
-                {...register('email')}
+                {...register("email")}
                 placeholder="user123@gmail.com"
                 className="mt-1 w-full border px-3 rounded-lg py-3 focus-none"
                 required
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -61,13 +63,15 @@ function LoginModule() {
               <input
                 type="password"
                 id="password"
-                {...register('password')}
+                {...register("password")}
                 placeholder=""
                 className="mt-1 w-full border px-3 rounded-lg py-3 focus-none"
                 required
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -84,7 +88,7 @@ function LoginModule() {
               type="submit"
               className="text-white font-semibold px-3 py-3 bg-blue w-full mt-3 rounded-lg"
             >
-               Sign in
+              Sign in
             </button>
           </form>
 

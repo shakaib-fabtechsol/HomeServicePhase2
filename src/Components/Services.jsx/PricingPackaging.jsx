@@ -90,39 +90,40 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                 BasicInfo.flat_estimated_service_time || "",
             }
           : BasicInfo.pricing_model === "Hourly"
-          ? {
-              fine_print: BasicInfo.fine_print,
-              hourly_rate: BasicInfo.hourly_rate || "",
-              discount: BasicInfo.discount || "",
-              hourly_final_list_price: BasicInfo.hourly_final_list_price || "",
-              hourly_estimated_service_time:
-                BasicInfo.hourly_estimated_service_time || "",
-            }
-          : BasicInfo.pricing_model === "Custom"
-          ? {
-              title1: BasicInfo.title1 || "",
-              deliverable1: BasicInfo.deliverable1 || "",
-              price1: BasicInfo.price1 || "",
-              by_now_discount1: BasicInfo.by_now_discount1 || "",
-              final_list_price1: BasicInfo.final_list_price1 || "",
-              estimated_service_timing1:
-                BasicInfo.estimated_service_timing1 || "",
-              title2: BasicInfo.title2 || "",
-              deliverable2: BasicInfo.deliverable2 || "",
-              price2: BasicInfo.price2 || "",
-              by_now_discount2: BasicInfo.by_now_discount2 || "",
-              final_list_price2: BasicInfo.final_list_price2 || "",
-              estimated_service_timing2:
-                BasicInfo.estimated_service_timing2 || "",
-              title3: BasicInfo.title3 || "",
-              deliverable3: BasicInfo.deliverable3 || "",
-              price3: BasicInfo.price3 || "",
-              by_now_discount3: BasicInfo.by_now_discount3 || "",
-              final_list_price3: BasicInfo.final_list_price3 || "",
-              estimated_service_timing3:
-                BasicInfo.estimated_service_timing3 || "",
-            }
-          : {}),
+            ? {
+                fine_print: BasicInfo.fine_print,
+                hourly_rate: BasicInfo.hourly_rate || "",
+                discount: BasicInfo.discount || "",
+                hourly_final_list_price:
+                  BasicInfo.hourly_final_list_price || "",
+                hourly_estimated_service_time:
+                  BasicInfo.hourly_estimated_service_time || "",
+              }
+            : BasicInfo.pricing_model === "Custom"
+              ? {
+                  title1: BasicInfo.title1 || "",
+                  deliverable1: BasicInfo.deliverable1 || "",
+                  price1: BasicInfo.price1 || "",
+                  by_now_discount1: BasicInfo.by_now_discount1 || "",
+                  final_list_price1: BasicInfo.final_list_price1 || "",
+                  estimated_service_timing1:
+                    BasicInfo.estimated_service_timing1 || "",
+                  title2: BasicInfo.title2 || "",
+                  deliverable2: BasicInfo.deliverable2 || "",
+                  price2: BasicInfo.price2 || "",
+                  by_now_discount2: BasicInfo.by_now_discount2 || "",
+                  final_list_price2: BasicInfo.final_list_price2 || "",
+                  estimated_service_timing2:
+                    BasicInfo.estimated_service_timing2 || "",
+                  title3: BasicInfo.title3 || "",
+                  deliverable3: BasicInfo.deliverable3 || "",
+                  price3: BasicInfo.price3 || "",
+                  by_now_discount3: BasicInfo.by_now_discount3 || "",
+                  final_list_price3: BasicInfo.final_list_price3 || "",
+                  estimated_service_timing3:
+                    BasicInfo.estimated_service_timing3 || "",
+                }
+              : {}),
       });
       setSelectedRate(BasicInfo.pricing_model || "Flat");
       setLoading(false);
@@ -402,6 +403,9 @@ const PricingPackaging = ({ serviceId, setValue }) => {
 
   return (
     <>
+      {/* {dealid && !isApiLoaded ? (
+        <Loader />
+      ) : ( */}
       <div>
         <form onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-12">

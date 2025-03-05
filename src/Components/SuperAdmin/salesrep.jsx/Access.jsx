@@ -4,10 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 export default function Access({ data, id, updateSale }) {
-  const {
-    register,
-    handleSubmit,
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       assign_permission_1: data?.assign_permission_1 === 1,
       client_permission_1: data?.client_permission_1 === 1,
@@ -34,26 +31,24 @@ export default function Access({ data, id, updateSale }) {
     console.log("Submitting Data:", formattedData);
 
     try {
-      await updateSale({id, ...formattedData});
-         Swal.fire({
-              icon: 'success',
-              title: 'Welcome Back!',
-              text: 'Access update Successfully',
-              timer: 1500,
-              showConfirmButton: false,
-            }).then(() => {
-              navigate("/superadmin/sales");
-            });
-      
+      await updateSale({ id, ...formattedData });
+      Swal.fire({
+        icon: "success",
+        title: "Welcome Back!",
+        text: "Access update Successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/superadmin/sales");
+      });
     } catch (error) {
-          Swal.fire({
-              icon: 'error',
-              title: 'Update Failed',
-              text: error?.message || 'Failed to update access. Please try again.',
-            }).than(() => {
-              navigate("/superadmin/sales")
-            });
-      
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: error?.message || "Failed to update access. Please try again.",
+      }).than(() => {
+        navigate("/superadmin/sales");
+      });
     }
   };
 
@@ -88,6 +83,9 @@ export default function Access({ data, id, updateSale }) {
           {permissions.map((permission, index) => (
             <div key={index} className="grid grid-cols-12 gap-2">
               <div className="col-span-8">
+                <p className="text-sm sm:text-base md:text-lg font-semibold">
+                  {permission}
+                </p>
                 <p className="text-sm sm:text-base md:text-lg font-semibold">
                   {permission.name}
                 </p>

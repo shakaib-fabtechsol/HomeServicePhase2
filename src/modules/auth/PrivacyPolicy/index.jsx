@@ -2,15 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PolicySection } from "./PolicySection";
 import { usePrivacyPolicy } from "./usePrivacyPolicy";
-import { PRIVACY_POLICY_SECTIONS, LAST_UPDATED_DATE, CONTACT_EMAIL } from "./data";
+import {
+  PRIVACY_POLICY_SECTIONS,
+  LAST_UPDATED_DATE,
+  CONTACT_EMAIL,
+} from "./data";
 import logo from "../../../assets/img/logo.png";
 import Loader from "../../../Components/MUI/Loader";
 
 function PrivacyPolicyModule() {
-  const { termsAccepted, handleTermsAccept, handleSubmit, userId ,isLoading} = usePrivacyPolicy();
+  const { termsAccepted, handleTermsAccept, handleSubmit, userId, isLoading } =
+    usePrivacyPolicy();
 
-  if(isLoading) {
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <div className="mycontainer">
@@ -34,8 +39,8 @@ function PrivacyPolicyModule() {
             These Terms and Conditions outline the relationship between Home Pro
             Deals ("Company," "we," "us," or "our") and users of our platform,
             including Service Providers ("Providers") and Consumers ("Clients").
-            By accessing or using the Home Pro Deals platform, you agree to these
-            Terms and Conditions.
+            By accessing or using the Home Pro Deals platform, you agree to
+            these Terms and Conditions.
           </p>
         </div>
 
@@ -49,11 +54,7 @@ function PrivacyPolicyModule() {
         </p>
 
         <form onSubmit={handleSubmit} className="mb-8">
-          <input
-            type="hidden"
-            id="userid"
-            value={userId || ""}
-          />
+          <input type="hidden" id="userid" value={userId || ""} />
 
           <div className="flex items-center mt-3">
             <input
@@ -74,8 +75,11 @@ function PrivacyPolicyModule() {
           <button
             type="submit"
             disabled={!termsAccepted}
-            className={`text-white mb-3 font-semibold px-3 py-3 w-full mt-3 rounded-lg ${termsAccepted ? 'bg-blue hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'
-              }`}
+            className={`text-white mb-3 font-semibold px-3 py-3 w-full mt-3 rounded-lg ${
+              termsAccepted
+                ? "bg-blue hover:bg-blue-600"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
           >
             Accept & Continue
           </button>

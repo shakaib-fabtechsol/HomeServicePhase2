@@ -6,7 +6,7 @@ import { useUpdatePasswordMutation } from "../../../../services/settings";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../../Components/MUI/Loader";
 
-const PasswordModule = ({handleTabChange}) => {
+const PasswordModule = ({ handleTabChange }) => {
   const userData = useSelector((state) => state.auth.user);
 
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
@@ -16,24 +16,24 @@ const PasswordModule = ({handleTabChange}) => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     mode: "onChange",
     defaultValues: {
       current_password: "",
       password: "",
-      confirm_password: ""
-    }
+      confirm_password: "",
+    },
   });
 
   const password = watch("password");
 
   const onSubmit = async (data) => {
     try {
-     const formData = new FormData();
-     formData.append('current_password', data.current_password);
-     formData.append('password', data.password);
-     formData.append('id', userData.id);
+      const formData = new FormData();
+      formData.append("current_password", data.current_password);
+      formData.append("password", data.password);
+      formData.append("id", userData.id);
       const response = await updatePassword(formData);
       if (response?.data) {
         Swal.fire({
@@ -41,7 +41,7 @@ const PasswordModule = ({handleTabChange}) => {
           title: "Success!",
           text: "Your password has been successfully updated.",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
         reset();
         handleTabChange(7);
@@ -50,21 +50,21 @@ const PasswordModule = ({handleTabChange}) => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error?.message || "Something went wrong while updating your password."
+        text:
+          error?.message ||
+          "Something went wrong while updating your password.",
       });
     }
   };
 
-  if(isLoading){
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <div>
       <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
         <p className="text-lg font-semibold text-[#181D27]">Password</p>
-        <p className="text-[#535862] text-sm">
-          Update your account password.
-        </p>
+        <p className="text-[#535862] text-sm">Update your account password.</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -108,9 +108,8 @@ const PasswordModule = ({handleTabChange}) => {
                   required: "New password is required",
                   minLength: {
                     value: 8,
-                    message: "Password must be at least 8 characters"
-                  }
-                 
+                    message: "Password must be at least 8 characters",
+                  },
                 })}
                 className={`myinput focus-none w-full ${
                   errors.password ? "border-red-500" : ""
@@ -136,8 +135,8 @@ const PasswordModule = ({handleTabChange}) => {
                 placeholder="**********"
                 {...register("confirm_password", {
                   required: "Please confirm your password",
-                  validate: value =>
-                    value === password || "The passwords do not match"
+                  validate: (value) =>
+                    value === password || "The passwords do not match",
                 })}
                 className={`myinput focus-none w-full ${
                   errors.confirm_password ? "border-red-500" : ""

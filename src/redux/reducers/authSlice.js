@@ -4,7 +4,6 @@ const initialState = {
   access: null,
   refresh: null,
   isLoggedIn: false,
-
 };
 
 export const authSlice = createSlice({
@@ -15,7 +14,6 @@ export const authSlice = createSlice({
       state.token = payload?.token;
       state.isLoggedIn = true;
       state.user = payload.user;
-
     },
     logout: (state) => {
       state.token = null;
@@ -29,7 +27,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logout,setUser } = authSlice.actions;
+export const { login, logout, setUser } = authSlice.actions;
 
 // Selectors
 export const selectCurrentUser = (state) => state.auth.user;

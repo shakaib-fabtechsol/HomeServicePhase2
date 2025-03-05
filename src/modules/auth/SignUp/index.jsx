@@ -1,19 +1,27 @@
 // Signup module
-import React, {useEffect, useState} from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import 'react-phone-input-2/lib/style.css';
-import PhoneInput from 'react-phone-input-2';
-import service from '../../../assets/img/service.png';
-import google from '../../../assets/img/google.png';
-import logo from '../../../assets/img/logo.png';
-import { useSignUp } from './useSignUp';
-import Loader from '../../../Components/MUI/Loader';
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
+import service from "../../../assets/img/service.png";
+import google from "../../../assets/img/google.png";
+import logo from "../../../assets/img/logo.png";
+import { useSignUp } from "./useSignUp";
+import Loader from "../../../Components/MUI/Loader";
 
-function SignupModule () {
-  const { registerField, handleSubmit, errors, isLoading, onSubmit, control,Controller } = useSignUp();
+function SignupModule() {
+  const {
+    registerField,
+    handleSubmit,
+    errors,
+    isLoading,
+    onSubmit,
+    control,
+    Controller,
+  } = useSignUp();
 
-  if(isLoading) {
-    return <Loader/>
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
@@ -37,7 +45,7 @@ function SignupModule () {
                   Welcome! Please enter your details.
                 </p>
 
-                <form action='/login' onSubmit={handleSubmit(onSubmit)}>
+                <form action="/login" onSubmit={handleSubmit(onSubmit)}>
                   <div className="my-3 hidden">
                     <label
                       htmlFor="role"
@@ -63,12 +71,14 @@ function SignupModule () {
                     <input
                       type="text"
                       id="name"
-                      {...registerField('name')}
+                      {...registerField("name")}
                       placeholder="Enter your name"
                       className="mt-1 w-full border px-3 rounded-lg py-3"
                       required
                     />
-                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                    {errors.name && (
+                      <p className="text-red-500">{errors.name.message}</p>
+                    )}
                   </div>
 
                   <div className="my-3">
@@ -81,12 +91,14 @@ function SignupModule () {
                     <input
                       type="email"
                       id="email"
-                      {...registerField('email')}
+                      {...registerField("email")}
                       placeholder="user123@gmail.com"
                       className="mt-1 w-full border px-3 rounded-lg py-3"
                       required
                     />
-                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+                    {errors.email && (
+                      <p className="text-red-500">{errors.email.message}</p>
+                    )}
                   </div>
 
                   <div className="my-3">
@@ -103,27 +115,29 @@ function SignupModule () {
                       render={({ field: { onChange, value } }) => (
                         <PhoneInput
                           id="phone"
-                          country={'us'}
+                          country={"us"}
                           value={value}
                           onChange={onChange}
                           inputStyle={{
-                            width: 'calc(100% - 55px)',
-                            marginLeft: '55px',
-                            height: '48px',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            border: '1px solid #e5e7eb',
+                            width: "calc(100% - 55px)",
+                            marginLeft: "55px",
+                            height: "48px",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            border: "1px solid #e5e7eb",
                           }}
                           buttonStyle={{
-                            width: '60px',
-                            borderRadius: '8px 0 0 8px',
-                            background: '#fff',
-                            border: '1px solid #e5e7eb',
+                            width: "60px",
+                            borderRadius: "8px 0 0 8px",
+                            background: "#fff",
+                            border: "1px solid #e5e7eb",
                           }}
                         />
                       )}
                     />
-                    {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+                    {errors.phone && (
+                      <p className="text-red-500">{errors.phone.message}</p>
+                    )}
                   </div>
 
                   <div className="my-3">
@@ -136,18 +150,20 @@ function SignupModule () {
                     <input
                       type="password"
                       id="password"
-                      {...registerField('password')}
+                      {...registerField("password")}
                       className="mt-1 w-full border px-3 rounded-lg py-3"
                       required
                     />
-                    {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+                    {errors.password && (
+                      <p className="text-red-500">{errors.password.message}</p>
+                    )}
                   </div>
 
                   <button
                     type="submit"
                     className="text-white font-semibold px-3 py-3 bg-blue w-full mt-3 rounded-lg"
                   >
-                   {isLoading ? 'Loading...' : 'Create account'}
+                    {isLoading ? "Loading..." : "Create account"}
                   </button>
                 </form>
 
@@ -164,10 +180,10 @@ function SignupModule () {
                 </Link>
 
                 <p className="text-center block mt-5">
-                  Already have an account?{' '}
+                  Already have an account?{" "}
                   <Link to="/login" className="text-blue font-semibold">
                     Login
-                  </Link>{' '}
+                  </Link>{" "}
                 </p>
               </div>
             </div>

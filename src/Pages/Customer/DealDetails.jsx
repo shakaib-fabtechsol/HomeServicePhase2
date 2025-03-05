@@ -1,10 +1,8 @@
-import React from 'react'
-import ServiceDetail from '../../Components/Services.jsx/ServiceDetail'
+import React from "react";
+import ServiceDetail from "../../Components/Services.jsx/ServiceDetail";
 
 function DealDetails() {
-  return (
-    <ServiceDetail role="user" backto={"/customer/favourites"} />
-  )
+  return <ServiceDetail role="user" backto={"/customer/favourites"} />;
 }
 
-export default DealDetails
+export default DealDetails;

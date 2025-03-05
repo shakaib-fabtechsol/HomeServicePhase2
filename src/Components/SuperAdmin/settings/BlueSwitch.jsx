@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 
-export default function BlueSwitch({ id, defaultChecked ,onChange }) {
+export default function BlueSwitch({ id, defaultChecked, onChange }) {
   const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
     height: 16,
@@ -53,7 +53,8 @@ export default function BlueSwitch({ id, defaultChecked ,onChange }) {
   return (
     <div>
       <AntSwitch
-        defaultChecked={defaultChecked} onChange={onChange}
+        defaultChecked={defaultChecked}
+        onChange={onChange}
         inputProps={{ "aria-label": "ant design", id }}
       />
     </div>

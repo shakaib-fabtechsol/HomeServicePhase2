@@ -50,7 +50,6 @@ export default function TextPro() {
     new Array(serviceConversations.length).fill(false)
   );
 
-
   const isAllChecked = checkedRows.every(Boolean);
   const isIndeterminate =
     checkedRows.some(Boolean) && !checkedRows.every(Boolean);
@@ -85,7 +84,7 @@ export default function TextPro() {
   ]);
   return (
     <div>
-       <ConversationHeader
+      <ConversationHeader
         title="Text Pro"
         subtitle="Manage and Respond to Messages Seamlessly"
       />

@@ -142,7 +142,7 @@ export default function CommonSupportData() {
       <option value="resolved">Resolved</option>
     </select>,
     <button className="btn btn-success">
-      <IoMdSave className="text-xl"/>
+      <IoMdSave className="text-xl" />
     </button>,
   ]);
 
@@ -150,9 +150,7 @@ export default function CommonSupportData() {
     <div>
       <div className="mb-2">
         <h2 className="font-semibold text-3xl">Support</h2>
-        <p className="text-gray-600">
-          Track and manage complaints.
-        </p>
+        <p className="text-gray-600">Track and manage complaints.</p>
       </div>
       <div>
         <div className="flex items-center justify-between flex-wrap gap-3">

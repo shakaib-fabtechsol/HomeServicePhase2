@@ -18,19 +18,19 @@ function FilterNav() {
   return (
     <div className="shadow-md relative z-[999]">
       <div className="mycontainer">
-      <div className="overflow-auto mx-5 filter-nav">
-        <div className="flex w-[max-content] items-center justify-center xl:w-full">
-          {categories.map((category, index) => (
-            <Link
-              key={index}
-              to="/catalogResult"
-              className="px-3 py-2 text-nowrap text-[#00000078] text-sm"
-            >
-              {category}
-            </Link>
-          ))}
+        <div className="overflow-auto mx-5 filter-nav">
+          <div className="flex w-[max-content] items-center justify-center xl:w-full">
+            {categories.map((category, index) => (
+              <Link
+                key={index}
+                to="/catalogResult"
+                className="px-3 py-2 text-nowrap text-[#00000078] text-sm"
+              >
+                {category}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
