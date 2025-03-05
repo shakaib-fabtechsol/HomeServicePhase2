@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
-
+import {useFavouriteMutation} from "../../src/services/sales/index"
 function ServiceBox({
   tags = [],
   image,
   publish,
   title,
+  dealid,
   price,
   serviceDetailTo,
   review,
@@ -24,14 +25,34 @@ function ServiceBox({
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
 
+
+  const [favourite, { isLoading: favLoading, error: favError }] = useFavouriteMutation();
+
+
+  const handleFavourite = async () => {
+   
+    const payload = {
+      
+      deal_id:dealid, 
+      liked: !liked, 
+    };
+  
+    try {
+      await favourite(payload).unwrap();
+      setLiked(!liked);
+    } catch (error) {
+      console.error("Favourite action failed", error);
+    }
+  };
   const parseJsonArray = (data) => {
     try {
-      return typeof data === "string" ? JSON.parse(data) : data;
+      return typeof data === "string"?JSON.parse(data) : data;
     } catch (error) {
       console.error("Error parsing JSON:", error);
       return [];
     }
   };
+
 
   const imageArray = parseJsonArray(imgs);
   const videoArray = parseJsonArray(videos);
@@ -44,16 +65,22 @@ function ServiceBox({
     ) || []),
   ];
 
+ 
+
+    
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="relative px-3 pt-3">
         <ServiceSlider mediaItems={mediaItems} />
 
         <div
-          onClick={(e) => e.stopPropagation()}
+         onClick={(e) => {
+          e.stopPropagation();
+          handleFavourite();
+        }}
           className="absolute top-2 left-2 z-10"
         >
-          <button onClick={() => setLiked(!liked)}>
+          <button onClick={() => setLiked(!liked) } >
             <svg
               width="20"
               height="20"

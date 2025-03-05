@@ -62,4 +62,10 @@ export const SALE_POINTS = {
 
    
   }
+  export const FAV={
+   FAVOURITES:"/FavoritService"
+ 
+    
+   }
+  
 

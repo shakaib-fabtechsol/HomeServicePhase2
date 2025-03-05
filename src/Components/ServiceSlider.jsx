@@ -111,8 +111,8 @@ export default function ServiceSlider({ mediaItems = [] }) {
               </div>
             </div>
           ))}
-        {dealslidedata.length > 0 &&
-          Array.isArray(dealslidedata) && dealslidedata.map((slide, index) => (
+        {mediaItems .length > 0 &&
+          Array.isArray(mediaItems ) && mediaItems .map((slide, index) => (
             <div key={index} className="px-[1px]">
               <div className="outline-none aspect-video rounded-[8px] overflow-hidden">
                 <img

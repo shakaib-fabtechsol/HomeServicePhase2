@@ -3,6 +3,7 @@ import { BASE_API } from '../base-api';
 import { PRO_POINTS } from '../../constants/endpoint';
 import { SALE_POINTS} from '../../constants/endpoint';
 import {GET_ORDER} from "../../constants/endpoint";
+import {FAV} from "../../constants/endpoint";
 
 export const salesAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,8 +52,16 @@ export const salesAPIs = BASE_API.injectEndpoints({
         url: `${GET_ORDER.ORDER}`,
       }),
     }),
+   
+    Favourite: builder.mutation({
+      query: (data) => ({
+        url: `${FAV?.FAVOURITES}`, 
+        method: "POST",
+        body: data,
+      }),
+    }),
     
   }),
 });
 
-export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useGetOrderQuery,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;
+export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useGetOrderQuery, useFavouriteMutation,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;

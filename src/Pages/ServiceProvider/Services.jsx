@@ -37,6 +37,9 @@ function Services() {
       });
   }, []);
 
+
+
+
   const filteredServices = services?.filter((service) =>
     service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -78,6 +81,7 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
+                dealid={service.id}
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"
@@ -99,7 +103,8 @@ function Services() {
                 serviceDetailTo={`/provider/dealDetails/${service.id}`}
 
                 videos={service.videos}
-                imgs={service.images}
+                imgs={service.personal_image
+                }
                 Days={
                   service.pricing_model === "Flat"
                     ? service.flat_estimated_service_time
