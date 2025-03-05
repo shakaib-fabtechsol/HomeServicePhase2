@@ -2,17 +2,18 @@ import React, { useEffect } from "react";
 import TabComponent from "../../Components/TabComponent";
 import { FaUser } from "react-icons/fa";
 import { SlLock } from "react-icons/sl";
-import { IoNotificationsOutline } from "react-icons/io5";
 import PersonalInfo from "../../Components/SuperAdmin/settings/PersonalInfo";
 import Security from "../../Components/SuperAdmin/settings/Security";
-import Notifications from "../../Components/SuperAdmin/settings/Notifications";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/reducers/authSlice";
+import { useUpdateAdminMutation, useUpdatePasswordMutation } from "../../services/auth";
+import Loader from "../../Components/MUI/Loader";
 
 export default function Settingsa() {
-
+  const [updateAmin, { isLoading: updateLoading }] = useUpdateAdminMutation();
+  const [updatePassword,{isLoading}] = useUpdatePasswordMutation();
   const Admin = useSelector(selectCurrentUser);
-  const [value,setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0);
   const changetab = (value) => {
 
     setValue(value);
@@ -29,7 +30,7 @@ export default function Settingsa() {
           <p>Personal Information</p>
         </div>
       ),
-      content: <PersonalInfo Admin={Admin} />,
+      content: <PersonalInfo Admin={Admin} updateAmin={updateAmin} />,
     },
     {
       label: (
@@ -38,10 +39,17 @@ export default function Settingsa() {
           <p>Security</p>
         </div>
       ),
-    
-      content: <Security Admin={Admin} />,
+
+      content: <Security Admin={Admin} updatePassword={updatePassword} />,
     },
   ];
+  if (updateLoading || isLoading) {
+    return (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <>
       <div className="mb-2">

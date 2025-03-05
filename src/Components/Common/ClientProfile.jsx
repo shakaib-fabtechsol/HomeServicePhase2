@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetclientByIdQuery } from "../../services/clients";
+import { useGetsaleclientByIdQuery } from "../../services/clients";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../MUI/Loader";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ export default function ClientProfile() {
   const location=useLocation();
   const { id } = location.state || {};
   const navigate = useNavigate();
-  const { data: clientData, isLoading, isError } = useGetclientByIdQuery(id);
+  const { data: clientData, isLoading, isError } = useGetsaleclientByIdQuery(id);
 
   if (isLoading) {
     return (
@@ -26,7 +26,7 @@ export default function ClientProfile() {
       title: 'Client Not Found',
       text: clientData?.error?.message || 'Failed to get client. Please try again.',
     }).then(() => {
-      navigate('/superadmin/clients');
+      navigate('/sales/clients');
     })
   }
   // name: clientData?.Customer?.name || "",
