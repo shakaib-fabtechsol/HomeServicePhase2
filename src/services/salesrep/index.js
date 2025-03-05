@@ -8,10 +8,12 @@ export const salesrepAPIs = BASE_API.injectEndpoints({
       query: (data) => ({
         url: `${SALEREP_POINTS.GET_ALL_TASKS}`,
       }),
+      providesTags: ["Add_task"]
     }),
     gettaskById: builder.query({
       query: (id) => ({
         url: id?`${VIEW_TASK}/${id}`:null,
+
       }),
     }),
 
@@ -22,6 +24,7 @@ export const salesrepAPIs = BASE_API.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ["Add_task"],
     }),
 
 

@@ -5,6 +5,13 @@ import Assigned from "../../Components/Sales/Services/Assigned";
 import { useEffect, useState } from "react";
 
 export default function Servicessr() {
+const [value,setValue]=useState(0);
+
+const onchange=(tab)=>{
+  setValue(tab);
+
+}
+
   const tabData = [
     { label: "All", content: <All /> },
     { label: "Assigned ", content: <Assigned /> },
@@ -14,7 +21,7 @@ export default function Servicessr() {
   }, []);
   return (
     <div>
-      <TabComponent tabs={tabData} />
+      <TabComponent tabs={tabData} onChange={onchange} value={value}  />
     </div>
   );
 }
