@@ -59,14 +59,19 @@ function ServiceBox({
 
   const imageArray = parseJsonArray(imgs);
   const videoArray = parseJsonArray(videos);
+  const defaultImage = "/service1.png"; 
+
   const mediaItems = [
-    ...(imageArray?.map(
-      (img) => `https://marketplace.thefabulousshow.com/uploads/${img}`
-    ) || []),
+    ...(imageArray?.length
+      ? imageArray.map(
+          (img) => `https://marketplace.thefabulousshow.com/uploads/${img}`
+        )
+      : [defaultImage]), 
     ...(videoArray?.map(
       (vid) => `https://marketplace.thefabulousshow.com/uploads/${vid}`
     ) || []),
   ];
+  
 
  
 

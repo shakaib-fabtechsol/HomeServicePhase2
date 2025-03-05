@@ -52,12 +52,13 @@ export const salesAPIs = BASE_API.injectEndpoints({
         url: `${GET_ORDER.ORDER}`,
       }),
     }),
-    // Favourite:builder.mutation({
-    //   query:(data)=>({
-    //     url:`${FAV?.}`
-    //   })
-    // })
-   
+    getFavourite: builder.query({
+      query: () => ({
+        url: `${FAV.GET_FAVOURITES}`,
+        method: "GET", 
+        
+      }),
+    }),
     Favourite: builder.mutation({
       query: (data) => ({
         url: `${FAV?.FAVOURITES}`, 
@@ -69,4 +70,4 @@ export const salesAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useGetOrderQuery, useFavouriteMutation,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;
+export const { useGetsaleByIdQuery,useGetsalesQuery,useDeleteSaleMutation,useGetOrderQuery,useGetFavouriteQuery, useFavouriteMutation,useSendInvitationMutation,useUpdateSaleMutation,useGetSalesRapQuery  } = salesAPIs;

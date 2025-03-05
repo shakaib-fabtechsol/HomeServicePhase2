@@ -56,7 +56,6 @@ const MyDetailModule = ({ handleTabChange }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        {/* Personal Profile Header */}
         <div className="border-b border-[#E9EAEB] pb-5 items-center flex-wrap gap-4">
           <p className="text-lg font-semibold text-[#181D27]">
             Personal Profile
@@ -67,7 +66,7 @@ const MyDetailModule = ({ handleTabChange }) => {
         </div>
 
         <div className="max-w-[800px]">
-          {/* Full Name Field */}
+        
           <div className="grid sm:grid-cols-3 gap-2 py-8 border-b">
             <div>
               <p className="text-sm font-semibold">Full Name</p>

@@ -5,7 +5,7 @@ import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import user2 from "../../assets/img/client3.png";
 import cardvideo from "../../assets/img/cardvideo.mp4";
 import slideimg from "../../assets/img/service1new.jpeg";
-
+import {useGetFavouriteQuery} from '../../services/sales/index';
 
 const CommonFavorites = ({ serviceDetailTo }) => {
   useEffect(() => {
@@ -13,26 +13,12 @@ const CommonFavorites = ({ serviceDetailTo }) => {
   }, []);
   const [viewMode, setViewMode] = useState("grid");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { data: orderD, isLoading, error } = useGetFavouriteQuery(); 
 
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      username: "John Doe",
-      userimg: user2,
-      publish: 1,
-      Liked: true,
-      Rating: 4.5,
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 2600,
-    },
-    
-  ];
+  const services = orderD?.deals; 
+  
+  console.log(services);
+ 
 
   return (
     <div>
@@ -87,30 +73,43 @@ const CommonFavorites = ({ serviceDetailTo }) => {
             : "flex flex-col gap-4"
         }
       >
-        {services.length > 0 ? (
+        {services?.length > 0 ? (
           services.map((service) => (
             <ServiceBox
-              key={service.id}
-              title={service.title}
-              price={service.price}
-              description={service.description}
-              tags={service.tags}
-              image={service.image}
-              serviceDetailTo={serviceDetailTo}
-              publish={service.publish}
-              username={service.username}
-              userimg={service.userimg}
-              Liked={service.Liked}
-              Rating={service.Rating}
-              videos={service.videos}
-              imgs={service.images}
-              totalReviews={service.totalReviews}
-              className={
-                viewMode === "list"
-                  ? "flex flex-row items-center gap-4 p-4 border rounded"
-                  : ""
-              }
-            />
+            key={service.id}
+          
+            title={service.service_title}
+            price={
+              service.pricing_model === "Flat"
+                ? service.flat_rate_price
+                : service?.pricing_model == "Hourly"
+                  ? service.hourly_final_list_price
+                  : service.price1
+            }
+            tags={service.search_tags}
+            image={service.images}
+            publish={service.publish}
+            userimg={service.userimg}
+            username={service.user_name}
+            description={service.service_description}
+            category={service.service_category}
+            dealid={service.id}
+            Rating={service.rating}
+            Liked={service.Liked}
+            // serviceDetailTo={`/provider/dealDetails/${service.id}`}
+
+            videos={service.videos}
+            imgs={service.personal_image
+            }
+            Days={
+              service.pricing_model === "Flat"
+                ? service.flat_estimated_service_time
+                : service?.pricing_model == "Hourly"
+                  ? service.hourly_estimated_service_time
+                  : service.estimated_service_timing
+            }
+            totalReviews={service.totalReviews}
+          />
           ))
         ) : (
           <p>No favorites found</p>

@@ -4,12 +4,12 @@ export const END_POINTS = {
   LOGOUT: "/logout",
   GET_USER: "/get-user",
   TERMS_UPDATE: "/UpdateUser",
-  // for settings
-  MY_DETAILS: "/Customer/MyDetail",
+  MY_DETAILS: "/MyDetails",
+ 
   BUSINESS_PROFILE: "/BusinessProfile",
   ADD_CERTIFICATE_HOURS: "/AddCertificateHours",
   ADD_ADDITIONAL_INFO: "/AdditionalPhotos",
-  ADD_SOCIAL_PROFILE: "/Customer/AddSocial",
+  ADD_SOCIAL_PROFILE: "/Provider/AddSocial",
   SOCIAL_DELETE: "/SocialDelete",
   UPDATE_PASSWORD: "/Customer/NewPassword",
   ADD_CONVERSATION: "/AddConversation",
@@ -59,10 +59,11 @@ export const SALE_POINTS = {
    
   }
   export const FAV={
-   FAVOURITES:"/FavoritService"
- 
-    
+   FAVOURITES:"/FavoritService",
+  GET_FAVOURITES:"/GetFavoritService"
    }
+   
+
    
   
 
