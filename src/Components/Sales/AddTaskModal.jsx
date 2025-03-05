@@ -5,7 +5,9 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAddtaskMutation } from "../../services/salesrep";
-
+import Loader from "../MUI/Loader";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const schema = yup.object().shape({
   test: yup.string().required("Name is required"),
   due_datetime: yup.date().required("Due date/time is required"),
@@ -16,7 +18,8 @@ const schema = yup.object().shape({
 });
 
 export default function AddTaskModal({ close }) {
-  const [addtask,{isLoading}]=useAddtaskMutation();
+  const [addtask, { isLoading, isError, error }] = useAddtaskMutation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -38,18 +41,38 @@ export default function AddTaskModal({ close }) {
 
   const onSubmit = async (data) => {
     try {
-      const response=addtask(data)
-      console.log(response,"response data")
-
+      const response = await addtask(data).unwrap();
+      console.log(response, "response data")
+      Swal.fire({
+        icon: "success",
+        title: "Welcome Back!",
+        text: "Add Task Successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        close();
+      });
 
     } catch (error) {
-      console.log(error,"this is error data")
+      console.log(error, "this is error data")
     }
     close();
   };
 
   const file = watch("files"); // ✅ Watch for the file state
   const fileName = file ? file.name : ""; // ✅ Get file name safely
+
+
+  if (isError) {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Failed to Add Task',
+      text: error?.message || 'Failed to Add Task',
+    }).then(() => {
+      close();
+    })
+  }
 
   return (
     <div className="max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
@@ -180,6 +203,7 @@ export default function AddTaskModal({ close }) {
           <button
             className="text-white bg-[#0F91D2] py-2 px-6 border border-[#A2A1A833] rounded-[10px]"
             type="submit"
+            disabled={isLoading}
           >
             Save
           </button>
