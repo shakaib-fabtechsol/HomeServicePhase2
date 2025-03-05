@@ -1,7 +1,7 @@
 // for settings
 
-import { BASE_API } from '../base-api';
-import { END_POINTS, SALEREP_POINTS } from '../../constants/endpoint.js';
+import { BASE_API } from "../base-api";
+import { END_POINTS, SALEREP_POINTS } from "../../constants/endpoint.js";
 
 export const settingsAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -73,7 +73,7 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["USER_DETAILS"],
     }),
-    updatePassword: builder.mutation({
+    UpdateCustomerPassword: builder.mutation({
       query: (data) => ({
         url: END_POINTS.UPDATE_PASSWORD,
         method: "POST",
@@ -107,15 +107,10 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["USER_DETAILS"],
     }),
-
   }),
-
-
-
 });
 
 export const {
-
   usePublishMutation,
   useUpdateMyDetailsMutation,
   useUpdateBusinessProfileMutation,
@@ -123,22 +118,26 @@ export const {
   useAddAdditionalInfoMutation,
   useAddSocialProfileMutation,
   useDeleteSocialProfileMutation,
-  useUpdatePasswordMutation,
+  useUpdateCustomerPasswordMutation,
   useAddConversationMutation,
   useAddPaymentDetailsMutation,
   useAddBusinessLocationMutation,
   useGetUserDetailsQuery,
 } = settingsAPIs;
 
-
-
-
 export const settingsAPIsforSales = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     updateSales: builder.mutation({
       query: (data) => ({
         url: `${SALEREP_POINTS?.UPDATE_SALES}`,
-        method: 'POST',
+        method: "POST",
+        body: data,
+      }),
+    }),
+    updateSalesPassword: builder.mutation({
+      query: (data) => ({
+        url: `${SALEREP_POINTS?.UPDATE_SALES_SECURITY}`,
+        method: "POST",
         body: data,
       }),
     }),
@@ -153,4 +152,3 @@ export const settingsAPIsforSales = BASE_API.injectEndpoints({
 });
 
 export const { useUpdateSalesMutation,useUpdateSalesPasswordMutation } = settingsAPIsforSales;
-

@@ -2,14 +2,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 // import { useChangePasswordMutation } from "../../../../store/services/userApi"; // Adjust the import path as needed
-import { useUpdatePasswordMutation } from "../../../../services/settings";
+import { useUpdateCustomerPasswordMutation } from "../../../../services/settings";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../../Components/MUI/Loader";
 
 const PasswordModule = ({ handleTabChange }) => {
   const userData = useSelector((state) => state.auth.user);
 
-  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+  const [updatePassword, { isLoading }] = useUpdateCustomerPasswordMutation();
 
   const {
     register,
@@ -44,7 +44,7 @@ const PasswordModule = ({ handleTabChange }) => {
           timer: 2000,
         });
         reset();
-        handleTabChange(7);
+        // handleTabChange(7);
       }
     } catch (error) {
       Swal.fire({
