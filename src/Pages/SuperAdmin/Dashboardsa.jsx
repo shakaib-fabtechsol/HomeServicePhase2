@@ -8,6 +8,7 @@ import DoubleBarChart from "../../Components/SuperAdmin/DoubleBarChart";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { useGetSuperDashboardQuery } from "../../services/dashboard";
 import Loader from "../../Components/MUI/Loader";
+import RemoteError from "../../Components/Common/RemoteError";
 
 export default function Dashboardsa() {
   const [inputselect, setInputSelect] = useState("sales");

@@ -13,10 +13,12 @@ import { LuUsersRound } from "react-icons/lu";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { useGetSalesRapQuery } from "../services/sales/index";
 import { useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../redux/reducers/authSlice";
 import { setUser } from "../redux/reducers/authSlice";
 
 export default function SalesLayout() {
+  const user=useSelector(selectCurrentUser)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [value, setValue] = useState({});
   console.log(value?.setting);
@@ -86,10 +88,10 @@ export default function SalesLayout() {
   }, [data, dispatch]);
 
   const userInfo = {
-    name: value?.setting?.name,
-    email: value?.setting?.email,
+    name: user?.name,
+    email: user?.email,
     profileLink: "/sales/profile",
-    personal_image: value?.setting?.personal_image,
+    personal_image: user?.personal_image,
   };
 
   return (
