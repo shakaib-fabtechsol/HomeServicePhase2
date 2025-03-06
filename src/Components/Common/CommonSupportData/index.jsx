@@ -1,74 +1,38 @@
-import  { useEffect, useState } from "react";
-import Table from "../../Components/Table";
+import React from "react";
+import Table from "../../Table.jsx";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import client1 from "../../assets/img/client1.png";
-import client2 from "../../assets/img/client2.png";
-import client3 from "../../assets/img/client3.png";
-import client4 from "../../assets/img/client4.png";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiEdit } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
-import { IoMdSave } from "react-icons/io";
-import { useGetAllSupportTicketsQuery } from "../../services/customer-support/index.js";
-import LoadingSpinner from "./LoadingSpinner.jsx";
-import RemoteError from "./RemoteError.jsx";
-const serviceProviders = [
-  {
-    logo: client1,
-    id: "#ID234",
-    name: "Ricky Smith",
-    email: "dan_reid@icloud.com",
-    role: "provider",
-    subject: "Login Issue",
-    message: "Unable to log in to my account.",
-  },
-  {
-    logo: client2,
-    id: "#ID234",
-    name: "Frances Swann",
-    email: "tracy_sullivan@yahoo.com",
-    role: "client",
-    subject: "Login Issue",
-    message: "Unable to log in to my account.",
-  },
-  {
-    logo: client3,
-    id: "#ID234",
-    name: "James Hall",
-    email: "delores_acosta@outlook.com",
-    role: "provider",
-    subject: "Login Issue",
-    message: "Unable to log in to my account.",
-  },
-  {
-    logo: client4,
-    id: "#ID234",
-    name: "Mary Freund",
-    email: "myrna_wood@yahoo.com",
-    role: "client",
-    subject: "Login Issue",
-    message: "Unable to log in to my account.",
-  },
-];
-export default function CommonSupportData() {
+import { useGetAllSupportTicketsQuery } from "../../../services/customer-support/index.js";
+import LoadingSpinner from "../LoadingSpinner.jsx";
+import RemoteError from "../RemoteError.jsx";
+import { getImageUrl } from "../../../utils/index.js";
+import SupportTicketStatus from "../SupportTicketStatus.jsx";
+import { getRoleName } from "../../../config/routeConfig.js";
+import UpdateSupportTicket from "./UpdateSupportTicket.jsx";
 
-  const {data,isFetching,isError,error}=useGetAllSupportTicketsQuery()
-  const [checkedRows, setCheckedRows] = useState(
+export default function CommonSupportData() {
+  const [selectedTicket, setSelectedTicket] = React.useState(null);
+
+  const { data, isFetching, isError, error } = useGetAllSupportTicketsQuery();
+  const [checkedRows, setCheckedRows] = React.useState(
     new Array(data?.GetSupport?.length).fill(false)
   );
+  const handleTicketSelect = React.useCallback((ticketData) => setSelectedTicket(ticketData), []);
+  const clearTicketSelect = React.useCallback(() => setSelectedTicket(null), []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.title = "Support";
   }, []);
-  
+
   if (isFetching) return <LoadingSpinner />;
   if (isError)
     return <RemoteError hasError={isError} message={error?.message} />;
 
-
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
-    setCheckedRows(new Array(serviceProviders.length).fill(isChecked));
+    setCheckedRows(new Array(data?.GetSupport?.length).fill(isChecked));
   };
 
   const handleRowChange = (index) => (event) => {
@@ -112,7 +76,7 @@ export default function CommonSupportData() {
     "Action",
   ];
 
-  const tableBody = data?.GetSupport?.map((provider, index) => [
+  const tableBody = data?.GetSupport?.map((ticketDetails, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -129,26 +93,22 @@ export default function CommonSupportData() {
         />
       }
     />,
-    `#ID${provider.id}`,
+    `#ID${ticketDetails.id}`,
     <div className="flex items-center gap-3" key={`name-${index}`}>
-      <img
+      {ticketDetails.personal_image && <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.personal_image}
-        alt={provider.name}
-      />
-      <p>{provider.name}</p>
+        src={getImageUrl(ticketDetails.personal_image)}
+        alt={ticketDetails.name}
+      />}
+      <p>{ticketDetails.name}</p>
     </div>,
-    provider.email,
-    provider.role,
-    provider.subject,
-    provider.message,
-    <select key={provider.id} className="form-select px-2 py-2 rounded-lg border focus-none">
-      <option value="pending">Pending</option>
-      <option value="in-progress">In Progress</option>
-      <option value="resolved">Resolved</option>
-    </select>,
-    <button key={provider.id}  className="btn btn-success">
-      <IoMdSave className="text-xl" />
+    ticketDetails.email,
+    getRoleName(ticketDetails.role),
+    <p key={ticketDetails.id} className="truncate max-w-[100px]">{ticketDetails.subject}</p>,
+    <p key={ticketDetails.id} className="truncate max-w-[100px]">{ticketDetails.message}</p>,
+    <SupportTicketStatus status={ticketDetails.status} key={ticketDetails.id} />,
+    <button onClick={handleTicketSelect.bind(null, ticketDetails)} key={ticketDetails.id} className="btn btn-success">
+      <FiEdit className="text-lg" />
     </button>,
   ]);
 
@@ -183,6 +143,7 @@ export default function CommonSupportData() {
       <div className="mt-5">
         <Table headers={tableHeader} rows={tableBody} />
       </div>
+      <UpdateSupportTicket isOpen={!!selectedTicket?.id} onClose={clearTicketSelect} ticketId={selectedTicket?.id} />
     </div>
   );
 }

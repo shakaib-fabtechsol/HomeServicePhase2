@@ -25,6 +25,7 @@ export const END_POINTS = {
   ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
   ORDER_AFTER_IMAGES: "/OrdeAfterImages",
   CUSTOMER_SUPPORT: "/CustomerSupport",
+  UPDATE_CUSTOMER_SUPPORT: "/UpdateSupport",
   GET_SUPPORT: "/GetSupport",
 };
 
