@@ -2,19 +2,19 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Loader from "../../Components/MUI/Loader";
-import { useGetproviderByIdQuery, useUpdateProviderMutation } from "../../services/serviceprovider";
+import {  useGetsaleproviderByIdQuery,  useUpdatesaleProviderMutation } from "../../services/serviceprovider";
 import EditProvidercomponent from "../../Components/Common/EditProvider";
 
-export default function EditProvider() {
+export default function EditsaleProvider() {
     const navigate=useNavigate();
   const location = useLocation();
   const { Id } = location.state || {};
 
 
-  const { data: providerData, isLoading, isError,error } = useGetproviderByIdQuery(Id);
+  const { data: providerData, isLoading, isError,error } = useGetsaleproviderByIdQuery(Id);
 
   console.log(providerData?.user,"this is provider data")
-  const [updateProvider, { isLoading: updateClientLoading }] = useUpdateProviderMutation();
+  const [updateProvider, { isLoading: updateClientLoading }] = useUpdatesaleProviderMutation();
   if (isLoading || updateClientLoading) {
     return (
       <div className="loader">
@@ -37,8 +37,8 @@ export default function EditProvider() {
       <EditProvidercomponent
         updateClient={updateProvider}
         user={providerData?.user}
-        oncancel={"/superadmin/providers"}
-        onsave={"/superadmin/providers"}
+        oncancel={"/sales/services"}
+        onsave={"/sales/services"}
       />
     </div>
   );
