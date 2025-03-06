@@ -152,7 +152,7 @@ function ServiceDetail() {
           await textPro(formData).unwrap();
           break;
         case "Instant Chat":
-          // await chatPro(formData).unwrap();
+          await chatPro(formData).unwrap();
           break;
         case "Email Pro":
           await emailPro(formData).unwrap();
