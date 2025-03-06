@@ -37,6 +37,8 @@ export const PRO_POINTS = {
   UPDATE_SALE: "/SuperAdmin/UpdateSalesReps",
   SEND_INVITATION: "/SuperAdmin/sendInvite",
   AddPRICING: "/SuperAdmin/AddPriceDetails",
+  UPDATE_PROVIDER:"/SuperAdmin/UpdateProvider",
+  BAN:"/SuperAdmin/banProvider"
 };
 
 export const SALEREP_POINTS = {
