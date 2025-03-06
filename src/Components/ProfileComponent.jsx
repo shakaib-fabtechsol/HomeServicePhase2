@@ -30,15 +30,10 @@ import client1 from "../assets/img/client2.png";
 import client2 from "../assets/img/client3.png";
 import RegularHour from "./AdditionalPhoto/RegularHour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
-import { useLocation } from "react-router-dom";
-import { useGetproviderByIdQuery } from "../services/serviceprovider";
-import Loader from "./MUI/Loader";
-const ProfileComponent = ({ serviceDetailTo, userRole }) => {
-    const location = useLocation();
-    const state = location.state || {}; 
-    console.log(state?.Id,"Id of provider");
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+import camera from "../assets/img/userprofile.png";
+const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
 
-    const {data,isLoading,isError}=useGetproviderByIdQuery(state?.Id)
   const services = [
     {
       id: 1,
@@ -169,15 +164,8 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
     setActiveModal(null);
   };
 
-  console.log(data,"this is for the detail page")
+  console.log(data, "this is for the detail page")
 
-  if(isLoading) return (
-    <div className="flex items-center justify-center h-screen">
-      <Loader />
-    </div>
-)
-
-  if(isError) return (<div className="text-center flex items-center justify-center"><h1>Something went wrong</h1></div>)
 
 
 
@@ -186,13 +174,13 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
       <div className="flex flex-col lg:flex-row justify-between mt-4 lg:items-start">
         <div className="flex flex-wrap items-center">
           <img
-            src={provider}
-            alt=""
+            src={data?.user?.personal_image ? `${BASE_URL}/uploads/${data?.user?.personal_image}` : camera}
+            alt="NA"
             className="me-2 my-2 rounded-lg max-w-[120px]"
           />
           <div className="my-2">
             <div className="flex items-center">
-              <p className="font-semibold myhead me-2">Provider Name</p>
+              <p className="font-semibold myhead me-2">{data?.user?.name}</p>
               <div className="flex ms-3">
                 <IoIosStar className="me-1 text-[#F8C600]" />
                 <div className="flex flex-wrap">
@@ -205,7 +193,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole }) => {
               <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
               <div className="flex items-center">
                 <IoLocationOutline className="me-2 myblack" />
-                <p className="myblack ">Address of the provider here</p>
+                <p className="myblack ">{data?.user?.loaction || "NA"}</p>
               </div>
             </div>
             <div className="flex mt-2 items-center">

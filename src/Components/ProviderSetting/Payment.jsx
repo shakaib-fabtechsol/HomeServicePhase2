@@ -52,7 +52,7 @@ const Payment = () => {
       });
 
       const response = await addPaymentDetails(formData);
-      if (response) {
+      if (response?.data) {
         // handleTabChange(9);
         Swal.fire({
           icon: "success",
@@ -183,7 +183,7 @@ const Payment = () => {
               </div>
               <div className="col-span-12 md:col-span-8 lg:col-span-6">
                 <input
-                  type="text"
+                  type="number"
                   {...register("ssn", {
                     pattern: patterns.ssn,
                   })}

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { selectCurrentUser } from "../../redux/reducers/authSlice";
 import { useUpdateAdminMutation, useUpdatePasswordMutation } from "../../services/auth";
-import { useUpdateSalesMutation } from "../../services/settings";
+import { useUpdateSalesMutation, useUpdateSalesPasswordMutation } from "../../services/settings";
 import Loader from "../../Components/MUI/Loader";
 
 
@@ -19,7 +19,7 @@ export default function Settingsa() {
 
   const Admin = useSelector(selectCurrentUser);
   const [updateAdmin, { isLoading: updateLoading }] = useUpdateSalesMutation();
-    const [updatePassword,{isLoading}] = useUpdatePasswordMutation();
+    const [updatePassword,{isLoading}] = useUpdateSalesPasswordMutation();
 
   const [value, setValue] = React.useState(0);
   const changetab = (value) => {

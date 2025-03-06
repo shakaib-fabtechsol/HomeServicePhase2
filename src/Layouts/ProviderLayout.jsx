@@ -13,10 +13,21 @@ import { PiFiles } from "react-icons/pi";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { GrNotification } from "react-icons/gr";
 import { CgSupport } from "react-icons/cg";
+import {
+  useGetUserDetailsQuery,
+ 
+} from "../services/base-api/index";
 
 function ProviderLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const {
+    data: userData,
+    isLoading: userLoading,
+  
+  } = useGetUserDetailsQuery();
 
+  const provider = userData?.user || {};
+  console.log(provider,"valueeeeeeeeeeeee");
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -67,9 +78,10 @@ function ProviderLayout() {
   ];
 
   const userInfo = {
-    name: "Mike Bird",
-    email: "mikebird@untitledui.com",
+    name: provider.name,
+    email: provider.email,
     profileLink: "/provider/profile",
+    personal_image: provider?.personal_image
   };
 
   return (

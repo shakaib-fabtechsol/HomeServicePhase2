@@ -22,6 +22,47 @@ const MediaUpload = ({ serviceId, setValue }) => {
 
   const [uploadMedia, { isLoading: isUploading }] = useUploadMediaMutation();
   const [publishDeal, { isLoading: isPublishing }] = usePublishDealMutation();
+  const { data, error, isLoading } = useGetDealQuery(dealid, {
+    skip: !dealid,
+  });
+
+  useEffect(() => {
+    if (dealid) {
+      axios
+        .get(`https://marketplace.thefabulousshow.com/api/Deal/${dealid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const dealData = response.data.deal;
+          setDeal(dealData);
+
+          const parsedImages = dealData?.images
+            ? JSON.parse(dealData.images)
+            : [];
+          const parsedVideos = dealData?.videos
+            ? JSON.parse(dealData.videos)
+            : [];
+
+          const allImages = parsedImages.map((image) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${image}`,
+            name: image.split("/").pop(),
+            isExisting: true,
+          }));
+          setImages(allImages);
+          const allVideos = parsedVideos.map((video) => ({
+            url: `https://marketplace.thefabulousshow.com/uploads/${video}`,
+            name: video.split("/").pop(),
+            isExisting: true,
+          }));
+          setVideos(allVideos);
+        })
+        .catch((error) => {
+          console.error("Error fetching deal details:", error);
+        });
+    }
+  }, [dealid, token]);
 
   useEffect(() => {
     return () => {
@@ -79,10 +120,26 @@ const MediaUpload = ({ serviceId, setValue }) => {
     if (isUploading) return;
 
     const formData = new FormData();
-
-    formData.append("deal_id", serviceId);
-    images.forEach((img) => formData.append("images[]", img.file));
-    videos.forEach((vid) => formData.append("videos[]", vid.file));
+    if (dealid) {
+      formData.append("deal_id", dealid);
+    } else {
+      formData.append("deal_id", serviceId);
+    }
+   
+    images.forEach((img) => {
+      if (img.file) {
+        formData.append("images[]", img.file);
+      } else if (img.isExisting) {
+        formData.append("images[]", img.name);
+      }
+    });
+    videos.forEach((vid) => {
+      if (vid.file) {
+        formData.append("videos[]", vid.file);
+      } else if (vid.isExisting) {
+        formData.append("videos[]", vid.name);
+      }
+    });
 
     try {
       const result = await uploadMedia(formData).unwrap();
@@ -96,6 +153,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
           setValue(3);
         }
       });
+     
       setImages([]);
       setVideos([]);
     } catch (error) {

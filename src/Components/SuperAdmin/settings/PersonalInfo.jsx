@@ -71,10 +71,13 @@ export default function PersonalInfo({Admin,updateAdmin}) {
   ];
   const onSubmit = async (data) => {
     const formData = new FormData();
+  
+    // Append all form fields
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
-   
+  
+    // Append the image if it exists
     if (image) {
       formData.append("personal_image", image);
     }

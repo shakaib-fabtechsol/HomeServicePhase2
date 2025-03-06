@@ -6,62 +6,53 @@ import { GoDotFill } from "react-icons/go";
 import { LuBellRing, LuCalendarDays } from "react-icons/lu";
 import AddTaskModal from "../../Components/Sales/AddTaskModal";
 import { useEffect, useState } from "react";
+import { useGettasksQuery } from "../../services/salesrep";
+import Loader from "../../Components/MUI/Loader";
 
 export default function TaskListsr() {
+  const { data, isLoading, isError } = useGettasksQuery();
   const [addtaskopen, setaddtaskOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const handleaddtaskOpen = () => setaddtaskOpen(true);
   const handleaddtaskClose = () => setaddtaskOpen(false);
 
-  const progressdata = [
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-      time: "11:00 AM",
-    },
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-      time: "11:00 AM",
-    },
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-      time: "11:00 AM",
-    },
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-      time: "11:00 AM",
-    },
-  ];
-  const totalprogress = progressdata.length;
-  const completedata = [
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-    },
-    {
-      name: "Task Name",
-      comment:
-        "Lorem Ipusm lorem Ipusmlorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm lorem Ipusm",
-      date: "05/02/2025",
-    },
-  ];
-  const totalcompleted = completedata.length;
+  const pendingtask =
+    search.trim() === ""
+      ? data?.task?.filter((item) => item?.status === "pending")
+      : data?.task?.filter(
+        (item) => 
+          item?.status === "pending" && item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.status === "pending" && item?.description?.toLowerCase().includes(search.toLowerCase())
+      );
+
+  const completed =
+    search.trim() === ""
+      ? data?.task?.filter((item) => item?.status === "completed")
+      : data?.task?.filter(
+        (item) =>
+           (item?.status === "completed" && item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.status === "completed" && item?.description?.toLowerCase().includes(search.toLowerCase()))
+      );
+
+  const totalprogress = pendingtask?.length;
+  const totalcompleted = completed?.length;
 
   useEffect(() => {
     document.title = "TaskList";
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <p className="text-center">failed to fetch tasks</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -76,6 +67,8 @@ export default function TaskListsr() {
             name="search"
             id="search"
             placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </label>
         <div className="ms-auto">
@@ -101,29 +94,24 @@ export default function TaskListsr() {
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 mt-5 gap-5">
-            {progressdata.map((task, index) => (
+            {pendingtask?.map((task, index) => (
               <div key={index} className="p-3 bg-[#F9F9F9] rounded-[10px]">
                 <div className="flex items-center gap-2 justify-between">
-                  <p className="text-[#0D062D] font-semibold">{task.name}</p>
+                  <p className="text-[#0D062D] font-semibold">{task?.name}</p>
                   <button>
                     <FaEllipsisH />
                   </button>
                 </div>
-                <p className="text-xs text-[#787486] mt-2">{task.comment}</p>
+                <p className="text-xs text-[#787486] mt-2">{task?.description}</p>
                 <div className="flex gap-2 justify-between mt-3 flex-wrap">
                   <p className="bg-[#FFA50026] text-[#FFA500] text-[10px] font-semibold p-1 rounded-[5px]">
-                    On Progress
+                    {task.status === "pending" ? "On Progress" : task?.status}
                   </p>
                   <div className="flex items-center gap-2 ms-auto">
                     <div className="flex items-center gap-1">
                       <LuBellRing className="text-[#787486]" />
                       <p className="text-[#787486] text-[10px] font-medium">
-                        {task.date}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#787486] text-[10px] font-medium">
-                        {task.time}
+                        {new Date(task?.due_datetime)?.toDateString()}
                       </p>
                     </div>
                   </div>
@@ -145,15 +133,15 @@ export default function TaskListsr() {
             </div>
           </div>
           <div className="grid grid-cols-1 mt-5 gap-5">
-            {completedata.map((task, index) => (
+            {completed.map((task, index) => (
               <div key={index} className="p-3 bg-[#F9F9F9] rounded-[10px]">
                 <div className="flex items-center gap-2 justify-between">
-                  <p className="text-[#0D062D] font-semibold">{task.name}</p>
+                  <p className="text-[#0D062D] font-semibold">{task?.name}</p>
                   <button>
                     <FaEllipsisH />
                   </button>
                 </div>
-                <p className="text-xs text-[#787486] mt-2">{task.comment}</p>
+                <p className="text-xs text-[#787486] mt-2">{task?.description}</p>
                 <div className="flex gap-2 justify-between mt-3 flex-wrap">
                   <p className="bg-[#83C29D33] text-[#68B266] text-[10px] font-semibold p-1 rounded-[5px]">
                     Completed
@@ -162,7 +150,7 @@ export default function TaskListsr() {
                     <div className="flex items-center gap-1">
                       <LuCalendarDays className="text-[#787486]" />
                       <p className="text-[#787486] text-[10px] font-medium">
-                        {task.date}
+                        {new Date(task?.due_datetime)?.toDateString()}
                       </p>
                     </div>
                   </div>
@@ -188,3 +176,4 @@ export default function TaskListsr() {
     </div>
   );
 }
+

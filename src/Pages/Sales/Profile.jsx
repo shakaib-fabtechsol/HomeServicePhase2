@@ -1,17 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import provider from "../../assets/img/provider.png";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import { LuPhone } from "react-icons/lu";
+import { useGetSalesRapQuery } from "../../services/sales/index";
+import { useDispatch } from "react-redux";
 import { FaRegPenToSquare } from "react-icons/fa6";
-
+import { setUser } from "../../redux/reducers/authSlice";
 const Profiles = () => {
+  const dispatch = useDispatch();
+  const [value, setValue] = useState({});
   const permissions = ["Permissions 1", "Permissions 2", "Permissions 3"];
 
   useEffect(() => {
     document.title = "Profile";
   }, []);
+
+  const { data, isLoading, error, refetch } = useGetSalesRapQuery(4);
+
+  useEffect(() => {
+    if (data) {
+      setValue(data);
+      if (data?.user) {
+        dispatch(setUser(data.user));
+      }
+    }
+  }, [data, dispatch]);
+
+  const image = value?.setting?.personal_image;
+  const image2 = { provider };
+  const personal_image = image
+    ? `https://marketplace.thefabulousshow.com/uploads/${image} `
+    : image2;
+
   return (
     <div>
       <div className="flex items-center">
@@ -23,22 +45,23 @@ const Profiles = () => {
       <div className="flex flex-wrap gap-2 justify-between  items-start">
         <div className="flex flex-wrap items-center">
           <img
-            src={provider}
-            alt=""
-            className="me-2 my-2 rounded-lg max-w-[120px]"
+            src={personal_image}
+            alt="Profile"
+            className="rounded-2xl object-cover w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[130px]"
           />
+
           <div className="my-2">
             <div>
-              <p className="font-semibold myhead">Sales Rep Name</p>
+              <p className="font-semibold myhead">{value.setting?.name}</p>
             </div>
             <div className="flex flex-wrap gap-3 mt-1">
               <div className="flex items-center gap-1">
                 <IoMailOutline className="text-[#535862]" />
-                <p className="text-[#535862]">angel_clarke@gmail.com</p>
+                <p className="text-[#535862]">{value.setting?.email}</p>
               </div>
               <div className="flex items-center gap-1">
                 <LuPhone className="text-[#535862]" />
-                <p className="text-[#535862]">+3481401405167</p>
+                <p className="text-[#535862]">{value.setting?.phone}</p>
               </div>
             </div>
             <div className="mt-1">

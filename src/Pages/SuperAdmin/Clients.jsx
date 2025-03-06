@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineTrash } from "react-icons/hi";
 import confirmDelete from "../../constants/deleteconfirm";
 import Swal from "sweetalert2";
+import camera from "../../assets/img/userprofile.png";
 import PaginationComponent from "../../Components/Pagination";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 export default function Clients() {
@@ -119,7 +120,7 @@ export default function Clients() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={`${BASE_URL}/uploads/${provider?.personal_image}`} // Replace with your image URL or path provider?.personal_image}
+        src={provider?.personal_image?`${BASE_URL}/uploads/${provider?.personal_image}`:camera} // Replace with your image URL or path provider?.personal_image}
         alt={provider?.name}
       />
       <p>{provider?.name}</p>

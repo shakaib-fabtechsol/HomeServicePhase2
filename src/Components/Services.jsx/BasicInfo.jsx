@@ -64,7 +64,6 @@ function BasicInfo({ setServiceId, setValue }) {
     setLoading(true);
 
     const submitData = {
-      user_id: id,
       service_title: e.target.Title.value,
       commercial: e.target.Commercial.checked ? 1 : 0,
       residential: e.target.Residential.checked ? 1 : 0,
