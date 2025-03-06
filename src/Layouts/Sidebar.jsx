@@ -47,10 +47,9 @@ const SidebarSection = ({ items }) => {
 
 const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
   const image = userInfo?.personal_image;
-  const image2 = "/service1.jpg";
   const personal_image = image
     ? `https://marketplace.thefabulousshow.com/uploads/${image} `
-    : image2;
+    : "/service1.png";
   return (
     <div
       className={`left text-white bg-white fixed md:static h-full transition-transform duration-300 ease-in-out ${
@@ -70,7 +69,7 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
         <div className="flex items-center px-4 pt-3">
           <Link to={userInfo.profileLink}>
             <img
-              src={user}
+              src={personal_image}
               alt="logo"
               className="rounded-full pe-2 max-w-[70px]"
             />

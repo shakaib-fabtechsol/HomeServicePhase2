@@ -1,19 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import { usePublishMutation } from "../../../../services/settings";
-import { useUpdateMyDetailsMutation } from "../../../../services/settings";
-import { setUser } from "../../../../redux/reducers/authSlice";
+import { useUpdateMyDetailsMutation, useGetMyDetailsQuery } from "../../../../services/settings";
 
 export const useMyDetails = ({ handleTabChange }) => {
+
+ const id=useSelector((state)=>state.auth.user);
+ console.log(id,"user");
+  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
+ 
+  const [updateMyDetails, { isLoading: isUpdating }] = useUpdateMyDetailsMutation();
   const [publishMyDetails] = usePublishMutation();
 
-  const [updateMyDetails, { isLoading }] = useUpdateMyDetailsMutation();
-  const dispatch = useDispatch();
-
-  const userData = useSelector((state) => state.auth.user);
-
-  console.log("userData sales_representative", userData?.sales_representative);
   const {
     register,
     handleSubmit,
@@ -23,70 +22,73 @@ export const useMyDetails = ({ handleTabChange }) => {
     reset,
   } = useForm({
     defaultValues: {
-      id: userData?.id,
-      name: userData?.name || "",
-      email: userData?.email || "",
-      phone: userData?.phone || "",
-      sales_referred: userData?.sales_referred || "No",
-      sales_representative: userData?.sales_representative || "",
-      personal_image: userData?.personal_image || null,
+      name: "",
+      email: "",
+      phone: "",
+      sales_referred: "No",
+      sales_representative: "",
+      personal_image: null,
     },
   });
 
-  // Form submission handler
+ console.log(userData?.user);
+  useEffect(() => {
+    if (userData) {
+      reset({
+        id:userData?.user?.id || "",
+        name: userData?.user?.name || "",
+        email: userData?.user?.email || "",
+        phone: userData?.user?.phone || "",
+        sales_referred: userData?.user?.sales_referred || "No",
+        sales_representative: userData?.user?.sales_representative || "",
+        personal_image: userData?.user?.personal_image || null,
+      });
+    }
+  }, [userData, reset]);
+
   const onSubmit = async (formData) => {
     try {
-      console.log("formData", formData);
-      // Create FormData for file upload
+      console.log("Submitting formData:", formData);
+
       const payload = new FormData();
       Object.keys(formData).forEach((key) => {
         if (key === "personal_image" && formData[key] instanceof File) {
           payload.append(key, formData[key]);
         } else {
-          if (key != "publish") {
+          if (key !== "publish") {
             payload.append(key, formData[key]);
           }
         }
       });
 
-      console.log("payload", JSON.stringify(payload));
-      // Dispatch update profile action
       const response = await updateMyDetails(payload).unwrap();
 
       if (response) {
-        console.log("formData.publish", formData.publish);
-        if (formData.publish == true) {
-          await publishMyDetails(userData?.id);
+        if (formData.publish === true) {
+          await publishMyDetails(userData?.user.id);
         }
-
         handleTabChange(1);
-        // toast.success("Profile updated successfully!");
-        reset(formData); // Reset form with new values
-      } else {
-        // toast.error(response.message || "Failed to update profile");
+        reset(formData); // Reset with updated data
       }
     } catch (error) {
-      //   toast.error(error.message || "Something went wrong");
       console.error("Profile update error:", error);
     }
   };
 
-  console.log("userData...", userData);
   // File change handler
   const handleFileChange = (e, fieldName) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file type and size
       const validTypes = ["image/jpeg", "image/png", "image/jpg"];
       const maxSize = 5 * 1024 * 1024; // 5MB
 
       if (!validTypes.includes(file.type)) {
-        // toast.error("Please upload a valid image file (JPG, JPEG, PNG)");
+        console.error("Invalid file type");
         return;
       }
 
       if (file.size > maxSize) {
-        // toast.error("File size should be less than 5MB");
+        console.error("File size exceeds 5MB");
         return;
       }
 
@@ -94,49 +96,15 @@ export const useMyDetails = ({ handleTabChange }) => {
     }
   };
 
-  // Phone number formatter
-  const formatPhoneNumber = (value) => {
-    if (!value) return value;
-    const phoneNumber = value.replace(/[^\d]/g, "");
-    const phoneNumberLength = phoneNumber.length;
-
-    if (phoneNumberLength < 4) return phoneNumber;
-    if (phoneNumberLength < 7) {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-    }
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
-  };
-
-  // Validation rules
-  const validationRules = {
-    fullName: { required: "Full name is required" },
-    email: {
-      required: "Email is required",
-      pattern: {
-        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-        message: "Invalid email address",
-      },
-    },
-    phoneNumber: {
-      required: "Phone number is required",
-      pattern: {
-        value: /^\(\d{3}\) \d{3}-\d{4}$/,
-        message: "Invalid phone number format",
-      },
-    },
-  };
-
   return {
     register,
     handleSubmit,
     errors,
-    isLoading,
+    isLoading: isFetching || isUpdating,
     watch,
     setValue,
     onSubmit,
     handleFileChange,
-    formatPhoneNumber,
-    validationRules,
     userData,
   };
 };
