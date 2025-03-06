@@ -12,8 +12,11 @@ import { MdHomeRepairService } from "react-icons/md";
 import { LuUsersRound } from "react-icons/lu";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
-
+import { selectCurrentUser } from "../redux/reducers/authSlice";
+import { useSelector } from "react-redux";
 function SuperAdminLayout() {
+  const user=useSelector(selectCurrentUser);
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -74,8 +77,9 @@ function SuperAdminLayout() {
   ];
 
   const userInfo = {
-    name: "Mike Bird",
-    email: "mikebird@untitledui.com",
+    name: user?.name,
+    email:user?.email,
+    personal_image:user?.personal_image,
     profileLink: "/superadmin/setting",
   };
 

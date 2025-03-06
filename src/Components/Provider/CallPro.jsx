@@ -6,7 +6,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { Link } from "react-router-dom";
 import ConversationHeader from "./ConversationHeader";
 
-export default function CallPro() {
+export default function CallPro({ data }) {
   useEffect(() => {
     document.title = "Conversations";
   }, []);
@@ -48,6 +48,8 @@ export default function CallPro() {
       phone: "+1 (812) 000-0000",
     },
   ];
+
+  console.log("data", data)
 
   const [checkedRows, setCheckedRows] = useState(
     new Array(serviceConversations.length).fill(false)
