@@ -69,12 +69,12 @@ export const SALE_POINTS = {
    }
    
    export const PROVIDER_CONTACT_PRO={
-    GET_RECORDS:"/contact-pro/provider",
-    SEND_CALL:"/contact-pro/send-call-sms",
-    SEND_SMS:"/contact-pro/send-sms",
-    SEND_INSTANT_MESSAGE:"/contact-pro/send-instant-chat",
-    SEND_EMAIL:"/contact-pro/send-email",
-    SEND_GET_DIRECTION:"/contact-pro/send-get-direction",
+    GET_RECORDS:"/api/contact-pro/provider",
+    SEND_CALL:"/api/contact-pro/send-call-sms",
+    SEND_SMS:"/api/contact-pro/send-sms",
+    SEND_INSTANT_MESSAGE:"/api/contact-pro/send-instant-chat",
+    SEND_EMAIL:"/api/contact-pro/send-email",
+    SEND_GET_DIRECTION:"/api/contact-pro/send-get-direction",
     }
    
   

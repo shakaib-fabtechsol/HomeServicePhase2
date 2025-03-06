@@ -47,7 +47,7 @@ export default function ConversationTable({ title, subtitle, data }) {
     record?.deal?.service_title || "N/A",
     transformDateToLocalString(record?.created_at),
     <div key={`phone-${index}`}>
-      <p className="font-bold text-md">{getTimeDifferenceFromNow(record?.created_at)}</p>
+      <p className="font-bold text-md">{record?.created_at.slice(0,10)}</p>
       <p>{record?.customer?.phone || "N/A"}</p>
     </div>,
   ]);
