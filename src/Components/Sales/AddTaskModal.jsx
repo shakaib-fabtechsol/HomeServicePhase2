@@ -1,47 +1,43 @@
-import React from "react";
+
 import { FaXmark } from "react-icons/fa6";
 import BlueSwitch from "../SuperAdmin/settings/BlueSwitch";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useAddtaskMutation } from "../../services/salesrep";
+import { useAddOrUpdateTaskMutation } from "../../services/salesrep";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   due_datetime: yup.date().required("Due date/time is required"),
   status: yup.string().required("Status is required"),
-  files:yup.string().required("file is required"),
+  files: yup.mixed().required("File is required"),
   description: yup
-    .string().
-    required("Description is required") .max(200, "Description should not be more than 200 characters"),
-    
+    .string()
+    .required("Description is required")
+    .max(200, "Description should not be more than 200 characters"),
 });
 
-export default function AddTaskModal({ close }) {
-  const [addtask, { isLoading, isError, error }] = useAddtaskMutation();
-  const navigate = useNavigate();
+export default function AddTaskModal({ close,taskData }) {
+  const [addOrUpdateTask, { isLoading, isError, error }] = useAddOrUpdateTaskMutation();
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   watch,
-    setValue, // ✅ Use setValue to manually update file input
+    setValue, 
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: "",
-      due_datetime: "",
-      notification: 0,
-      status: "",
-      description: "",
-      files: null, // ✅ Ensure files is initialized properly
+      name: taskData?.name || "",
+      due_datetime: taskData?.due_datetime,
+      notification: taskData?.notification ?? 0,
+      status:taskData?.status,
+      description: taskData?.description,
+      files: taskData?.files,
     },
   });
-
-
   const onSubmit = async (data) => {
     const date = new Date(data.due_datetime);
     const formattedDateTime = `${date.getFullYear()}-${String(
@@ -52,46 +48,41 @@ export default function AddTaskModal({ close }) {
       date.getSeconds()
     ).padStart(2, "0")}`;
   
-    data.due_datetime = formattedDateTime; // Update the formatted date-time
-  
-    console.log("After Formatting:", data.due_datetime);
-  
+    data.due_datetime = formattedDateTime; 
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
-      if (key === "files") {
-        if (data[key]) {
+      if (key === "files" && data[key] instanceof File) {
           formData.append("files", data[key]);
-        }
       } else {
         formData.append(key, data[key]);
       }
     });
-  
+    if(taskData.id){
+      formData.append('id', taskData.id);
+    }
     try {
-      const response = await addtask(formData).unwrap();
-  
-      console.log(response, "response data");
+      await addOrUpdateTask({formData,isUpdating:!!taskData.id}).unwrap();
       Swal.fire({
         icon: "success",
-  
-        text: "Add Task Successfully",
+        title: taskData.id ? "Task Updated" : "Task Added",
+        text: taskData.id ? "The task has been updated successfully." : "The task has been added successfully.",
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
         close();
       });
-    } catch (error) {
-      console.log(error, "this is error data");
+    } catch  {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: "An error occurred while submitting the form. Please try again.",
+        });
     }
     close();
   };
   
-
-
-  const file = watch("files"); // ✅ Watch for the file state
-  const fileName = file ? file.name : ""; // ✅ Get file name safely
-
-
+  const file = watch("files");
+  const fileName = file && typeof file === 'string' ? file : file?.name? file.name:  ""; 
   if (isError) {
 
     Swal.fire({
@@ -102,11 +93,6 @@ export default function AddTaskModal({ close }) {
       close();
     })
   }
-  
-
-
-  
-
   return (
     <div className="max-h-[calc(100dvh-40px)] overflow-y-auto scroll-x-hidden">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,6 +154,7 @@ export default function AddTaskModal({ close }) {
               render={({ field }) => (
                 <BlueSwitch
                   {...field}
+                  defaultChecked={taskData.notification?true:false}
                   checked={field.value === 1} // Convert 1 to true for the switch
                   onChange={(e) => field.onChange(e.target.checked ? 1 : 0)}
                   id="notification"
@@ -215,7 +202,7 @@ export default function AddTaskModal({ close }) {
             id="files"
             onChange={(e) => {
               const file = e.target.files[0];
-              setValue("files", file); // ✅ Use setValue to update file field
+              setValue("files", file); 
             }}
           />
           <label
