@@ -1,7 +1,10 @@
 import React from "react";
-import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom";
+import { NavLink, Link, useMatch, useResolvedPath, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import user from "../assets/img/user.png";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/reducers/authSlice";
+import { persistor } from "../redux/store";
 
 const SidebarItem = ({ to, icon: Icon, label, toChild, toChild2 }) => {
   const resolved = useResolvedPath(to);
@@ -46,15 +49,17 @@ const SidebarSection = ({ items }) => {
 };
 
 const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  console.log("userInfo", userInfo)
   const image = userInfo?.personal_image;
   const personal_image = image
     ? `https://marketplace.thefabulousshow.com/uploads/${image} `
     : "/service1.png";
   return (
     <div
-      className={`left text-white bg-white fixed md:static h-full transition-transform duration-300 ease-in-out ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0`}
+      className={`left text-white bg-white fixed md:static h-full transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
     >
       <div className="left-mid h-[calc(100dvh-184px)]">
         <div className="list flex flex-col h-full justify-between">
@@ -77,9 +82,13 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
           <div className="logouts">
             <div className="flex justify-between items-center">
               <p className="font-bold text-black">{userInfo.name}</p>
-              <Link to="/login">
+              <div onClick={() => {
+                dispatch(logout());
+                persistor.purge()
+                navigate("/login");
+              }}>
                 <MdLogout className="text-2xl text-black" />
-              </Link>
+              </div>
             </div>
             <p className="mb-0 font-medium text-sm text-black">
               {userInfo.email}

@@ -63,7 +63,9 @@ export const SALE_POINTS = {
   GET_FAVOURITES:"/GetFavoritService"
    }
    
-
+   export const PROVIDER_CONTACT_PRO={
+    GET_RECORDS:"/contact-pro/provider",
+    }
    
   
 

@@ -13,6 +13,9 @@ export default defineConfig({
     "import.meta.env.VITE_GOOGLE_API_KEY": JSON.stringify(
       process.env.VITE_GOOGLE_API_KEY
     ),
+    "import.meta.env.VITE_BASE_URL_NODE": JSON.stringify(
+      process.env.VITE_BASE_URL_NODE
+    ),
   },
   plugins: [react()],
 });

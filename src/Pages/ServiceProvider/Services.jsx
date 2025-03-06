@@ -16,8 +16,8 @@ function Services() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [services, setServices] = useState([]);
-  const token = useSelector((state) => state.auth.token);
-
+  const {user, token} = useSelector((state) => state.auth);
+console.log("user", user)
   useEffect(() => {
     setLoading(true);
 
