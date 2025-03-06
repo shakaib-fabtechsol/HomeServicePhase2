@@ -23,7 +23,7 @@ function RevenueSummaryTable() {
               </button>
             </div>
             <div className="mt-2">
-            { isFetching?<LoadingSpinner />?isError:<RemoteError hasError={isError} message={error?.message} />: <TableBlue headers={salesHeader} rows={salesRows} />}
+         <TableBlue headers={salesHeader} rows={salesRows} />
             </div>
           </div>
   )
