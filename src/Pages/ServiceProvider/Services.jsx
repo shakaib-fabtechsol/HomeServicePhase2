@@ -37,9 +37,6 @@ function Services() {
       });
   }, []);
 
-
-
-
   const filteredServices = services?.filter((service) =>
     service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -81,7 +78,6 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
-              
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"
