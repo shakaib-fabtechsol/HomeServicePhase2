@@ -10,7 +10,7 @@ export default function Channels({ data, updatePrice, user_id }) {
       text_pro: data?.text_pro ?? 0,
       instant_chat: data?.instant_chat ?? 0,
       email_pro: data?.email_pro ?? 0,
-      th_get_direction: data?.get_direction ?? 0,
+      get_direction: data?.get_direction ?? 0,
       th_call_pro: data?.th_call_pro ?? 0,
       th_text_pro: data?.th_text_pro ?? 0,
       th_instant_chat: data?.th_instant_chat ?? 0,

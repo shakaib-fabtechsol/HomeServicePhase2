@@ -1,6 +1,8 @@
 import React from "react";
 
-const SpecialHour = () => {
+const SpecialHour = ({special_hour}) => {
+  const SpecialHourArray = JSON.parse(special_hour);
+  console.log(SpecialHourArray,"these are special hours")
   const SpecialHours = [
     { Dates: "24 Dec 2025", time: "9AM - 5PM", dayName: "Chrismas Eve" },
     { Dates: "25 Dec 2025", time: "9AM - 5PM", dayName: "Christmas" },

@@ -72,7 +72,7 @@ export default function EditClient({ oncancel, onsave,clientData,updateClient })
       await updateClient(formData).unwrap();
       Swal.fire({
         icon: "success",
-        title: "Welcome Back!",
+       
         text: "Customer update Successfully",
         timer: 1500,
         showConfirmButton: false,
