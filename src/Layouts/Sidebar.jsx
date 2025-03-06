@@ -3,7 +3,11 @@ import { NavLink, Link, useMatch, useResolvedPath } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import user from "../assets/img/user.png";
 
+
+
 const SidebarItem = ({ to, icon: Icon, label, toChild, toChild2 }) => {
+
+ 
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: false });
 
