@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { FaArrowLeft, FaRegCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import cardvideo from "../../assets/img/cardvideo.mp4";
@@ -22,94 +22,45 @@ import { CiSearch } from "react-icons/ci";
 import ServiceBox from "../../Components/ServiceBox";
 import AccordionComponent from "../../Components/AccordionComponent";
 import Review from "../../Components/SuperAdmin/Review";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Profilep = () => {
   useEffect(() => {
     document.title = "Profile";
   }, []);
 
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-  ];
+ 
+const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+  
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    setLoading(true);
+
+    axios
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setServices(response.data.deals);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching deals:", error);
+        setLoading(false);
+      });
+  }, []);
+
+
+  const filteredServices = services?.filter((service) =>
+    service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const accordionData = [
     { title: "About Us Video", content: <AboutVideo /> },
     { title: "Technician Photos", content: <TechnicalPhoto /> },
@@ -219,34 +170,60 @@ const Profilep = () => {
                 <label>
                   <CiSearch className="text-[#717680] text-xl" />
                 </label>
-                <input
-                  type="search"
-                  placeholder="Search"
-                  className="w-full px-2"
-                />
+               
+<input
+              id="search"
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="px-2 w-full focus-none"
+              placeholder="Search"
+            />
               </div>
             </div>
           </div>
           <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {services.map((service, index) => (
+          {filteredServices.length > 0 ? (
+            filteredServices.map((service) => (
               <ServiceBox
-                key={index}
-                title={service.title}
-                price={service.price}
-                description={service.description}
-                tags={service.tags}
-                image={service.image}
+                key={service.id}
+              
+                title={service.service_title}
+                price={
+                  service.pricing_model === "Flat"
+                    ? service.flat_rate_price
+                    : service?.pricing_model == "Hourly"
+                      ? service.hourly_final_list_price
+                      : service.price1
+                }
+                tags={service.search_tags}
+                image={service.images}
                 publish={service.publish}
-                serviceDetailTo={"/provider/dealDetails"}
-                videos={service.videos}
-                imgs={service.images}
                 userimg={service.userimg}
-                username={service.username}
+                username={service.user_name}
+                description={service.service_description}
+                category={service.service_category}
+                dealid={service.id}
                 Rating={service.rating}
-                Liked={service.liked}
+                Liked={service.Liked}
+                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+
+                videos={service.videos}
+                imgs={service.personal_image
+                }
+                Days={
+                  service.pricing_model === "Flat"
+                    ? service.flat_estimated_service_time
+                    : service?.pricing_model == "Hourly"
+                      ? service.hourly_estimated_service_time
+                      : service.estimated_service_timing
+                }
                 totalReviews={service.totalReviews}
               />
-            ))}
+            ))
+          ) : (
+            <p>No services found</p>
+          )}
           </div>
         </div>
         <div className="mt-5">

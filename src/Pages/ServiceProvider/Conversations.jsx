@@ -18,6 +18,8 @@ import { SlLocationPin } from "react-icons/sl";
 import TextPro from "../../Components/Provider/TextPro";
 import EmailPro from "../../Components/Provider/EmailPro";
 import InstantChat from "../../Components/Provider/InstantChat";
+import { useGetProviderContactProQuery } from "../../services/providerContactPro";
+import { useSelector } from "react-redux";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,6 +51,8 @@ function a11yProps(index) {
 }
 
 export default function Conversations() {
+  const { user } = useSelector(state => state.auth) || {};
+  const { data: recordsContactPro, isLoading, isSuccess, error } = useGetProviderContactProQuery(user?.id, { skip: !user?.id })
   useEffect(() => {
     document.title = "Conversations";
   }, []);
@@ -57,27 +61,19 @@ export default function Conversations() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log("recordsContactPro", recordsContactPro)
+  const callProData = recordsContactPro?.data?.filter(item => item.type === "call_pro") || [];
+  const smsProData = recordsContactPro?.data?.filter(item => item.type === "sms_pro") || [];
+  const emailProData = recordsContactPro?.data?.filter(item => item.type === "email_pro") || [];
 
-  const tabs = [
-    {
-      label: "Instant Chat",
-      icon: <IoChatboxEllipsesOutline />,
-      content: <InstantChat />,
-    },
-    { label: "Call Pro", icon: <HiOutlinePhone />, content: <CallPro /> },
-    {
-      label: "Text Pro",
-      icon: <IoChatbubbleEllipsesOutline />,
-      content: <TextPro />,
-    },
-    { label: "Email Pro", icon: <FiMail />, content: <EmailPro /> },
-    {
-      label: "Get Location",
-      icon: <SlLocationPin />,
-      content: <p>location content</p>,
-    },
-  ];
 
+  const tabs = React.useMemo(() => [
+    { label: "Instant Chat", icon: <IoChatboxEllipsesOutline />, content: <InstantChat /> },
+    { label: "Call Pro", icon: <HiOutlinePhone />, content: <CallPro data={callProData} isLoading={isLoading} /> },
+    { label: "Text Pro", icon: <IoChatbubbleEllipsesOutline />, content: <TextPro data={smsProData} isLoading={isLoading} /> },
+    { label: "Email Pro", icon: <FiMail />, content: <EmailPro data={emailProData} isLoading={isLoading} /> },
+    { label: "Get Location", icon: <SlLocationPin />, content: <p>Location content</p> },
+  ], [recordsContactPro, isLoading]);
   return (
     <div>
       <Box sx={{ width: "100%" }}>

@@ -17,9 +17,12 @@ import {
   useGetUserDetailsQuery,
  
 } from "../services/base-api/index";
+import { useSelector } from "react-redux";
 
 function ProviderLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const {user} = useSelector((state) => state.auth);
+
 const {
     data: userData,
     isLoading: userLoading,
@@ -92,7 +95,7 @@ const {
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           sidebarData={sidebarData}
-          userInfo={userInfo}
+          userInfo={user}
         />
         <div className="right flex-1">
           <div className="right-bottom px-2">

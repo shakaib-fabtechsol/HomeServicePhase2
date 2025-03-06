@@ -2,21 +2,24 @@ import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useAddConversationMutation } from "../../services/settings";
+import { useAddConversationMutation,useGetMyDetailsQuery } from "../../services/settings";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/authSlice";
 import Loader from "../MUI/Loader";
 
 const ChannelConversation = ({ handleTabChange }) => {
-  const userData = useSelector((state) => state.auth.user);
+  const userID= useSelector((state)=>state.auth.user);
+  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
+
+  console.log(userData?.businessProfile);
   const dispatch = useDispatch();
   const [addConversation, { isLoading }] = useAddConversationMutation();
   const [toggles, setToggles] = useState({
-    call: !!userData?.businessProfile?.conversation_call_number,
-    text: !!userData?.businessProfile?.conversation_text_number,
-    email: !!userData?.businessProfile?.conversation_email,
-    address: !!userData?.businessProfile?.conversation_address,
-    chat: !!userData?.businessProfile?.conversation_chat,
+    call: !!userData?.businessProfile[0]?.conversation_call_number,
+    text: !!userData?.businessProfile[0]?.conversation_text_number,
+    email: !!userData?.businessProfile[0]?.conversation_email,
+    address: !!userData?.businessProfile[0]?.conversation_address,
+    chat: !!userData?.businessProfile[0]?.conversation_chat,
     form: false,
   });
 
@@ -30,11 +33,11 @@ const ChannelConversation = ({ handleTabChange }) => {
     mode: "onChange",
     defaultValues: {
       conversation_call_number:
-        userData?.businessProfile?.conversation_call_number,
+        userData?.businessProfile[0]?.conversation_call_number,
       conversation_text_number:
-        userData?.businessProfile?.conversation_text_number,
-      conversation_email: userData?.businessProfile?.conversation_email,
-      conversation_address: userData?.businessProfile?.conversation_address,
+        userData?.businessProfile[0]?.conversation_text_number,
+      conversation_email: userData?.businessProfile[0]?.conversation_email,
+      conversation_address: userData?.businessProfile[0]?.conversation_address,
     },
   });
 
@@ -44,8 +47,7 @@ const ChannelConversation = ({ handleTabChange }) => {
         ...prev,
         [field]: !prev[field],
       };
-
-      // Clear the corresponding form value when toggle is turned off
+     
       const fieldMap = {
         call: "conversation_call_number",
         text: "conversation_text_number",
@@ -76,7 +78,7 @@ const ChannelConversation = ({ handleTabChange }) => {
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-      formData.append("id", userData.id);
+      formData.append("id", userID?.id);
 
       // Only append values for enabled toggles
       if (toggles.call)

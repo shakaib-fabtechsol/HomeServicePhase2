@@ -78,8 +78,8 @@ export const BASE_API = createApi({
     }),
 
     dealPublish: builder.mutation({
-      query: (id) => ({
-        url: `DealPublish/${id}`,
+      query: (deal_id) => ({
+        url: `DealPublish/${deal_id}`,
         method: "GET",
       }),
     }),

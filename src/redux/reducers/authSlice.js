@@ -4,6 +4,7 @@ const initialState = {
   access: null,
   refresh: null,
   isLoggedIn: false,
+  user: null,
 };
 
 export const authSlice = createSlice({

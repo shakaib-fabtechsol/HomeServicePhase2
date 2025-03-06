@@ -92,7 +92,7 @@ export default function ReferralCom({data,updatePrice,user_id}) {
           className="w-full mt-8 sm:max-w-[250px] bg-[#0F91D2] p-2 text-white font-semibold text-sm rounded-[8px]"
           type="submit"
         >
-          Continue
+          Save
         </button>
       </form>
     </div>
