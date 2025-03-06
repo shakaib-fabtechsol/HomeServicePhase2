@@ -29,6 +29,7 @@ import RegularHour2 from "./AdditionalPhoto/Regular2Hour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import camera from "../assets/img/fileicon.png";
+import RegularHour from "./AdditionalPhoto/RegularHour";
 const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
   const accordionData = [
     { title: "About videos", content: <AboutVideo about_video={data?.business?.about_video} /> },

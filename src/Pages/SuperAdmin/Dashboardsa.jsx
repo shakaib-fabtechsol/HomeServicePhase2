@@ -49,7 +49,7 @@ export default function Dashboardsa() {
     linelabels.push(i);
   }
 
- 
+
 
   const getLastMonthLabels = () => {
     const labels = [];
@@ -256,7 +256,7 @@ export default function Dashboardsa() {
           </div>
         </div>
         <div className="w-full overflow-x-auto mt-5">
-          <DoubleBarChart labels={selectduration === "week" ? barlabels : getLastMonthLabels()} Values={selectduration === "week" ? weekly[inputselect]?.baralues || [] : month[inputselect]?.baralues||[]} />
+          <DoubleBarChart labels={selectduration === "week" ? barlabels : getLastMonthLabels()} Values={selectduration === "week" ? weekly[inputselect]?.baralues || [] : month[inputselect]?.baralues || []} />
         </div>
       </div>
     </div>

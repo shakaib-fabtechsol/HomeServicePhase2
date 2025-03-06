@@ -51,7 +51,10 @@ export const SALEREP_POINTS = {
     Add_TASK:"/SaleRep/AddTask",
     UPDATE_TASK:"/SaleRep/UpdateTask",
     VIEW_TASK:"/SaleRep/ViewTask",
-    DELETE_TASK:"/SaleRep/DeleteTask"
+    DELETE_TASK:"/SaleRep/DeleteTask",
+    GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
+    GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
 
 }
 export const SALE_POINTS = {
