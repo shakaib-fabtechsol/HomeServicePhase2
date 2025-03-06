@@ -86,43 +86,42 @@ export default function ServiceSlider({ mediaItems = [] }) {
         </button>
       </div>
       <Slider ref={sliderRef} {...settings}>
-        {mediaItems?.length > 0 &&
-          Array.isArray(mediaItems) &&
-          mediaItems?.map((video, index) => (
+      {Array.isArray(mediaItems) &&
+        mediaItems.map((item, index) => {
+          // Check if the URL ends with a common video extension
+          const isVideo = /\.(mp4|webm|ogg)$/.test(item);
+          return (
             <div key={index} className="px-[1px]">
-              <div className="outline-none aspect-video rounded-[8px] overflow-hidden relative">
-                <video
-                  ref={(el) => (videoRefs.current[index] = el)}
-                  className="w-full h-full object-cover"
-                  src={video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  controls
-                ></video>
-
-                <button
-                  onClick={() => handleFullScreen(index)}
-                  className="absolute bottom-2 outline-none right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded"
-                >
-                  ⛶
-                </button>
+              <div
+                className={`outline-none aspect-video rounded-[8px] overflow-hidden ${
+                  isVideo ? "relative" : ""
+                }`}
+              >
+                {isVideo ? (
+                  <>
+                    <video
+                      ref={(el) => (videoRefs.current[index] = el)}
+                      className="w-full h-full object-cover"
+                      src={item}
+                    ></video>
+                    <button
+                      onClick={() => handleFullScreen(index)}
+                      className="absolute bottom-2 right-2 bg-[rgba(0,0,0,0.4)] size-6 flex items-center justify-center text-white rounded outline-none"
+                    >
+                      ⛶
+                    </button>
+                  </>
+                ) : (
+                  <img
+                    src={item}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             </div>
-          ))}
-        {mediaItems .length > 0 &&
-          Array.isArray(mediaItems ) && mediaItems.map((slide, index) => (
-            <div key={index} className="px-[1px]">
-              <div className="outline-none aspect-video rounded-[8px] overflow-hidden">
-                <img
-                  src={slide}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          ))}
+          );
+        })}
       </Slider>
     </div>
   );

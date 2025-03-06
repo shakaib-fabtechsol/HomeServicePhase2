@@ -11,9 +11,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { PiFiles } from "react-icons/pi";
 import { GrNotification } from "react-icons/gr";
 import { CgSupport } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
 const CustomerLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const {user} = useSelector((state) => state.auth);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -73,7 +76,7 @@ const CustomerLayout = () => {
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           sidebarData={sidebarData}
-          userInfo={userInfo}
+          userInfo={user}
         />
         <div className="right">
           <div className="right-bottom px-2">

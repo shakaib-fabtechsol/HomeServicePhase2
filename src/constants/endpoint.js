@@ -9,11 +9,11 @@ export const END_POINTS = {
   BUSINESS_PROFILE: "/BusinessProfile",
   ADD_CERTIFICATE_HOURS: "/AddCertificateHours",
   ADD_ADDITIONAL_INFO: "/AdditionalPhotos",
-  ADD_SOCIAL_PROFILE: "/Provider/AddSocial",
+  ADD_SOCIAL_PROFILE: "/AddSocial",
   SOCIAL_DELETE: "/SocialDelete",
-  UPDATE_PASSWORD: "/Customer/NewPassword",
+  UPDATE_PASSWORD: "/UpdatePassword",
   ADD_CONVERSATION: "/AddConversation",
-  ADD_PAYMENT_DETAILS: "/Customer/AddPaymentMethod",
+  ADD_PAYMENT_DETAILS: "/AddPaymentDetails",
   ADD_BUSINESS_LOCATION: "/AddBusinessLocation",
   SETTING_PUBLISH: "/SettingPublish",
   USER_DETAILS: "/UserDetails",
@@ -65,7 +65,9 @@ export const SALE_POINTS = {
   GET_FAVOURITES:"/GetFavoritService"
    }
    
-
+   export const PROVIDER_CONTACT_PRO={
+    GET_RECORDS:"/contact-pro/provider",
+    }
    
   
 

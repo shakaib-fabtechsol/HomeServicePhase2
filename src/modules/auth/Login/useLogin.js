@@ -53,12 +53,12 @@ export const useLogin = () => {
     });
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (payload) => {
     try {
-      const response = await loginUser(data).unwrap();
-
-      if (response?.token) {
-        handleLoginSuccess(response);
+      const {data} = await loginUser(payload);
+console.log("response", data)
+      if (data?.token) {
+        handleLoginSuccess(data);
       } else {
         handleLoginError({ data: { message: "Invalid credentials" } });
       }

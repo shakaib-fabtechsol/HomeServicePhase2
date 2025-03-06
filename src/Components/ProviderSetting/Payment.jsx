@@ -2,15 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { useAddPaymentDetailsMutation } from "../../services/settings";
-import { setUser } from "../../redux/reducers/authSlice";
+import { useAddPaymentDetailsMutation ,useGetMyDetailsQuery} from "../../services/settings";
+
 
 const Payment = () => {
-  const userData = useSelector((state) => state.auth.user);
+ const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
   const [addPaymentDetails, { isLoading }] = useAddPaymentDetailsMutation();
-  const dispatch = useDispatch();
-
-  console.log("userData>>>>>>>", userData);
+  const userID=useSelector((state)=>state.auth.user);
   const {
     register,
     handleSubmit,
@@ -19,12 +17,12 @@ const Payment = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      account_holder_name: userData?.payment?.account_holder_name || "",
-      bank: userData?.payment?.bank || "",
-      branch_name: userData?.payment?.branch_name || "",
-      ssn: userData?.payment?.ssn || "",
-      account_number: userData?.payment?.account_number || "",
-      bank_routing_number: userData?.payment?.bank_routing_number || "",
+      account_holder_name: userData?.getPayment[0]?.account_holder_name || "",
+      bank: userData?.getPayment[0]?.bank || "",
+      branch_name: userData?.getPayment[0]?.branch_name || "",
+      ssn: userData?.getPayment[0]?.ssn || "",
+      account_number: userData?.getPayment[0]?.account_number || "",
+      bank_routing_number: userData?.getPayment[0]?.bank_routing_number || "",
     },
   });
 
@@ -46,7 +44,7 @@ const Payment = () => {
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-      formData.append("user_id", userData.id);
+      formData.append("user_id", userID?.id);
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });

@@ -16,8 +16,8 @@ function Services() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [services, setServices] = useState([]);
-  const token = useSelector((state) => state.auth.token);
-
+  const {user, token} = useSelector((state) => state.auth);
+console.log("user", user)
   useEffect(() => {
     setLoading(true);
 
@@ -36,9 +36,6 @@ function Services() {
         setLoading(false);
       });
   }, []);
-
-
-
 
   const filteredServices = services?.filter((service) =>
     service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -81,7 +78,6 @@ function Services() {
             filteredServices.map((service) => (
               <ServiceBox
                 key={service.id}
-              
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"

@@ -12,9 +12,11 @@ import {
 import storage from "redux-persist/lib/storage";
 import { BASE_API } from "../services/base-api";
 import authSlice from "./reducers/authSlice";
+import { BASE_API_NODE } from "../services/providerContactPro";
 
 const rootReducer = combineReducers({
   [BASE_API.reducerPath]: BASE_API.reducer,
+  [BASE_API_NODE.reducerPath]: BASE_API_NODE.reducer,
   auth: authSlice,
 });
 
@@ -34,7 +36,9 @@ export const createStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(BASE_API.middleware),
+      })
+      .concat(BASE_API.middleware)
+      .concat(BASE_API_NODE.middleware),
   });
 };
 

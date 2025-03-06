@@ -18,8 +18,8 @@ function ServiceBox({
   username,
   Rating,
   Liked = false,
-  videos = "[]",
-  imgs = "[]",
+  videos = "",
+  imgs = "",
   Days,
   totalReviews = 0,
 }) {
@@ -28,7 +28,7 @@ function ServiceBox({
   const user=useSelector((state)=>state.auth.user);
 
 
-  const [favourite, { isLoading: favLoading, error: favError }] = useFavouriteMutation();
+  const [favourite] = useFavouriteMutation();
 
 
   const handleFavourite = async () => {
@@ -57,20 +57,24 @@ function ServiceBox({
   };
 
 
-  const imageArray = parseJsonArray(imgs);
+  const imageArray = parseJsonArray(image);
   const videoArray = parseJsonArray(videos);
   const defaultImage = "/service1.png"; 
 
-  const mediaItems = [
+  const mediaSet = new Set([
     ...(imageArray?.length
       ? imageArray.map(
           (img) => `https://marketplace.thefabulousshow.com/uploads/${img}`
         )
-      : [defaultImage]), 
-    ...(videoArray?.map(
-      (vid) => `https://marketplace.thefabulousshow.com/uploads/${vid}`
-    ) || []),
-  ];
+      : []),
+    ...(videoArray?.length
+      ? videoArray.map(
+          (vid) => `https://marketplace.thefabulousshow.com/uploads/${vid}`
+        )
+      : []),
+  ]);
+
+  const mediaItems = mediaSet.size ? Array.from(mediaSet) : [defaultImage];
   
 
  
@@ -86,7 +90,7 @@ function ServiceBox({
           e.stopPropagation();
           handleFavourite();
         }}
-          className="absolute top-2 left-2 z-10"
+          className="absolute top-5 left-6 z-10"
         >
           <button onClick={() => setLiked(!liked) } >
             <svg
@@ -115,12 +119,6 @@ function ServiceBox({
                 strokeWidth="2"
               />
             </svg>
-          </button>
-        </div>
-       
-        <div className="absolute top-2 right-2">
-          <button className="text-[rgba(255,255,255,0.6)] hover:text-[white]">
-            <FaEllipsisV />
           </button>
         </div>
       </div>

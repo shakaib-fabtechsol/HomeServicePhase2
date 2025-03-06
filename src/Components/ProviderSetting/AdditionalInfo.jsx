@@ -4,23 +4,24 @@ import SettingsPreview from "../MUI/SettingsPreview";
 import PreviewVideo from "../MUI/PreviewVideo";
 import { useAddAdditionalInfoMutation } from "../../services/settings";
 import Swal from "sweetalert2";
-import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../redux/reducers/authSlice";
+import { useGetMyDetailsQuery } from "../../services/settings";
 import Loader from "../MUI/Loader";
+import { useSelector } from "react-redux";
 
 const AdditionalInfo = ({ handleTabChange }) => {
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.auth.user);
+  
+ 
+  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
   const [addAdditionalInfo, { isLoading }] = useAddAdditionalInfoMutation();
-
-  console.log("userData", userData);
+const userId=useSelector((state)=>state.auth.user);
+  console.log("userData", userData?.businessProfile?.[0].about_video);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
-      about_video: userData?.businessProfile?.about_video || "",
-      technician_photo: userData?.businessProfile?.technician_photo || "",
-      vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
-      facility_photo: userData?.businessProfile?.facility_photo || "",
-      project_photo: userData?.businessProfile?.project_photo || "",
+      about_video: userData?.businessProfile?.[0].about_video || "",
+      technician_photo: userData?.businessProfile?.[0].technician_photo || "",
+      vehicle_photo: userData?.businessProfile?.[0].vehicle_photo || "",
+      facility_photo: userData?.businessProfile?.[0].facility_photo || "",
+      project_photo: userData?.businessProfile?.[0].project_photo || "",
     },
   });
 
@@ -71,7 +72,7 @@ const AdditionalInfo = ({ handleTabChange }) => {
         }
       });
 
-      submitData.append("user_id", userData?.id);
+      submitData.append("user_id", userId?.id);
 
       const response = await addAdditionalInfo(submitData).unwrap();
 
