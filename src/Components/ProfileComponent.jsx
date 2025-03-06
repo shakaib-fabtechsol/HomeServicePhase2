@@ -34,100 +34,18 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 import camera from "../assets/img/fileicon.png";
 const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
 
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-  ];
   const accordionData = [
     { title: "About videos", content: <AboutVideo about_video={data?.business?.about_video} /> },
     { title: "Technician Photos", content: <TechnicalPhoto technician_photo={data?.business?.technician_photo} /> },
     { title: "Vehicle Photos", content: <VehiclePhoto vehicle_photo={data?.business?.vehicle_photo} /> },
     { title: "Facility Photos", content: <FacilityPhoto facility_photo={data?.business?.facility_photo} /> },
     { title: "Project Photos", content: <ProjectPhoto project_photo={data?.business?.project_photo} /> },
-    { title: "Licences", content: <License license_photo={data?.business?.license_photo} /> },
-    { title: "Awards", content: <Award /> },
-    { title: "Insurance", content: <Insurance /> },
-    { title: "Regular Hours of Operation", content: <RegularHour /> },
-    { title: "Special Hours of Operation", content: <SpecialHour /> },
-    { title: "Social", content: "" },
+    { title: "Licences", content: <License license_photo={data?.business?.license_certificate} /> },
+    { title: "Awards", content: <Award award_certificate={data?.business?.award_certificate} /> },
+    { title: "Insurance", content: <Insurance insurance_photo={data?.business?.insurance_certificate} /> },
+    { title: "Regular Hours of Operation", content: <RegularHour regular_hour={data?.business?.regular_hour} /> },
+    { title: "Special Hours of Operation", content: <SpecialHour special_hour={data?.business?.special_hour} /> },
+    { title: "Social", content: data?.business?.website},
   ];
 
   const [contactopen, setcontactOpen] = React.useState(false);
@@ -211,7 +129,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
           </div>
         </div>
         <div className="xl:max-w-[350px] xl:w-full">
-          {userRole !== "provider" && (
+          {userRole !== "provider" && userRole !== "superadmin" && (
             <button
               onClick={handlecontactOpen}
               className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[350px] lg:fixed right-[22px] z-[99]"
@@ -331,9 +249,9 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
           <AccordionComponent items={accordionData} />
         </div>
       </div>
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <Review />
-      </div>
+      </div> */}
       <Modal
         open={activeModal !== null}
         onClose={handleModalClose}

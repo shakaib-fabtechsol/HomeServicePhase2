@@ -73,7 +73,7 @@ export default function AddTaskModal({ close }) {
       console.log(response, "response data");
       Swal.fire({
         icon: "success",
-        title: "Welcome Back!",
+  
         text: "Add Task Successfully",
         timer: 1500,
         showConfirmButton: false,
