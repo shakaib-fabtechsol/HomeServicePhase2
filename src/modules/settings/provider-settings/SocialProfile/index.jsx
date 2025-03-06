@@ -87,7 +87,7 @@
     const handleDeleteSocial = async (link, name) => {
       const formData = new FormData();
       formData.append(name.toLowerCase().replace(" ", "_"), link);
-      formData.append("id", userData.id);
+      formData.append("id", userData?.id);
       const response = await deleteSocialProfile(formData);
       if (response) {
         Swal.fire({

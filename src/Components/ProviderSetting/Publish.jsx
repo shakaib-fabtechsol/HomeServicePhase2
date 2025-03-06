@@ -15,22 +15,35 @@ import Insurance from "../AdditionalPhoto/Insurance";
 import RegularHour from "../AdditionalPhoto/RegularHour";
 import SpecialHour from "../AdditionalPhoto/specialHour";
 import { useSelector } from "react-redux";
-
-export default function Publish({ handleTabChange }) {
-  const userData = useSelector((state) => state.auth.user);
-
+import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
+import { useGetMyDetailsQuery} from "../../services/settings";
+import {
+  usePublishDealMutation,
+} from "../../services/base-api/index";
+import { useState } from "react";
+export default function Publish() {
+  const navigate=useNavigate();
+ const { data: userData, } = useGetMyDetailsQuery();
+ const user=useSelector((state)=>state.auth.user);
+ const dealid = localStorage.getItem("deal_id");
+ const token=useSelector((state)=>state.auth.token);
+ const [loading, setLoading] = useState(false);
+ const [formData, setFormData] = useState({});
+  const [publishDeal] = usePublishDealMutation();
+  const [publishValue, setPublishValue] = useState(1);
   const accordionData = [
     {
       title: "About Us Video",
       content: (
-        <AboutVideo about_video={userData?.businessProfile?.about_video} />
+        <AboutVideo about_video={userData?.businessProfile[0]?.about_video} />
       ),
     },
     {
       title: "Technician Photos",
       content: (
         <TechnicalPhoto
-          technician_photo={userData?.businessProfile?.technician_photo}
+          technician_photo={userData?.businessProfile[0]?.technician_photo}
         />
       ),
     },
@@ -38,7 +51,7 @@ export default function Publish({ handleTabChange }) {
       title: "Vehicle Photos",
       content: (
         <VehiclePhoto
-          vehicle_photo={userData?.businessProfile?.vehicle_photo}
+          vehicle_photo={userData?.businessProfile[0]?.vehicle_photo}
         />
       ),
     },
@@ -46,7 +59,7 @@ export default function Publish({ handleTabChange }) {
       title: "Facility Photos",
       content: (
         <FacilityPhoto
-          facility_photo={userData?.businessProfile?.license_certificate}
+          facility_photo={userData?.businessProfile[0]?.license_certificate}
         />
       ),
     },
@@ -54,7 +67,7 @@ export default function Publish({ handleTabChange }) {
       title: "Project Photos",
       content: (
         <ProjectPhoto
-          project_photo={userData?.businessProfile?.project_photo}
+          project_photo={userData?.businessProfile[0]?.project_photo}
         />
       ),
     },
@@ -62,7 +75,7 @@ export default function Publish({ handleTabChange }) {
       title: "Licences",
       content: (
         <License
-          license_photo={userData?.businessProfile?.license_certificate}
+          license_photo={userData?.businessProfile[0]?.license_certificate}
         />
       ),
     },
@@ -70,7 +83,7 @@ export default function Publish({ handleTabChange }) {
       title: "Awards",
       content: (
         <Award
-          award_certificate={userData?.businessProfile?.award_certificate}
+          award_certificate={userData?.businessProfile[0]?.award_certificate}
         />
       ),
     },
@@ -85,13 +98,13 @@ export default function Publish({ handleTabChange }) {
     {
       title: "Regular Hours of Operation",
       content: (
-        <RegularHour regular_hour={userData?.businessProfile?.regular_hour} />
+        <RegularHour  />
       ),
     },
     {
       title: "Special Hours of Operation",
       content: (
-        <SpecialHour special_hour={userData?.businessProfile?.special_hour} />
+        <SpecialHour  />
       ),
     },
     {
@@ -125,11 +138,84 @@ export default function Publish({ handleTabChange }) {
     },
   ];
 
-  const regularHours = userData?.businessProfile?.regular_hour
-    ? JSON.parse(userData.businessProfile.regular_hour)
+
+
+  const regularHours =
+  userData && userData?.businessProfile[0]?.regular_hour
+    ? JSON.parse( userData?.businessProfile[0]?.regular_hour|| "[]")
     : [];
-  const currentDay = new Date().getDay();
-  const todayHours = regularHours[currentDay === 0 ? 6 : currentDay - 1];
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const currentDay = days[new Date().getDay()];
+const currentDayData = regularHours.find(
+  (item) => item.day_name === currentDay
+);
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (loading) return;
+
+  if (!dealid) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Service ID is required!",
+    });
+    return;
+  }
+
+  setLoading(true);
+
+  if (!token) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No token found. Please log in.",
+    });
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const response = await publishDeal({ deal_id: dealid }).unwrap();
+    console.log(response,"value");
+   
+    if (response?.deal?.publish === 1) {
+      setFormData((prev) => ({ ...prev, publish: response?.deal?.publish }));
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: response.message || "Deal updated successfully.",
+        confirmButtonColor: "#0F91D2",
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: response.message || "Failed to update deal.",
+        confirmButtonColor: "#D33",
+      });
+    }
+  } catch (error) {
+    console.error("Error updating deal:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "There was an error updating the deal.",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div>
@@ -139,7 +225,7 @@ export default function Publish({ handleTabChange }) {
             src={
               import.meta.env.VITE_BASE_URL +
                 "uploads/" +
-                userData?.businessProfile?.business_logo || provider
+                userData?.businessProfile[0]?.business_logo || provider
             }
             alt=""
             className="me-2 my-2 rounded-lg max-w-[120px]"
@@ -147,7 +233,7 @@ export default function Publish({ handleTabChange }) {
           <div className="my-2">
             <div className="flex items-center">
               <p className="font-semibold myhead me-2">
-                {userData?.businessProfile?.business_name || userData?.name}
+                {userData?.businessProfile[0]?.business_name || userData?.name}
               </p>
               <div className="flex ms-3">
                 <IoIosStar className="me-1 text-[#F8C600]" />
@@ -159,34 +245,53 @@ export default function Publish({ handleTabChange }) {
             </div>
             <div className="flex flex-wrap mt-2">
               <p className="myblack pe-3 me-3 border-e">
-                {userData?.businessProfile?.business_primary_category ||
+                {userData?.businessProfile[0]?.business_primary_category ||
                   "Not specified"}
               </p>
               <div className="flex items-center">
                 <IoLocationOutline className="me-2 myblack" />
                 <p className="myblack ">
-                  {userData?.businessProfile?.service_location ||
+                  {userData?.businessProfile[0]?.business_location ||
                     "Location not set"}
                 </p>
               </div>
             </div>
             <div className="flex mt-2 items-center">
-              <div className="flex me-2">
-                <FaRegCalendarAlt className="me-2" />
-                <p className="text-sm myblack">Hours:&nbsp;</p>
-                <p className="text-sm text-[#34A853] font-[300]">
-                  {todayHours?.closed ? "Closed" : "Available"}
-                </p>
-              </div>
-              {!todayHours?.closed && todayHours?.slots?.[0] && (
-                <>
-                  <div className="relative w-[6px] h-[6px] bg-[#5358624D] rounded-full me-2"></div>
-                  <p className="text-sm myblack">
-                    {todayHours.slots[0].start} - {todayHours.slots[0].end}
-                  </p>
-                </>
-              )}
-            </div>
+                               <div className="flex me-2">
+                                 <FaRegCalendarAlt className="me-2" />
+                                 <p className="text-sm myblack">
+                                   {currentDayData ? (
+                                     <>{currentDayData.day_name}:&nbsp;</>
+                                   ) : (
+                                     "No data available for today."
+                                   )}
+                                 </p>
+                                 <p className="text-sm text-[#34A853] font-[300]">
+                                   {currentDayData?.day_status === "open"
+                                     ? "Available"
+                                     : "Unavailable"}
+                                 </p>
+                                 <p className="text-sm ml-2 lg:ml-10 myblack">
+                                   {currentDayData?.day_status === "open" ? (
+                                     <>
+                                       Closed {currentDayData.regular_hour[0].end_time}{" "}
+                                       {currentDayData.regular_hour.end_time?.includes(
+                                         "AM"
+                                       ) ||
+                                       currentDayData.regular_hour[0].end_time?.includes(
+                                         "PM"
+                                       )
+                                         ? ""
+                                         : currentDayData.regular_hour[0].end_time >= 12
+                                           ? "PM"
+                                           : "AM"}
+                                     </>
+                                   ) : (
+                                     "Closed"
+                                   )}
+                                 </p>
+                               </div>
+                             </div>
           </div>
         </div>
       </div>
@@ -194,7 +299,7 @@ export default function Publish({ handleTabChange }) {
       <div className="mt-6">
         <h2 className="text-lg font-medium myhead">About Me</h2>
         <p className="text-[#535862] mt-3">
-          {userData?.businessProfile?.about || "No description available"}
+          {userData?.businessProfile[0]?.about || "No description available"}
         </p>
       </div>
 
@@ -203,8 +308,8 @@ export default function Publish({ handleTabChange }) {
           Secondary Business Categories
         </h4>
         <div className="flex flex-wrap gap-2 items-center mt-3">
-          {userData?.businessProfile?.business_secondary_categories ? (
-            userData.businessProfile.business_secondary_categories
+          {userData?.businessProfile[0]?.business_secondary_categories ? (
+            userData.businessProfile[0].business_secondary_categories
               .split(",")
               .map((item, index) => (
                 <p
@@ -228,14 +333,38 @@ export default function Publish({ handleTabChange }) {
           <AccordionComponent items={accordionData} />
         </div>
       </div>
-      <div className="grid max-w-[350px] grid-cols-2 my-4 gap-2 ms-auto">
-        <button className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white">
-          Cancel
-        </button>
-        <button className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]">
-          Publish
-        </button>
-      </div>
+      <form onSubmit={handleSubmit}>
+            <div className="col-span-12 mt-4 flex justify-end">
+              <input
+                type="text"
+                id="Flatr"
+                defaultValue={user?.id ? `${user.id}` : "0"}
+                className="focus-none border hidden"
+                readOnly
+              />
+              <input
+                type="text"
+                id="publish"
+                value={publishValue}
+                className="focus-none border hidden"
+                readOnly
+              />
+              <button
+                type="button"
+                className="border rounded-lg w-[150px] py-[10px] mr-4 font-semibold bg-white"
+                onClick={() => navigate("/somewhere")} // Navigate on cancel
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2]"
+              >
+                {loading ? "Publishing..." : "Publish"}
+              </button>
+            </div>
+          </form>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useUpdateBusinessProfileMutation,
   usePublishMutation,
+  useGetMyDetailsQuery,
 } from "../../../../services/settings";
 import { setUser } from "../../../../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +25,9 @@ export const useBusinessProfile = ({ handleTabChange }) => {
   const [publishBusinessProfile] = usePublishMutation();
   const [updateBusinessProfile, { isLoading }] =
     useUpdateBusinessProfileMutation();
-  const userData = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-
+  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
+  const userId=useSelector((state)=>state.auth.user);
+console.log(userData);
   const {
     register,
     handleSubmit,
@@ -37,18 +38,18 @@ export const useBusinessProfile = ({ handleTabChange }) => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      business_name: userData?.businessProfile?.business_name || "",
-      business_logo: userData?.businessProfile?.business_logo || "",
-      about: userData?.businessProfile?.about || "",
+      business_name: userData?.businessProfile[0]?.business_name || "",
+      business_logo: userData?.businessProfile[0]?.business_logo || "",
+      about: userData?.businessProfile[0]?.about || "",
       business_primary_category:
-        userData?.businessProfile?.business_primary_category || "",
+        userData?.businessProfile[0]?.business_primary_category || "",
       business_secondary_categories:
-        (userData?.businessProfile?.business_secondary_categories &&
-          userData?.businessProfile?.business_secondary_categories?.split(
+        (userData?.businessProfile[0]?.business_secondary_categories &&
+          userData?.businessProfile[0]?.business_secondary_categories?.split(
             ","
           )) ||
         [],
-      website: userData?.businessProfile?.website || "",
+      website: userData?.businessProfile[0]?.website || "",
     },
   });
 
@@ -93,11 +94,11 @@ export const useBusinessProfile = ({ handleTabChange }) => {
           }
         }
       });
-      formData.append("user_id", userData?.id);
+      formData.append("user_id", userId?.id);
 
       const response = await updateBusinessProfile(formData).unwrap();
       if (data.publish) {
-        await publishBusinessProfile(userData?.id);
+        await publishBusinessProfile(userId?.id);
       }
       console.log("response", response);
       handleTabChange(3);

@@ -237,7 +237,7 @@ function ServiceDetail() {
                     </div>
                   </div>
                   <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
+                    <p className="myblack pe-3 me-3 border-e">{provider?.business_primary_category}</p>
                     <div className="flex items-center">
                       <IoLocationOutline className="me-2 myblack" />
                       <p className="myblack ">{provider?.business_location}</p>
@@ -262,10 +262,10 @@ function ServiceDetail() {
                         {currentDayData?.day_status === "open" ? (
                           <>
                             Closed {currentDayData.regular_hour[0].end_time}{" "}
-                            {currentDayData.regular_hour.end_time.includes(
+                            {currentDayData.regular_hour.end_time?.includes(
                               "AM"
                             ) ||
-                            currentDayData.regular_hour[0].end_time.includes(
+                            currentDayData.regular_hour[0].end_time?.includes(
                               "PM"
                             )
                               ? ""
