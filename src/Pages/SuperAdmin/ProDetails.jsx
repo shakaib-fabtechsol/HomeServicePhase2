@@ -4,13 +4,15 @@ import ProfileComponent from "../../Components/ProfileComponent";
 import { useLocation } from "react-router-dom";
 import { useGetproviderByIdQuery } from "../../services/serviceprovider";
 import Loader from "../../Components/MUI/Loader";
+import { useSelector } from "react-redux";
 
 export default function ProDetails() {
   const location = useLocation();
+  const user=useSelector((state)=>state.auth.user);
   const state = location.state || {}; 
   console.log(state?.Id,"Id of provider");
-
-  const {data,isLoading,isError}=useGetproviderByIdQuery(state?.Id)
+const state1=22;
+  const {data,isLoading,isError}=useGetproviderByIdQuery(state?.Id);
   useEffect(() => {
     document.title = "Providers Details";
   }, []);
