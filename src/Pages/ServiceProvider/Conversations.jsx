@@ -20,6 +20,7 @@ import EmailPro from "../../Components/Provider/EmailPro";
 import InstantChat from "../../Components/Provider/InstantChat";
 import { useGetProviderContactProQuery } from "../../services/providerContactPro";
 import { useSelector } from "react-redux";
+import ConversationTable from "../../Components/Provider/ConversationTable";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,14 +66,15 @@ export default function Conversations() {
   const callProData = recordsContactPro?.data?.filter(item => item.type === "call_pro") || [];
   const smsProData = recordsContactPro?.data?.filter(item => item.type === "sms_pro") || [];
   const emailProData = recordsContactPro?.data?.filter(item => item.type === "email_pro") || [];
+  const locationProData = recordsContactPro?.data?.filter(item => item.type === "get_direction") || [];
 
 
   const tabs = React.useMemo(() => [
     { label: "Instant Chat", icon: <IoChatboxEllipsesOutline />, content: <InstantChat /> },
-    { label: "Call Pro", icon: <HiOutlinePhone />, content: <CallPro data={callProData} isLoading={isLoading} /> },
-    { label: "Text Pro", icon: <IoChatbubbleEllipsesOutline />, content: <TextPro data={smsProData} isLoading={isLoading} /> },
-    { label: "Email Pro", icon: <FiMail />, content: <EmailPro data={emailProData} isLoading={isLoading} /> },
-    { label: "Get Location", icon: <SlLocationPin />, content: <p>Location content</p> },
+    { label: "Call Pro", icon: <HiOutlinePhone />, content: <ConversationTable title={"Call Pro"} subtitle={"Manage and Respond to Messages Seamlessly"} data={callProData} isLoading={isLoading} /> },
+    { label: "Text Pro", icon: <IoChatbubbleEllipsesOutline />, content: <ConversationTable title={"Text Pro"} subtitle={"Manage and Respond to Messages Seamlessly"}  data={smsProData} isLoading={isLoading} /> },
+    { label: "Email Pro", icon: <FiMail />, content: <ConversationTable title={"Email Pro"} subtitle={"Manage and Respond to Messages Seamlessly"}  data={emailProData} isLoading={isLoading} /> },
+    { label: "Get Location", icon: <SlLocationPin />, content: <ConversationTable title={"Get Location"} subtitle={"Manage and Respond to Messages Seamlessly"}  data={locationProData} isLoading={isLoading} /> },
   ], [recordsContactPro, isLoading]);
   return (
     <div>

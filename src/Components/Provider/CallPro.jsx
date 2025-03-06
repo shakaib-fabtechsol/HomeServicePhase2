@@ -5,6 +5,8 @@ import { FiSearch } from "react-icons/fi";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Link } from "react-router-dom";
 import ConversationHeader from "./ConversationHeader";
+import { getTimeDifferenceFromNow, transformDateToLocalString } from "../../utils";
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default function CallPro({ data }) {
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function CallPro({ data }) {
     },
   ];
 
-  console.log("data", data)
+  console.log( " CallPro data", data)
 
   const [checkedRows, setCheckedRows] = useState(
     new Array(serviceConversations.length).fill(false)
@@ -78,24 +80,25 @@ export default function CallPro({ data }) {
     "Phone Number",
   ];
 
-  const tablebody = serviceConversations.map((provider, index) => [
+  const tablebody = data?.map((record, index) => [
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
-        alt={provider.name}
+        src={`${BASE_URL}/uploads/${record?.customer?.personal_image}` || pro1}
+        // src={record?.customer?.personal_image}
+        alt={record?.customer?.name}
       />
       <div>
-        <p className="font-semibold text-md">{provider.name}</p>
-        <p>{provider.des}</p>
+        <p className="font-semibold text-md">{record?.customer?.name}</p>
+        <p>{record?.text}</p>
       </div>
     </div>,
-    provider.city,
-    provider.serviceName,
-    provider.date,
+    record?.customer?.location,
+    record?.deal.service_title,
+    transformDateToLocalString(record?.created_at),
     <div>
-      <p className="font-bold text-md">Now</p>
-      <p>{provider.phone}</p>
+      <p className="font-bold text-md">{getTimeDifferenceFromNow(record?.created_at)}</p>
+      <p>{record?.customer?.phone}</p>
     </div>,
   ]);
   return (

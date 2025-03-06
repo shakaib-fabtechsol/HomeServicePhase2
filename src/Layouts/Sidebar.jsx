@@ -55,7 +55,7 @@ const SidebarSection = ({ items }) => {
 const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log("userInfo", userInfo)
+  // console.log("userInfo", userInfo)
   const image = userInfo?.personal_image;
   const personal_image = image
     ? `https://marketplace.thefabulousshow.com/uploads/${image} `
