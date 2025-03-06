@@ -1,34 +1,32 @@
 
 import { BASE_API } from '../base-api';
-import { PRO_POINTS, SALEREP_POINTS } from '../../constants/endpoint';
+import {  SALEREP_POINTS } from '../../constants/endpoint';
 
 export const salesrepAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     gettasks: builder.query({
-      query: (data) => ({
+      query: () => ({
         url: `${SALEREP_POINTS.GET_ALL_TASKS}`,
       }),
-      providesTags: ["Add_task"]
+      providesTags: ["TASKS"]
     }),
-    gettaskById: builder.query({
-      query: (id) => ({
-        url: id?`${VIEW_TASK}/${id}`:null,
-
-      }),
-    }),
-
    
-    addtask: builder.mutation({
-      query: (data) => ({
-        url: SALEREP_POINTS?.Add_TASK,
+    addOrUpdateTask: builder.mutation({
+      query: ({isUpdating,formData}) => ({
+        url: isUpdating?`${SALEREP_POINTS?.UPDATE_TASK}`:SALEREP_POINTS?.Add_TASK,
         method: 'POST',
-        body: data,
+        body: formData,
       }),
-      invalidatesTags: ["Add_task"],
+      invalidatesTags: ["TASKS"],
     }),
-
-
+    deleteTask: builder.mutation({
+      query: ({taskId}) => ({
+        url: `${SALEREP_POINTS?.DELETE_TASK}/${taskId}`,
+        method: 'GET',
+      }),
+      invalidatesTags: ["TASKS"],
+    }),
   }),
 });
 
-export const { useGettaskByIdQuery,useGettasksQuery,useAddtaskMutation} = salesrepAPIs;
+export const { useGettaskByIdQuery,useGettasksQuery, useAddOrUpdateTaskMutation,useDeleteTaskMutation} = salesrepAPIs;
