@@ -14,7 +14,6 @@ const AdditionalInfo = ({ handleTabChange }) => {
   const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
   const [addAdditionalInfo, { isLoading }] = useAddAdditionalInfoMutation();
 const userId=useSelector((state)=>state.auth.user);
-  console.log("userData", userData?.businessProfile?.[0].about_video);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       about_video: userData?.businessProfile?.[0].about_video || "",

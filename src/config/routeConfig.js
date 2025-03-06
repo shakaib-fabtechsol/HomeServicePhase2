@@ -4,6 +4,20 @@ export const ROLES = {
   PROVIDER: 2,
   SALES: 3,
 };
+export function getRoleName(roleNumber) {
+  switch (roleNumber) {
+    case ROLES.SUPER_ADMIN:
+      return "Super Admin";
+    case ROLES.CUSTOMER:
+      return "Customer";
+    case ROLES.PROVIDER:
+      return "Provider";
+    case ROLES.SALES:
+      return "Sales";
+    default:
+      return "";
+  }
+}
 
 export const ROUTES = {
   PUBLIC: {

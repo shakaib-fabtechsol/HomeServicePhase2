@@ -21,7 +21,8 @@ export default function SalesLayout() {
   const user=useSelector(selectCurrentUser)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [value, setValue] = useState({});
-  console.log(value?.setting);
+ const value1 =useSelector((state)=>state.auth.user);
+ console.log(value1);
   const dispatch = useDispatch();
 
   const toggleSidebar = () => {
@@ -76,7 +77,7 @@ export default function SalesLayout() {
     },
   ];
 
-  const { data, isLoading, error, refetch } = useGetSalesRapQuery(4);
+  const { data, isLoading, error, refetch } = useGetSalesRapQuery();
 
   useEffect(() => {
     if (data) {
@@ -86,7 +87,7 @@ export default function SalesLayout() {
       }
     }
   }, [data, dispatch]);
-
+console.log(data,"valueeeee");
   const userInfo = {
     name: user?.name,
     email: user?.email,

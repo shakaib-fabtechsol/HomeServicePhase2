@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 import ServiceDet from "../../assets/img/service-det.png";
 import { Modal } from "@mui/material";
 import ReviewModal from "../../Components/Provider/ReviewModal";
+import LoadingSpinner from "../../Components/Common/LoadingSpinner.jsx";
+import { useGetCustomerOrdersQuery } from "../../services/order/index.js";
+import RemoteError from "../../Components/Common/RemoteError.jsx";
 
 const orders = [
   {
@@ -58,11 +61,17 @@ const orders = [
 ];
 
 const Order = () => {
-  useEffect(() => {
+  const { data, isFetching, error, isError } = useGetCustomerOrdersQuery();
+  const [photosopen, setphotosOpen] = useState(false);
+  React.useEffect(() => {
     document.title = "Orders";
   }, []);
 
-  const [photosopen, setphotosOpen] = useState(false);
+  // if (isFetching) return <LoadingSpinner />;
+  // if (isError)
+  //   return <RemoteError hasError={isError} message={error?.message} />;
+  
+
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);
 
