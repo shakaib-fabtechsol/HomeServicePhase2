@@ -1,4 +1,5 @@
 import React from "react";
+import {useState} from "react";
 import { FaArrowLeft, FaRegCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AccordionComponent from "../Components/AccordionComponent";
@@ -9,7 +10,7 @@ import { Modal } from "@mui/material";
 import { FiPhone } from "react-icons/fi";
 import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
 import { TbMailDown } from "react-icons/tb";
-import { PiChats } from "react-icons/pi";
+
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
@@ -17,119 +18,32 @@ import {
 import provider from "../assets/img/provider.png";
 import { IoIosStar } from "react-icons/io";
 import TechnicalPhoto from "./AdditionalPhoto/TechnicalPhoto";
-import SpecialHour from "./AdditionalPhoto/specialHour";
+import SpecialHour from "./AdditionalPhoto/special2Hour";
 import VehiclePhoto from "./AdditionalPhoto/VehiclePhoto";
 import FacilityPhoto from "./AdditionalPhoto/FacilityPhoto";
 import ProjectPhoto from "./AdditionalPhoto/ProjectPhoto";
 import Award from "./AdditionalPhoto/Award";
 import License from "./AdditionalPhoto/License";
 import Insurance from "./AdditionalPhoto/Insurance";
-import cardvideo from "../assets/img/cardvideo.mp4";
-import slideimg from "../assets/img/service1new.jpeg";
-import client1 from "../assets/img/client2.png";
-import client2 from "../assets/img/client3.png";
-import RegularHour from "./AdditionalPhoto/RegularHour";
+import RegularHour2 from "./AdditionalPhoto/Regular2Hour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import camera from "../assets/img/fileicon.png";
 const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
-
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: false,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "John Doe",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 3500,
-      username: "Julia Maria",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 2,
-    },
-  ];
   const accordionData = [
     { title: "About videos", content: <AboutVideo about_video={data?.business?.about_video} /> },
     { title: "Technician Photos", content: <TechnicalPhoto technician_photo={data?.business?.technician_photo} /> },
     { title: "Vehicle Photos", content: <VehiclePhoto vehicle_photo={data?.business?.vehicle_photo} /> },
     { title: "Facility Photos", content: <FacilityPhoto facility_photo={data?.business?.facility_photo} /> },
     { title: "Project Photos", content: <ProjectPhoto project_photo={data?.business?.project_photo} /> },
-    { title: "Licences", content: <License license_photo={data?.business?.license_photo} /> },
-    { title: "Awards", content: <Award /> },
-    { title: "Insurance", content: <Insurance /> },
-    { title: "Regular Hours of Operation", content: <RegularHour /> },
-    { title: "Special Hours of Operation", content: <SpecialHour /> },
-    { title: "Social", content: "" },
+    { title: "Licences", content: <License license_photo={data?.business?.license_certificate} /> },
+    { title: "Awards", content: <Award award_certificate={data?.business?.award_certificate} /> },
+    { title: "Insurance", content: <Insurance insurance_photo={data?.business?.insurance_certificate} /> },
+    { title: "Regular Hours of Operation", content: <RegularHour regular_hour={data?.business?.regular_hour} /> },
+    { title: "Special Hours of Operation", content: <SpecialHour special_hour={data?.business?.special_hour} /> },
+    { title: "Social", content: data?.business?.website},
   ];
-
+const [searchQuery, setSearchQuery] = useState("");
   const [contactopen, setcontactOpen] = React.useState(false);
   const handlecontactOpen = () => setcontactOpen(true);
   const handlecontactClose = () => setcontactOpen(false);
@@ -166,7 +80,28 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
 
   console.log(data, "this is for the detail page")
 
+  const filteredServices = data?.deals?.filter((service) =>
+    service?.service_title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
+
+  const regularHours =
+  data?.business && data?.business?.regular_hour
+      ? JSON.parse(data?.business?.regular_hour || "[]")
+      : [];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const currentDay = days[new Date().getDay()];
+  const currentDayData = regularHours.find(
+    (item) => item.day_name === currentDay
+  );
 
 
   return (
@@ -191,27 +126,52 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
               </div>
             </div>
             <div className="flex flex-wrap mt-2">
-              <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
+              <p className="myblack pe-3 me-3 border-e">{data?.business?.business_primary_category}</p>
               <div className="flex items-center">
                 <IoLocationOutline className="me-2 myblack" />
                 <p className="myblack ">{data?.business?.business_location || "NA"}</p>
               </div>
             </div>
             <div className="flex mt-2 items-center">
-              <div className="flex me-2">
-                <FaRegCalendarAlt className="me-2" />
-                <p className="text-sm myblack">Hours:&nbsp;</p>
-                <p className="text-sm text-[#34A853] font-[300]">Available</p>
-              </div>
-              <div className="relative w-[6px] h-[6px] bg-[#5358624D] rounded-full me-2"></div>
-              <select name="" id="" className="text-sm myblack bg-transparent">
-                <option value="">Close 6PM</option>
-              </select>
-            </div>
+                               <div className="flex me-2">
+                                 <FaRegCalendarAlt className="me-2" />
+                                 <p className="text-sm myblack">
+                                   {currentDayData ? (
+                                     <>{currentDayData.day_name}:&nbsp;</>
+                                   ) : (
+                                     "No data available for today."
+                                   )}
+                                 </p>
+                                 <p className="text-sm text-[#34A853] font-[300]">
+                                   {currentDayData?.day_status === "open"
+                                     ? "Available"
+                                     : "Unavailable"}
+                                 </p>
+                                 <p className="text-sm ml-2 lg:ml-10 myblack">
+                                   {currentDayData?.day_status === "open" ? (
+                                     <>
+                                       Closed {currentDayData.regular_hour[0].end_time}{" "}
+                                       {currentDayData.regular_hour.end_time?.includes(
+                                         "AM"
+                                       ) ||
+                                       currentDayData.regular_hour[0].end_time?.includes(
+                                         "PM"
+                                       )
+                                         ? ""
+                                         : currentDayData.regular_hour[0].end_time >= 12
+                                           ? "PM"
+                                           : "AM"}
+                                     </>
+                                   ) : (
+                                     "Closed"
+                                   )}
+                                 </p>
+                               </div>
+                             </div>
           </div>
         </div>
         <div className="xl:max-w-[350px] xl:w-full">
-          {userRole !== "provider" && (
+          {userRole !== "provider" && userRole !== "superadmin" && (
             <button
               onClick={handlecontactOpen}
               className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803] w-full lg:max-w-[350px] lg:fixed right-[22px] z-[99]"
@@ -297,6 +257,8 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
               </label>
               <input
                 type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search"
                 className="w-full px-2"
               />
@@ -304,24 +266,40 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
           </div>
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-          {data?.deals?.map((service, index) => (
+          {filteredServices?.map((service, index) => (
             <ServiceBox
-              key={index}
-              title={service.title}
-              price={service.price}
-              description={service.description}
-              tags={service.tags}
-              image={service.image}
-              publish={service.publish}
-              serviceDetailTo={serviceDetailTo}
-              videos={service?.videos}
-              imgs={service.images}
-              userimg={service.userimg}
-              username={service.username}
-              Rating={service.rating}
-              Liked={service.liked}
-              totalReviews={service.totalReviews}
-            />
+            key={service.id}
+            title={service.service_title}
+            price={
+              service.pricing_model === "Flat"
+                ? service.flat_rate_price
+                : service?.pricing_model == "Hourly"
+                  ? service.hourly_final_list_price
+                  : service.price1
+            }
+            tags={service.search_tags}
+            image={service.images}
+            publish={service.publish}
+            userimg={service.userimg}
+            username={service.user_name}
+            description={service.service_description}
+            category={service.service_category}
+            dealid={service.id}
+            Rating={service.rating}
+            Liked={service.Liked}
+
+            videos={service.videos}
+            imgs={service.personal_image
+            }
+            Days={
+              service.pricing_model === "Flat"
+                ? service.flat_estimated_service_time
+                : service?.pricing_model == "Hourly"
+                  ? service.hourly_estimated_service_time
+                  : service.estimated_service_timing
+            }
+            totalReviews={service.totalReviews}
+          />
           ))}
         </div>
       </div>
@@ -331,9 +309,9 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
           <AccordionComponent items={accordionData} />
         </div>
       </div>
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <Review />
-      </div>
+      </div> */}
       <Modal
         open={activeModal !== null}
         onClose={handleModalClose}

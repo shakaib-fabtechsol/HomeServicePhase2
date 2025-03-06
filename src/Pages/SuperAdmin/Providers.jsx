@@ -7,7 +7,7 @@ import { RiEqualizerLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
 import { SlPencil } from "react-icons/sl";
 import BlueSwitch from "../../Components/SuperAdmin/settings/BlueSwitch";
-import { useGetprovidersQuery } from "../../services/serviceprovider";
+import { useBanProviderMutation, useGetprovidersQuery } from "../../services/serviceprovider";
 import Loader from "../../Components/MUI/Loader";
 import { useNavigate } from "react-router-dom";
 import PaginationComponent from "../../Components/Pagination";
@@ -19,22 +19,23 @@ export default function Providers() {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { data, isLoading, isFetching,isError} = useGetprovidersQuery({page:page+1,providers:rowsPerPage,search:search});
+  const [Banupdate, { isLoading: loading, error,status }] = useBanProviderMutation()
+  const { data, isLoading, isFetching, isError } = useGetprovidersQuery({ page: page + 1, providers: rowsPerPage, search: search });
   useEffect(() => {
     document.title = "Providers";
   }, []);
 
 
   const handleChangePage = (event, newPage) => {
-   
+
     setPage(newPage);
-   
+
   };
 
-  const handleChangeRowsPerPage = (event,newPage) => {
+  const handleChangeRowsPerPage = (event, newPage) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0)
-  
+
   };
 
   const [checkedRows, setCheckedRows] = useState(
@@ -57,10 +58,29 @@ export default function Providers() {
     checkedRows.some(Boolean) && !checkedRows.every(Boolean);
 
 
+  const updatestatus = async (id) => {
+    try {
+     const response= await Banupdate({ id }).unwrap();
+      Swal.fire({
+        icon: "success",
+        text: response?.message,
+        timer: 1500,
+        showConfirmButton: false,
+      })
+
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err?.message || error?.message || "Something went wrong. Please try again.",
+      });
+
+    }
+
+  }
 
 
-
-  if(isError){
+  if (isError) {
     Swal.fire({
       icon: "error",
       title: "Error",
@@ -98,6 +118,8 @@ export default function Providers() {
     "Ban",
   ];
 
+  console.log(data?.serviceProviders?.data, "sdkjsfksdfsjdfksdjfksdj")
+
   const tablebody = data?.serviceProviders?.data?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
@@ -119,7 +141,7 @@ export default function Providers() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider?.personal_image?`${BASE_URL}/uploads/${provider?.personal_image}`:camera} 
+        src={provider?.personal_image ? `${BASE_URL}/uploads/${provider?.personal_image}` : camera}
         alt={provider?.name}
       />
       <p>{provider?.name}</p>
@@ -135,11 +157,13 @@ export default function Providers() {
       }} />
 
       <button>
-        <SlPencil className="text-[20px]" />
+        <SlPencil className="text-[20px]" onClick={() => {
+          navigate("/superadmin/editprovider", { state: { Id: provider?.id } })
+        }} />
       </button>
     </div>,
     <div>
-      <BlueSwitch />
+      <BlueSwitch defaultChecked={provider?.status || 0} onChange={() => updatestatus(provider?.id)} />
     </div>,
   ]);
   return (
@@ -173,13 +197,13 @@ export default function Providers() {
         </div>
       </div>
       <div className="mt-5">
-        {isLoading || isFetching ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
+        {isLoading || isFetching || loading ? <Loader /> : <Table headers={tableheader} rows={tablebody} />}
         <PaginationComponent
-         count={data?.totalProviders} 
-         page={page}
-         rowsPerPage={rowsPerPage}
-         onPageChange={handleChangePage}
-         onRowsPerPageChange={handleChangeRowsPerPage}
+          count={data?.totalProviders}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </div>
     </div>

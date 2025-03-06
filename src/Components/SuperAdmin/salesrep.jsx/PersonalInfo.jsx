@@ -64,7 +64,7 @@ export default function PersonalInfo({ data, id, updateSale }) {
       await updateSale(formData).unwrap();
       Swal.fire({
         icon: 'success',
-        title: 'Welcome Back!',
+      
         text: 'Sale update Successfully',
         timer: 1500,
         showConfirmButton: false,

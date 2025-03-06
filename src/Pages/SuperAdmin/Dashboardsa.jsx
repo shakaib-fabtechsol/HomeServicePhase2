@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LuTrendingUp } from "react-icons/lu";
 import DoughnutChart from "../../Components/SuperAdmin/DoughnutChart";
 import LineChart from "../../Components/SuperAdmin/LineChart";
@@ -6,29 +6,37 @@ import { BsCalendar } from "react-icons/bs";
 import chevronblue from "../../assets/img/chevronblue.png";
 import DoubleBarChart from "../../Components/SuperAdmin/DoubleBarChart";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
+import { useGetSuperDashboardQuery } from "../../services/dashboard";
+import Loader from "../../Components/MUI/Loader";
 
 export default function Dashboardsa() {
+  const [inputselect, setInputSelect] = useState("sales");
+  const [selectduration, setSelectDuration] = useState("week");
+  const { data, isLoading: loading, isError, error } = useGetSuperDashboardQuery()
   useEffect(() => {
     document.title = "Home";
   }, []);
+
+  console.log(data, "this is data for dashboard")
+
   const cardsdata = [
-    { title: "Revenue Generated", value: "$3,318", percent: "+6.08%" },
+    { title: "Revenue Generated", value: data?.total_revenue_generated || 0, },
     {
       title: "Total Transactions Completed",
-      value: "3,318",
-      percent: "+6.08%",
+      value: data?.total_transactions || 0,
+
     },
-    { title: "Total Service Providers", value: "3,318", percent: "+6.08%" },
-    { title: "Total Client", value: "3,318", percent: "+6.08%" },
-    { title: "Total Services Listed", value: "3,318", percent: "+6.08%" },
+    { title: "Total Service Providers", value: data?.total_service_providers, },
+    { title: "Total Client", value: data?.total_customers, },
+    { title: "Total Services Listed", value: data?.total_service_listed || 0, },
   ];
 
   const chartData = {
-    labels: ["Number of Deals", "Number of Providers", "Number of Customers"],
+    labels: ["Number of Sales", "Number of Providers", "Number of Customers"],
     datasets: [
       {
         label: "Total",
-        data: [550, 400, 1500],
+        data: [data?.total_active_sales, data?.total_service_providers, data?.total_customers],
         backgroundColor: ["#0F91D2B2", "#FB8603B2", "#43B442B2"],
         borderWidth: 1,
       },
@@ -40,33 +48,51 @@ export default function Dashboardsa() {
     linelabels.push(i);
   }
 
+ 
+
+  const getLastMonthLabels = () => {
+    const labels = [];
+    const today = new Date();
+    const currentMonth = today.getMonth(); // Get current month
+    const year = today.getFullYear();
+
+    // Get month name abbreviation
+    const monthName = new Date(year, currentMonth).toLocaleString("en-US", { month: "short" });
+
+    // Get total days in the current month
+    const lastDay = new Date(year, currentMonth + 1, 0).getDate();
+
+    for (let day = 1; day <= lastDay; day++) {
+      labels.push(` ${day}`);
+    }
+
+    return labels;
+  };
+
+  // const barlabel = getLastMonthLabels();
+
   const linechartData = {
-    labels: linelabels,
+    labels: getLastMonthLabels(),
     datasets: [
       {
         label: "This Month",
-        data: [
-          120, 140, 180, 220, 260, 300, 340, 380, 420, 450, 470, 480, 470, 450,
-          420, 380, 340, 300, 260, 220, 180, 140, 120, 130, 160, 200, 240, 280,
-          320, 360,
-        ],
+        data: data?.currentMonthActiveUser || [],
         borderColor: "#0F91D2",
         pointRadius: 0,
         tension: 0.1,
       },
       {
         label: "Previous month",
-        data: [
-          100, 120, 160, 200, 240, 280, 320, 360, 400, 430, 450, 460, 450, 430,
-          400, 360, 320, 280, 240, 200, 160, 120, 100, 110, 140, 180, 220, 260,
-          300, 340,
-        ],
+        data: data?.previousMonthActiveUser || [],
         borderColor: "#7AC979",
         pointRadius: 0,
         tension: 0,
       },
     ],
   };
+
+
+
 
   const barlabels = [
     "Monday",
@@ -78,8 +104,35 @@ export default function Dashboardsa() {
     "Sunday",
   ];
 
-  const baralues = [100, 150, 200, 180, 220, 250, 300];
+  const weekly = {
+    customer: {
+      baralues: data?.addCurrentWeeklyCustomer || []
+    },
+    sales: {
+      baralues: data?.addCurrentWeeklySales
+    },
+    provider: {
+      baralues: data?.addCurrentWeeklyProvider
+    }
+  }
+  const month = {
+    customer: {
+      baralues: data?.monthlyClient || []
+    },
+    sales: {
+      baralues: data?.monthlySales
+    },
+    provider: {
+      baralues: data?.monthlyProviders
+    }
+  }
 
+  if (isError)
+    return <RemoteError hasError={isError} message={error?.message} />;
+
+
+  if (loading)
+    return <Loader />
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
@@ -158,20 +211,21 @@ export default function Dashboardsa() {
                   backgroundPosition: "calc(100% - 10px)",
                   backgroundSize: "10px",
                 }}
+                onChange={(e) => {
+                  setInputSelect(e.target.value)
+                }}
                 className="pe-7 text-sm bg-no-repeat appearance-none py-1 px-5 outline-none rounded-[8px] bg-[#5570F114] text-[#0F91D2]"
                 name=""
                 id=""
+                value={inputselect}
               >
-                <option className="bg-white text-black" value="">
+                <option className="bg-white text-black" value="sales">
                   Sales
                 </option>
-                <option className="bg-white text-black" value="">
-                  Transactions
-                </option>
-                <option className="bg-white text-black" value="">
+                <option className="bg-white text-black" value="provider">
                   Providers
                 </option>
-                <option className="bg-white text-black" value="">
+                <option className="bg-white text-black" value="customer">
                   Client
                 </option>
               </select>
@@ -184,23 +238,27 @@ export default function Dashboardsa() {
                 backgroundPosition: "calc(100% - 10px)",
                 backgroundSize: "10px",
               }}
+              onChange={(e) => {
+                setSelectDuration(e.target.value)
+              }}
               className="pe-7 text-sm bg-no-repeat appearance-none py-1 px-5 outline-none rounded-[8px] bg-[#5570F114] text-[#0F91D2]"
               name=""
               id=""
             >
-              <option className="bg-white text-black" value="">
-                Last 7 days
+              <option className="bg-white text-black" value="week">
+                weekly
               </option>
-              <option className="bg-white text-black" value="">
-                Last 30 days
+              <option className="bg-white text-black" value="month">
+                Monthly
               </option>
             </select>
           </div>
         </div>
         <div className="w-full overflow-x-auto mt-5">
-          <DoubleBarChart labels={barlabels} Values={baralues} />
+          <DoubleBarChart labels={selectduration === "week" ? barlabels : getLastMonthLabels()} Values={selectduration === "week" ? weekly[inputselect]?.baralues || [] : month[inputselect]?.baralues||[]} />
         </div>
       </div>
     </div>
   );
 }
+

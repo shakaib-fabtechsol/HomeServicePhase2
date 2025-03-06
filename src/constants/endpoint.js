@@ -24,6 +24,9 @@ export const END_POINTS = {
   ORDER_CONFIRMED: "/OrderConfirm",
   ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
   ORDER_AFTER_IMAGES: "/OrdeAfterImages",
+  CUSTOMER_SUPPORT: "/CustomerSupport",
+  UPDATE_CUSTOMER_SUPPORT: "/UpdateSupport",
+  GET_SUPPORT: "/GetSupport",
 };
 
 export const PRO_POINTS = {
@@ -34,6 +37,8 @@ export const PRO_POINTS = {
   UPDATE_SALE: "/SuperAdmin/UpdateSalesReps",
   SEND_INVITATION: "/SuperAdmin/sendInvite",
   AddPRICING: "/SuperAdmin/AddPriceDetails",
+  UPDATE_PROVIDER:"/SuperAdmin/UpdateProvider",
+  BAN:"/SuperAdmin/banProvider"
 };
 
 export const SALEREP_POINTS = {
