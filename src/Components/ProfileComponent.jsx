@@ -31,7 +31,7 @@ import client2 from "../assets/img/client3.png";
 import RegularHour from "./AdditionalPhoto/RegularHour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-import camera from "../assets/img/userprofile.png";
+import camera from "../assets/img/fileicon.png";
 const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
 
   const services = [
@@ -117,12 +117,12 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
     },
   ];
   const accordionData = [
-    { title: "About Us Video", content: <AboutVideo /> },
-    { title: "Technician Photos", content: <TechnicalPhoto /> },
-    { title: "Vehicle Photos", content: <VehiclePhoto /> },
-    { title: "Facility Photos", content: <FacilityPhoto /> },
-    { title: "Project Photos", content: <ProjectPhoto /> },
-    { title: "Licences", content: <License /> },
+    { title: "About videos", content: <AboutVideo about_video={data?.business?.about_video} /> },
+    { title: "Technician Photos", content: <TechnicalPhoto technician_photo={data?.business?.technician_photo} /> },
+    { title: "Vehicle Photos", content: <VehiclePhoto vehicle_photo={data?.business?.vehicle_photo} /> },
+    { title: "Facility Photos", content: <FacilityPhoto facility_photo={data?.business?.facility_photo} /> },
+    { title: "Project Photos", content: <ProjectPhoto project_photo={data?.business?.project_photo} /> },
+    { title: "Licences", content: <License license_photo={data?.business?.license_photo} /> },
     { title: "Awards", content: <Award /> },
     { title: "Insurance", content: <Insurance /> },
     { title: "Regular Hours of Operation", content: <RegularHour /> },
@@ -174,13 +174,14 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
       <div className="flex flex-col lg:flex-row justify-between mt-4 lg:items-start">
         <div className="flex flex-wrap items-center">
           <img
-            src={data?.user?.personal_image ? `${BASE_URL}/uploads/${data?.user?.personal_image}` : camera}
+            src={data?.
+              business?.business_logo? `${BASE_URL}/uploads/${data?.business?.business_logo}` : camera}
             alt="NA"
             className="me-2 my-2 rounded-lg max-w-[120px]"
           />
           <div className="my-2">
             <div className="flex items-center">
-              <p className="font-semibold myhead me-2">{data?.user?.name}</p>
+              <p className="font-semibold myhead me-2">{data?.business?.business_name}</p>
               <div className="flex ms-3">
                 <IoIosStar className="me-1 text-[#F8C600]" />
                 <div className="flex flex-wrap">
@@ -193,7 +194,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
               <p className="myblack pe-3 me-3 border-e">House Cleaning</p>
               <div className="flex items-center">
                 <IoLocationOutline className="me-2 myblack" />
-                <p className="myblack ">{data?.user?.loaction || "NA"}</p>
+                <p className="myblack ">{data?.business?.business_location || "NA"}</p>
               </div>
             </div>
             <div className="flex mt-2 items-center">
@@ -257,15 +258,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
       <div className="mt-6">
         <h2 className="text-lg font-medium myhead">About Me</h2>
         <p className="text-[#535862] mt-3">
-          Donec pulvinar consequat metus eget cursus. Donec nec quam eu arcu
-          elementum tempor eu pharetra mauris. Morbi et gravida purus, nec
-          sagittis risus. Nulla placerat justo ut dui aliquam efficitur. Mauris
-          aliquet mattis odio nec malesuada. Morbi at dui tristique, dignissim
-          enim ac, varius nulla. Donec venenatis libero nec ligula laoreet
-          laoreet. Sed quis lorem in mi suscipit dictum id nec diam. Orci varius
-          natoque penatibus et magnis dis parturient montes, nascetur ridiculus
-          mus. Nam at vehicula neque. Proin molestie venenatis sem, ut imperdiet
-          leo efficitur vel. Vestibulum nec elementum lacus.
+          {data?.business?.about}
         </p>
       </div>
       <div className="mt-5">
@@ -274,14 +267,22 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
         </h4>
         <div className="flex flex-wrap gap-2 items-center mt-3">
           <p className="text-sm font-medium bg-[#3434341A] px-3 py-1 text-center w-[max-content] rounded-full">
-            Category 01
+            {data?.business?.business_secondary_categories|| "NA"
+            }
           </p>
+
+        </div>
+      </div>
+      <div className="mt-5">
+        <h4 className="font-medium text-[#181D27] text-lg">
+          Primary Business Categories
+        </h4>
+        <div className="flex flex-wrap gap-2 items-center mt-3">
           <p className="text-sm font-medium bg-[#3434341A] px-3 py-1 text-center w-[max-content] rounded-full">
-            Category 02
+            {data?.business?.business_primary_category|| "NA"
+            }
           </p>
-          <p className="text-sm font-medium bg-[#3434341A] px-3 py-1 text-center w-[max-content] rounded-full">
-            Category 03
-          </p>
+
         </div>
       </div>
       <div className="mt-5">
@@ -313,7 +314,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
               image={service.image}
               publish={service.publish}
               serviceDetailTo={serviceDetailTo}
-              videos={service.videos}
+              videos={service?.videos}
               imgs={service.images}
               userimg={service.userimg}
               username={service.username}

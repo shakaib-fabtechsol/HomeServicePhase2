@@ -47,29 +47,27 @@ export default function TransFee({data,updatePrice,user_id}) {
     },
   ];
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:max-w-[400px] flex flex-col gap-3">
-          {inputsdata.map((input, index) => (
-            <div key={index}>
-              <label className="text-sm font-medium" htmlFor={input.id}>
-                {input.label}
-              </label>
-              <AmountInput
-                grouptext={input.grouptext}
-                id={input.id}
-                name={input.id}
-                className={"mt-1"}
-                register={register}
-              />
-            </div>
-          ))}
-        </div>
+    <div className="md:w-[400px] w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 md:p-0 p-3">
+        {inputsdata.map((input, index) => (
+          <div key={index} className="flex flex-col">
+            <label className="text-sm font-medium" htmlFor={input.id}>
+              {input.label}
+            </label>
+            <AmountInput
+              grouptext={input.grouptext}
+              id={input.id}
+              name={input.id}
+              className={"mt-1"}
+              register={register}
+            />
+          </div>
+        ))}
         <button
-          className="w-full mt-8 sm:max-w-[250px] bg-[#0F91D2] p-2 text-white font-semibold text-sm rounded-[8px]"
+          className="w-full mt-8 sm:max-w-[250px] bg-[#0F91D2] p-2 text-white font-semibold text-sm rounded-[8px] md:mt-0"
           type="submit"
         >
-          Continue
+          Save
         </button>
       </form>
     </div>
