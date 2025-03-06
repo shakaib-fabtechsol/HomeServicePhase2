@@ -34,7 +34,7 @@ export default function Access({ data, id, updateSale }) {
       await updateSale({ id, ...formattedData });
       Swal.fire({
         icon: "success",
-        title: "Welcome Back!",
+       
         text: "Access update Successfully",
         timer: 1500,
         showConfirmButton: false,

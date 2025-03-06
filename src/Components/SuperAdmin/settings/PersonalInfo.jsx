@@ -91,7 +91,7 @@ export default function PersonalInfo({Admin,updateAdmin}) {
       }
       Swal.fire({
         icon: "success",
-        title: "Welcome Back!",
+      
         text: "Profile updated successfully",
         timer: 1500,
         showConfirmButton: false,
