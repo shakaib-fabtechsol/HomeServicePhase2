@@ -91,7 +91,7 @@ export default function EditProvidercomponent({ oncancel, onsave, user, updateCl
     return (
         <div>
             <div className="mb-2">
-                <h2 className="font-semibold text-3xl">Edit Client</h2>
+                <h2 className="font-semibold text-3xl">Edit Provider</h2>
                 <p className="text-gray-600">
                     Track and manage your favorite services.
                 </p>

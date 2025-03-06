@@ -79,6 +79,7 @@ import { ROUTES, ROLES } from "./config/routeConfig";
 import { PrivateRoute } from "./PrivateRoute";
 import Prodetailssr1 from "./Pages/Sales/Prodetailssr1";
 import EditProvider from "./Pages/SuperAdmin/EditProvider";
+import EditsaleProvider from "./Pages/Sales/EditsaleProvider";
 function App() {
   return (
     <Router>
@@ -182,6 +183,7 @@ function App() {
           <Route path="/sales/dashboard" element={<Dashboardsr />} />
           <Route path="/sales/services" element={<Servicessr />} />
           <Route path="/sales/prodetails" element={<Prodetailssr1 />} />
+          <Route path="/sales/editpros" element={<EditsaleProvider />} />
           <Route path="/sales/dealdetails" element={<DealsDetailssr />} />
           <Route path="/sales/reports" element={<ReportsSr />} />
           <Route path="/sales/clients" element={<Clientssr />} />
