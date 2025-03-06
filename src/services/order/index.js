@@ -46,6 +46,17 @@ export const orderAPIs = BASE_API.injectEndpoints({
         { type: "OrderDetails", id: arg?.order_id },
       ],
     }),
+    markOrderAsComplete: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.MARK_COMPLETE,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        "CustomerOrders",
+        { type: "OrderDetails", id: arg?.order_id },
+      ],
+    }),
   }),
 });
 
@@ -55,4 +66,5 @@ export const {
   useDeliverOrderMutation,
   useAddOrderBeforeImagesMutation,
   useAddOrderAfterImagesMutation,
+  useMarkOrderAsCompleteMutation,
 } = orderAPIs;

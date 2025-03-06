@@ -24,6 +24,8 @@ export const END_POINTS = {
   ORDER_CONFIRMED: "/OrderConfirm",
   ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
   ORDER_AFTER_IMAGES: "/OrdeAfterImages",
+  CUSTOMER_SUPPORT: "/CustomerSupport",
+  GET_SUPPORT: "/GetSupport",
 }
 
 export const PRO_POINTS = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Table from "../../Components/Table";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -8,57 +8,63 @@ import client3 from "../../assets/img/client3.png";
 import client4 from "../../assets/img/client4.png";
 import { FiSearch } from "react-icons/fi";
 import { RiEqualizerLine } from "react-icons/ri";
-import { LuEye } from "react-icons/lu";
-import { SlPencil } from "react-icons/sl";
-import { Link } from "react-router-dom";
 import { IoMdSave } from "react-icons/io";
-
+import { useGetAllSupportTicketsQuery } from "../../services/customer-support/index.js";
+import LoadingSpinner from "./LoadingSpinner.jsx";
+import RemoteError from "./RemoteError.jsx";
+const serviceProviders = [
+  {
+    logo: client1,
+    id: "#ID234",
+    name: "Ricky Smith",
+    email: "dan_reid@icloud.com",
+    role: "provider",
+    subject: "Login Issue",
+    message: "Unable to log in to my account.",
+  },
+  {
+    logo: client2,
+    id: "#ID234",
+    name: "Frances Swann",
+    email: "tracy_sullivan@yahoo.com",
+    role: "client",
+    subject: "Login Issue",
+    message: "Unable to log in to my account.",
+  },
+  {
+    logo: client3,
+    id: "#ID234",
+    name: "James Hall",
+    email: "delores_acosta@outlook.com",
+    role: "provider",
+    subject: "Login Issue",
+    message: "Unable to log in to my account.",
+  },
+  {
+    logo: client4,
+    id: "#ID234",
+    name: "Mary Freund",
+    email: "myrna_wood@yahoo.com",
+    role: "client",
+    subject: "Login Issue",
+    message: "Unable to log in to my account.",
+  },
+];
 export default function CommonSupportData() {
+
+  const {data,isFetching,isError,error}=useGetAllSupportTicketsQuery()
+  const [checkedRows, setCheckedRows] = useState(
+    new Array(data?.GetSupport?.length).fill(false)
+  );
+
   useEffect(() => {
     document.title = "Support";
   }, []);
-  const serviceProviders = [
-    {
-      logo: client1,
-      id: "#ID234",
-      name: "Ricky Smith",
-      email: "dan_reid@icloud.com",
-      role: "provider",
-      subject: "Login Issue",
-      message: "Unable to log in to my account.",
-    },
-    {
-      logo: client2,
-      id: "#ID234",
-      name: "Frances Swann",
-      email: "tracy_sullivan@yahoo.com",
-      role: "client",
-      subject: "Login Issue",
-      message: "Unable to log in to my account.",
-    },
-    {
-      logo: client3,
-      id: "#ID234",
-      name: "James Hall",
-      email: "delores_acosta@outlook.com",
-      role: "provider",
-      subject: "Login Issue",
-      message: "Unable to log in to my account.",
-    },
-    {
-      logo: client4,
-      id: "#ID234",
-      name: "Mary Freund",
-      email: "myrna_wood@yahoo.com",
-      role: "client",
-      subject: "Login Issue",
-      message: "Unable to log in to my account.",
-    },
-  ];
+  
+  if (isFetching) return <LoadingSpinner />;
+  if (isError)
+    return <RemoteError hasError={isError} message={error?.message} />;
 
-  const [checkedRows, setCheckedRows] = useState(
-    new Array(serviceProviders.length).fill(false)
-  );
 
   const handleParentChange = (event) => {
     const isChecked = event.target.checked;
@@ -75,7 +81,7 @@ export default function CommonSupportData() {
   const isIndeterminate =
     checkedRows.some(Boolean) && !checkedRows.every(Boolean);
 
-  const tableheader = [
+  const tableHeader = [
     <FormControlLabel
       key="parent-checkbox"
       control={
@@ -106,7 +112,7 @@ export default function CommonSupportData() {
     "Action",
   ];
 
-  const tablebody = serviceProviders.map((provider, index) => [
+  const tableBody = data?.GetSupport?.map((provider, index) => [
     <FormControlLabel
       key={`checkbox-${index}`}
       control={
@@ -123,11 +129,11 @@ export default function CommonSupportData() {
         />
       }
     />,
-    provider.id,
+    `#ID${provider.id}`,
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider.logo}
+        src={provider.personal_image}
         alt={provider.name}
       />
       <p>{provider.name}</p>
@@ -136,12 +142,12 @@ export default function CommonSupportData() {
     provider.role,
     provider.subject,
     provider.message,
-    <select className="form-select px-2 py-2 rounded-lg border focus-none">
+    <select key={provider.id} className="form-select px-2 py-2 rounded-lg border focus-none">
       <option value="pending">Pending</option>
       <option value="in-progress">In Progress</option>
       <option value="resolved">Resolved</option>
     </select>,
-    <button className="btn btn-success">
+    <button key={provider.id}  className="btn btn-success">
       <IoMdSave className="text-xl" />
     </button>,
   ]);
@@ -175,7 +181,7 @@ export default function CommonSupportData() {
         </div>
       </div>
       <div className="mt-5">
-        <Table headers={tableheader} rows={tablebody} />
+        <Table headers={tableHeader} rows={tableBody} />
       </div>
     </div>
   );
