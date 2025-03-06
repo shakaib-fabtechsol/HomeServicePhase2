@@ -70,15 +70,15 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
         </div>
       </div>
       <div className="left-bottom border-t-2">
-        <div className="flex items-center px-4 pt-3">
+        <div className="flex items-center px-2 pt-3">
           <Link to={userInfo.profileLink}>
             <img
               src={personal_image}
               alt="logo"
-              className="rounded-full pe-2 max-w-[70px]"
+              className="rounded-full w-[45px] h-[45px] max-w-[45px] object-cover"
             />
           </Link>
-          <div className="logouts">
+          <div className="logouts ps-1">
             <div className="flex justify-between items-center">
               <p className="font-bold text-black">{userInfo.name}</p>
               <Link to="/login">
