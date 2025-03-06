@@ -60,10 +60,10 @@ export default function Providers() {
 
   const updatestatus = async (id) => {
     try {
-      await Banupdate({ id }).unwrap();
+     const response= await Banupdate({ id }).unwrap();
       Swal.fire({
         icon: "success",
-        text: "Provider Ban Successfully",
+        text: response?.message,
         timer: 1500,
         showConfirmButton: false,
       })
