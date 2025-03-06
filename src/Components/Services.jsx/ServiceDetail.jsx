@@ -86,6 +86,8 @@ function ServiceDetail() {
 
   const provider = userData?.businessProfile[0] || {};
   console.log(provider, "valueeeeeeeeeeeee");
+  console.log("dealData", dealData,);
+  console.log("userData", userData,);
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -140,7 +142,7 @@ function ServiceDetail() {
       return
     }
     setLoading(true)
-    let location ;
+    let location;
     try {
       switch (modalType) {
         case "Call Pro":
@@ -534,13 +536,15 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              <button
-                onClick={handlecontactOpen}
-                className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
-              >
-                <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
-                <span>Contact Pro</span>
-              </button>
+              {userData?.user?.customer_notification 
+                &&
+                <button
+                  onClick={handlecontactOpen}
+                  className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
+                >
+                  <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
+                  <span>Contact Pro</span>
+                </button>}
             </div>
           </div>
         </div>
