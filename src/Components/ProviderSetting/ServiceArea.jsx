@@ -18,7 +18,7 @@ import axios from "axios";
 const GOOGLE_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0";
 const libraries = ["places"];
 
-const ServiceArea = () => {
+const ServiceArea = ({handleTabChange}) => {
   const [serviceType, setServiceType] = useState("location");
   const [location, setLocation] = useState("");
   const [locations, setLocations] = useState([]);
@@ -33,7 +33,7 @@ const ServiceArea = () => {
   const [lat, setLat] = useState(31.5204);
   const [errorMessage, setErrorMessage] = useState(null);
   const [lng, setLng] = useState(74.3587);
-  
+  const {formdata,setFormData}=useState({});
   const [map, setMap] = useState(null);
   const businessAutoCompleteRef = useRef(null);
   
@@ -237,10 +237,12 @@ const token =useSelector((state)=>state.auth.token);
   };
   const handlePublish = async (e) => {
     e.preventDefault();
+  
+    // Prevent multiple submissions if already loading
     if (publishLoading) return;
-
-    const userId = localStorage.getItem("id");
-    if (!userId) {
+  
+    // Validate required user ID and token
+    if (!userid?.id) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -248,57 +250,65 @@ const token =useSelector((state)=>state.auth.token);
       });
       return;
     }
-
-    setPublishLoading(true);
-
-    const token = localStorage.getItem("token");
+  
     if (!token) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "No token found. Please log in.",
       });
-      setPublishLoading(false);
       return;
     }
-
+  
+    setPublishLoading(true);
+  
     try {
       const response = await axios.get(
-        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userid?.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      console.log("API Response:", response.data);
-
-      if (response.status === 200) {
-        setLocations((prev) => ({ ...prev, publish: response.data.publish }));
+  
+      console.log("API Response:", response);
+  
+      if (response.data?.setting?.publish === 1) {
         Swal.fire({
           icon: "success",
           title: "Success!",
-          text: "Setting Publish successfully.",
+          text:
+            response.data?.message ||
+            "Service Location updated successfully.",
           confirmButtonColor: "#0F91D2",
+        }).then(() => {
+          handleTabChange(3);
         });
       } else {
         Swal.fire({
           icon: "error",
           title: "Error!",
-          text: response.data.message || "Failed to update deal.",
+          text:
+            response.data?.message ||
+            "Failed to update the service location.",
           confirmButtonColor: "#D33",
         });
       }
     } catch (error) {
       console.error("Error updating deal:", error);
+      const errorMsg =
+        error.response?.data?.message ||
+        "There was an error updating the deal.";
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "There was an error updating the deal.",
+        text: errorMsg,
       });
     } finally {
       setPublishLoading(false);
     }
   };
+  
+  
+  
+
 
   const renderFormContent = () => (
     <>
@@ -554,7 +564,7 @@ const token =useSelector((state)=>state.auth.token);
           }`}
           disabled={loading}
         >
-          {loading ? "Saving..." : "Save"}
+          {loading ? "Saving..." : " Save  & Next"}
         </button>
       </div>
     </>
@@ -567,7 +577,7 @@ const token =useSelector((state)=>state.auth.token);
           {!window.google ? (
             <LoadScript
               googleMapsApiKey={GOOGLE_API_KEY}
-              libraries={libraries}
+              libraries={["places"]}
               onLoad={() => console.log("Google Maps API Loaded")}
             >
               {renderFormContent()}
