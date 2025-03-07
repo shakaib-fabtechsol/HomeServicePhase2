@@ -237,7 +237,7 @@ console.log(serviceDetails,"valueeee")
                 />
                 <div className="my-2">
                   <div className="flex">
-                    <Link to="/customer/Deals">
+                    <Link to="/provider/ProfileDetails">
                       <p className="font-semibold myhead me-2">
                         { service?.business_name}
                       </p>
