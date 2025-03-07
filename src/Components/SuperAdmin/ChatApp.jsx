@@ -6,8 +6,25 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import ClientTwo from "../../assets/img/client2.png";
 import hand from "../../assets/img/handicon.png";
 import { HiCalendar } from "react-icons/hi2";
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { Box } from "@mui/material";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  borderRadius: 4,
+};
 
 const ChatApp = () => {
+  const [modalopen, setmodalOpen] = React.useState(false);
+  const handleOpen = () => setmodalOpen(true);
+  const handleClose = () => setmodalOpen(false);
   const initialChats = [
     {
       id: 1,
@@ -111,9 +128,8 @@ const ChatApp = () => {
                 // On small screens, open chat area when a chat is selected.
                 setOpen(true);
               }}
-              className={`flex justify-between gap-2 border-b p-2 cursor-pointer ${
-                activeChat === chat.id ? "bg-blue-100" : ""
-              }`}
+              className={`flex justify-between gap-2 border-b p-2 cursor-pointer ${activeChat === chat.id ? "bg-blue-100" : ""
+                }`}
             >
               <div className="flex gap-2 items-center relative">
                 <div className="relative">
@@ -180,7 +196,7 @@ const ChatApp = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="hidden md:block">
-                <button className="text-white flex justify-center items-center gap-2 font-semibold rounded-[8px] bg-[#0F91D2] border-[#0F91D2] p-2">
+                <button onClick={handleOpen} className="text-white flex justify-center items-center gap-2 font-semibold rounded-[8px] bg-[#0F91D2] border-[#0F91D2] p-2">
                   Create Offer
                   <img className="size-5 object-contain" src={hand} alt="img" />
                 </button>
@@ -200,38 +216,33 @@ const ChatApp = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-3 mb-3 ${
-                  message.isUser ? "justify-end" : ""
-                }`}
+                className={`flex gap-3 mb-3 ${message.isUser ? "justify-end" : ""
+                  }`}
               >
                 <img
                   src={ClientTwo}
                   alt=""
-                  className={`rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover ${
-                    message.isUser ? "hidden" : ""
-                  }`}
+                  className={`rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover ${message.isUser ? "hidden" : ""
+                    }`}
                 />
                 <div className="max-w-[80%] sm:max-w-[60%] lg:max-w-[45%] w-full">
                   <div className="flex justify-between">
                     <h6
-                      className={`font-medium ${
-                        message.isUser ? "text-[#414651]" : "text-[#181D27]"
-                      } sm:text-sm text-xs`}
+                      className={`font-medium ${message.isUser ? "text-[#414651]" : "text-[#181D27]"
+                        } sm:text-sm text-xs`}
                     >
                       {message.sender}
                     </h6>
                     <p className="text-[#535862] text-xs">{message.time}</p>
                   </div>
                   <div
-                    className={`p-4 rounded-xl mt-2 ${
-                      message.isUser ? "bg-[#535862]" : "bg-[#F5F5F5]"
-                    }`}
+                    className={`p-4 rounded-xl mt-2 ${message.isUser ? "bg-[#535862]" : "bg-[#F5F5F5]"
+                      }`}
                   >
                     {message.text && (
                       <p
-                        className={`${
-                          message.isUser ? "text-white" : "text-black"
-                        } sm:text-base text-xs`}
+                        className={`${message.isUser ? "text-white" : "text-black"
+                          } sm:text-base text-xs`}
                       >
                         {message.text}
                       </p>
@@ -356,6 +367,66 @@ const ChatApp = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={modalopen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography sx={{ fontFamily: "inter", p: 2, }} id="modal-modal-title" variant="h6" component="h2">
+            Create Offer
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ fontFamily: "inter", px: 2, pb: 2, overflowY: "auto", height: "calc(100vh - 120px)" }}>
+            <form action="">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="service" className="text-sm">Service</label>
+                <select name="service" id="service" className="border p-2 bg-white rounded-lg">
+                  <option value="" selected hidden>Select</option>
+                  <option value="cleaning">Cleaning</option>
+                  <option value="gardening">Gardening</option>
+                  <option value="plumbing">Plumbing</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-2 mt-3">
+                <label htmlFor="pricePlan" className="text-sm">Select Pricing Plan</label>
+                <select name="pricePlan" id="pricePlan" className="border p-2 bg-white rounded-lg">
+                <option value="" selected hidden>Select</option>
+                  <option value="cleaning">Cleaning</option>
+                  <option value="gardening">Gardening</option>
+                  <option value="plumbing">Plumbing</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-2 mt-3">
+                <label htmlFor="message" className="text-sm">Description and Deliverables</label>
+                <textarea name="message" id="message" cols="30" rows="10" className="border p-2 rounded-lg"></textarea>
+              </div>
+              <div className="flex flex-col gap-2 mt-3">
+                <label htmlFor="price" className="text-sm">Price</label>
+                <input type="number" name="price" id="price" className="border p-2 rounded-lg" />
+              </div>
+              <div className="flex flex-col gap-2 mt-3">
+                <label htmlFor="date" className="text-sm">Date</label>
+                <input type="date" name="date" id="date" className="border p-2 rounded-lg" />
+              </div>
+              <div className="grid grid-cols-2 gap-1 mt-9">
+                <button
+                  type="button"
+                  className="bg-[#fff] text-black py-2 rounded-lg w-full shadow-md border"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-[#0F91D2] text-white py-2 rounded-lg w-full shadow-md"
+                >
+                  Create
+                </button>
+              </div>
+            </form>
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 };
