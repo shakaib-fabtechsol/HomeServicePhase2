@@ -123,7 +123,7 @@ function App() {
             </PrivateRoute>
           }
         >
-            <Route path="/customer/dashboard2" element={<Dashboardc2 />} />
+            <Route path="/customer/dashboard" element={<Dashboardc2 />} />
             <Route path="/customer/orderdetails" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
             <Route path="/customer/order" element={<Order />} />
