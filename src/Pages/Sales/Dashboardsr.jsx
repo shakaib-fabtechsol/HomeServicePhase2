@@ -31,11 +31,11 @@ export default function Dashboardsr() {
     },
     {
       title: "Total Commissions",
-      value: data?.commission||0,
+      value: data?.commission?.toFixed(2)||0,
       // percent: "+6.08%",
     },
     {
-      title: "Assigned Pros", value: data?.assignPros || 0
+      title: "Assigned Pros", value: data?.assignPros?.toFixed(2) || 0
       ,
       // percent: "+6.08%"
     },
