@@ -194,7 +194,7 @@ const userId=useSelector((state)=>state.auth.user);
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
             disabled={isLoading}
           >
-            Save
+            Save  & Next
           </button>
         </div>
       </form>

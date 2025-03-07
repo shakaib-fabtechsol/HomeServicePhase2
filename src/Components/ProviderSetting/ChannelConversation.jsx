@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useAddConversationMutation,useGetMyDetailsQuery } from "../../services/settings";
+import { useGetpricing1Query,useUpdatePricingMutation  } from "../../services/pricing";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/authSlice";
 import Loader from "../MUI/Loader";
@@ -10,7 +11,8 @@ import Loader from "../MUI/Loader";
 const ChannelConversation = ({ handleTabChange }) => {
   const userID= useSelector((state)=>state.auth.user);
   const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
-
+const {data:user}= useGetpricing1Query();
+console.log(user?.GetPriceDetails?.call_pro);
   console.log(userData?.businessProfile);
   const dispatch = useDispatch();
   const [addConversation, { isLoading }] = useAddConversationMutation();
@@ -41,6 +43,10 @@ const ChannelConversation = ({ handleTabChange }) => {
     },
   });
 
+  const handlereset=()=>{
+    setToggles("");
+    setValue(null);
+  }
   const handleToggle = (field) => {
     setToggles((prev) => {
       const newState = {
@@ -158,9 +164,9 @@ const ChannelConversation = ({ handleTabChange }) => {
                 <p className="mt-3">
                   Enable the toggle to make your phone number visible to the
                   public. Each time a customer (only one time per customer) uses
-                  this channel will incur a charge of <strong>$10</strong>. This
+                  this channel will incur a charge of <strong>${user?.GetPriceDetails?.call_pro}</strong>. This
                   charge is waived if your average deal revenue is above{" "}
-                  <strong>$xxx</strong> for the past 60 day period.
+                  <strong>${user?.GetPriceDetails?.th_call_pro}</strong> for the past 60 day period.
                 </p>
               </div>
               <div className="col-span-12 lg:col-span-6 2xl:col-span-6">
@@ -206,9 +212,9 @@ const ChannelConversation = ({ handleTabChange }) => {
                 <p className="mt-3">
                   Enable the toggle to make your text number visible to the
                   public. Each time a customer (only one time per customer) uses
-                  this channel will incur a charge of <strong>$10</strong>. This
+                  this channel will incur a charge of <strong>${user?.GetPriceDetails?.text_pro}</strong>. This
                   charge is waived if your average deal revenue is above{" "}
-                  <strong>$xxx</strong> for the past 60 day period.
+                  <strong>${user?.GetPriceDetails?.th_text_pro}</strong> for the past 60 day period.
                 </p>
               </div>
               <div className="col-span-12 lg:col-span-6 2xl:col-span-6">
@@ -254,9 +260,10 @@ const ChannelConversation = ({ handleTabChange }) => {
                 <p className="mt-3">
                   Enable the toggle to make your instant chat visible to the
                   public. Each time a customer (only one time per customer) uses
-                  this channel will incur a charge of <strong>$5</strong>. This
+                  this channel will incur a charge of <strong>${user?.GetPriceDetails?.instant_chat}</strong>. This
                   charge is waived if your average deal revenue is above{" "}
-                  <strong>$xxx</strong> for the past 60 day period.
+                  <strong>${user?.GetPriceDetails?.th_instant_chat
+                  }</strong> for the past 60 day period.
                 </p>
               </div>
               <div className="col-span-12 lg:col-span-6 2xl:col-span-6"></div>
@@ -286,9 +293,9 @@ const ChannelConversation = ({ handleTabChange }) => {
                 <p className="mt-3">
                   Enable the toggle to make your email address visible to the
                   public. Each time a customer (only one time per customer) uses
-                  this channel will incur a charge of <strong>$10</strong>. This
+                  this channel will incur a charge of <strong>${user?.GetPriceDetails?.email_pro}</strong>. This
                   charge is waived if your average deal revenue is above{" "}
-                  <strong>$xxx</strong> for the past 60 day period.
+                  <strong>${user?.GetPriceDetails?.th_email_pro}</strong> for the past 60 day period.
                 </p>
               </div>
               <div className="col-span-12 lg:col-span-6 2xl:col-span-6">
@@ -356,7 +363,7 @@ const ChannelConversation = ({ handleTabChange }) => {
           <div className="grid max-w-[550px] grid-cols-3 my-4 gap-2 ms-auto">
             <button
               type="button"
-              onClick={() => reset()}
+              onClick={handlereset}
               className="border border-gray-300 rounded-lg py-[10px] w-full font-semibold bg-white"
             >
               Cancel

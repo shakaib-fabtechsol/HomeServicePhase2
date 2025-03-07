@@ -272,7 +272,7 @@ const MyDetailModule = ({ handleTabChange }) => {
             type="submit"
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
           >
-            Save
+            Save  & Next
           </button>
         </div>
       </div>

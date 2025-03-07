@@ -163,7 +163,7 @@ const PasswordModule = ({ handleTabChange,useUpdateCustomerPasswordMutation }) =
               disabled={isLoading}
               className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2] disabled:opacity-50"
             >
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Saving..." : " Save  & Next"}
             </button>
           </div>
         </div>

@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ServiceBox from "../ServiceBox";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
-
-import user2 from "../../assets/img/client3.png";
-import cardvideo from "../../assets/img/cardvideo.mp4";
-import slideimg from "../../assets/img/service1new.jpeg";
 import {useGetFavouriteQuery} from '../../services/sales/index';
 
-const CommonFavorites = ({ serviceDetailTo }) => {
+const CommonFavorites = () => {
   useEffect(() => {
     document.title = "Favourites";
   }, []);
   const [viewMode, setViewMode] = useState("grid");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { data: orderD, isLoading, error } = useGetFavouriteQuery(); 
+  const { data: orderD, } = useGetFavouriteQuery(); 
 
   const services = orderD?.deals; 
   
@@ -96,8 +92,6 @@ const CommonFavorites = ({ serviceDetailTo }) => {
             dealid={service.id}
             Rating={service.rating}
             Liked={service.Liked}
-            // serviceDetailTo={`/provider/dealDetails/${service.id}`}
-
             videos={service.videos}
             imgs={service.personal_image
             }

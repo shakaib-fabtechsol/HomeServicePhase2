@@ -9,7 +9,7 @@ import Loader from "../../Components/MUI/Loader";
 import { toast } from "react-toastify";
 import {useSelector} from "react-redux";
 
-const CertificationHour = () => {
+const CertificationHour = ({handleTabChange}) => {
 const  token =useSelector((state)=>state.auth.token);
 const userId=useSelector((state)=>state.auth.user);
   const [loading, setLoading] = useState(false);
@@ -279,65 +279,59 @@ const userId=useSelector((state)=>state.auth.user);
     e.preventDefault();
     if (publishLoading) return;
 
-    const userId = localStorage.getItem("id");
-    if (!userId) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Service ID is required!",
-      });
-      return;
+    if (!userId?.id) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Service ID is required!",
+        });
+        return;
+    }
+
+    if (!token) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No token found. Please log in.",
+        });
+        return;
     }
 
     setPublishLoading(true);
-   
-    if (!token) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No token found. Please log in.",
-      });
-      setPublishLoading(false);
-      return;
-    }
 
     try {
-      const response = await axios.get(
-        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
+        const response = await axios.get(
+            `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId.id}`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
+
+        console.log("API Response:", response.data);
+
+        if (response.data?.setting?.publish === 1) {
+            setFormData((prev) => ({ ...prev, publish: response.data?.setting?.publish }));
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Setting Published successfully.",
+                confirmButtonColor: "#0F91D2",
+            }).then(() => handleTabChange(4));
+        } else {
+            throw new Error(response.data.message || "Failed to update deal.");
         }
-      );
-
-      console.log("API Response:", response.data);
-
-      if (response.status === 200) {
-        setFormData((prev) => ({ ...prev, publish: response.data.publish }));
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "Setting Publish successfully.",
-          confirmButtonColor: "#0F91D2",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: response.data.message || "Failed to update deal.",
-          confirmButtonColor: "#D33",
-        });
-      }
     } catch (error) {
-      console.error("Error updating deal:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "There was an error updating the deal.",
-      });
+        console.error("Error updating deal:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.response?.data?.message || "There was an error updating the deal.",
+        });
     } finally {
-      setPublishLoading(false);
+        setPublishLoading(false);
     }
-  };
+};
+
 
   return (
     <div>
@@ -363,7 +357,7 @@ const userId=useSelector((state)=>state.auth.user);
                   <SettingsPreview
                     onFileSelect={handleFileChange}
                     fieldName="insurance_certificate"
-                    existingImage={formData.insurance_certificate || profileImg}
+                    existingImage={formData.insurance_certificate}
                   />
                 </div>
               </div>
@@ -654,7 +648,7 @@ const userId=useSelector((state)=>state.auth.user);
               <input
                 type="text"
                 id="Flatr"
-                defaultValue={formData?.id ? `${formData?.id}` : "0"}
+                defaultValue={userId?.id ? `${userId?.id}` : "0"}
                 className="focus-none border hidden"
                 readOnly
               />
@@ -683,7 +677,7 @@ const userId=useSelector((state)=>state.auth.user);
                 }`}
                 disabled={loading}
               >
-                {loading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : " Save  & Next"}
               </button>
             </div>
           </div>
