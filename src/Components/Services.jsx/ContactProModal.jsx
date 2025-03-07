@@ -2,14 +2,15 @@ import { Modal } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-export const ContactProModal = ({ activeModal, handleModalClose, submitApi, dealid , loading}) => {
+export const ContactProModal = ({providerId,  activeModal, handleModalClose, submitApi, dealid , loading}) => {
   const { user } = useSelector((state) => state.auth)
   const [formData, setFormData] = useState({
     // description: "",
-    dealId: dealid,
+    dealId: Number(dealid),
     subject: "",
     location: "",
-    providerId: user?.id
+    userId: user?.id,
+    providerId,
   });
 
   // Define fields dynamically based on the modal type

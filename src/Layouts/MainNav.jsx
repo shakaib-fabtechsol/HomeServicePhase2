@@ -9,9 +9,12 @@ import profile from "../assets/img/profile.png";
 import { FaRegHeart } from "react-icons/fa6";
 import { GrNotification } from "react-icons/gr";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { BASE_URL } from "../../config";
 
 const MainNav = ({ toggleSidebar, logolink }) => {
   const location = useLocation();
+  const {user}= useSelector((state)=>state.auth)
   const isHomeOrCatalog =
     location.pathname === "/" ||
     location.pathname === "/catalogResult" ||
@@ -56,7 +59,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
       </div>
 
       <div className="flex items-center">
-        {isHomeOrCatalog ? (
+        {!user ? (
           <>
             <Link to="/login" className="me-3">
               Sign In
@@ -67,10 +70,10 @@ const MainNav = ({ toggleSidebar, logolink }) => {
           </>
         ) : (
           <>
-            <button className="text-2xl md:hidden" onClick={toggleSidebar}>
+            {/* <button className="text-2xl md:hidden" onClick={toggleSidebar}>
               <RxHamburgerMenu className="pointer" />
             </button>
-            {/* <NavLink to="#">
+            <NavLink to="#">
               <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
             </NavLink>
             <NavLink to="#">
@@ -78,10 +81,10 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             </NavLink>
             <NavLink to="#">
               <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
+            </NavLink> */}
             <Link to="#">
-              <img src={profile} alt="Profile" className="img-wade" />
-            </Link> */}
+              <img src={`${BASE_URL}/uploads/${user?.personal_image}` || profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
+            </Link>
           </>
         )}
       </div>
