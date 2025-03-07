@@ -8,7 +8,7 @@ import { useGetMyDetailsQuery } from "../../services/settings";
 import Loader from "../MUI/Loader";
 import { useSelector } from "react-redux";
 
-const AdditionalInfo = ({ handleTabChange,useGetMyDetailsQuery }) => {
+const AdditionalInfo = ({ handleTabChange}) => {
   
  
   const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
