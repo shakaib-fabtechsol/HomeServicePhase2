@@ -62,7 +62,7 @@ export default function Conversations() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("recordsContactPro", recordsContactPro)
+  // console.log("recordsContactPro", recordsContactPro)
   const callProData = recordsContactPro?.data?.filter(item => item.type === "call_pro") || [];
   const smsProData = recordsContactPro?.data?.filter(item => item.type === "sms_pro") || [];
   const emailProData = recordsContactPro?.data?.filter(item => item.type === "email_pro") || [];

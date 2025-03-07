@@ -28,6 +28,7 @@ import {
 import { ContactProModal } from "./contactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
+import { sendInstantChatMessage } from "./sendInstantChatMessage";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -127,14 +128,19 @@ function ServiceDetail() {
   const [contactModal, setContactModal] = useState("");
   const handlecontactOpen = () => setContactOpen(true);
   const handlecontactClose = () => setContactOpen(false);
-  const handleModalClose = (e) => { setContactModal("") };
+  const handleModalClose = (e) => { setContactModal(""); setLoading(false) };
   const handleSubmitApi = async (modalType, formData) => {
+    console.log("formData", formData)
     if (!formData || !formData?.providerId) {
       toast.info("Invalid Data")
       return
     }
     if (!formData?.providerId) {
       toast.info("Invalid Request")
+      return
+    }
+    if (!formData?.userId) {
+      toast.info("Invalid userId")
       return
     }
     if (!formData?.dealId) {
@@ -153,6 +159,7 @@ function ServiceDetail() {
           break;
         case "Instant Chat":
           await chatPro(formData).unwrap();
+          await sendInstantChatMessage(formData)
           break;
         case "Email Pro":
           await emailPro(formData).unwrap();
@@ -574,7 +581,7 @@ function ServiceDetail() {
       </div>
     </div>
     {
-      contactModal && <ContactProModal loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
+      contactModal && <ContactProModal providerId={userData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
         submitApi={handleSubmitApi}
 
       />
