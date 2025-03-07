@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import FilterNav from "./FilterNav";
 import MainNav from "./MainNav";
 import { IoChatboxEllipsesOutline, IoHomeOutline } from "react-icons/io5";
+import { FiBarChart2 } from "react-icons/fi";
 import { AiOutlineDollar, AiOutlineSetting } from "react-icons/ai";
 import { RiBarChartHorizontalLine } from "react-icons/ri";
 import { CiCreditCard1 } from "react-icons/ci";
@@ -23,12 +24,18 @@ const CustomerLayout = () => {
   const sidebarData = [
     {
       items: [
-        { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
+        { to: "/customer/dashboard2", icon: IoHomeOutline, label: "Home" },
         { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/customer/order",
           icon: RiBarChartHorizontalLine,
           label: "Orders",
+        },
+        {
+          to: "/customer/Deals",
+          icon: FiBarChart2,
+          label: "My Customer/Deals",
+          toChild: "/customer/dealDetails",
         },
         {
           to: "/customer/payments",

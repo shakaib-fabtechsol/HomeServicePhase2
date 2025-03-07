@@ -10,15 +10,12 @@
   import { Link } from "react-router-dom";
   import { CiTrash } from "react-icons/ci";
   import { useSelector, useDispatch } from "react-redux";
-  import {
-    useAddSocialProfileMutation,
-    useDeleteSocialProfileMutation,
-  } from "../../../../services/settings";
+
   import { setUser } from "../../../../redux/reducers/authSlice";
   import Swal from "sweetalert2";
   import Loader from "../../../../Components/MUI/Loader";
 
-  const SocialProfileModule = ({ handleTabChange }) => {
+  const SocialProfileModule = ({ handleTabChange ,useAddSocialProfileMutation,useDeleteSocialProfileMutation,}) => {
     const userData = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const [addSocialProfile, { isLoading }] = useAddSocialProfileMutation();

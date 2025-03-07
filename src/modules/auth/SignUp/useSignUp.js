@@ -10,7 +10,7 @@ import { useRegisterMutation } from "../../../services/auth";
 export const useSignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const userType = location.state?.userType || "";
+  const userType = location.state?.userType || "3";
   const [register, { isLoading }] = useRegisterMutation();
 
   const {

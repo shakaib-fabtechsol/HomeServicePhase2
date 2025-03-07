@@ -22,7 +22,7 @@ console.log("user", user)
     setLoading(true);
 
     axios
-      .get("https://marketplace.thefabulousshow.com/api/Deals", {
+      .get("https://marketplace.thefabulousshow.com/api/Customer/ListDeals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,13 +64,7 @@ console.log("user", user)
               placeholder="Search"
             />
           </div>
-          <Link
-            to="/provider/newDeals"
-            className="bg-blue mt-2 lg:mt-0 px-4 rounded-md py-2 text-white flex justify-center items-center"
-          >
-            <HiPlus className="text-white text-xl me-1 font-semibold" />
-            <span>Create New</span>
-          </Link>
+         
         </div>
 
         <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
@@ -96,7 +90,7 @@ console.log("user", user)
                 dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                serviceDetailTo={`/customer/dealDetails/${service.id}`}
 
                 videos={service.videos}
                 imgs={service.personal_image

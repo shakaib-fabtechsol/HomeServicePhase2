@@ -40,7 +40,7 @@ const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
     { title: "Licences", content: <License license_photo={data?.business?.license_certificate} /> },
     { title: "Awards", content: <Award award_certificate={data?.business?.award_certificate} /> },
     { title: "Insurance", content: <Insurance insurance_photo={data?.business?.insurance_certificate} /> },
-    { title: "Regular Hours of Operation", content: <RegularHour regular_hour={data?.business?.regular_hour} /> },
+    { title: "Regular Hours of Operation", content: <RegularHour2 regular_hour={data?.business?.regular_hour} /> },
     { title: "Special Hours of Operation", content: <SpecialHour special_hour={data?.business?.special_hour} /> },
     { title: "Social", content: data?.business?.website},
   ];
@@ -134,7 +134,7 @@ const [searchQuery, setSearchQuery] = useState("");
               </div>
             </div>
             <div className="flex mt-2 items-center">
-                               <div className="flex me-2">
+              <div className="flex me-2">
                                  <FaRegCalendarAlt className="me-2" />
                                  <p className="text-sm myblack">
                                    {currentDayData ? (
@@ -166,8 +166,7 @@ const [searchQuery, setSearchQuery] = useState("");
                                    ) : (
                                      "Closed"
                                    )}
-                                 </p>
-                               </div>
+                                 </p></div>
                              </div>
           </div>
         </div>

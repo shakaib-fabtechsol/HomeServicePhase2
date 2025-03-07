@@ -25,7 +25,7 @@ import Favourites from "./Pages/ServiceProvider/Favourites";
 import FavouritesC from "./Pages/Customer/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
-import Dashboardc from "./Pages/Customer/Dashboard";
+import Dashboardc2 from "./Pages/Customer/Dashboard2";
 import Payments from "./Pages/ServiceProvider/Payments";
 import Chatsa from "./Pages/SuperAdmin/Chatsa";
 import Suportsa from "./Pages/SuperAdmin/Suportsa";
@@ -59,7 +59,8 @@ import ProBucksp from "./Pages/ServiceProvider/ProBucksp";
 import OrderDetailsp from "./Pages/ServiceProvider/OrderDetailsp";
 import RecentDeals from "./Pages/Sales/RecentDeals";
 import DealDetails from "./Pages/ServiceProvider/DealDetails";
-import DealDetailsC from "./Pages/Customer/DealDetails";
+import DealDetailsC from "./Pages/Customer/DealDetails2";
+import MyDeals from "./Pages/Customer/MyDeals";
 import DealDetailsH from "./Pages/DealDetailsH";
 import DealDetailsS from "./Pages/SuperAdmin/DealDetails";
 import ReportsP from "./Pages/ServiceProvider/Reports";
@@ -71,6 +72,7 @@ import NewPassword from "./Pages/Auth/NewPassword";
 import ClientProfilep from "./Pages/ServiceProvider/ClientProfileP";
 import ClientProfilesa from "./Pages/SuperAdmin/ClientProfilesa";
 import DealsDetailssr from "./Pages/Sales/DealsDetailssr";
+
 import ClientProfilesr from "./Pages/Sales/ClientProfilesr";
 import EditClientsa from "./Pages/SuperAdmin/EditClientsa";
 import EditClientSr from "./Pages/Sales/EditClientSr";
@@ -121,7 +123,7 @@ function App() {
             </PrivateRoute>
           }
         >
-            <Route path="/customer/dashboard" element={<Dashboardc />} />
+            <Route path="/customer/dashboard2" element={<Dashboardc2 />} />
             <Route path="/customer/orderdetails" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
             <Route path="/customer/order" element={<Order />} />
@@ -133,10 +135,11 @@ function App() {
               element={<ExploreServices />}
             />
             <Route path="/customer/support" element={<Supportc />} />
+            <Route path="/customer/Deals" element={<MyDeals />} />
             <Route path="/customer/notification" element={<Notificationc />} />
             <Route path="/customer/favourites" element={<FavouritesC />} />
             <Route path="/customer/payments" element={<Payments />} />
-            <Route path="/customer/dealDetails" element={<DealDetailsC />} />
+            <Route path="/customer/dealDetails/:dealid" element={<DealDetailsC />} />
             <Route path="/customer/reports" element={<ReportsC />} />
         </Route>
 

@@ -2,13 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { useAddPaymentDetailsMutation ,useGetMyDetailsQuery} from "../../services/settings";
 
 
-const Payment = () => {
- const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
-  const [addPaymentDetails, { isLoading }] = useAddPaymentDetailsMutation();
+
+const Payment = ({useGetMyDetailsQuery,useAddPaymentDetailsMutation}) => {
   const userID=useSelector((state)=>state.auth.user);
+ const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery(userID?.id);
+  const [addPaymentDetails, { isLoading }] = useAddPaymentDetailsMutation();
   const {
     register,
     handleSubmit,
@@ -17,12 +17,12 @@ const Payment = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      account_holder_name: userData?.getPayment[0]?.account_holder_name || "",
-      bank: userData?.getPayment[0]?.bank || "",
-      branch_name: userData?.getPayment[0]?.branch_name || "",
-      ssn: userData?.getPayment[0]?.ssn || "",
-      account_number: userData?.getPayment[0]?.account_number || "",
-      bank_routing_number: userData?.getPayment[0]?.bank_routing_number || "",
+      account_holder_name:userData?.getPayment?.length? userData?.getPayment[0]?.account_holder_name || "":"",
+      bank:userData?.getPayment?.length?userData?.getPayment[0]?.bank|| "" : "",
+      branch_name:userData?.getPayment?.length? userData?.getPayment[0]?.branch_name|| "" : "",
+      ssn: userData?.getPayment?.length?userData?.getPayment[0]?.ssn|| "" : "",
+      account_number:userData?.getPayment?.length? userData?.getPayment[0]?.account_number || "":"",
+      bank_routing_number:userData?.getPayment?.length? userData?.getPayment[0]?.bank_routing_number || "":"",
     },
   });
 

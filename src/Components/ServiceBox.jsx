@@ -55,11 +55,15 @@ function ServiceBox({
       return [];
     }
   };
+  const defaultImage = "/service1.png"; 
 
+  const image2 = userimg 
+  ? `https://marketplace.thefabulousshow.com/uploads/${userimg}` 
+  : defaultImage;
 
   const imageArray = parseJsonArray(image);
   const videoArray = parseJsonArray(videos);
-  const defaultImage = "/service1.png"; 
+ 
 
   const mediaSet = new Set([
     ...(imageArray?.length
@@ -92,7 +96,13 @@ function ServiceBox({
         }}
           className="absolute top-5 left-6 z-10"
         >
-          <button onClick={() => setLiked(!liked) } >
+         <button
+      onClick={() => {
+        setLiked(!liked);
+        navigate('/customer/favourites');
+      }}
+    >
+            
             <svg
               width="20"
               height="20"
@@ -132,7 +142,7 @@ function ServiceBox({
           <div className="flex items-center gap-2">
             <img
               className="size-8 rounded-full object-cover"
-              src={userimg || defaultuser}
+              src={image2}
               alt="User"
             />
             <p className="text-sm font-semibold">{username || "User Name"}</p>

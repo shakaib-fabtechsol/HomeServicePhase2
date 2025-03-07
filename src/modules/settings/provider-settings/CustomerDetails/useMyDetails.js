@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector} from "react-redux";
-import { usePublishMutation } from "../../../../services/settings";
-import { useUpdateMyDetailsMutation, useGetMyDetailsQuery } from "../../../../services/settings";
 
-export const useMyDetails = ({ handleTabChange }) => {
-
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../../redux/reducers/authSlice";
+export const useMyDetails = ({ handleTabChange, useUpdateMyDetailsMutation, useGetMyDetailsQuery , usePublishMutation }) => {
+const dispatch=useDispatch();
  const id=useSelector((state)=>state.auth.user);
  console.log(id,"user");
-  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
+  const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery(id?.id);
  
   const [updateMyDetails, { isLoading: isUpdating }] = useUpdateMyDetailsMutation();
   const [publishMyDetails] = usePublishMutation();
@@ -63,7 +63,13 @@ export const useMyDetails = ({ handleTabChange }) => {
 
       const response = await updateMyDetails(payload).unwrap();
 
+
       if (response) {
+
+        if(response?.user){
+          dispatch(setUser(response?.user))
+
+        }
         if (formData.publish === true) {
           await publishMyDetails(userData?.user.id);
         }

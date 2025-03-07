@@ -21,6 +21,11 @@ export const BASE_API = createApi({
       providesTags: (result, error, dealid) => [{ type: "Deal", id: dealid }],
     }),
 
+    getDeal1: builder.query({
+      query: (dealid) => `Customer/SingleDeal/${dealid}`,
+      providesTags: (result, error, dealid) => [{ type: "SingleDeal", id: dealid }],
+    }),
+
     postBasicInfo: builder.mutation({
       query: (body) => ({
         url: "BasicInfo",
@@ -101,6 +106,7 @@ export const BASE_API = createApi({
 
 export const {
   useGetDealQuery,
+  useGetDeal1Query,
   usePostBasicInfoMutation,
   usePublishDealMutation,
   useUploadMediaMutation,

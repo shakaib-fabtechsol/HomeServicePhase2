@@ -1,3 +1,24 @@
+// import React, { useState } from "react";
+
+
+// import SocialProfileModule from "../../modules/settings/provider-settings/SocialProfile";
+// import {
+//     useAddCustomerSocialMutation,
+//     useDeleteSocialProfileMutation
+   
+//   } from "../../../src/services/settings";
+
+// const CustomerSocial = ({ handleTabChange }) => {
+
+
+
+//   return <SocialProfileModule handleTabChange={handleTabChange} useAddSocialProfileMutation={useAddCustomerSocialMutation} useDeleteSocialProfileMutation={useDeleteSocialProfileMutation} />;
+// };
+
+// export default CustomerSocial;
+
+
+
 
 import React, { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
@@ -13,7 +34,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 import {useSelector} from "react-redux";
-const SocialProfile = () => {
+const CustomerSocial = () => {
   const [selectedSocial, setSelectedSocial] = useState(null);
   const token =useSelector((state)=>state.auth.token);
   console.log(token);
@@ -73,7 +94,7 @@ const SocialProfile = () => {
       };
 
       const response = await axios.post(
-        "https://marketplace.thefabulousshow.com/api/Social",
+        "https://marketplace.thefabulousshow.com/api/Customer/AddSocial",
         payload,
         {
           headers: {
@@ -142,7 +163,7 @@ const SocialProfile = () => {
       };
      
       const response = await axios.post(
-        `https://marketplace.thefabulousshow.com/api/SocialDelete`,
+        `https://marketplace.thefabulousshow.com/api/Customer/DeleteSocial`,
         data, 
         {
           headers: {
@@ -289,4 +310,5 @@ const SocialProfile = () => {
 
 };
 
-export default SocialProfile;
+export default CustomerSocial;
+

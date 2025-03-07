@@ -20,7 +20,7 @@ function Prodetailssr1() {
     </div>
   )
 
-  console.log(data,"this is data ")
+ 
 
   if (isError) return (<div className="text-center flex items-center justify-center"><h1>Something went wrong</h1></div>)
 
