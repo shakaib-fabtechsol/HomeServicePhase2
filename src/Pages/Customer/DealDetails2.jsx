@@ -74,51 +74,15 @@ function ServiceDetail() {
     isLoading: dealLoading,
   } =  useGetDeal1Query(dealid, { skip: !token || !dealid });
   const serviceDetails = dealData?.deal[0];
+  const service=dealData?.businessProfile;
 console.log(serviceDetails,"valueeee")
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
-  const {
-    data: userData,
-    isLoading: userLoading,
-
-  } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
-
-  const provider = userData?.businessProfile[0] || {};
-  console.log(provider, "valueeeeeeeeeeeee");
-  console.log("dealData", dealData,);
-  console.log("userData", userData,);
-
-  const [deleteDeal] = useDeleteDealMutation();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleDelete = (dealId) => {
-    if (!dealId) {
-      console.error("Deal ID is missing!");
-      return;
-    }
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: false,
-      preConfirm: async () => {
-        try {
-          await deleteDeal(dealId).unwrap();
-          navigate("/provider/services");
-          navigate("/provider/services");
-        } catch (error) {
-          Swal.fire("Error!", "Failed to delete the deal.", "error");
-        }
-      },
-    });
-  };
+ 
 
   const [contactopen, setContactOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -195,22 +159,22 @@ console.log(serviceDetails,"valueeee")
     },
   ];
 
-  if (dealLoading || userLoading) {
+  if (dealLoading) {
     return <Loader />;
   }
-  if (!serviceDetails) {
+  if (!service) {
     return <div>No service details available.</div>;
   }
 
 
-  const imagePath = provider?.business_logo;
+  const imagePath = service?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
     : "/service1.png";
 
   const regularHours =
-    provider && provider.regular_hour
-      ? JSON.parse(provider.regular_hour || "[]")
+  service && service.regular_hour
+      ? JSON.parse(service.regular_hour || "[]")
       : [];
   const days = [
     "Sunday",
@@ -244,7 +208,7 @@ console.log(serviceDetails,"valueeee")
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
-          <Link to="/provider/services">
+          <Link to="/customer/Deals">
             <FaArrowLeft className="me-4 text-xl" />
           </Link>
           <h2 className="text-2xl font-semibold">Customer Details</h2>
@@ -275,7 +239,7 @@ console.log(serviceDetails,"valueeee")
                   <div className="flex">
                     <Link to="/provider/ProfileDetails">
                       <p className="font-semibold myhead me-2">
-                        {provider?.business_name}
+                        { service?.business_name}
                       </p>
                     </Link>
                     <div className="flex">
@@ -286,10 +250,10 @@ console.log(serviceDetails,"valueeee")
                     </div>
                   </div>
                   <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">{provider?.business_primary_category}</p>
+                    <p className="myblack pe-3 me-3 border-e">{ service?.business_primary_category}</p>
                     <div className="flex items-center">
                       <IoLocationOutline className="me-2 myblack" />
-                      <p className="myblack ">{provider?.business_location}</p>
+                      <p className="myblack ">{ service?.business_location}</p>
                     </div>
                   </div>
                   <div className="flex mt-2 items-center">
@@ -521,7 +485,7 @@ console.log(serviceDetails,"valueeee")
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {/* {userData?.user?.customer_notification 
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -529,7 +493,7 @@ console.log(serviceDetails,"valueeee")
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>}
+                </button>} */}
             </div>
           </div>
         </div>
