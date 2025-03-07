@@ -8,7 +8,7 @@ import Loader from "../../../../Components/MUI/Loader";
 import { usePublishMutation } from "../../../../services/settings";
 import { useUpdateCustomerDetailsMutation} from "../../../../services/settings";
 import { useGetCustomerDetailsQuery } from "../../../../services/settings";
-const MyDetailModule = ({ handleTabChange }) => {
+const MyDetailModule = ({ handleTabChange,publish }) => {
   const {
     register,
     handleSubmit,
@@ -262,13 +262,13 @@ const MyDetailModule = ({ handleTabChange }) => {
           >
             Cancel
           </button>
-          <button
+         {!publish &&<button
             type="submit"
             onClick={() => setValue("publish", true)}
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
           >
             Save & Publish
-          </button>
+          </button>}
           <button
             type="submit"
             className="border rounded-lg p-3 w-full text-white font-semibold bg-[#0F91D2]"
