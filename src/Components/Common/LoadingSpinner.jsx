@@ -15,7 +15,7 @@ const getSize = (size) => {
 
 export default function LoadingSpinner({ size }) {
   return (
-    <div className="flex justify-center items-center min-h-[50svh]">
+    <div className="flex justify-center items-center min-h-[20svh]">
       <div role="status">
         <svg
           aria-hidden="true"

@@ -19,6 +19,10 @@ export const END_POINTS = {
   USER_DETAILS: "/UserDetails",
   UPDATE_ADMIN: "/SuperAdmin/UpdatePersonal",
   UPDATE_SECURITY: "/SuperAdmin/Security",
+  SERVICE_PROVIDERS_SUMMARY: "/SuperAdmin/GetProvidersSummary",
+  SERVICE_REPS_SUMMARY: "/SuperAdmin/SaleSummary",
+  SERVICE_SUMMARY: "/SuperAdmin/ServiceSummary",
+  CLIENT_SUMMARY: "/SuperAdmin/GetClientsSummary",
   CUSTOM_ORDERS: "/OrdersList",
   GET_ORDER_DETAILS: "/GetOrderDetails",
   ORDER_CONFIRMED: "/OrderConfirm",
@@ -52,6 +56,8 @@ export const SALEREP_POINTS = {
     UPDATE_TASK:"/SaleRep/UpdateTask",
     VIEW_TASK:"/SaleRep/ViewTask",
     DELETE_TASK:"/SaleRep/DeleteTask",
+    GET_SERVICE_REVENUE:"/SaleRep/GetServiceRevenue",
+    GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport"
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
     EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"

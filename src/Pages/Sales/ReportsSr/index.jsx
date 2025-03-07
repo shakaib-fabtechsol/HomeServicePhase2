@@ -1,11 +1,11 @@
 import React from "react";
-import TableBlue from "../../Components/TableBlue";
+import TableBlue from "../../../Components/TableBlue";
 import { BsDownload, BsSliders } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useEffect,  } from "react";
+import ServicesTableSummary from "./ServiceCategoriesTable.jsx";
+import RevenueSummaryTable from "./RevenueSummaryTable.jsx";
 
 export default function ReportsSr() {
-  const salesHeader = ["Quarter", "Revenue ($)", "% Growth (QoQ)"];
-  const serviceHeader = ["Service Category", "Revenue ($)", "% Contribution"];
   const revenueHeader = [
     "Month",
     "New Client",
@@ -14,24 +14,7 @@ export default function ReportsSr() {
     <p className="text-wrap">Active Deals</p>,
     <p className="text-wrap">Commission Balance</p>,
   ];
-  const salesRows = [
-    ["Q1", "$55,00", "-"],
-    ["Q2", "$55,00", "19% ↑"],
-    ["Q3", "$55,00", "20% ↑"],
-    ["Q4", "$55,00", "25% ↑"],
-    [
-      <p className="font-bold">Total</p>,
-      <p className="font-bold">$55,00</p>,
-      <p className="font-bold">60% ↑</p>,
-    ],
-  ];
-  const serviceRows = [
-    ["Cleaning", "$55,00", "20%"],
-    ["Home Repair", "$55,00", "20%"],
-    ["Plumbing", "$55,00", "20%"],
-    ["Electrical", "$55,00", "20%"],
-    ["moving services", "$55,00", "20%"],
-  ];
+
   const revenueRows = [
     ["January", "100", "$20,000", "4.9 (457)", "200", "$200"],
     ["February", "100", "$20,000", "4.9 (457)", "200", "$200"],
@@ -85,18 +68,6 @@ export default function ReportsSr() {
       <p className="font-bold">2400</p>,
       <p className="font-bold">6000</p>,
     ],
-  ];
-  const summaries = [
-    {
-      title: "Quarterly Revenue Summary",
-      headers: salesHeader,
-      rows: salesRows,
-    },
-    {
-      title: "Top Service Categories by Revenue",
-      headers: serviceHeader,
-      rows: serviceRows,
-    },
   ];
 
   const comissionHeader = [
@@ -298,20 +269,9 @@ export default function ReportsSr() {
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {summaries.map((summary, index) => (
-          <div className="flex flex-col justify-between" key={index}>
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <p className="font-bold text-sm sm:text-base">{summary.title}</p>
-              <button className="text-[#0F91D2] border text-sm rounded-[4px] border-[#0F91D2] p-1 flex items-center gap-1 ms-auto">
-                <BsDownload />
-                <span>Export Data</span>
-              </button>
-            </div>
-            <div className="mt-2">
-              <TableBlue headers={summary.headers} rows={summary.rows} />
-            </div>
-          </div>
-        ))}
+        <RevenueSummaryTable/>
+        <ServicesTableSummary/>
+      
       </div>
       <div className="mt-4">
         <div className="flex items-center gap-2 flex-wrap justify-between">
