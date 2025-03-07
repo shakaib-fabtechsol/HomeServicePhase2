@@ -15,7 +15,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '100%',
+  maxWidth:'700px',
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius: 4,
@@ -377,7 +378,7 @@ const ChatApp = () => {
           <Typography sx={{ fontFamily: "inter", p: 2, }} id="modal-modal-title" variant="h6" component="h2">
             Create Offer
           </Typography>
-          <Typography id="modal-modal-description" sx={{ fontFamily: "inter", px: 2, pb: 2, overflowY: "auto", height: "calc(100vh - 120px)" }}>
+          <Typography id="modal-modal-description" sx={{ fontFamily: "inter", px: 2, pb: 2, overflowY: "auto", maxHeight: "calc(100dvh - 120px)", }}>
             <form action="">
               <div className="flex flex-col gap-2">
                 <label htmlFor="service" className="text-sm">Service</label>
