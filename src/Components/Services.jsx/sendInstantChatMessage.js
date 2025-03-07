@@ -11,7 +11,7 @@ export const sendInstantChatMessage = async (data) => {
     const socket = io(socketUrl, {
       // transports: ["websocket"], 
       extraHeaders: {
-        user_id: 2,
+        user_id: userId,
       },
     });
 

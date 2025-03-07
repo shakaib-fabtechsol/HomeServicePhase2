@@ -57,6 +57,14 @@ export const orderAPIs = BASE_API.injectEndpoints({
         { type: "OrderDetails", id: arg?.order_id },
       ],
     }),
+    createOffer: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.CREATE_OFFER,
+        method: "POST",
+        body: data,
+      }),
+    
+    }),
   }),
 });
 
@@ -67,4 +75,5 @@ export const {
   useAddOrderBeforeImagesMutation,
   useAddOrderAfterImagesMutation,
   useMarkOrderAsCompleteMutation,
+  useCreateOfferMutation,
 } = orderAPIs;
