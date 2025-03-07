@@ -11,6 +11,18 @@ export const salesrepAPIs = BASE_API.injectEndpoints({
       providesTags: ["TASKS"]
     }),
    
+    getServiceCategoriesSummary: builder.query({
+      query: () => ({
+        url: SALEREP_POINTS.GET_SERVICE_REVENUE,
+      }),
+    }),
+   
+    getRevenueSummary: builder.query({
+      query: () => ({
+        url: SALEREP_POINTS.GET_REVENUE_SUMMARY,
+      }),
+    }),
+   
     addOrUpdateTask: builder.mutation({
       query: ({isUpdating,formData}) => ({
         url: isUpdating?`${SALEREP_POINTS?.UPDATE_TASK}`:SALEREP_POINTS?.Add_TASK,
@@ -29,4 +41,4 @@ export const salesrepAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const { useGettaskByIdQuery,useGettasksQuery, useAddOrUpdateTaskMutation,useDeleteTaskMutation} = salesrepAPIs;
+export const { useGettaskByIdQuery,useGetServiceCategoriesSummaryQuery,useGettasksQuery, useAddOrUpdateTaskMutation,useDeleteTaskMutation,useGetRevenueSummaryQuery} = salesrepAPIs;
