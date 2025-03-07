@@ -11,7 +11,7 @@ import ChannelConversation from "../../Components/ProviderSetting/ChannelConvers
 import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
 import Publish from "../../Components/ProviderSetting/Publish";
-import { useGetUserDetailsQuery } from "../../services/settings";
+import { useAddPaymentDetailsMutation, useGetMyDetailsQuery, useGetUserDetailsQuery } from "../../services/settings";
 import { setUser } from "../../redux/reducers/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -76,7 +76,7 @@ function Settings() {
     },
     {
       label: "Payment/Payout Info",
-      content: <Payment handleTabChange={handleTabChange} />,
+      content: <Payment handleTabChange={handleTabChange} useGetMyDetailsQuery={useGetMyDetailsQuery} useAddPaymentDetailsMutation={useAddPaymentDetailsMutation} />,
     },
     {
       label: "Publish",

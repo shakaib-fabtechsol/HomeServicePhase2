@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import Facebook from "../../assets/img/Facebook-icon.png";
@@ -35,21 +36,18 @@ const SocialProfile = () => {
     return urlPattern.test(url);
   };
 
-  const handleChange = (e) => {
-    const socialKey = selectedSocial.name.toLowerCase().replace(" ", "_");
-    const value = e.target.value;
 
-    setFormData({ ...formData, [socialKey]: value });
 
-    if (value && !validateUrl(value)) {
-      setErrors({
-        ...errors,
-        [socialKey]: `Please enter a valid ${selectedSocial.name} URL`,
-      });
-    } else {
-      setErrors({ ...errors, [socialKey]: "" });
-    }
-  };
+import SocialProfileModule from "../../modules/settings/provider-settings/SocialProfile";
+import {
+  useAddSocialProfileMutation,
+  useDeleteSocialProfileMutation,
+ 
+} from "../../../src/services/settings";
+const SocialProfile = ({ handleTabChange }) => {
+
+
+  return <SocialProfileModule handleTabChange={handleTabChange} useAddSocialProfileMutation={useAddSocialProfileMutation} useDeleteSocialProfileMutation={useDeleteSocialProfileMutation} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -284,6 +282,7 @@ const SocialProfile = () => {
       )}
     </div>
   );
+
 };
 
 export default SocialProfile;

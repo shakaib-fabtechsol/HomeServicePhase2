@@ -1,15 +1,28 @@
 
 import { BASE_API } from '../base-api';
 export const dashboardAPIs = BASE_API.injectEndpoints({
-  endpoints: (builder) => ({
+    endpoints: (builder) => ({
 
-    getSuperDashboard: builder.query({
-      query: (id) => ({
-        url:`/SuperAdmin/SuperAdminDashboard`,
-      }),
+        getSuperDashboard: builder.query({
+            query: () => ({
+                url: `/SuperAdmin/SuperAdminDashboard`,
+            }),
+        }),
+
+        getSalesdashboard: builder.query({
+
+            query: () => ({
+                url: `/SaleRep/Dashboard`,
+            })
+        }),
+        getallsalesdealsbuilder:builder.query({
+
+            query: () => ({
+                url: `/SaleRep/RecenltyPublishDeals`,
+            })
+        })
+
     }),
-
-  }),
 });
 
-export const {useGetSuperDashboardQuery} = dashboardAPIs;
+export const { useGetSuperDashboardQuery,useGetSalesdashboardQuery,useGetallsalesdealsbuilderQuery } = dashboardAPIs;
