@@ -25,7 +25,7 @@ import {
   useGetUserDetailsQuery,
   useDeleteDealMutation,
 } from "../../services/base-api/index";
-import { ContactProModal } from "./contactProModal";
+import { ContactProModal } from "./ContactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
 
