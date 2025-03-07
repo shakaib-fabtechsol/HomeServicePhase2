@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PasswordModule from "../../modules/settings/provider-settings/Password";
+import { useUpdateCustomerPasswordMutation } from "../../services/settings";
 const Password = ({ handleTabChange }) => {
   const [formData, setFormData] = useState({});
 
@@ -88,7 +89,7 @@ const Password = ({ handleTabChange }) => {
     //     </div>
     //   </form>
     // </div>
-    <PasswordModule handleTabChange={handleTabChange} />
+    <PasswordModule handleTabChange={handleTabChange} useUpdateCustomerPasswordMutation={useUpdateCustomerPasswordMutation} />
   );
 };
 
