@@ -133,7 +133,7 @@ const [searchQuery, setSearchQuery] = useState("");
               </div>
             </div>
             <div className="flex mt-2 items-center">
-                               <div className="flex me-2">
+              <div className="flex me-2">
                                  <FaRegCalendarAlt className="me-2" />
                                  <p className="text-sm myblack">
                                    {currentDayData ? (
@@ -165,8 +165,7 @@ const [searchQuery, setSearchQuery] = useState("");
                                    ) : (
                                      "Closed"
                                    )}
-                                 </p>
-                               </div>
+                                 </p></div>
                              </div>
           </div>
         </div>

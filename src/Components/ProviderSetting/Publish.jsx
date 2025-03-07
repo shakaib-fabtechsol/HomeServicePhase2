@@ -91,7 +91,7 @@ export default function Publish() {
       title: "Insurance",
       content: (
         <Insurance
-          insurance_photo={userData?.businessProfile?.insurance_certificate}
+          insurance_photo={userData?.businessProfile[0]?.insurance_certificate}
         />
       ),
     },
@@ -195,8 +195,10 @@ const handleSubmit = async (e) => {
         title: "Success!",
         text: response.message || "Deal updated successfully.",
         confirmButtonColor: "#0F91D2",
+      }).then(() => {
+        navigate("/provider/services");
       });
-    } else {
+    }  else {
       Swal.fire({
         icon: "error",
         title: "Error!",
