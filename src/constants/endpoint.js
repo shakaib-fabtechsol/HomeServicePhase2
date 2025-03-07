@@ -57,7 +57,7 @@ export const SALEREP_POINTS = {
     VIEW_TASK:"/SaleRep/ViewTask",
     DELETE_TASK:"/SaleRep/DeleteTask",
     GET_SERVICE_REVENUE:"/SaleRep/GetServiceRevenue",
-    GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport"
+    GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
     EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"

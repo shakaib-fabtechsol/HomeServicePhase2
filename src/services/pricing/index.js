@@ -11,6 +11,13 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ["Pricing"],
     }),
+    getpricing1: builder.query({
+      query: (id) => ({
+        url:`/GetInformationPrice`,
+      }),
+      providesTags: ["Pricing"],
+    }),
+
 
     updatePricing: builder.mutation({
       query: (data) => ({
@@ -25,4 +32,4 @@ export const serviceProviderAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const {useGetpricingQuery,useUpdatePricingMutation } = serviceProviderAPIs;
+export const {useGetpricingQuery,useGetpricing1Query,useUpdatePricingMutation } = serviceProviderAPIs;

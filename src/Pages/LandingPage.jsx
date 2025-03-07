@@ -5,7 +5,6 @@ import HeroSection from "../Components/Common/HeroSection";
 import Down from "../assets/img/chevronDown.png";
 import axios from "axios";
 import {useSelector} from "react-redux";
-
 function LandingPage() {
   useEffect(() => {
     document.title = "Landing Page";
@@ -95,8 +94,15 @@ function LandingPage() {
     },
   ];
 
+  useEffect(() => {
+    if (services.length > 0) {
+      setLoading(false);
+    }
+  }, [services]);
+
   return (
     <>
+      
       <div className="">
         <div className="mycontainer">
           <HeroSection />
@@ -181,48 +187,52 @@ function LandingPage() {
           </div>
           <h2 className="text-xl font-semibold mt-5">Featured Deals</h2>
           <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-          {services.length > 0 ? (
-          services
-            .map((service) => (
-              <ServiceBox
-                key={service.id}
-                title={service.service_title}
-                price={
-                  service.pricing_model === "Flat"
-                    ? service.flat_rate_price
-                    : service?.pricing_model == "Hourly"
-                    ? service.hourly_final_list_price
-                    : service.price1
-                }
-                tags={service.search_tags}
-                image={service.images}
-                publish={service.publish}
-                userimg={service.userimg}
-                username={service.user_name}
-                description={service.service_description}
-                category={service.service_category}
-                dealid={service.id}
-                Rating={service.rating}
-                Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
-                videos={service.videos}
-                imgs={service.images}
-                Days={
-                  service.pricing_model === "Flat"
-                    ? service.flat_estimated_service_time
-                    : service?.pricing_model == "Hourly"
-                    ? service.hourly_estimated_service_time
-                    : service.estimated_service_timing
-                }
-                totalReviews={service.totalReviews}
-              />
-            ))
-        ) : (
-          <p>No services found</p>
-        )}
-          </div>
+    {loading  ? (
+      <div className="w-full flex justify-center items-center">
+        <p className="text-gray-500 text-lg">Loading...</p>
+      </div>
+    ) : services.length > 0 ? (
+      services.map((service) => (
+        <ServiceBox
+          key={service.id}
+          title={service.service_title}
+          price={
+            service.pricing_model === "Flat"
+              ? service.flat_rate_price
+              : service?.pricing_model == "Hourly"
+              ? service.hourly_final_list_price
+              : service.price1
+          }
+          tags={service.search_tags}
+          image={service.images}
+          publish={service.publish}
+          userimg={service.personal_image}
+          username={service.user_name}
+          description={service.service_description}
+          category={service.service_category}
+          dealid={service.id}
+          Rating={service.rating}
+          Liked={service.Liked}
+          serviceDetailTo={`/provider/dealDetails/${service.id}`}
+          videos={service.videos}
+          imgs={service.personal_image}
+          Days={
+            service.pricing_model === "Flat"
+              ? service.flat_estimated_service_time
+              : service?.pricing_model == "Hourly"
+              ? service.hourly_estimated_service_time
+              : service.estimated_service_timing
+          }
+          totalReviews={service.totalReviews}
+        />
+      ))
+    ) : (
+      <p>No services found</p>
+    )}
+  </div>
         </div>
       </div>
+    
     </>
   );
 }

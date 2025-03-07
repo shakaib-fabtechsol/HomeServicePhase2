@@ -65,10 +65,11 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   } = useGetDealQuery(deal_id, {
     skip: !deal_id || !token,
   });
-  const { data: userData, isLoading: userLoading } = useGetUserDetailsQuery(
-    dealid,
-    { skip: !token || !dealid }
-  );
+  const {
+     data: userData,
+     isLoading: userLoading,
+ 
+   } = useGetUserDetailsQuery();
   const handleChange = (event, newValue) => {
     setValued(newValue);
   };
@@ -350,17 +351,20 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     }
   };
 
-  const provider = userData?.businessProfile?.[0] || {};
-  const imagePath = provider?.business_logo;
+  const provider = userData?.businessProfile[0] || {};
+  console.log(userData?.businessProfile[0],"valueeeeeeeee")
+  console.log(provider,"value");
+  const imagePath = userData?.businessProfile[0]?.business_logo;
 
   const imageUrl = imagePath
   ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
   : "/service1.png";
 
   const regularHours =
-    provider && provider.length > 0
-      ? JSON.parse(provider.regular_hour || "[]")
-      : [];
+  userData?.businessProfile[0]?.regular_hour
+    ? JSON.parse(userData.businessProfile[0].regular_hour || "[]")
+    : [];
+
 
   const days = [
     "Sunday",
@@ -376,6 +380,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     (item) => item.day_name === currentDay
   );
 
+ console.log(regularHours)
   return (
     <>
       {dealid && !isApiLoaded ? (
@@ -403,11 +408,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                     />
                     <div className="my-2">
                       <div className="flex">
-                        <Link to="/provider/ProfileDetails">
                           <p className="font-semibold myhead me-2">
                             {provider?.business_name}
                           </p>
-                        </Link>
                         <div className="flex">
                           <IoIosStar className="me-2 text-[#F8C600]" />
                           <p className="myblack text-sm">
@@ -423,7 +426,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                         <div className="flex items-center">
                           <IoLocationOutline className="me-2 myblack" />
                           <p className="myblack ">
-                            {provider?.business_location}
+                          {provider?.business_location}
                           </p>
                         </div>
                       </div>
@@ -447,10 +450,10 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                             {currentDayData?.day_status === "open" ? (
                               <>
                                 Closed {currentDayData.regular_hour[0].end_time}{" "}
-                                {currentDayData.regular_hour[0].end_time.includes(
+                                {currentDayData.regular_hour.end_time?.includes(
                                   "AM"
                                 ) ||
-                                currentDayData.regular_hour[0].end_time.includes(
+                                currentDayData.regular_hour[0].end_time?.includes(
                                   "PM"
                                 )
                                   ? ""
