@@ -5,7 +5,9 @@ export const END_POINTS = {
   GET_USER: "/get-user",
   TERMS_UPDATE: "/UpdateUser",
   MY_DETAILS: "/MyDetails",
- 
+  CUSTOMER_DETAILS:"/Customer/MyDetail",
+  ADD_CUSTOMER_PROFILE:"/Customer/AddSocial",
+  UPDATE_CUSTOMER_PASSWORD:"/Customer/NewPassword",
   BUSINESS_PROFILE: "/BusinessProfile",
   ADD_CERTIFICATE_HOURS: "/AddCertificateHours",
   ADD_ADDITIONAL_INFO: "/AdditionalPhotos",
@@ -16,6 +18,7 @@ export const END_POINTS = {
   ADD_PAYMENT_DETAILS: "/AddPaymentDetails",
   ADD_BUSINESS_LOCATION: "/AddBusinessLocation",
   SETTING_PUBLISH: "/SettingPublish",
+  CUSTOMER_PUBLISH: "/SettingPublish",
   USER_DETAILS: "/UserDetails",
   UPDATE_ADMIN: "/SuperAdmin/UpdatePersonal",
   UPDATE_SECURITY: "/SuperAdmin/Security",
@@ -57,7 +60,7 @@ export const SALEREP_POINTS = {
     VIEW_TASK:"/SaleRep/ViewTask",
     DELETE_TASK:"/SaleRep/DeleteTask",
     GET_SERVICE_REVENUE:"/SaleRep/GetServiceRevenue",
-    GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport"
+    GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
     EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"

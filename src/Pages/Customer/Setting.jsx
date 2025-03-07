@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
-import MyDetail from "../../Components/ProviderSetting/MyDetail";
-import ServiceArea from "../../Components/ProviderSetting/ServiceArea";
-import BusinessProfile from "../../Components/ProviderSetting/BusinessProfile";
-import CertificationHour from "../../Components/ProviderSetting/CertificationHour";
-import AdditionalInfo from "../../Components/ProviderSetting/AdditionalInfo";
-import SocialProfile from "../../Components/ProviderSetting/SocialProfile";
-import Password from "../../Components/ProviderSetting/Password";
-import ChannelConversation from "../../Components/ProviderSetting/ChannelConversation";
+import MyDetail from "../../Components/ProviderSetting/CustomerDetail";
 import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
+import CustomerSocial from "../../Components/ProviderSetting/CustomerSocial";
+import PasswordModule from "../../modules/settings/provider-settings/Password";
+import { useAddPaymentDetailsMutation, useGetCustomerDetailsQuery, useGetMyDetailsQuery, useUpdatePasswordCustomerMutation } from "../../services/settings";
 
 function Setting() {
   const [value,setValue]=useState(0);
   useEffect(() => {
     document.title = "Setting";
   }, []);
-  
-  const tabData = [
-    { label: "My details", content: <MyDetail /> },
-    { label: "Social Profiles", content: <SocialProfile /> },
-    { label: "Password", content: <Password /> },
-    { label: "Notification", content: "Notification" },
-    { label: "Payment/Payout Info", content: <Payment /> },
-  ];
-
   const onchange=(input)=>{
     setValue(input)
   }
+  const tabData = [
+    { label: "My details", content: <MyDetail handleTabChange={onchange} /> },
+    { label: "Social Profiles", content: <CustomerSocial handleTabChange={onchange} /> },
+    { label: "Password", content: <PasswordModule handleTabChange={onchange} useUpdateCustomerPasswordMutation={useUpdatePasswordCustomerMutation} /> },
+    { label: "Notification", content: "Notification" },
+    { label: "Payment/Payout Info", content: <Payment handleTabChange={onchange} useGetMyDetailsQuery={useGetCustomerDetailsQuery} useAddPaymentDetailsMutation={useAddPaymentDetailsMutation} /> },
+  ];
+
+
 
   return (
     <div>

@@ -12,10 +12,17 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ["USER_DETAILS"],
     }),
-   
+
     publish: builder.mutation({
       query: (params) => ({
         url: END_POINTS.SETTING_PUBLISH + `/${params}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["USER_DETAILS"],
+    }),
+    Customerpublish: builder.mutation({
+      query: (params) => ({
+        url: END_POINTS.CUSTOMER_PUBLISH + `/${params}`,
         method: "GET",
       }),
       invalidatesTags: ["USER_DETAILS"],
@@ -29,13 +36,21 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["USER_DETAILS"],
     }),
+    updateCustomerDetails: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.CUSTOMER_DETAILS,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["USER_DETAILS"],
+    }),
 
     getMyDetails: builder.query({
       query: () => ({
         url: END_POINTS.USER_DETAILS,
         method: "GET",
       }),
-      providesTags: ["USER_DETAILS"], 
+      providesTags: ["USER_DETAILS"],
     }),
     updateBusinessProfile: builder.mutation({
       query: (data) => ({
@@ -71,6 +86,15 @@ export const settingsAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["USER_DETAILS"],
     }),
+    addCustomerSocial: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.ADD_CUSTOMER_PROFILE,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["USER_DETAILS"],
+    }),
+
     deleteSocialProfile: builder.mutation({
       query: (data) => ({
         url: END_POINTS.SOCIAL_DELETE,
@@ -86,6 +110,14 @@ export const settingsAPIs = BASE_API.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["USER_DETAILS"],
+    }),
+    UpdatePasswordCustomer: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.UPDATE_CUSTOMER_PASSWORD,
+        method: "POST",
+        body: data,
+      }),
+      // invalidatesTags: ["USER_DETAILS"],
     }),
 
     addConversation: builder.mutation({
@@ -119,12 +151,15 @@ export const settingsAPIs = BASE_API.injectEndpoints({
 export const {
   usePublishMutation,
   useUpdateMyDetailsMutation,
+  useUpdateCustomerDetailsMutation,
   useUpdateBusinessProfileMutation,
   useAddCertificateHoursMutation,
   useAddAdditionalInfoMutation,
   useAddSocialProfileMutation,
+  useAddCustomerSocialMutation,
   useDeleteSocialProfileMutation,
   useUpdateCustomerPasswordMutation,
+  useUpdatePasswordCustomerMutation,
   useAddConversationMutation,
   useAddPaymentDetailsMutation,
   useAddBusinessLocationMutation,
@@ -147,8 +182,23 @@ export const settingsAPIsforSales = BASE_API.injectEndpoints({
         body: data,
       }),
     }),
-   
+    getCustomerDetails: builder.query({
+
+      query: (id) => ({
+        url: `/Customer/DetailUser/${id}`
+      })
+
+    }),
+
+    getMyDetails: builder.query({
+
+      query: (id) => ({
+        url: `/UserDetails`
+      })
+
+    })
+
   }),
 });
 
-export const { useUpdateSalesMutation,useUpdateSalesPasswordMutation,useGetMyDetailsQuery } = settingsAPIsforSales;
+export const { useUpdateSalesMutation, useUpdateSalesPasswordMutation, useGetCustomerDetailsQuery,useGetMyDetailsQuery } = settingsAPIsforSales;

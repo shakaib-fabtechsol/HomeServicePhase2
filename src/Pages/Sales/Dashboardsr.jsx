@@ -9,29 +9,54 @@ import ServiceDet from "../../assets/img/service-det.png";
 import provider from "../../assets/img/client1.png";
 import { Link } from "react-router-dom";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
+import { useGetSalesdashboardQuery } from "../../services/dashboard";
+import Loader from "../../Components/MUI/Loader";
+import RemoteError from "../../Components/Common/RemoteError";
+const BASE_URL = import.meta.env.VITE_BASE_URL
+import camera from "../../assets/img/userprofile.png";
 
 export default function Dashboardsr() {
+  const { data, isLoading, isError, error } = useGetSalesdashboardQuery();
+  const [inputselect,setInputSelect]=useState("weekly_revenue")
+
+
+  console.log(data, "this is data for the sales dashboard")
+
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
   const cardsdata = [
-    { title: "Total Revenue By Pro", value: "$3,318", percent: "+6.08%" },
+    { title: "Total Revenue By Pro", value: data?.totalRevenue||0, 
+      // percent: "+6.08%" 
+    },
     {
       title: "Total Commissions",
-      value: "3,318",
-      percent: "+6.08%",
+      value: data?.commission||0,
+      // percent: "+6.08%",
     },
-    { title: "Assigned Pros", value: "4,070", percent: "+6.08%" },
-    { title: "New Pros", value: "300", percent: "+6.08%" },
-    { title: "Recently Published Deals", value: "200", percent: "+6.08%" },
+    {
+      title: "Assigned Pros", value: data?.assignPros || 0
+      ,
+      // percent: "+6.08%"
+    },
+    {
+      title: "New Pros",
+      value: data?.newPros || 0,
+      //  percent: "+6.08%"
+    },
+    {
+      title: "Recently Published Deals",
+      value: data?.recentDeal || 0,
+      // percent: "+6.08%" 
+    },
   ];
 
   const chartData = {
-    labels: ["Cleaning", "Home Repair", "Electrical", "Plumbing"],
+    labels: [data?.top_catogory_revenue[0].category||"",data?.top_catogory_revenue[1].category||"", data?.top_catogory_revenue[2].category||"",],
     datasets: [
       {
         label: "Revenue",
-        data: [550, 400, 1500, 1500],
+        data: [data?.top_catogory_revenue[0]?.revenue||0, data?.top_catogory_revenue[1]?.revenue||0, data?.top_catogory_revenue[2]?.revenue||0],
         backgroundColor: ["#0F91D2B2", "#43B442B2", "#FB8603B2", "#535862"],
         borderWidth: 1,
       },
@@ -68,36 +93,47 @@ export default function Dashboardsr() {
     },
   ];
 
-  const tablerows = orders.map((order) => [
+  const getimage = (img) => {
+    const imgdata = JSON.parse(img)
+    return imgdata?.length ? `${BASE_URL}/uploads/${imgdata[0]}` : ""
+
+  }
+
+
+  const tablerows = data?.recetPublishDeals?.map((order) => [
     <div className="flex items-center gap-2">
       <img
-        src={order.serviceimg}
+        src={getimage(order.images)}
         alt=""
         className="w-[90px] max-w-[90px] h-[70px] rounded-lg object-cover"
       />
       <div>
         <p className="text-nowrap text-sm text-[#181D27]">
-          {order.serviceName}
+          {order?.service_title}
         </p>
         <p className="text-xs text-wrap text-[#535862] line-clamp-2 w-[200px]">
-          {order.description}
+          {order?.service_description}
         </p>
         <div className="flex items-center gap-1">
           <p className="text-[10px] text-[#535862]">Starting Price:</p>
-          <p className="font-extrabold text-lg text-[#181D27]">{order.price}</p>
+          <p className="font-extrabold text-lg text-[#181D27]">  {order.pricing_model === "Flat"
+            ? order.flat_rate_price
+            : order.pricing_model === "Hourly"
+              ? order.hourly_rate
+              : order.price1}</p>
         </div>
       </div>
     </div>,
     <div className="flex items-center gap-2">
       <img
         className="size-9 max-w-9 object-cover rounded-full"
-        src={order.prologo}
+        src={order?.personal_image ? `${BASE_URL}/uploads/${order?.personal_image}` : camera}
         alt="img"
       />
-      <p>{order.proname}</p>
+      <p>{order?.name}</p>
     </div>,
-    <p className="text-[#181D27] text-sm">{order.Category}</p>,
-    <p className="text-[#181D27] text-sm">{order.date}</p>,
+    <p className="text-[#181D27] text-sm">{order?.service_category}</p>,
+    <p className="text-[#181D27] text-sm">{new Date(order?.created_at)?.toDateString()}</p>,
   ]);
 
   const linelabels = [
@@ -114,13 +150,29 @@ export default function Dashboardsr() {
     "Nov",
     "Dec",
   ];
-
+  const linedata={
+    monthly_revenue:{
+      linelabels:data?.monthly_revenue?.map((item)=>{return item?.day})||[],
+      data:data?.monthly_revenue?.map((item)=>{return item?.revenue})||[],
+      label:"This Day"
+    },
+    weekly_revenue:{
+      linelabels:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      data:data?.weekly_revenue?.map((item)=>{return item?.revenue})||[],
+      label:"This Day"
+    },
+    yearly_revenue:{
+      linelabels:linelabels,
+      data:data?.yearly_revenue?.map((item)=>{return item?.revenue})||[],
+      label:"This Month"
+    },
+  }
   const linechartData = {
-    labels: linelabels,
+    labels: linedata[inputselect]?.linelabels||[],
     datasets: [
       {
-        label: "This Month",
-        data: [50, 200, 200, 300, 260, 200, 340, 380, 420, 300, 250, 200],
+        label:linedata[inputselect]?.label,
+        data: linedata[inputselect]?.data||[],
         borderColor: "#0F91D2",
         pointRadius: 5,
         backgroundColor: "#000000",
@@ -128,6 +180,19 @@ export default function Dashboardsr() {
       },
     ],
   };
+
+
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (isError) {
+
+    return <RemoteError message={error?.message} hasError={isError} />
+  }
+
+
+
 
   return (
     <div>
@@ -201,17 +266,21 @@ export default function Dashboardsr() {
                 backgroundPosition: "calc(100% - 10px)",
                 backgroundSize: "10px",
               }}
+              value={inputselect}
+              onChange={(e)=>{
+                setInputSelect(e.target.value)
+              }}
               className="pe-7 text-sm bg-no-repeat appearance-none py-1 px-5 outline-none rounded-[8px] bg-[#0000000A] text-black"
               name=""
               id=""
             >
-              <option className="bg-white text-black" value="">
+              <option className="bg-white text-black" value="yearly_revenue">
                 Yearly
               </option>
-              <option className="bg-white text-black" value="">
+              <option className="bg-white text-black" value="monthly_revenue">
                 Last 30 days
               </option>
-              <option className="bg-white text-black" value="">
+              <option className="bg-white text-black" value="weekly_revenue">
                 Last 7 days
               </option>
             </select>
