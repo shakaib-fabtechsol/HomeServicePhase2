@@ -30,7 +30,7 @@ const {
   } = useGetUserDetailsQuery();
 
   const provider = userData?.user || {};
-  console.log(provider,"valueeeeeeeeeeeee");
+  // console.log(provider,"valueeeeeeeeeeeee");
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

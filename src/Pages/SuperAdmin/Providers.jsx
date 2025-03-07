@@ -17,8 +17,8 @@ import camera from "../../assets/img/userprofile.png";
 export default function Providers() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const [search, setSearch] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
   const [Banupdate, { isLoading: loading, error,status }] = useBanProviderMutation()
   const { data, isLoading, isFetching, isError } = useGetprovidersQuery({ page: page + 1, providers: rowsPerPage, search: search });
   useEffect(() => {
@@ -60,10 +60,10 @@ export default function Providers() {
 
   const updatestatus = async (id) => {
     try {
-      await Banupdate({ id }).unwrap();
+     const response= await Banupdate({ id }).unwrap();
       Swal.fire({
         icon: "success",
-        text: "Provider Ban Successfully",
+        text: response?.message,
         timer: 1500,
         showConfirmButton: false,
       })
@@ -118,7 +118,7 @@ export default function Providers() {
     "Ban",
   ];
 
-  console.log(data?.serviceProviders?.data, "sdkjsfksdfsjdfksdjfksdj")
+
 
   const tablebody = data?.serviceProviders?.data?.map((provider, index) => [
     <FormControlLabel

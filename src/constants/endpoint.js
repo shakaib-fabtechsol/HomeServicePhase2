@@ -58,6 +58,9 @@ export const SALEREP_POINTS = {
     DELETE_TASK:"/SaleRep/DeleteTask",
     GET_SERVICE_REVENUE:"/SaleRep/GetServiceRevenue",
     GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport"
+    GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
+    GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
 
 }
 export const SALE_POINTS = {
@@ -75,7 +78,12 @@ export const SALE_POINTS = {
    }
    
    export const PROVIDER_CONTACT_PRO={
-    GET_RECORDS:"/contact-pro/provider",
+    GET_RECORDS:"/api/contact-pro/provider",
+    SEND_CALL:"/api/contact-pro/send-call-sms",
+    SEND_SMS:"/api/contact-pro/send-sms",
+    SEND_INSTANT_MESSAGE:"/api/contact-pro/send-instant-chat",
+    SEND_EMAIL:"/api/contact-pro/send-email",
+    SEND_GET_DIRECTION:"/api/contact-pro/send-get-direction",
     }
    
   

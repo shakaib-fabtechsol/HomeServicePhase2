@@ -25,6 +25,9 @@ import {
   useGetUserDetailsQuery,
   useDeleteDealMutation,
 } from "../../services/base-api/index";
+import { ContactProModal } from "./contactProModal";
+import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
+import { toast } from "react-toastify";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +59,11 @@ function a11yProps(index) {
 
 function ServiceDetail() {
   const { dealid } = useParams();
+  const [callPro] = useCallProApiMutation();
+  const [textPro] = useTextProApiMutation();
+  const [chatPro] = useChatProApiMutation();
+  const [emailPro] = useEmailProApiMutation();
+  const [getDirections] = useGetDirectionsApiMutation();
   useEffect(() => {
     document.title = "Service Details";
   }, []);
@@ -68,16 +76,18 @@ function ServiceDetail() {
     isLoading: dealLoading,
   } = useGetDealQuery(dealid, { skip: !dealid });
   const serviceDetails = dealData?.deal;
- 
+
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
   const {
     data: userData,
     isLoading: userLoading,
-  
+
   } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
 
-  const provider = userData?.businessProfile[0]|| {};
-  console.log(provider,"valueeeeeeeeeeeee");
+  const provider = userData?.businessProfile[0] || {};
+  console.log(provider, "valueeeeeeeeeeeee");
+  console.log("dealData", dealData,);
+  console.log("userData", userData,);
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -113,21 +123,75 @@ function ServiceDetail() {
   };
 
   const [contactopen, setContactOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [contactModal, setContactModal] = useState("");
   const handlecontactOpen = () => setContactOpen(true);
   const handlecontactClose = () => setContactOpen(false);
+  const handleModalClose = (e) => { setContactModal("") };
+  const handleSubmitApi = async (modalType, formData) => {
+    if (!formData || !formData?.providerId) {
+      toast.info("Invalid Data")
+      return
+    }
+    if (!formData?.providerId) {
+      toast.info("Invalid Request")
+      return
+    }
+    if (!formData?.dealId) {
+      toast.info("Invalid DealId")
+      return
+    }
+    setLoading(true)
+    let location;
+    try {
+      switch (modalType) {
+        case "Call Pro":
+          await callPro(formData).unwrap();
+          break;
+        case "Text Pro":
+          await textPro(formData).unwrap();
+          break;
+        case "Instant Chat":
+          await chatPro(formData).unwrap();
+          break;
+        case "Email Pro":
+          await emailPro(formData).unwrap();
+          break;
+        case "Get Directions":
+          const responseLocation = await getDirections(formData).unwrap();
+          if (responseLocation?.success) {
+            // setLocation(responseLocation?.data?.location)
+            location = responseLocation?.data?.location
+          }
+          break;
+        default:
+          console.error("Invalid modal type");
+      }
+      setLoading(false)
+      Swal.fire({
+        icon: "success",
+        title: `${modalType} submitted`,
+        text: location || '',
+      });
+      handleModalClose();
+    } catch (error) {
+      console.error("API request failed:", error);
+    } finally {
+      setLoading(false)
+    }
+  };
 
   const modalContacts = [
-    { path: "#", Icon: <FiPhone />, title: "Call Pro: (785) 712-6532" },
+    { Icon: <FiPhone />, title: "Call Pro" },
     {
-      path: "#",
+
       Icon: <BiMessageSquareDetail />,
-      title: "Text Pro: (708) 813-8989",
+      title: "Text Pro",
     },
-    { path: "#", Icon: <BiMessageAltDetail />, title: "Instant Chat" },
-    { path: "#", Icon: <TbMailDown />, title: "Email Pro" },
-    { path: "#", Icon: <PiChats />, title: "Direct Form" },
+    { Icon: <BiMessageAltDetail />, title: "Instant Chat" },
+    { Icon: <TbMailDown />, title: "Email Pro" },
     {
-      path: "#",
+
       Icon: <IoLocationOutline />,
       title: "Get Directions",
     },
@@ -140,7 +204,7 @@ function ServiceDetail() {
     return <div>No service details available.</div>;
   }
 
- 
+
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
@@ -166,9 +230,9 @@ function ServiceDetail() {
 
   let imageArray = [];
 
-  if (typeof  dealData?.deal?.images === "string") {
+  if (typeof dealData?.deal?.images === "string") {
     try {
-      imageArray = JSON.parse( dealData?.deal.images);
+      imageArray = JSON.parse(dealData?.deal.images);
     } catch (error) {
       console.error("Error parsing images:", error);
     }
@@ -178,7 +242,7 @@ function ServiceDetail() {
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/service1.png";
-  return (
+  return (<>
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
@@ -265,9 +329,9 @@ function ServiceDetail() {
                             {currentDayData.regular_hour.end_time?.includes(
                               "AM"
                             ) ||
-                            currentDayData.regular_hour[0].end_time?.includes(
-                              "PM"
-                            )
+                              currentDayData.regular_hour[0].end_time?.includes(
+                                "PM"
+                              )
                               ? ""
                               : currentDayData.regular_hour[0].end_time >= 12
                                 ? "PM"
@@ -293,14 +357,18 @@ function ServiceDetail() {
                     <p className="text-lg font-semibold">Contact Pro</p>
                     <div className="flex flex-col gap-3 mt-4">
                       {modalContacts.map((contact, index) => (
-                        <Link
+                        <div
+                          onClick={() => {
+                            setContactModal(contact?.title)
+                            handlecontactClose()
+                          }}
                           key={index}
-                          className="bg-[#FB8803] text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
-                          to={contact.path}
+                          className="bg-[#FB8803] cursor-pointer text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
+                        // to={contact.path}
                         >
                           <span className="text-[24px]">{contact.Icon}</span>
                           <span>{contact.title}</span>
-                        </Link>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -468,13 +536,15 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              <button
-                onClick={handlecontactOpen}
-                className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
-              >
-                <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
-                <span>Contact Pro</span>
-              </button>
+              {userData?.user?.customer_notification 
+                &&
+                <button
+                  onClick={handlecontactOpen}
+                  className="flex mt-3 lg:mt-0 py-3 justify-center items-center px-6 font-semibold rounded-lg text-[#fff] bg-[#FB8803]"
+                >
+                  <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
+                  <span>Contact Pro</span>
+                </button>}
             </div>
           </div>
         </div>
@@ -482,15 +552,15 @@ function ServiceDetail() {
           <div className="flex flex-wrap mt-3">
             <div className="flex flex-wrap mt-3">
               {serviceDetails?.search_tags &&
-              serviceDetails?.search_tags.length > 0
+                serviceDetails?.search_tags.length > 0
                 ? serviceDetails?.search_tags.split(",").map((tag, index) => (
-                    <span
-                      key={index}
-                      className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
-                    >
-                      {tag.trim()}
-                    </span>
-                  ))
+                  <span
+                    key={index}
+                    className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
+                  >
+                    {tag.trim()}
+                  </span>
+                ))
                 : "No tags available"}
             </div>
           </div>
@@ -503,7 +573,13 @@ function ServiceDetail() {
         </div>
       </div>
     </div>
-  );
+    {
+      contactModal && <ContactProModal loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
+        submitApi={handleSubmitApi}
+
+      />
+    }
+  </>);
 }
 
 export default ServiceDetail;

@@ -3,10 +3,10 @@ import Table from "../../Components/Table";
 import pro1 from "../../assets/img/userimg.png";
 import ConversationHeader from "./ConversationHeader";
 
-export default function EmailPro() {
+export default function EmailPro({data}) {
   const serviceConversations = [
     {
-      logo: pro1,
+      logo: pro1, 
       name: "James Hall",
       des: "Lorem ipsum dolor sit amet",
       city: "Los Angeles, CA",

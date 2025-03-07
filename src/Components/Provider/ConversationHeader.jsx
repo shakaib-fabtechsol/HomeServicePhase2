@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-function ConversationHeader({ title, subtitle, backLink, comName }) {
+function ConversationHeader({ title, subtitle, backLink, comName , exportToJson }) {
   return (
     <div>
       <div className="mb-2">
@@ -27,7 +27,7 @@ function ConversationHeader({ title, subtitle, backLink, comName }) {
               />
             </label>
             <div className="ms-auto flex items-center gap-3">
-              <button className="text-[#0F91D2] border border-[#0F91D2] flex items-center gap-2 py-2 px-4 rounded-[8px]">
+              <button   onClick={exportToJson} className="text-[#0F91D2] border border-[#0F91D2] flex items-center gap-2 py-2 px-4 rounded-[8px]">
                 <MdOutlineFileDownload />
                 <span>Export Data</span>
               </button>

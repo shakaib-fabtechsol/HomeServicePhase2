@@ -29,8 +29,8 @@ import RegularHour2 from "./AdditionalPhoto/Regular2Hour";
 import AboutVideo from "./AdditionalPhoto/AboutVideo";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import camera from "../assets/img/fileicon.png";
+import RegularHour from "./AdditionalPhoto/RegularHour";
 const ProfileComponent = ({ serviceDetailTo, userRole, data }) => {
-console.log(data,"data");
   const accordionData = [
     { title: "About videos", content: <AboutVideo about_video={data?.business?.about_video} /> },
     { title: "Technician Photos", content: <TechnicalPhoto technician_photo={data?.business?.technician_photo} /> },
@@ -40,8 +40,8 @@ console.log(data,"data");
     { title: "Licences", content: <License license_photo={data?.business?.license_certificate} /> },
     { title: "Awards", content: <Award award_certificate={data?.business?.award_certificate} /> },
     { title: "Insurance", content: <Insurance insurance_photo={data?.business?.insurance_certificate} /> },
-    { title: "Regular Hours of Operation", content: <RegularHour2 /> },
-    { title: "Special Hours of Operation", content: <SpecialHour /> },
+    { title: "Regular Hours of Operation", content: <RegularHour2 regular_hour={data?.business?.regular_hour} /> },
+    { title: "Special Hours of Operation", content: <SpecialHour special_hour={data?.business?.special_hour} /> },
     { title: "Social", content: data?.business?.website},
   ];
 const [searchQuery, setSearchQuery] = useState("");
