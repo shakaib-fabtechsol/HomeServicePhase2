@@ -25,7 +25,7 @@ import Favourites from "./Pages/ServiceProvider/Favourites";
 import FavouritesC from "./Pages/Customer/Favourites";
 import Notification from "./Pages/ServiceProvider/Notification";
 import LandingPage from "./Pages/LandingPage";
-import Dashboardc from "./Pages/Customer/Dashboard";
+import Dashboardc2 from "./Pages/Customer/Dashboard2";
 import Payments from "./Pages/ServiceProvider/Payments";
 import Chatsa from "./Pages/SuperAdmin/Chatsa";
 import Suportsa from "./Pages/SuperAdmin/Suportsa";
@@ -123,7 +123,7 @@ function App() {
             </PrivateRoute>
           }
         >
-            <Route path="/customer/dashboard" element={<Dashboardc />} />
+            <Route path="/customer/dashboard2" element={<Dashboardc2 />} />
             <Route path="/customer/orderdetails" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
             <Route path="/customer/order" element={<Order />} />

@@ -24,7 +24,7 @@ const CustomerLayout = () => {
   const sidebarData = [
     {
       items: [
-        { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
+        { to: "/customer/dashboard2", icon: IoHomeOutline, label: "Home" },
         { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/customer/order",
@@ -34,7 +34,7 @@ const CustomerLayout = () => {
         {
           to: "/customer/Deals",
           icon: FiBarChart2,
-          label: "My Services/Deals",
+          label: "My Customer/Deals",
           toChild: "/customer/dealDetails",
         },
         {
