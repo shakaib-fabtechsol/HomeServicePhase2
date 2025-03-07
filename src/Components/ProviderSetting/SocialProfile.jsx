@@ -13,7 +13,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 import {useSelector} from "react-redux";
-
 const SocialProfile = () => {
   const [selectedSocial, setSelectedSocial] = useState(null);
   const token =useSelector((state)=>state.auth.token);
@@ -21,7 +20,7 @@ const SocialProfile = () => {
   const user=useSelector((state)=>state.auth.user);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    user_id: '', // Initialize with an empty string or a default value
+    user_id: '', 
     facebook: '',
     twitter: '',
     instagram: '',
@@ -36,18 +35,23 @@ const SocialProfile = () => {
     return urlPattern.test(url);
   };
 
+  const handleChange = (e) => {
+    const socialKey = selectedSocial.name.toLowerCase().replace(" ", "_");
+    const value = e.target.value;
+
+    setFormData({ ...formData, [socialKey]: value });
+
+    if (value && !validateUrl(value)) {
+      setErrors({
+        ...errors,
+        [socialKey]: `Please enter a valid ${selectedSocial.name} URL`,
+      });
+    } else {
+      setErrors({ ...errors, [socialKey]: "" });
+    }
+  };
 
 
-import SocialProfileModule from "../../modules/settings/provider-settings/SocialProfile";
-import {
-  useAddSocialProfileMutation,
-  useDeleteSocialProfileMutation,
- 
-} from "../../../src/services/settings";
-const SocialProfile = ({ handleTabChange }) => {
-
-
-  return <SocialProfileModule handleTabChange={handleTabChange} useAddSocialProfileMutation={useAddSocialProfileMutation} useDeleteSocialProfileMutation={useDeleteSocialProfileMutation} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,7 +130,7 @@ const SocialProfile = ({ handleTabChange }) => {
   const handleConnect = (social) => {
     setSelectedSocial(social);
   };
-
+ 
 
   const handleDelete = async (social) => {
     try {
