@@ -42,7 +42,7 @@ export const settingsAPIs = BASE_API.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["USER_DETAILS"],
+      invalidatesTags: ["Cust_detail"],
     }),
 
     getMyDetails: builder.query({
@@ -117,7 +117,7 @@ export const settingsAPIs = BASE_API.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      // invalidatesTags: ["USER_DETAILS"],
+      invalidatesTags: ["Cust_detail"],
     }),
 
     addConversation: builder.mutation({
@@ -134,6 +134,14 @@ export const settingsAPIs = BASE_API.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["USER_DETAILS"],
+    }),
+    addCustomerPaymentDetails: builder.mutation({
+      query: (data) => ({
+        url: "/Customer/AddCustomerPayment",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Cust_detail"],
     }),
 
     // invalidate  tags
@@ -164,6 +172,7 @@ export const {
   useAddPaymentDetailsMutation,
   useAddBusinessLocationMutation,
   useGetUserDetailsQuery,
+  useAddCustomerPaymentDetailsMutation
 } = settingsAPIs;
 
 export const settingsAPIsforSales = BASE_API.injectEndpoints({
@@ -186,7 +195,8 @@ export const settingsAPIsforSales = BASE_API.injectEndpoints({
 
       query: (id) => ({
         url: `/Customer/DetailUser/${id}`
-      })
+      }),
+      providesTags:["Cust_detail"]
 
     }),
 

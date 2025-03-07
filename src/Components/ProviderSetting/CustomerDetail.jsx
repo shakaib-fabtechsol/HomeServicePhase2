@@ -7,7 +7,7 @@ const CustomerDetail = ({ handleTabChange }) => {
   return (
     <>
   
-      <MyDetailModule handleTabChange={handleTabChange} />
+      <MyDetailModule handleTabChange={handleTabChange} publish={true}  />
     </>
   );
 };
