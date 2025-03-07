@@ -278,9 +278,8 @@ const userId=useSelector((state)=>state.auth.user);
   const handlePublish = async (e) => {
     e.preventDefault();
     if (publishLoading) return;
-
-    const userId = localStorage.getItem("id");
-    if (!userId) {
+   
+    if (!userId?.id) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -303,7 +302,7 @@ const userId=useSelector((state)=>state.auth.user);
 
     try {
       const response = await axios.get(
-        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId}`,
+        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId?.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -654,7 +653,7 @@ const userId=useSelector((state)=>state.auth.user);
               <input
                 type="text"
                 id="Flatr"
-                defaultValue={formData?.id ? `${formData?.id}` : "0"}
+                defaultValue={userId?.id ? `${userId?.id}` : "0"}
                 className="focus-none border hidden"
                 readOnly
               />

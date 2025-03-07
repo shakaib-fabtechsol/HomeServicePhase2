@@ -31,6 +31,7 @@ const ServiceArea = () => {
   const [locationsList, setLocationsList] = useState([]);
   const [value2, setValue2] = useState(10);
   const [lat, setLat] = useState(31.5204);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [lng, setLng] = useState(74.3587);
   
   const [map, setMap] = useState(null);
@@ -94,11 +95,11 @@ const token =useSelector((state)=>state.auth.token);
 
   const handleAdd = (e) => {
     if (e.key === "Enter" && inputValue.trim() !== "") {
+      e.preventDefault();
       setLocationsList([...locationsList, inputValue.trim()]);
       setInputValue("");
     }
   };
-
   const handleBulkChange = (e) => {
     setIsBulk(e.target.checked);
     setBulkText("");
@@ -117,7 +118,7 @@ const token =useSelector((state)=>state.auth.token);
       let payload = {};
       if (serviceType === "location") {
         payload = {
-          user_id:userid?.id,
+          user_id: userid?.id,
           service_location: location,
           service_location_type: "location",
           business_location: location,
@@ -125,7 +126,7 @@ const token =useSelector((state)=>state.auth.token);
         };
       } else if (serviceType === "radius") {
         payload = {
-          user_id:userid?.id,
+          user_id: userid?.id,
           service_location: location,
           service_location_type: "radius",
           location_miles: value2,
@@ -140,6 +141,7 @@ const token =useSelector((state)=>state.auth.token);
       toast.success("Service area saved successfully!");
     } catch (err) {
       console.error("Error:", err);
+      setErrorMessage(err.message || "An unexpected error occurred");
       toast.error("Failed to save service area.");
     } finally {
       setLoading(false);
@@ -408,7 +410,6 @@ const token =useSelector((state)=>state.auth.token);
               <label htmlFor="restrict">
                 <img src={location} alt="" className="max-w-20px me-2" />
               </label>
-              {/* This input does not need Autocomplete unless you require suggestions */}
               <input
                 type="text"
                 id="restrict"
