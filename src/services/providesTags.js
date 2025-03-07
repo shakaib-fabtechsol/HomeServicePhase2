@@ -18,6 +18,7 @@ export const PROVIDES_TAGS = [
     "UpdateSaleClient",
     "Add_task",
     "UpdateProvider",
-    "UpdatesaleProvider"
+    "UpdatesaleProvider",
+    "Cust_detail"
   ]
 

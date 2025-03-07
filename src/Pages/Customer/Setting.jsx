@@ -4,7 +4,7 @@ import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
 import CustomerSocial from "../../Components/ProviderSetting/CustomerSocial";
 import PasswordModule from "../../modules/settings/provider-settings/Password";
-import { useAddPaymentDetailsMutation, useGetCustomerDetailsQuery, useGetMyDetailsQuery, useUpdatePasswordCustomerMutation } from "../../services/settings";
+import { useAddCustomerPaymentDetailsMutation, useAddPaymentDetailsMutation, useGetCustomerDetailsQuery, useGetMyDetailsQuery, useUpdatePasswordCustomerMutation } from "../../services/settings";
 
 function Setting() {
   const [value,setValue]=useState(0);
@@ -16,10 +16,10 @@ function Setting() {
   }
   const tabData = [
     { label: "My details", content: <MyDetail handleTabChange={onchange} /> },
-    { label: "Social Profiles", content: <CustomerSocial handleTabChange={onchange} /> },
+    { label: "Social Profiles", content: <CustomerSocial handleTabChange={onchange}  /> },
     { label: "Password", content: <PasswordModule handleTabChange={onchange} useUpdateCustomerPasswordMutation={useUpdatePasswordCustomerMutation} /> },
     { label: "Notification", content: "Notification" },
-    { label: "Payment/Payout Info", content: <Payment handleTabChange={onchange} useGetMyDetailsQuery={useGetCustomerDetailsQuery} useAddPaymentDetailsMutation={useAddPaymentDetailsMutation} /> },
+    { label: "Payment/Payout Info", content: <Payment handleTabChange={onchange} useGetMyDetailsQuery={useGetCustomerDetailsQuery} useAddPaymentDetailsMutation={useAddCustomerPaymentDetailsMutation} /> },
   ];
 
 
