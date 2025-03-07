@@ -52,7 +52,7 @@ export default function Dashboardsr() {
   ];
 
   const chartData = {
-    labels: [data?.top_catogory_revenue[0].category||"",data?.top_catogory_revenue[1].category||"", data?.top_catogory_revenue[2].category||"",],
+    labels: [data?.top_catogory_revenue[0]?.category||"",data?.top_catogory_revenue[1]?.category||"", data?.top_catogory_revenue[2]?.category||"",],
     datasets: [
       {
         label: "Revenue",
