@@ -229,7 +229,7 @@ console.log(serviceDetails,"valueeee")
             <div className="">
               <div className="flex flex-wrap items-center">
                 <img
-                  onClick={() => navigate("/customer/Deals")}
+                  onClick={() => navigate("/provider/ProfileDetails")}
                   src={imageUrl}
                   alt=""
                   className="me-2 my-2 rounded-lg object-cover w-[100px] h-[100px] cursor-pointer"
@@ -237,7 +237,7 @@ console.log(serviceDetails,"valueeee")
                 />
                 <div className="my-2">
                   <div className="flex">
-                    <Link to="/customer/Deals">
+                    <Link to="/provider/ProfileDetails">
                       <p className="font-semibold myhead me-2">
                         { service?.business_name}
                       </p>
