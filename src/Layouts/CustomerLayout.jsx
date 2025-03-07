@@ -24,7 +24,7 @@ const CustomerLayout = () => {
   const sidebarData = [
     {
       items: [
-        { to: "/customer/dashboard2", icon: IoHomeOutline, label: "Home" },
+        { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
         { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/customer/order",
