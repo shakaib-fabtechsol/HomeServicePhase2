@@ -3,12 +3,13 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import React from "react";
+import { getImageUrl } from "../../utils";
 
 const schema = Yup.object().shape({
   images: Yup.array().min(1, "At least one image is required"),
 });
 
-export default function UploadPhotos({ title, close, onUpload, isLoading }) {
+export default function UploadPhotos({ title, close, onUpload, isLoading,oldImages=[] }) {
   const {
     control,
     handleSubmit,
@@ -16,7 +17,9 @@ export default function UploadPhotos({ title, close, onUpload, isLoading }) {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      images: [],
+      images: oldImages?.map((image) => ({
+        preview: getImageUrl(image),
+      })) || [],
     },
   });
 
@@ -24,7 +27,6 @@ export default function UploadPhotos({ title, close, onUpload, isLoading }) {
     control,
     name: "images",
   });
-
   const handleImageUpload = React.useCallback(
     (event) => {
       const files = Array.from(event.target.files);
@@ -41,9 +43,12 @@ export default function UploadPhotos({ title, close, onUpload, isLoading }) {
   };
 
   const onSubmit = (data) => {
-    const uploadedFiles = data.images.map((item) => item.file);
+    const uploadedFiles = data.images
+      .filter((item) => item.file)
+      .map((item) => item.file);
     onUpload(uploadedFiles);
   };
+
 
   return (
     <div className="rounded-[12px] bg-white p-5">
@@ -76,22 +81,9 @@ export default function UploadPhotos({ title, close, onUpload, isLoading }) {
               )}
             </div>
             <div className="mt-3 grid grid-cols-3 gap-3">
-              {fields.map((field, index) => (
-                <div key={field.id} className="relative">
-                  <img
-                    src={field.preview}
-                    alt={`Image Preview ${index}`}
-                    className="w-full aspect-square object-cover rounded-lg border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
+              {fields.map((field, index) => 
+                 <UploadedImage key={'uploaded-image'+index} handleRemoveImage={handleRemoveImage} imageData={field} index={index}/>
+            )}
             </div>
           </div>
           <div className="my-4 grid grid-cols-2 gap-3">
@@ -115,3 +107,25 @@ export default function UploadPhotos({ title, close, onUpload, isLoading }) {
     </div>
   );
 }
+
+function UploadedImage({imageData,index,handleRemoveImage}) {
+  return (
+    <div key={imageData.id} className="relative">
+                    <img
+                      src={imageData.preview} 
+                      alt={`Image Preview ${index}`}
+                      className="w-full aspect-square object-cover rounded-lg border"
+                    />
+                    {imageData.file && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white text-xs size-5 shadow-lg rounded-full"
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
+  )
+}
+

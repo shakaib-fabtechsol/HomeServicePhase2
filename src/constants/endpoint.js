@@ -27,6 +27,7 @@ export const END_POINTS = {
   SERVICE_SUMMARY: "/SuperAdmin/ServiceSummary",
   CLIENT_SUMMARY: "/SuperAdmin/GetClientsSummary",
   CUSTOM_ORDERS: "/OrdersList",
+  My_ORDERS_As_CUSTOMER: "/Customer/Orders",
   GET_ORDER_DETAILS: "/GetOrderDetails",
   ORDER_CONFIRMED: "/OrderConfirm",
   ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
@@ -35,6 +36,7 @@ export const END_POINTS = {
   UPDATE_CUSTOMER_SUPPORT: "/UpdateSupport",
   GET_SUPPORT: "/GetSupport",
   CREATE_OFFER: "/CreateOffer",
+  SCHEDULE_ORDER: "/AddScheduleOrder",
 };
 
 export const PRO_POINTS = {
