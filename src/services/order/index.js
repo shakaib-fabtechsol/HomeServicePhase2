@@ -7,6 +7,10 @@ export const orderAPIs = BASE_API.injectEndpoints({
       query: () => END_POINTS.CUSTOM_ORDERS,
       providesTags: ["CustomerOrders"],
     }),
+    myOrderDetailsAsCustomer: builder.query({
+      query: (id) => `${END_POINTS.My_ORDERS_DETAILS_As_CUSTOMER}/${id}`,
+      providesTags: ["CustomerOrders"],
+    }),
     getMyOrdersAsCustomer: builder.query({
       query: () => END_POINTS.My_ORDERS_As_CUSTOMER,
       providesTags: ["CustomerOrders"],
@@ -80,11 +84,22 @@ export const orderAPIs = BASE_API.injectEndpoints({
         { type: "OrderDetails", id: arg?.order_id },
       ],
     }),
+    completeOrderWithoutReview: builder.mutation({
+      query: (orderId) => ({
+        url: `${END_POINTS.COMPLETE_ORDER_WITHOUT_REVIEW}/${orderId}`,
+        method: "GET",
+      }),
+      invalidatesTags: (result, error, arg) => [
+        "CustomerOrders",
+        { type: "OrderDetails", id: arg?.order_id },
+      ],
+    }),
   }),
 });
 
 export const {
   useGetCustomerOrdersQuery,
+  useMyOrderDetailsAsCustomerQuery,
   useGetOrderDetailsQuery,
   useGetMyOrdersAsCustomerQuery,
   useDeliverOrderMutation,
@@ -93,4 +108,5 @@ export const {
   useMarkOrderAsCompleteMutation,
   useCreateOfferMutation,
   useScheduleOrderMutation,
+  useCompleteOrderWithoutReviewMutation,
 } = orderAPIs;

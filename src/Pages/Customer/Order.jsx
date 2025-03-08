@@ -15,7 +15,9 @@ import OrderStatus from "../../Components/Common/OrderStatus.jsx";
 
 const Order = () => {
   const { data, isFetching, error, isError } = useGetMyOrdersAsCustomerQuery();
-  const [photosopen, setphotosOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(false);
+  const handleModalOpen = React.useCallback((orderData) => setSelectedOrder(orderData), []);
+  const handleModalClose = React.useCallback(() => setSelectedOrder(null), []);
   React.useEffect(() => {
     document.title = "Orders";
   }, []);
@@ -23,11 +25,10 @@ const Order = () => {
   if (isFetching) return <LoadingSpinner />;
   if (isError)
     return <RemoteError hasError={isError} message={error?.message} />;
-  
-
-  const handlephotosOpen = () => setphotosOpen(true);
-  const handlephotosClose = () => setphotosOpen(false);
-
+  console.log(" DATA ++++++++++++++++++++++")
+  console.log(data)
+  const allAfterImages = selectedOrder?.after_images?.at(0)?.after_images ? JSON.parse(selectedOrder?.after_images?.at(0)?.after_images) : [];
+  const allBeforeImages = selectedOrder?.before_images?.at(0)?.before_images ? JSON.parse(selectedOrder?.before_images?.at(0)?.before_images) : [];
   if(data)
   return (
     <div>
@@ -56,7 +57,7 @@ const Order = () => {
               <th className="text-start p-3 font-normal">Service</th>
               <th className="text-start p-3 font-normal">Service Provider</th>
               <th className="text-start p-3 font-normal">Status</th>
-              <th className="text-start p-3 font-normal">Contact Pro</th>
+              <th className="text-start p-3 font-normal">Scheduled at</th>
               <th className="text-start p-3 font-normal">Action</th>
             </tr>
           </thead>
@@ -73,7 +74,7 @@ const Order = () => {
                 <td className="p-3">
                   <div className="flex gap-2">
                     <img
-                      src={JSON.parse(order?.order?.images)?.at(0)}
+                      src={getImageUrl(JSON.parse(order?.order?.images)?.at(0))}
                       alt=""
                       className="size-24 max-w-24 rounded-lg object-cover"
                     />
@@ -117,37 +118,41 @@ const Order = () => {
                 <td className="p-3">
                   <OrderStatus status={order.order.status}/>
                 </td>
-                <td className="p-3 text-nowrap">{order.date}</td>
+                <td className="p-3 whitespace-nowrap">
+                {order.order.scheduleDate}
+                </td>
+                <td className="p-3 text-nowrap">{order.order.date}</td>
                 <td className="p-3">
                   <Link
-                    to="/customer/orderdetails"
+                    to={`/customer/orderdetails/${order.order.id}`}
                     className="bg-white text-base py-2 px-4 border text-nowrap rounded-lg inline-block"
                   >
                     View Details
                   </Link>
-                  <div className="mt-3">
+                  {'delivered'===order.order.status && <div className="mt-3">
                     <button
-                      onClick={handlephotosOpen}
+                      onClick={handleModalOpen.bind(null,order)}
                       className="bg-[#0F91D2] text-white text-base py-2 px-4 border text-nowrap rounded-lg block"
                     >
                       Mark as Complete
                     </button>
-                  </div>
+                  </div>}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      
       <Modal
-        open={photosopen}
-        onClose={handlephotosClose}
+        open={selectedOrder}
+        onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{ m: 2 }}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
-          <ReviewModal close={handlephotosClose} />
+          <ReviewModal orderId={selectedOrder?.order?.id} allBeforeImages={allBeforeImages} allAfterImages={allAfterImages} close={handleModalClose} />
         </div>
       </Modal>
     </div>
