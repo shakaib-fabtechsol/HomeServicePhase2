@@ -169,7 +169,7 @@ console.log(serviceDetails,"valueeee")
 
   const imagePath = service?.business_logo;
   const imageUrl = imagePath
-    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+    ? `https://homerservice-ph2.netlify.app/uploads/${imagePath}`
     : "/service1.png";
 
   const regularHours =
@@ -202,7 +202,7 @@ console.log(serviceDetails,"valueeee")
   const imagePath1 =
     Array.isArray(imageArray) && imageArray.length > 0 ? imageArray[0] : "";
   const imageUrl1 = imagePath1
-    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
+    ? `https://homerservice-ph2.netlify.app/uploads/${imagePath1}`
     : "/service1.png";
   return (<>
     <div className="pmain">

@@ -73,7 +73,7 @@ const SocialProfile = () => {
       };
 
       const response = await axios.post(
-        "https://marketplace.thefabulousshow.com/api/Social",
+        "https://homerservice-ph2.netlify.app/api/Social",
         payload,
         {
           headers: {
@@ -142,7 +142,7 @@ const SocialProfile = () => {
       };
      
       const response = await axios.post(
-        `https://marketplace.thefabulousshow.com/api/SocialDelete`,
+        `https://homerservice-ph2.netlify.app/api/SocialDelete`,
         data, 
         {
           headers: {

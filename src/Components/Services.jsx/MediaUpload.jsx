@@ -29,7 +29,7 @@ const MediaUpload = ({ serviceId, setValue }) => {
   useEffect(() => {
     if (dealid) {
       axios
-        .get(`https://marketplace.thefabulousshow.com/api/Deal/${dealid}`, {
+        .get(`https://homerservice-ph2.netlify.app/api/Deal/${dealid}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,13 +46,13 @@ const MediaUpload = ({ serviceId, setValue }) => {
             : [];
 
           const allImages = parsedImages.map((image) => ({
-            url: `https://marketplace.thefabulousshow.com/uploads/${image}`,
+            url: `https://homerservice-ph2.netlify.app/uploads/${image}`,
             name: image.split("/").pop(),
             isExisting: true,
           }));
           setImages(allImages);
           const allVideos = parsedVideos.map((video) => ({
-            url: `https://marketplace.thefabulousshow.com/uploads/${video}`,
+            url: `https://homerservice-ph2.netlify.app/uploads/${video}`,
             name: video.split("/").pop(),
             isExisting: true,
           }));
