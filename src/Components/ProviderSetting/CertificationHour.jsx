@@ -104,7 +104,7 @@ const userId=useSelector((state)=>state.auth.user);
 
     try {
       const response = await axios.get(
-        `https://homerservice-ph2.netlify.app/api/UserDetails`,
+        `https://marketplace.thefabulousshow.com/api/UserDetails`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -173,13 +173,13 @@ const userId=useSelector((state)=>state.auth.user);
         );
 
         const insuranceCertificate = profile.insurance_certificate
-          ? `https://homerservice-ph2.netlify.app/uploads/${profile.insurance_certificate}`
+          ? `https://marketplace.thefabulousshow.com/uploads/${profile.insurance_certificate}`
           : "/default.png";
         const licenseCertificate = profile.license_certificate
-          ? `https://homerservice-ph2.netlify.app/uploads/${profile.license_certificate}`
+          ? `https://marketplace.thefabulousshow.com/uploads/${profile.license_certificate}`
           : "/default.png";
         const awardCertificate = profile.award_certificate
-          ? `https://homerservice-ph2.netlify.app/uploads/${profile.award_certificate}`
+          ? `https://marketplace.thefabulousshow.com/uploads/${profile.award_certificate}`
           : "/default.png";
 
         setFormData({
@@ -255,7 +255,7 @@ const userId=useSelector((state)=>state.auth.user);
       });
 
       const response = await axios.post(
-        "https://homerservice-ph2.netlify.app/api/AddCertificateHours",
+        "https://marketplace.thefabulousshow.com/api/AddCertificateHours",
         data,
         {
           headers: {
@@ -301,7 +301,7 @@ const userId=useSelector((state)=>state.auth.user);
 
     try {
         const response = await axios.get(
-            `https://homerservice-ph2.netlify.app/api/SettingPublish/${userId.id}`,
+            `https://marketplace.thefabulousshow.com/api/SettingPublish/${userId.id}`,
             {
                 headers: { Authorization: `Bearer ${token}` },
             }

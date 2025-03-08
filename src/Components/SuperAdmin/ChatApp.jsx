@@ -29,12 +29,11 @@ const ChatApp = () => {
   const [filePreview, setFilePreview] = useState(null);
   const [attachedFile, setAttachedFile] = useState(null);
   const [open, setOpen] = useState(false);
-  // const [socket, setSocket] = useState(null);
   const fileInputRef = useRef();
   const socket = useRef(null);
   const messagesEndRef = useRef(null);
-  const activeChatRef = useRef(null); // New ref for activeChat
-  const [searchQuery, setSearchQuery] = useState(""); // Search input state
+  const activeChatRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { user } = useSelector((state) => state.auth)
   console.log("chats =>>>>>>>>>", chats)
@@ -43,6 +42,9 @@ const ChatApp = () => {
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(socketUrl, {
+        // transports: ["websocket"],
+        secure: false,
+        rejectUnauthorized: false,
         extraHeaders: {
           user_id: user?.id,
         },
@@ -100,7 +102,6 @@ const ChatApp = () => {
         setMessages(data?.messages);
 
 
-        // Scroll to bottom after setting messages
         setTimeout(() => {
           if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -163,11 +164,11 @@ const ChatApp = () => {
     setSearchQuery(query);
 
     if (query.trim() === "") {
-      setFilteredChats(chats); // Reset to full list when search is empty
+      setFilteredChats(chats);
     } else {
       setFilteredChats(
         chats.filter(chat =>
-          chat?.receiver?.name?.toLowerCase().includes(query) // Assuming chat has a `name` field
+          chat?.receiver?.name?.toLowerCase().includes(query)
         )
       );
     }
@@ -355,7 +356,7 @@ const ChatApp = () => {
                     {
                       message?.contentType === "order" ? (
                         <div className="p-2 flex justify-end">
-                          <div className= "   p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-80 shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
+                          <div className="   p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-80 shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
                             <div>
                               <div className="flex justify-between items-center ">
                                 <p className="font-semibold">Created Offer</p>
@@ -372,7 +373,7 @@ const ChatApp = () => {
                                   Cleaning
                                 </p>
                                 <p className="mt-4 text-[#535862] text-sm   ">
-                                {message?.orderDetails?.notes}
+                                  {message?.orderDetails?.notes}
                                 </p>
                               </div>
                             </div>

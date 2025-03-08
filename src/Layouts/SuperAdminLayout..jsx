@@ -46,7 +46,7 @@ function SuperAdminLayout() {
           icon: LiaUsersCogSolid,
           label: "Sales Reps",
         },
-        { to: "/superadmin/reports", icon: PiFiles, label: "Reports" },
+        // { to: "/superadmin/reports", icon: PiFiles, label: "Reports" },
         {
           to: "/superadmin/conversation",
           icon: HiOutlineCurrencyDollar,
@@ -61,11 +61,11 @@ function SuperAdminLayout() {
           icon: IoChatboxEllipsesOutline,
           label: "Conversations",
         },
-        {
-          to: "/superadmin/notifications",
-          icon: GrNotification,
-          label: "Notifications",
-        },
+        // {
+        //   to: "/superadmin/notifications",
+        //   icon: GrNotification,
+        //   label: "Notifications",
+        // },
         {
           to: "/superadmin/setting",
           icon: AiOutlineSetting,

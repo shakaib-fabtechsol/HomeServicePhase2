@@ -68,6 +68,7 @@ function ServiceDetail() {
   useEffect(() => {
     document.title = "Service Details";
   }, []);
+  const { user } = useSelector((state) => state.auth);
 
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
@@ -214,7 +215,7 @@ function ServiceDetail() {
 
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
-    ? `https://homerservice-ph2.netlify.app/uploads/${imagePath}`
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
     : "/service1.png";
 
   const regularHours =
@@ -247,7 +248,7 @@ function ServiceDetail() {
   const imagePath1 =
     Array.isArray(imageArray) && imageArray.length > 0 ? imageArray[0] : "";
   const imageUrl1 = imagePath1
-    ? `https://homerservice-ph2.netlify.app/uploads/${imagePath1}`
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/service1.png";
   return (<>
     <div className="pmain">
@@ -543,7 +544,7 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
                   onClick={handlecontactOpen}

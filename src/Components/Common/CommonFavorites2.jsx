@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
-import ServiceBox from "../ServiceBox";
+import ServiceBox2 from "../ServiceBox2";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
-import {useGetFavouriteQuery} from '../../services/sales/index';
-import { useSelector } from "react-redux";
+import { useGetFavourite1Query } from "../../services/sales/index";
+import Loader from "../MUI/Loader";
 
-const CommonFavorites = () => {
+const CommonFavorites2 = () => {
   useEffect(() => {
-    document.title = "Favourites";
+    document.title = "Favourites1";
   }, []);
+
   const [viewMode, setViewMode] = useState("grid");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { data: orderD, } = useGetFavouriteQuery(); 
+  const { data: order, isLoading } = useGetFavourite1Query(); 
 
-  const services = orderD?.deals; 
-  
+  const services = order?.deals; 
   console.log(services);
- const {user} = useSelector((state) => state.auth);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -35,7 +38,7 @@ const CommonFavorites = () => {
               <CiGrid41 className="mr-2" />
             ) : (
               <CiBoxList className="mr-2" />
-            )}{" "}
+            )}
             {viewMode === "grid" ? "Grid View" : "List View"}
           </button>
           {dropdownOpen && (
@@ -72,39 +75,37 @@ const CommonFavorites = () => {
       >
         {services?.length > 0 ? (
           services.map((service) => (
-            <ServiceBox
-            key={service.id}
-            serviceDetailTo={`${user?.role === 1 ? "/customer" : "/provider" }/dealDetails/${service?.id}`}
-            title={service.service_title}
-            price={
-              service.pricing_model === "Flat"
-                ? service.flat_rate_price
-                : service?.pricing_model == "Hourly"
+            <ServiceBox2
+              key={service.id}
+              title={service.service_title}
+              price={
+                service.pricing_model === "Flat"
+                  ? service.flat_rate_price
+                  : service.pricing_model === "Hourly"
                   ? service.hourly_final_list_price
                   : service.price1
-            }
-            tags={service.search_tags}
-            image={service.images}
-            publish={service.publish}
-            userimg={service.userimg}
-            username={service.user_name}
-            description={service.service_description}
-            category={service.service_category}
-            dealid={service.id}
-            Rating={service.rating}
-            Liked={service.Liked}
-            videos={service.videos}
-            imgs={service.personal_image
-            }
-            Days={
-              service.pricing_model === "Flat"
-                ? service.flat_estimated_service_time
-                : service?.pricing_model == "Hourly"
+              }
+              tags={service.search_tags}
+              image={service.images}
+              publish={service.publish}
+              userimg={service.userimg}
+              username={service.user_name}
+              description={service.service_description}
+              category={service.service_category}
+              dealid={service.id}
+              Rating={service.rating}
+              Liked={service.Liked}
+              videos={service.videos}
+              imgs={service.personal_image}
+              Days={
+                service.pricing_model === "Flat"
+                  ? service.flat_estimated_service_time
+                  : service.pricing_model === "Hourly"
                   ? service.hourly_estimated_service_time
                   : service.estimated_service_timing
-            }
-            totalReviews={service.totalReviews}
-          />
+              }
+              totalReviews={service.totalReviews}
+            />
           ))
         ) : (
           <p>No favorites found</p>
@@ -114,4 +115,4 @@ const CommonFavorites = () => {
   );
 };
 
-export default CommonFavorites;
+export default CommonFavorites2;

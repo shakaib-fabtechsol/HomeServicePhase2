@@ -4,8 +4,8 @@ import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
 import {useSelector} from "react-redux";
-import {useFavouriteMutation} from "../../src/services/sales/index"
-function ServiceBox({
+import {useFavourite1Mutation} from "../../src/services/sales/index"
+function ServiceBox2({
   tags = [],
   image,
   publish,
@@ -28,7 +28,7 @@ function ServiceBox({
   const user=useSelector((state)=>state.auth.user);
 
 
-  const [favourite] = useFavouriteMutation();
+  const [favourite] = useFavourite1Mutation();
 
 
   const handleFavourite = async () => {
@@ -99,7 +99,7 @@ function ServiceBox({
          <button
       onClick={() => {
         setLiked(!liked);
-        navigate('/customer/favourites');
+       
       }}
     >
             
@@ -182,4 +182,4 @@ function ServiceBox({
   );
 }
 
-export default ServiceBox;
+export default ServiceBox2;

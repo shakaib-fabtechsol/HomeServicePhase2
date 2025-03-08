@@ -38,7 +38,15 @@ export const salesrepAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ["TASKS"],
     }),
+    getSalesRepos: builder.query({
+      query: () => ({
+        url: SALEREP_POINTS.SALES_REPOS,
+      }),
+    }),
   }),
 });
 
-export const { useGettaskByIdQuery,useGetServiceCategoriesSummaryQuery,useGettasksQuery, useAddOrUpdateTaskMutation,useDeleteTaskMutation,useGetRevenueSummaryQuery} = salesrepAPIs;
+export const { useGettaskByIdQuery,useGetServiceCategoriesSummaryQuery,useGettasksQuery, useAddOrUpdateTaskMutation,useDeleteTaskMutation,useGetRevenueSummaryQuery ,
+useGetSalesReposQuery
+
+} = salesrepAPIs;

@@ -66,7 +66,8 @@ export const SALEREP_POINTS = {
     GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
-    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider",
+    SALES_REPOS:"/salesrep"
 
 }
 export const SALE_POINTS = {
@@ -80,8 +81,11 @@ export const SALE_POINTS = {
   }
   export const FAV={
    FAVOURITES:"/FavoritService",
-  GET_FAVOURITES:"/GetFavoritService"
+  GET_FAVOURITES:"/GetFavoritService",
+  FAVOURITES1:"/Customer/FavoritDeal",
+  GET_FAVOURITES1:"/Customer/GetCustomerFavoritService",
    }
+  
    
    export const PROVIDER_CONTACT_PRO={
     GET_RECORDS:"/api/contact-pro/provider",

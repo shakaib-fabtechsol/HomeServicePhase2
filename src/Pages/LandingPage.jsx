@@ -17,13 +17,14 @@ function LandingPage() {
     setLoading(true);
 
     axios
-      .get("https://homerservice-ph2.netlify.app/api/Deals", {
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         setServices(response.data.deals);
+        console.log(response);
         setLoading(false);
       })
       .catch((error) => {
@@ -185,7 +186,7 @@ function LandingPage() {
               )}
             </div>
           </div>
-          <h2 className="text-xl font-semibold mt-5">Featured Deals</h2>
+          <h2 className="text-xl font-semibold mt-5">Recent Deals</h2>
           <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
     {loading  ? (
       <div className="w-full flex justify-center items-center">

@@ -8,8 +8,11 @@ import google from "../../../assets/img/google.png";
 import logo from "../../../assets/img/logo.png";
 import { useSignUp } from "./useSignUp";
 import Loader from "../../../Components/MUI/Loader";
+import { useGetSalesReposQuery } from "../../../services/salesrep";
+import Sales from './../../../Pages/SuperAdmin/Sales';
 
 function SignupModule() {
+  const { data: salesRepos, isLoading: getSalesRepo } = useGetSalesReposQuery()
   const {
     registerField,
     handleSubmit,
@@ -19,7 +22,7 @@ function SignupModule() {
     control,
     Controller,
   } = useSignUp();
-
+console.log("salesRepos", salesRepos)
   if (isLoading) {
     return <Loader />;
   }
@@ -158,7 +161,16 @@ function SignupModule() {
                       <p className="text-red-500">{errors.password.message}</p>
                     )}
                   </div>
-
+                  <div className="my-3 flex flex-col gap-2">
+                    <label htmlFor="service" className="text-sm">Sales Repo</label>
+                    <select {...registerField("assign_sales_rep")} className="border p-2 bg-white rounded-lg">
+                    <option  disabled value={""}>Select sales repo</option>
+                      {salesRepos?.sales_reps?.map((saleRepo) => (
+                        <option key={saleRepo?._id} value={saleRepo?.id}>{saleRepo?.name}</option>
+                      ))}
+                    </select>
+                    {errors?.assign_sales_rep && <p className="text-red-500 text-sm">{errors?.assign_sales_rep?.message}</p>}
+                  </div>
                   <button
                     type="submit"
                     className="text-white font-semibold px-3 py-3 bg-blue w-full mt-3 rounded-lg"

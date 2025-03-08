@@ -21,7 +21,7 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
     setLoading(true);
 
     axios
-      .get("https://homerservice-ph2.netlify.app/api/Deals", {
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
