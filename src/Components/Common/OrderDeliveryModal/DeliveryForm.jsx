@@ -1,20 +1,21 @@
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useDeliverOrderMutation } from "../../services/order";
+import { useDeliverOrderMutation } from "../../../services/order";
 import Swal from "sweetalert2";
-import { getImageUrl } from "../../utils";
+import { getImageUrl } from "../../../utils";
 
 const schema = Yup.object().shape({
   comments: Yup.string().required("Final comments are required"),
   schedule: Yup.string().required("Schedule date and time are required"),
 });
 
-export default function DeliveryModal({
+export default function DeliveryForm({
   close,
   beforeImgs,
   afterImgs,
   orderId,
+  orderScheduleData,
 }) {
   const [deliverOrder, { isLoading }] = useDeliverOrderMutation();
   const {
@@ -25,16 +26,18 @@ export default function DeliveryModal({
     resolver: yupResolver(schema),
     defaultValues: {
       comments: "",
-      schedule: "",
+      schedule: orderScheduleData || "",
     },
   });
 
   const onSubmit = async (data) => {
     const deliveryData = {
-      Schedule_date_time: data.schedule,
       comments: data.comments,
       order_id: orderId,
     };
+    if (!orderScheduleData) {
+      deliveryData.scheduleDate = data.schedule;
+    }
     try {
       await deliverOrder(deliveryData).unwrap();
       Swal.fire({
@@ -100,7 +103,8 @@ export default function DeliveryModal({
                 <input
                   {...field}
                   type="datetime-local"
-                  className="border border-[#D7D7D7] block rounded-[8px] w-full mt-1 p-2 outline-none shadow-[0px_1px_2px_0px_#2E2E2E0D]"
+                  className="border border-[#D7D7D7] block rounded-[8px] w-full mt-1 p-2 outline-none shadow-[0px_1px_2px_0px_#2E2E2E0D] disabled:text-gray-500 disabled:bg-gray-100 disabled:border-gray-200"
+                  disabled={orderScheduleData}
                 />
               )}
             />

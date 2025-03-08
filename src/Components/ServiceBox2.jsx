@@ -4,15 +4,14 @@ import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
 import {useSelector} from "react-redux";
-import {useFavouriteMutation} from "../../src/services/sales/index"
-function ServiceBox({
+import {useFavourite1Mutation} from "../../src/services/sales/index"
+function ServiceBox2({
   tags = [],
   image,
   publish,
   title,
   dealid,
   price,
-  cateogory,
   serviceDetailTo,
   review,
   userimg,
@@ -29,7 +28,7 @@ function ServiceBox({
   const user=useSelector((state)=>state.auth.user);
 
 
-  const [favourite] = useFavouriteMutation();
+  const [favourite] = useFavourite1Mutation();
 
 
   const handleFavourite = async () => {
@@ -100,7 +99,7 @@ function ServiceBox({
          <button
       onClick={() => {
         setLiked(!liked);
-        navigate("/provider/dashboard")
+       
       }}
     >
             
@@ -168,12 +167,10 @@ function ServiceBox({
           <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
           <p className="text-lg font-extrabold">{price ?? "N/A"}</p>
         </div>
-        <div>
+       
+        <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
+          <div>
             {tags}
-          </div>
-        <div className="flex flex-wrap items-center justify-between text-sm text-black mt-4">
-          <div className="bg-[#0F91D2] px-2 py-2 rounded-2xl  text-black">
-          {cateogory}
           </div>
           <div className="flex items-center">
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />
@@ -185,4 +182,4 @@ function ServiceBox({
   );
 }
 
-export default ServiceBox;
+export default ServiceBox2;

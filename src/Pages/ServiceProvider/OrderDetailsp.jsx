@@ -8,8 +8,6 @@ import { IoPaperPlaneOutline } from "react-icons/io5";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { LuPhone } from "react-icons/lu";
 import { BsChatLeftDots } from "react-icons/bs";
-import DeliveryModal from "../../Components/Provider/DeliveryModal";
-import { Modal } from "@mui/material";
 import { useGetOrderDetailsQuery } from "../../services/order";
 import LoadingSpinner from "../../Components/Common/LoadingSpinner";
 import RemoteError from "../../Components/Common/RemoteError";
@@ -18,6 +16,7 @@ import OrderBeforeImagesModal from "../../Components/Common/OrderBeforeImagesMod
 import OrderAfterImagesModal from "../../Components/Common/OrderAfterImagesModal";
 import { getImageUrl } from "../../utils";
 import { FaImage } from "react-icons/fa";
+import OrderDeliveryModal from "../../Components/Common/OrderDeliveryModal/index.jsx";
 
 export default function OrderDetailsp() {
   const { id } = useParams();
@@ -44,10 +43,9 @@ export default function OrderDetailsp() {
     []
   );
   const handleBeforeClose = React.useCallback(() => setBeforeOpen(null), []);
-
   const handleAfterOpen = React.useCallback((order) => setAfterOpen(order), []);
   const handleAfterClose = React.useCallback(() => setAfterOpen(null), []);
-  const isDelivered = data?.GetOrderDeliver?.at(0)?.type === "delivered";
+
   const orderId = data?.GetOrderDetails?.order_id;
 
   if (isFetching) return <LoadingSpinner />;
@@ -63,7 +61,10 @@ export default function OrderDetailsp() {
       JSON.parse(item.after_images)
     ) || [];
 
-  if (data)
+    console.log()
+    const isOrderDelivered=['completed','delivered'].includes(data?.GetOrderDetails?.order_status)
+    console.log(data?.GetOrderDetails)
+if (data?.GetOrderDetails)
     return (
       <div>
         <div className="flex justify-between flex-wrap gap-3">
@@ -82,29 +83,26 @@ export default function OrderDetailsp() {
               </p>
             </div>
           </div>
-          <div className="flex items-center w-full lg:w-auto flex-wrap justify-end gap-2 ms-auto">
+        {!isOrderDelivered &&   <div className="flex items-center w-full lg:w-auto flex-wrap justify-end gap-2 ms-auto">
             <button
-              disabled={isDelivered}
               onClick={handleBeforeOpen.bind(null, data?.GetOrderDetails)}
               className="bg-[#FB8803] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
               Before Photos
             </button>
             <button
-              disabled={isDelivered}
               onClick={handleAfterOpen.bind(null, data?.GetOrderDetails)}
               className="bg-[#4EB53B] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
               After Photos
             </button>
             <button
-              disabled={isDelivered}
               onClick={handleDeliveryModalOpen}
               className="bg-[#0F91D2] w-full min-[480px]:w-auto py-2 px-4 text-white rounded-[8px] shadow-[0px_1px_2px_0px_#0A0D120D]"
             >
-              {isDelivered ? "Delivered" : "Deliver"}
+             Deliver
             </button>
-          </div>
+          </div>}
         </div>
         <div className="bg-[#F4F4F4] rounded-2xl p-4 mt-4">
           <div className="flex lg:flex-row flex-col gap-3">
@@ -120,7 +118,7 @@ export default function OrderDetailsp() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-[#181D27] sm:text-xl text-sm font-normal">
-                      {data?.GetOrderDetails.service_title}
+                      {data?.GetOrderDetails?.service_title}
                     </h4>
                   </div>
                   <div className="flex items-center gap-2">
@@ -133,43 +131,44 @@ export default function OrderDetailsp() {
                   </div>
                 </div>
                 <p className="text-[#535862] mt-4 lg:text-base text-xs">
-                  {data?.GetOrderDetails.service_description}
+                  {data?.GetOrderDetails?.notes}
                 </p>
               </div>
               <div className="flex sm:flex-row flex-col sm:items-center gap-3 sm:justify-between mt-4">
                 <div className="flex items-center gap-3">
                   <div>
                     <img
-                      src={ClientTwo}
-                      alt=""
+                      src={getImageUrl(data?.GetOrderDetails?.personal_image                      )}
+                      alt="provider-image"
                       className="sm:size-12 size-10 sm:max-w-12 max-w-10 rounded-full"
                     />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-[#494A4B]">
-                      Frances Swann
+                      {data?.GetOrderDetails.name}
                     </p>
                     <div className="flex flex-wrap items-center gap-1">
-                      <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+                      <Link to={`tel:${data?.GetOrderDetails?.phone}`} className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                         <LuPhone /> Phone Call
-                      </button>
-                      <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+                      </Link>
+                      <Link to={`mailto:${data?.GetOrderDetails?.email}`} className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                         <MdOutlineMailOutline /> Email
-                      </button>
+                      </Link>
                       <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                         <BsChatLeftDots /> Chat
                       </button>
                     </div>
                   </div>
                 </div>
-                <div className="text-end sm:text-start">
+              {data?.GetOrderDetails?.scheduleDate &&  <div className="text-end sm:text-start">
                   <p className="text-sm font-medium text-[#494A4B]">
                     Scheduled
                   </p>
                   <h3 className="text-xs text-[#535862]">
-                    Dec 21, 2024 7:59 pm
+                    {data?.GetOrderDetails?.scheduleDate}
                   </h3>
                 </div>
+                }
               </div>
             </div>
           </div>
@@ -333,31 +332,27 @@ export default function OrderDetailsp() {
             </div>
           </form>
         </div>
-        <Modal
-          open={isDeliveryModalOpen}
-          onClose={handleDeliveryModalClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          sx={{ m: 2 }}
-        >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full max-w-[500px] -translate-y-1/2 outline-none">
-            <DeliveryModal
-              afterImgs={allAfterImages}
-              beforeImgs={allBeforeImages}
+          <OrderDeliveryModal
+              allAfterImages={allAfterImages}
+              allBeforeImages={allBeforeImages}
+              isOpen={isDeliveryModalOpen}
+              onClose={handleDeliveryModalClose}
               orderId={orderId}
-              close={handleDeliveryModalClose}
-            />
-          </div>
-        </Modal>
+              // scheduleDate={deliverModalData?.order?.scheduleDate}
+              />
         <OrderBeforeImagesModal
           isOpen={!!beforeOpen}
+          oldImages={allBeforeImages}
           orderId={orderId}
           onClose={handleBeforeClose}
+        
+          
         />
         <OrderAfterImagesModal
           isOpen={!!afterOpen}
           orderId={orderId}
           onClose={handleAfterClose}
+          oldImages={allAfterImages}
         />
       </div>
     );
@@ -366,14 +361,14 @@ export default function OrderDetailsp() {
 function ImagesGrid({ images }) {
   if (!images.length) {
     return (
-      <div className="flex flex-col items-center justify-center h-full w-full text-gray-500">
+      <div className="flex flex-col p-3 items-center justify-center h-full w-full text-gray-500">
         <FaImage className="text-6xl mb-2" />
         <div>No images uploaded yet</div>
       </div>
     );
   }
   return (
-    <div className="grid 2xl:grid-cols-4 lg:max-h-[600px] md:h-[500px] h-[600px] overflow-scroll lg:grid-cols-3 grid-cols-2 gap-4 mt-4">
+    <div className="grid 2xl:grid-cols-4 lg:max-h-[600px] md:max-h-[500px] max-h-[600px] overflow-scroll lg:grid-cols-3 grid-cols-2 gap-4 mt-4">
       {images.map((image, index) => (
         <div key={index} className="lg:h-[300px] md:h-[250px] h-[300px] w-full">
           <img

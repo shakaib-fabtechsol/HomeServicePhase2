@@ -1,14 +1,28 @@
-import React, { useState } from "react";
-import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState }, { useState } from "react";
+import { NavLink, Link, useLocation, useNavigate, useNavigate } from "react-router-dom";
 
 import { RxHamburgerMenu } from "react-icons/rx";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import logo from "../assets/img/logo.png";
-
-
+import profile from "../assets/img/service1.png";
+import { FaRegHeart } from "react-icons/fa6";
+import { GrNotification } from "react-icons/gr";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { BASE_URL } from "../../config";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/reducers/authSlice";
 const MainNav = ({ toggleSidebar, logolink }) => {
     const location = useLocation();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
+  const role = useSelector((state) => state.auth.user);
+  console.log("role", role?.role);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const locationParam = searchParams.get("location");
     const serviceParam = searchParams.get("service");
@@ -20,6 +34,28 @@ const MainNav = ({ toggleSidebar, logolink }) => {
     location.pathname === "/" ||
     location.pathname === "/catalogResult" ||
     location.pathname === "/dealdetails";
+
+  const redirectTo =
+    location.pathname === "/"
+      ? "/sales/dashboard"
+      : role?.role === 1
+        ? "/customer/dashboard"
+        : role?.role === 2
+          ? "/provider/dashboard"
+          : role?.role === 3
+            ? "/service/dashboard"
+            : role?.role === 0
+              ? "/superadmin/dashboard"
+              : "/customer/dashboard";
+
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+
+  const handleLogout = () => {
+    console.log("Logging out..."); // Debugging log
+    dispatch(logout());
+    setDropdownOpen(false);
+    navigate("/");
+  };
 
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
@@ -72,7 +108,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
       </div>
 
       <div className="flex items-center">
-        {isHomeOrCatalog ? (
+        {!user ? (
           <>
             <Link to="/login" className="me-3">
               Sign In
@@ -86,18 +122,36 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             <button className="text-2xl md:hidden" onClick={toggleSidebar}>
               <RxHamburgerMenu className="pointer" />
             </button>
-            {/* <NavLink to="#">
-              <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            <NavLink to="#">
-              <FaRegHeart className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            <NavLink to="#">
-              <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            <Link to="#">
-              <img src={profile} alt="Profile" className="img-wade" />
-            </Link> */}
+            <div className="relative">
+              <img
+                onClick={toggleDropdown}
+                src={
+                  user?.personal_image
+                    ? `${BASE_URL}/uploads/${user.personal_image}`
+                    : profile
+                }
+                alt="Profile"
+                className="w-10 h-10 rounded-3xl cursor-pointer"
+              />
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-blue-100 rounded-md shadow-lg z-1000">
+                  <Link
+                    to={redirectTo}
+                    className="block px-4 py-2 text-black hover:bg-gray-200"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Go to Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left flex items-center px-4 py-2 text-black hover:bg-gray-200"
+                  >
+                    <RiLogoutBoxRLine className="w-5 h-5 mr-2" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

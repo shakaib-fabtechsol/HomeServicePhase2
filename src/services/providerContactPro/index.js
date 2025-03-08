@@ -63,7 +63,11 @@ export const BASE_API_NODE = createApi({
           }),
           invalidatesTags: ["ContactPro"]
     }),
-   
+    getProviderDeals: builder.query({
+      query: (id) => ({
+        url: `${PROVIDER_CONTACT_PRO.PROVIDER_DEALS}/${id}`,
+      }),
+    }),
     
   }),
 });
@@ -75,4 +79,5 @@ export const {
   useChatProApiMutation,
   useEmailProApiMutation,
   useGetDirectionsApiMutation,
+  useGetProviderDealsQuery,
 } = BASE_API_NODE;

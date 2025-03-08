@@ -4,7 +4,7 @@ import UploadPhotos from "../UploadPhotos";
 import { useAddOrderAfterImagesMutation } from "../../../services/order";
 import Swal from "sweetalert2";
 
-function OrderAfterImagesModal({ isOpen, onClose, orderId }) {
+function OrderAfterImagesModal({ isOpen, onClose, orderId,oldImages }) {
   const [addOrderAfterImages, { isLoading }] = useAddOrderAfterImagesMutation();
 
   const handleAfterImagesUpload = React.useCallback(
@@ -48,6 +48,7 @@ function OrderAfterImagesModal({ isOpen, onClose, orderId }) {
           onUpload={handleAfterImagesUpload}
           title={"After Photos"}
           close={onClose}
+          oldImages={oldImages}
         />
       </div>
     </Modal>

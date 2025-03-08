@@ -2,6 +2,12 @@ export function getImageUrl(imageId) {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   return `${baseUrl}uploads/${imageId}`;
 }
+export const getImagesFromOrder = (order, imageType) => {
+  if (!order || !imageType) return [];
+  //  (e.g., 'before_images' or 'after_images')
+  const images = order[imageType]?.at(0);
+  return images ? JSON.parse(images) : [];
+};
 export function transformDateToLocalString(dateString) {
   let date = new Date(dateString);  
   if (isNaN(date)) {

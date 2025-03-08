@@ -120,38 +120,49 @@ export default function Clients() {
     <div className="flex items-center gap-3" key={`name-${index}`}>
       <img
         className="size-10 max-w-10 rounded-full object-cover bg-[#CFCFCF33]"
-        src={provider?.personal_image?`${BASE_URL}/uploads/${provider?.personal_image}`:camera} // Replace with your image URL or path provider?.personal_image}
+        src={
+          provider?.personal_image
+            ? `${BASE_URL}/uploads/${provider?.personal_image}`
+            : camera
+        }
         alt={provider?.name}
       />
       <p>{provider?.name}</p>
     </div>,
-    provider?.email,
-    provider?.phone,
+    <Link key={`email-${index}`} to={`mailto:${provider.email}`}>
+      {provider.email}
+    </Link>,
+    <Link key={`phone-${index}`} to={`tel:${provider.phone}`}>
+      {provider.phone}
+    </Link>,
     provider?.location || "N/A",
-    <div className="flex items-center gap-2">
-
-      <LuEye className="text-[20px]" onClick={() => {
-        navigate(`/superadmin/clientprofile`, { state: { id: provider?.id } });
-      }} />
-
-
-      <SlPencil className="text-[20px]" onClick={() => {
-        navigate(`/superadmin/editclient`, { state: { id: provider?.id } });
-      }} />
-
-      <HiOutlineTrash onClick={() => {
-        confirmDelete("Client").then((result) => {
-          if (result && provider?.id) {
-            handleDelete(provider?.id);
-            navigate(`/superadmin/clients`, { state: { id: provider?.id } });
-          }
-        })
-      }}
-        className="text-[20px]" />
-
+    <div className="flex items-center gap-2" key={`actions-${index}`}>
+      <LuEye
+        className="text-[20px]"
+        onClick={() => {
+          navigate(`/superadmin/clientprofile`, { state: { id: provider?.id } });
+        }}
+      />
+      <SlPencil
+        className="text-[20px]"
+        onClick={() => {
+          navigate(`/superadmin/editclient`, { state: { id: provider?.id } });
+        }}
+      />
+      <HiOutlineTrash
+        className="text-[20px]"
+        onClick={() => {
+          confirmDelete("Client").then((result) => {
+            if (result && provider?.id) {
+              handleDelete(provider?.id);
+              navigate(`/superadmin/clients`, { state: { id: provider?.id } });
+            }
+          });
+        }}
+      />
     </div>,
   ]);
-
+  
 
 
   if (error) {

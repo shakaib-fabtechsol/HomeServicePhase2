@@ -24,6 +24,7 @@ import Loader from "../../Components/MUI/Loader";
 import { ContactProModal } from "./ContactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
+import { sendInstantChatMessage } from "./sendInstantChatMessage";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,6 +64,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
   useEffect(() => {
     document.title = "Service Details";
   }, []);
+  const { user } = useSelector((state) => state.auth);
 
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
@@ -123,14 +125,19 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
   const [contactModal, setContactModal] = useState("");
   const handlecontactOpen = () => setContactOpen(true);
   const handlecontactClose = () => setContactOpen(false);
-  const handleModalClose = (e) => { setContactModal("") };
+  const handleModalClose = (e) => { setContactModal(""); setLoading(false) };
   const handleSubmitApi = async (modalType, formData) => {
+    console.log("formData", formData)
     if (!formData || !formData?.providerId) {
       toast.info("Invalid Data")
       return
     }
     if (!formData?.providerId) {
       toast.info("Invalid Request")
+      return
+    }
+    if (!formData?.userId) {
+      toast.info("Invalid userId")
       return
     }
     if (!formData?.dealId) {
@@ -149,6 +156,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
           break;
         case "Instant Chat":
           await chatPro(formData).unwrap();
+          await sendInstantChatMessage(formData)
           break;
         case "Email Pro":
           await emailPro(formData).unwrap();
@@ -532,7 +540,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {/* {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -540,7 +548,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>}
+                </button>} */}
             </div>
           </div>
         </div>
@@ -570,7 +578,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
       </div>
     </div>
     {
-      contactModal && <ContactProModal loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
+      contactModal && <ContactProModal providerId={userData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
         submitApi={handleSubmitApi}
 
       />

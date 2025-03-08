@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+// import  logo from "../../src/assets/img/before.1.jpg";
 import {
   IoChatbubbleEllipsesOutline,
   IoLocationOutline,
@@ -14,16 +15,17 @@ import { IoIosStar } from "react-icons/io";
 import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
 import { FiPhone } from "react-icons/fi";
 import { TbMailDown } from "react-icons/tb";
-
+import { PiChats } from "react-icons/pi";
 import Swal from "sweetalert2";
 
 import Loader from "../../Components/MUI/Loader";
 
 import {
-    useGetDeal1Query,
+  useGetDealQuery,
   useGetUserDetailsQuery,
   useDeleteDealMutation,
 } from "../../services/base-api/index";
+import { ContactProModal } from "../../contactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
 
@@ -72,17 +74,53 @@ function ServiceDetail() {
   const {
     data: dealData,
     isLoading: dealLoading,
-  } =  useGetDeal1Query(dealid, { skip: !token || !dealid });
-  const serviceDetails = dealData?.deal[0];
-  const service=dealData?.businessProfile;
-console.log(serviceDetails,"valueeee")
+  } = useGetDealQuery(dealid, { skip: !dealid });
+  const serviceDetails = dealData?.deal;
+
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
+  const {
+    data: userData,
+    isLoading: userLoading,
+
+  } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
+
+  const provider = userData?.businessProfile[0] || {};
+  console.log(provider, "valueeeeeeeeeeeee");
+  console.log("dealData", dealData,);
+  console.log("userData", userData,);
+
+  const [deleteDeal] = useDeleteDealMutation();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
- 
+  const handleDelete = (dealId) => {
+    if (!dealId) {
+      console.error("Deal ID is missing!");
+      return;
+    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false,
+      preConfirm: async () => {
+        try {
+          await deleteDeal(dealId).unwrap();
+          navigate("/provider/services");
+          navigate("/provider/services");
+        } catch (error) {
+          Swal.fire("Error!", "Failed to delete the deal.", "error");
+        }
+      },
+    });
+  };
 
   const [contactopen, setContactOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -159,22 +197,22 @@ console.log(serviceDetails,"valueeee")
     },
   ];
 
-  if (dealLoading) {
+  if (dealLoading || userLoading) {
     return <Loader />;
   }
-  if (!service) {
+  if (!serviceDetails) {
     return <div>No service details available.</div>;
   }
 
 
-  const imagePath = service?.business_logo;
+  const imagePath = provider?.business_logo;
   const imageUrl = imagePath
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
     : "/service1.png";
 
   const regularHours =
-  service && service.regular_hour
-      ? JSON.parse(service.regular_hour || "[]")
+    provider && provider.regular_hour
+      ? JSON.parse(provider.regular_hour || "[]")
       : [];
   const days = [
     "Sunday",
@@ -208,10 +246,10 @@ console.log(serviceDetails,"valueeee")
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
-          <Link to="/customer/Deals">
+          <Link to="/provider/services">
             <FaArrowLeft className="me-4 text-xl" />
           </Link>
-          <h2 className="text-2xl font-semibold">Customer Details</h2>
+          <h2 className="text-2xl font-semibold">Service Details</h2>
         </div>
         <p className="text-[#535862] mt-4 ms-8">
           Stay Updated on Your Active Deals.
@@ -222,14 +260,27 @@ console.log(serviceDetails,"valueeee")
           <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
             {serviceDetails?.service_title || "N/A"}
           </h2>
-         
+          <div className="flex items-center justify-end mt-3 lg:mt-0">
+            <button
+              className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
+              onClick={() => handleDelete(dealid)}
+            >
+              <FaRegTrashCan />
+            </button>
+            <Link
+              to={`/provider/NewDeals/${dealid}`}
+              className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
+            >
+              <FaPencilAlt />
+            </Link>
+          </div>
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-12 xl:col-span-8">
             <div className="">
               <div className="flex flex-wrap items-center">
                 <img
-                  onClick={() => navigate("/customer/Deals")}
+                  onClick={() => navigate("/provider/ProfileDetails")}
                   src={imageUrl}
                   alt=""
                   className="me-2 my-2 rounded-lg object-cover w-[100px] h-[100px] cursor-pointer"
@@ -237,9 +288,9 @@ console.log(serviceDetails,"valueeee")
                 />
                 <div className="my-2">
                   <div className="flex">
-                    <Link to="/customer/Deals">
+                    <Link to="/provider/ProfileDetails">
                       <p className="font-semibold myhead me-2">
-                        { service?.business_name}
+                        {provider?.business_name}
                       </p>
                     </Link>
                     <div className="flex">
@@ -250,10 +301,10 @@ console.log(serviceDetails,"valueeee")
                     </div>
                   </div>
                   <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">{ service?.business_primary_category}</p>
+                    <p className="myblack pe-3 me-3 border-e">{provider?.business_primary_category}</p>
                     <div className="flex items-center">
                       <IoLocationOutline className="me-2 myblack" />
-                      <p className="myblack ">{ service?.business_location}</p>
+                      <p className="myblack ">{provider?.business_location}</p>
                     </div>
                   </div>
                   <div className="flex mt-2 items-center">
@@ -485,7 +536,7 @@ console.log(serviceDetails,"valueeee")
                   )}
                 </Box>
               </div>
-              {/* {userData?.user?.customer_notification 
+              {userData?.user?.customer_notification 
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -493,7 +544,7 @@ console.log(serviceDetails,"valueeee")
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>} */}
+                </button>}
             </div>
           </div>
         </div>

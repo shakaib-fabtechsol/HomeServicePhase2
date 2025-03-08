@@ -3,7 +3,7 @@ import CommonDashboard from "../../Components/Common/CommonDashboard";
 
 function Dashboard() {
   useEffect(() => {
-    document.title = "Dashboard";
+    document.title = "Dashboard2";
   }, []);
   return (
     <CommonDashboard

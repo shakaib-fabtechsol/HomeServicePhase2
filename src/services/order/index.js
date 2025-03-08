@@ -7,6 +7,10 @@ export const orderAPIs = BASE_API.injectEndpoints({
       query: () => END_POINTS.CUSTOM_ORDERS,
       providesTags: ["CustomerOrders"],
     }),
+    getMyOrdersAsCustomer: builder.query({
+      query: () => END_POINTS.My_ORDERS_As_CUSTOMER,
+      providesTags: ["CustomerOrders"],
+    }),
     getOrderDetails: builder.query({
       query: (orderId) => `${END_POINTS.GET_ORDER_DETAILS}/${orderId}`,
       providesTags: (result, error, orderId) => [
@@ -57,14 +61,36 @@ export const orderAPIs = BASE_API.injectEndpoints({
         { type: "OrderDetails", id: arg?.order_id },
       ],
     }),
+    createOffer: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.CREATE_OFFER,
+        method: "POST",
+        body: data,
+      }),
+    
+    }),
+    scheduleOrder: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.SCHEDULE_ORDER,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        "CustomerOrders",
+        { type: "OrderDetails", id: arg?.order_id },
+      ],
+    }),
   }),
 });
 
 export const {
   useGetCustomerOrdersQuery,
   useGetOrderDetailsQuery,
+  useGetMyOrdersAsCustomerQuery,
   useDeliverOrderMutation,
   useAddOrderBeforeImagesMutation,
   useAddOrderAfterImagesMutation,
   useMarkOrderAsCompleteMutation,
+  useCreateOfferMutation,
+  useScheduleOrderMutation,
 } = orderAPIs;

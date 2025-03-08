@@ -554,7 +554,7 @@ const token =useSelector((state)=>state.auth.token);
           onClick={handlePublish}
           disabled={publishLoading}
         >
-          {publishLoading ? "Publishing..." : "Publish"}
+          {publishLoading ? "Publishing..." : "Publish & Next"}
         </button>
        
         <button
@@ -572,21 +572,23 @@ const token =useSelector((state)=>state.auth.token);
 
   return (
     <>
-      <div>
-        <form onSubmit={handleSubmit}>
-          {!window.google ? (
-            <LoadScript
-              googleMapsApiKey={GOOGLE_API_KEY}
-              libraries={["places"]}
-              onLoad={() => console.log("Google Maps API Loaded")}
-            >
-              {renderFormContent()}
-            </LoadScript>
-          ) : (
-            renderFormContent()
-          )}
-        </form>
-      </div>
+     <div>
+  <form onSubmit={handleSubmit}>
+    {/* Check if Google Maps API is already loaded */}
+    {!window.google ? (
+      <LoadScript
+        googleMapsApiKey={GOOGLE_API_KEY}
+        libraries={["places"]}
+        onLoad={() => console.log("Google Maps API Loaded")}
+      >
+        {renderFormContent()}
+      </LoadScript>
+    ) : (
+      
+      renderFormContent()
+    )}
+  </form>
+</div>
     </>
   );
 };

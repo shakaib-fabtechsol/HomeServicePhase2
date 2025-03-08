@@ -46,7 +46,7 @@ const {
           toChild: "/provider/dealDetails",
           toChild2: "/provider/newDeals",
         },
-        { to: "/provider/probucks", icon: AiOutlineDollar, label: "Pro Bucks" },
+        // { to: "/provider/probucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/provider/orders",
           toChild: "/provider/orderdetails",
@@ -59,7 +59,7 @@ const {
           label: "Payments/Payout",
         },
         { to: "/provider/favourites", icon: FaRegHeart, label: "Favorites" },
-        { to: "/provider/reports", icon: PiFiles, label: "Reports" },
+        // { to: "/provider/reports", icon: PiFiles, label: "Reports" },
       ],
     },
     {
@@ -69,11 +69,11 @@ const {
           icon: IoChatboxEllipsesOutline,
           label: "Conversations",
         },
-        {
-          to: "/provider/notification",
-          icon: GrNotification,
-          label: "Notifications",
-        },
+        // {
+        //   to: "/provider/notification",
+        //   icon: GrNotification,
+        //   label: "Notifications",
+        // },
         { to: "/provider/settings", icon: AiOutlineSetting, label: "Settings" },
         { to: "/provider/support", icon: CgSupport, label: "Support" },
       ],

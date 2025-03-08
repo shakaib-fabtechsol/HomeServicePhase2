@@ -24,8 +24,8 @@ const CustomerLayout = () => {
   const sidebarData = [
     {
       items: [
-        { to: "/customer/dashboard2", icon: IoHomeOutline, label: "Home" },
-        { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
+        { to: "/customer/dashboard", icon: IoHomeOutline, label: "Home" },
+        // { to: "/customer/bucks", icon: AiOutlineDollar, label: "Pro Bucks" },
         {
           to: "/customer/order",
           icon: RiBarChartHorizontalLine,
@@ -43,12 +43,12 @@ const CustomerLayout = () => {
           label: "Payments/Payout",
         },
         {
-          to: "/customer/favourites",
+          to: "/customer/favourites1",
           icon: FaRegHeart,
           label: "Favorites",
           toChild: "/customer/dealDetails",
         },
-        { to: "/customer/reports", icon: PiFiles, label: "Reports" },
+        // { to: "/customer/reports", icon: PiFiles, label: "Reports" },
       ],
     },
     {
@@ -58,11 +58,11 @@ const CustomerLayout = () => {
           icon: IoChatboxEllipsesOutline,
           label: "Conversations",
         },
-        {
-          to: "/customer/notification",
-          icon: GrNotification,
-          label: "Notifications",
-        },
+        // {
+        //   to: "/customer/notification",
+        //   icon: GrNotification,
+        //   label: "Notifications",
+        // },
         { to: "/customer/setting", icon: AiOutlineSetting, label: "Settings" },
         { to: "/customer/support", icon: CgSupport, label: "Support" },
       ],

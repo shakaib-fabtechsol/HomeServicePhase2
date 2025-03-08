@@ -27,6 +27,7 @@ export const END_POINTS = {
   SERVICE_SUMMARY: "/SuperAdmin/ServiceSummary",
   CLIENT_SUMMARY: "/SuperAdmin/GetClientsSummary",
   CUSTOM_ORDERS: "/OrdersList",
+  My_ORDERS_As_CUSTOMER: "/Customer/Orders",
   GET_ORDER_DETAILS: "/GetOrderDetails",
   ORDER_CONFIRMED: "/OrderConfirm",
   ORDER_BEFORE_IMAGES: "/OrderBeforeImages",
@@ -34,6 +35,8 @@ export const END_POINTS = {
   CUSTOMER_SUPPORT: "/CustomerSupport",
   UPDATE_CUSTOMER_SUPPORT: "/UpdateSupport",
   GET_SUPPORT: "/GetSupport",
+  CREATE_OFFER: "/CreateOffer",
+  SCHEDULE_ORDER: "/AddScheduleOrder",
 };
 
 export const PRO_POINTS = {
@@ -63,7 +66,8 @@ export const SALEREP_POINTS = {
     GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
-    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider",
+    SALES_REPOS:"/salesrep"
 
 }
 export const SALE_POINTS = {
@@ -77,8 +81,11 @@ export const SALE_POINTS = {
   }
   export const FAV={
    FAVOURITES:"/FavoritService",
-  GET_FAVOURITES:"/GetFavoritService"
+  GET_FAVOURITES:"/GetFavoritService",
+  FAVOURITES1:"/Customer/FavoritDeal",
+  GET_FAVOURITES1:"/Customer/GetCustomerFavoritService",
    }
+  
    
    export const PROVIDER_CONTACT_PRO={
     GET_RECORDS:"/api/contact-pro/provider",
@@ -87,6 +94,7 @@ export const SALE_POINTS = {
     SEND_INSTANT_MESSAGE:"/api/contact-pro/send-instant-chat",
     SEND_EMAIL:"/api/contact-pro/send-email",
     SEND_GET_DIRECTION:"/api/contact-pro/send-get-direction",
+    PROVIDER_DEALS:"/api/contact-pro/deals",
     }
    
   

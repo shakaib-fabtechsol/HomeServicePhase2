@@ -3,6 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 import ServiceBox from "../../Components/ServiceBox";
+import Loader from "../../Components/MUI/Loader"; // Import Loader
 
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -14,12 +15,12 @@ function Services() {
 
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [services, setServices] = useState([]);
-  const {user, token} = useSelector((state) => state.auth);
-console.log("user", user)
+
+  const { user, token } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // Show loader before fetching data
 
     axios
       .get("https://marketplace.thefabulousshow.com/api/Deals", {
@@ -29,11 +30,11 @@ console.log("user", user)
       })
       .then((response) => {
         setServices(response.data.deals);
-        setLoading(false);
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Error fetching deals:", error);
-        setLoading(false);
+        setLoading(false); // Hide loader even if there's an error
       });
   }, []);
 
@@ -73,48 +74,53 @@ console.log("user", user)
           </Link>
         </div>
 
-        <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-          {filteredServices.length > 0 ? (
-            filteredServices.map((service) => (
-              <ServiceBox
-                key={service.id}
-                title={service.service_title}
-                price={
-                  service.pricing_model === "Flat"
-                    ? service.flat_rate_price
-                    : service?.pricing_model == "Hourly"
+      
+        {loading ? (
+          <div className="flex justify-center items-center mt-7">
+            <Loader />
+          </div>
+        ) : (
+          <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {filteredServices.length > 0 ? (
+              filteredServices.map((service) => (
+                <ServiceBox
+                  key={service.id}
+                  title={service.service_title}
+                  price={
+                    service.pricing_model === "Flat"
+                      ? service.flat_rate_price
+                      : service?.pricing_model === "Hourly"
                       ? service.hourly_final_list_price
                       : service.price1
-                }
-                tags={service.search_tags}
-                image={service.images}
-                publish={service.publish}
-                userimg={service.personal_image}
-                username={service.user_name}
-                description={service.service_description}
-                category={service.service_category}
-                dealid={service.id}
-                Rating={service.rating}
-                Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
-
-                videos={service.videos}
-                imgs={service.personal_image
-                }
-                Days={
-                  service.pricing_model === "Flat"
-                    ? service.flat_estimated_service_time
-                    : service?.pricing_model == "Hourly"
+                  }
+                  tags={service.search_tags}
+                  image={service.images}
+                  publish={service.publish}
+                  userimg={service.personal_image}
+                  username={service.user_name}
+                  description={service.service_description}
+                  cateogory={service.service_category}
+                  dealid={service.id}
+                  Rating={service.rating}
+                  Liked={service.Liked}
+                  serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                  videos={service.videos}
+                  imgs={service.personal_image}
+                  Days={
+                    service.pricing_model === "Flat"
+                      ? service.flat_estimated_service_time
+                      : service?.pricing_model === "Hourly"
                       ? service.hourly_estimated_service_time
                       : service.estimated_service_timing
-                }
-                totalReviews={service.totalReviews}
-              />
-            ))
-          ) : (
-            <p>No services found</p>
-          )}
-        </div>
+                  }
+                  totalReviews={service.totalReviews}
+                />
+              ))
+            ) : (
+              <p>No services found</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

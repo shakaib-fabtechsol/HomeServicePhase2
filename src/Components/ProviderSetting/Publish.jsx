@@ -16,6 +16,7 @@ import RegularHour from "../AdditionalPhoto/RegularHour";
 import SpecialHour from "../AdditionalPhoto/specialHour";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { useGetMyDetailsQuery} from "../../services/settings";
 import {
@@ -27,6 +28,7 @@ export default function Publish() {
  const { data: userData, } = useGetMyDetailsQuery();
  const user=useSelector((state)=>state.auth.user);
  const dealid = localStorage.getItem("deal_id");
+
  const token=useSelector((state)=>state.auth.token);
  const [loading, setLoading] = useState(false);
  const [formData, setFormData] = useState({});
@@ -183,17 +185,20 @@ const handleSubmit = async (e) => {
     setLoading(false);
     return;
   }
-
-  try {
-    const response = await publishDeal({ deal_id: dealid }).unwrap();
-    console.log(response,"value");
-   
-    if (response?.deal?.publish === 1) {
-      setFormData((prev) => ({ ...prev, publish: response?.deal?.publish }));
+  
+    try {
+      const response = await axios.get(
+          `https://marketplace.thefabulousshow.com/api/SettingPublish/${user?.id}`,
+          {
+              headers: { Authorization: `Bearer ${token}` },
+          }
+      );
+      if (response.data?.setting?.publish === 1) {
+        setFormData((prev) => ({ ...prev, publish: response.data?.setting?.publish }));
       Swal.fire({
         icon: "success",
         title: "Success!",
-        text: response.message || "Deal updated successfully.",
+        text:"Deal updated successfully.",
         confirmButtonColor: "#0F91D2",
       }).then(() => {
         navigate("/provider/services");
@@ -202,7 +207,7 @@ const handleSubmit = async (e) => {
       Swal.fire({
         icon: "error",
         title: "Error!",
-        text: response.message || "Failed to update deal.",
+        text: "Failed to update deal.",
         confirmButtonColor: "#D33",
       });
     }

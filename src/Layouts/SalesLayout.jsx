@@ -52,7 +52,7 @@ export default function SalesLayout() {
           icon: HiOutlineClipboardList,
           label: "Task List",
         },
-        { to: "/sales/reports", icon: PiFiles, label: "Reports" },
+        // { to: "/sales/reports", icon: PiFiles, label: "Reports" },
       ],
     },
     {
@@ -62,11 +62,11 @@ export default function SalesLayout() {
           icon: IoChatboxEllipsesOutline,
           label: "Conversations",
         },
-        {
-          to: "/sales/notification",
-          icon: GrNotification,
-          label: "Notifications",
-        },
+        // {
+        //   to: "/sales/notification",
+        //   icon: GrNotification,
+        //   label: "Notifications",
+        // },
         {
           to: "/sales/setting",
           icon: AiOutlineSetting,
