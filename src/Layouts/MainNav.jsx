@@ -70,10 +70,10 @@ const MainNav = ({ toggleSidebar, logolink }) => {
           </>
         ) : (
           <>
-            {/* <button className="text-2xl md:hidden" onClick={toggleSidebar}>
+           <button className="text-2xl md:hidden" onClick={toggleSidebar}>
               <RxHamburgerMenu className="pointer" />
             </button>
-            <NavLink to="#">
+            {/*  <NavLink to="#">
               <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
             </NavLink>
             <NavLink to="#">
