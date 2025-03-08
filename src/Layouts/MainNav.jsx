@@ -70,7 +70,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
           </>
         ) : (
           <>
-           <button className="text-2xl md:hidden" onClick={toggleSidebar}>
+            <button className="text-2xl md:hidden" onClick={toggleSidebar}>
               <RxHamburgerMenu className="pointer" />
             </button>
             {/*  <NavLink to="#">
@@ -81,10 +81,10 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             </NavLink>
             <NavLink to="#">
               <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink> */}
-            <Link to="#">
-              <img src={ user?.personal_image ? `${BASE_URL}/uploads/${user?.personal_image}` : profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
-            </Link>
+            </NavLink>
+            {/* <Link to="#">
+              <img src={`${BASE_URL}/uploads/${user?.personal_image}` || profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
+            </Link> */}
           </>
         )}
       </div>
