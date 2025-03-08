@@ -23,7 +23,7 @@ function FilterNav() {
             {categories.map((category, index) => (
               <Link
                 key={index}
-                to="/catalogResult"
+                to={`/catalogResult?service=${category}`}
                 className="px-3 py-2 text-nowrap text-[#00000078] text-sm"
               >
                 {category}
