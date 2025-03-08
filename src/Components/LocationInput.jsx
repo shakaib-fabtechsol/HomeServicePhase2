@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
-
-const libraries = ["places"];
-const GOOGLE_MAPS_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0"; // Replace with your actual key
-
-const LocationInput = ({ label, placeholder, register   }) => {
+import { Autocomplete } from "@react-google-maps/api";
 
 
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
+const LocationInput = ({ label, placeholder, register }) => {
+
+
+
 
   const onPlaceSelected = (autocomplete) => {
     const place = autocomplete.getPlace();
@@ -20,7 +14,7 @@ const LocationInput = ({ label, placeholder, register   }) => {
     }
   };
 
-  if (!isLoaded) return <div>Loading...</div>;
+
 
   return (
     <div>
@@ -35,7 +29,7 @@ const LocationInput = ({ label, placeholder, register   }) => {
           {...register("location", { required: "Location is required" })}
           placeholder={placeholder || "Enter location..."}
         />
-        
+
       </Autocomplete>
     </div>
   );
