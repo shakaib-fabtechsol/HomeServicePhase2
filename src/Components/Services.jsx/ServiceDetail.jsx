@@ -543,7 +543,7 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {/* {userData?.user?.customer_notification 
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -551,7 +551,7 @@ function ServiceDetail() {
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>}
+                </button>} */}
             </div>
           </div>
         </div>

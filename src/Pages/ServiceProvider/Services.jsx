@@ -30,7 +30,7 @@ function Services() {
       })
       .then((response) => {
         setServices(response.data.deals);
-        setLoading(false); // Hide loader after data is fetched
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Error fetching deals:", error);
@@ -99,7 +99,7 @@ function Services() {
                   userimg={service.personal_image}
                   username={service.user_name}
                   description={service.service_description}
-                  category={service.service_category}
+                  cateogory={service.service_category}
                   dealid={service.id}
                   Rating={service.rating}
                   Liked={service.Liked}
