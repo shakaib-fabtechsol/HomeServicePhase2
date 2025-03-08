@@ -1,4 +1,4 @@
-import React, { useState }, { useState } from "react";
+import React, { useState } from "react";
 import { NavLink, Link, useLocation, useNavigate, useNavigate } from "react-router-dom";
 
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -26,7 +26,6 @@ const MainNav = ({ toggleSidebar, logolink }) => {
     const searchParams = new URLSearchParams(location.search);
     const locationParam = searchParams.get("location");
     const serviceParam = searchParams.get("service");
-  const navigate = useNavigate()
   const [locationser, setLocation] = useState(locationParam||"");
   const [service, setService] = useState(serviceParam||"");
 
