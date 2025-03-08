@@ -12,6 +12,7 @@ function ServiceBox({
   title,
   dealid,
   price,
+  cateogory,
   serviceDetailTo,
   review,
   userimg,
@@ -99,7 +100,7 @@ function ServiceBox({
          <button
       onClick={() => {
         setLiked(!liked);
-        navigate('/customer/favourites');
+        navigate("/provider/dashboard")
       }}
     >
             
@@ -167,10 +168,12 @@ function ServiceBox({
           <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
           <p className="text-lg font-extrabold">{price ?? "N/A"}</p>
         </div>
-       
-        <div className="flex flex-wrap items-center justify-between text-sm text-[#535862] mt-4">
-          <div>
+        <div>
             {tags}
+          </div>
+        <div className="flex flex-wrap items-center justify-between text-sm text-black mt-4">
+          <div className="bg-[#0F91D2] px-2 py-2 rounded-2xl  text-black">
+          {cateogory}
           </div>
           <div className="flex items-center">
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />

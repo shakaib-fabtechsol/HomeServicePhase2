@@ -1,124 +1,59 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import ServiceBox from "../Components/ServiceBox";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import cardvideo from "../assets/img/cardvideo.mp4";
-import slideimg from "../assets/img/service1new.jpeg";
-import client1 from "../assets/img/client2.png";
-import client2 from "../assets/img/client3.png";
+import { useLocation } from "react-router-dom";
+import { useGetservicebysearchQuery } from "../services/dashboard";
+import Loader from "../Components/MUI/Loader";
+import RemoteError from "../Components/Common/RemoteError";
+import { useSelector } from "react-redux";
 
 function CatalogResult() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const locationParam = searchParams.get("location");
+  const serviceParam = searchParams.get("service");
+  const [distance, setDistance] = useState("");
+  const [budget, setBudget] = useState("");
+  const [selectedReviews, setSelectedReviews] = useState();
+  const [selectedDeliveryTime, setSelectedDeliveryTime] = useState("");
+  const { data, isLoading, isError, error, isFetching } = useGetservicebysearchQuery({ service: serviceParam || "", location: locationParam || "", reviews: selectedReviews || "", estimate_time: selectedDeliveryTime || "", distance: distance || "", budget: budget || "" });
+  const role = useSelector((state) => state.auth.user);
+  console.log("role", role?.role);
   useEffect(() => {
     document.title = "CatalogResults";
   }, []);
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "John Doe",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 1,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "Julia Maria",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 0,
-    },
-    {
-      id: 1,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "John Doe",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 1,
-    },
-    {
-      id: 3,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "John Doe",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 0,
-    },
-    {
-      id: 4,
-      title: "Plumbing Service",
-      price: 50,
-      description: "Fix your leaking pipes and taps.",
-      tags: ["Plumbing", "Repair"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "Julia Maria",
-      userimg: client2,
-      rating: 4.3,
-      liked: true,
-      publish: 1,
-    },
-    {
-      id: 2,
-      title: "House Cleaning",
-      price: 30,
-      description: "Professional house cleaning services.",
-      tags: ["Cleaning", "Home"],
-      image: "",
-      videos: [cardvideo, cardvideo],
-      images: [slideimg, slideimg, slideimg, slideimg],
-      totalReviews: 1500,
-      username: "John Doe",
-      userimg: client1,
-      rating: 4.3,
-      liked: true,
-      publish: 0,
-    },
-  ];
 
   const [openAccordion, setOpenAccordion] = useState(null);
-  const [distance, setDistance] = useState(10);
-  const [Budget, setBudget] = useState(100);
+
 
   const toggleAccordion = (section) => {
     setOpenAccordion(openAccordion === section ? null : section);
   };
+
+  const handleReviewChange = (review) => {
+    setSelectedReviews(review)
+  };
+
+  const handleDeliveryTimeChange = (time) => {
+    setSelectedDeliveryTime(time);
+  };
+
+  if (isError) {
+    return <RemoteError hasError={isError} message={error?.message} />;
+  }
+  const redirectTo =
+  role?.role === 1
+    ? "/customer/dealDetails"
+    : role?.role === 2
+      ? "/provider/dealDetails"
+      : role?.role === 3
+        ? "/sales/dealdetails"
+        : role?.role === 0
+          ? "/superadmin/dealDetails"
+          : "/";
+
   return (
     <>
       <div>
@@ -130,7 +65,7 @@ function CatalogResult() {
                 Showing full catalog results, giving you the{" "}
                 <b>widest variety</b> of <b>services</b>...{" "}
               </p>
-              <p className="text-sm text-[#757575]">60 results</p>
+              <p className="text-sm text-[#757575]">{data?.deals?.length || 0} results</p>
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between">
@@ -140,7 +75,7 @@ function CatalogResult() {
                 {/* Budget Accordion */}
                 <div className="border-b">
                   <button
-                    className="w-full flex justify-between items-center py-2 text-left "
+                    className="w-full flex justify-between items-center py-2 text-left"
                     onClick={() => toggleAccordion("budget")}
                   >
                     Budget
@@ -153,19 +88,19 @@ function CatalogResult() {
                   {openAccordion === "budget" && (
                     <div className="py-2">
                       <div className="text-center text-gray-700 text-sm font-medium">
-                        {Budget >= 10000
-                          ? `${(Budget / 1000).toFixed(0)}K`
-                          : Budget}{" "}
-                        $
+                        {budget > 0 ? (budget >= 1000 ? `${(budget / 1000).toFixed(1)}K` : budget) : "0"} $
+
                       </div>
                       <input
                         type="range"
                         min="0"
                         max="100000"
-                        value={Budget}
-                        onChange={(e) => setBudget(e.target.value)}
+                        step="1"
+                        value={budget}
+                        onChange={(e) => setBudget(Number(e.target.value))}
                         className="w-full cursor-pointer custom-slider"
                       />
+
                     </div>
                   )}
                 </div>
@@ -173,7 +108,7 @@ function CatalogResult() {
                 {/* Reviews Accordion */}
                 <div className="border-b">
                   <button
-                    className="w-full flex justify-between items-center py-2 text-left "
+                    className="w-full flex justify-between items-center py-2 text-left"
                     onClick={() => toggleAccordion("reviews")}
                   >
                     Reviews
@@ -185,10 +120,16 @@ function CatalogResult() {
                   </button>
                   {openAccordion === "reviews" && (
                     <div className="py-2">
-                      {["Below 3 Stars", "3+ Stars", "4+ Stars", "5 Stars"].map(
+                      {["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"].map(
                         (label, index) => (
                           <label key={index} className="flex items-center">
-                            <input type="checkbox" className="mr-2" /> {label}
+                            <input
+                              type="checkbox"
+                              className="mr-2"
+                              checked={selectedReviews === index + 1}
+                              onChange={() => handleReviewChange(index + 1)}
+                            />{" "}
+                            {label}
                           </label>
                         )
                       )}
@@ -199,7 +140,7 @@ function CatalogResult() {
                 {/* Delivery Time Accordion */}
                 <div className="border-b">
                   <button
-                    className="w-full flex justify-between items-center py-2 text-left "
+                    className="w-full flex justify-between items-center py-2 text-left"
                     onClick={() => toggleAccordion("deliveryTime")}
                   >
                     Delivery Time
@@ -212,18 +153,19 @@ function CatalogResult() {
                   {openAccordion === "deliveryTime" && (
                     <div className="py-2">
                       {[
-                        "Emergency | Same Day",
-                        " Rush | 1-2 day",
-                        "Fast | 3-5 Days",
-                        "Standard | 1-2 Weeks",
-                        "Scheduled | 2-4 Weeks",
-                        "Backlog | 1 month+",
+                        "Same day",
+                        "2 days",
+                        "3 days",
+                        "1 week",
+                        "2 weeks",
                       ].map((label, index) => (
                         <label key={index} className="flex items-center my-1">
                           <input
                             type="radio"
                             name="delivery"
                             className="mr-2"
+                            checked={selectedDeliveryTime === label}
+                            onChange={() => handleDeliveryTimeChange(label)}
                           />{" "}
                           {label}
                         </label>
@@ -235,7 +177,7 @@ function CatalogResult() {
                 {/* Location Distance Accordion */}
                 <div className="border-b py-2">
                   <button
-                    className="w-full flex justify-between items-center text-left "
+                    className="w-full flex justify-between items-center text-left"
                     onClick={() => toggleAccordion("location")}
                   >
                     <span>Location / Distance</span>
@@ -245,47 +187,72 @@ function CatalogResult() {
                       <IoIosArrowDown className="text-xl text-gray-500" />
                     )}
                   </button>
-
                   {openAccordion === "location" && (
                     <div className="py-2">
                       <div className="text-center text-gray-700 text-sm font-medium">
-                        {distance} km
+                        {distance > 0 ? `${distance} km` : "0 km"}
+
                       </div>
                       <input
                         type="range"
-                        min="1"
-                        max="100"
+                        min="0"
+                        max="10000"
+                        step="1"
                         value={distance}
-                        onChange={(e) => setDistance(e.target.value)}
+                        onChange={(e) => setDistance(Number(e.target.value))}
                         className="w-full cursor-pointer custom-slider"
                       />
+
                     </div>
                   )}
                 </div>
               </div>
             </div>
-            <div className="filter-other ">
-              <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((service, index) => (
-                  <ServiceBox
-                    key={index}
-                    title={service.title}
-                    price={service.price}
-                    description={service.description}
-                    tags={service.tags}
-                    image={service.image}
-                    publish={service.publish}
-                    serviceDetailTo="/dealdetails"
-                    videos={service.videos}
-                    imgs={service.images}
-                    username={service.username}
-                    userimg={service.userimg}
-                    Rating={service.rating}
-                    Liked={service.rating}
-                    totalReviews={service.totalReviews}
-                  />
-                ))}
-              </div>
+            <div className="filter-other">
+              {(isFetching || isLoading) ? <Loader /> : (
+                <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                  {data?.deals?.length > 0 ? (
+                    data?.deals?.map((service) => (
+                      <ServiceBox
+                        key={service.id}
+                        title={service.service_title}
+                        price={
+                          service.pricing_model === "Flat"
+                            ? service.flat_rate_price
+                            : service?.pricing_model === "Hourly"
+                              ? service.hourly_final_list_price
+                              : service.price1
+                        }
+                        tags={service.search_tags}
+                        image={service.images}
+                        publish={service.publish}
+                        userimg={service.userimg}
+                        username={service.user_name}
+                        description={service.service_description}
+                        category={service.service_category}
+                        dealid={service.id}
+                        Rating={service.rating}
+                        Liked={service.Liked}
+                        serviceDetailTo={`${redirectTo}/${service?.id}`}
+                        videos={service.videos}
+                        imgs={service.images}
+                        Days={
+                          service.pricing_model === "Flat"
+                            ? service.flat_estimated_service_time
+                            : service?.pricing_model === "Hourly"
+                              ? service.hourly_estimated_service_time
+                              : service.estimated_service_timing
+                        }
+                        totalReviews={service.totalReviews}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center w-full h-full">
+                      <p>No services found</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
