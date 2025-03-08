@@ -82,7 +82,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             <NavLink to="#">
               <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
             </NavLink> */}
-            <Link to="#">
+            <Link to={user?.role === 1 ? "/customer/profile" : "/provider/profile"}>
               <img src={ user?.personal_image ? `${BASE_URL}/uploads/${user?.personal_image}` : profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
             </Link>
           </>

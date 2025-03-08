@@ -105,4 +105,4 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
   );
 };
 
-export default Sidebar;
+export default Sidebar; 

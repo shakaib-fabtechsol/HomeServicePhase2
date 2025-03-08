@@ -68,6 +68,7 @@ function ServiceDetail() {
   useEffect(() => {
     document.title = "Service Details";
   }, []);
+  const { user } = useSelector((state) => state.auth);
 
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
@@ -543,7 +544,7 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
                   onClick={handlecontactOpen}
