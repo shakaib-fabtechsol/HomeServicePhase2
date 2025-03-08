@@ -14,7 +14,9 @@ function OrderStatus({ status }) {
                   ? "bg-[#0000FF1A]  text-[#0000FF]"
                   : status === "pending"
                     ? "bg-[#FFA5001A]  text-[#FFA500]"
-                    : ""
+                    : status === "inrevision"
+                      ? "bg-[#FFD7001A]  text-[#FFD700]"
+                      : ""
       }`}
     >
       {status}

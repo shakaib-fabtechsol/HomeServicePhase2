@@ -126,7 +126,7 @@ function App() {
           }
         >
             <Route path="/customer/dashboard" element={<Dashboardc2 />} />
-            <Route path="/customer/orderdetails" element={<OrderDetail />} />
+            <Route path="/customer/orderdetails/:id" element={<OrderDetail />} />
             <Route path="/customer/bucks" element={<ProBucks />} />
             <Route path="/customer/order" element={<Order />} />
             <Route path="/customer/setting" element={<Setting />} />

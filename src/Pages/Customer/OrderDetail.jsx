@@ -12,6 +12,10 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { MdUpload } from "react-icons/md";
 import ReviewModal from "../../Components/Provider/ReviewModal";
+import { useMyOrderDetailsAsCustomerQuery } from "../../services/order/index.js";
+import { useParams } from "react-router-dom";
+import LoadingSpinner from "../../Components/Common/LoadingSpinner.jsx";
+import RemoteError from "../../Components/Common/RemoteError.jsx";
 
 const style = {
   position: "absolute",
@@ -26,9 +30,22 @@ const style = {
 };
 
 const OrderDetail = () => {
+  const { id } = useParams();
+  
+  const [images, setImages] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const {isFetching,data,isError,error}=useMyOrderDetailsAsCustomerQuery(id)
+
+  console.log("+++++++++++++++++++++++++++=")
+  console.log(data)
+
   useEffect(() => {
     document.title = "OederDetails";
   }, []);
+  if (isFetching) return <LoadingSpinner />;
+  if (isError)
+    return <RemoteError hasError={isError} message={error?.message} />;
 
   const deliveryImages = [
     DeliveryOne,
@@ -36,11 +53,8 @@ const OrderDetail = () => {
     DeliveryThree,
     DeliveryFour,
   ];
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const [images, setImages] = useState([]);
 
   // Handle image upload and convert file objects to URLs
   const handleImageUpload = (event) => {

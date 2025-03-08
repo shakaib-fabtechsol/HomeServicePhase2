@@ -1,26 +1,23 @@
-
-import before1 from "../../assets/img/before1.png";
-import before2 from "../../assets/img/before2.png";
-import before3 from "../../assets/img/before3.png";
-import logo from "../../assets/img/logo.png";
 import { Rating } from "@mui/material";
 import BlueSwitch from "../SuperAdmin/settings/BlueSwitch";
 import { getImageUrl } from "../../utils/index.js";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useMarkOrderAsCompleteMutation } from "../../services/order/index.js";
+import { useCompleteOrderWithoutReviewMutation, useMarkOrderAsCompleteMutation } from "../../services/order/index.js";
+import Swal from "sweetalert2";
+import React from "react";
 
 const schema = yup.object().shape({
-  rating: yup.number().required("Rating is required"),
+  rating: yup.number().required("Rating is required").min(1, "Rating is required"),
   comments: yup.string().required("Comments are required"),
-  reviewPhotos: yup.boolean(),
+  attach_photo: yup.boolean(),
 });
 
-export default function ReviewModal({ close }) {
-  const beforeimgs = [before1, before2, before3, before3];
-  const afterimgs = [before1, before2, before3, before3];
-  const [markOrderAsComplete,{isLoading}]=useMarkOrderAsCompleteMutation()
+export default function ReviewModal({ close, orderDetails,allAfterImages,allBeforeImages,orderId }) {
+  const [markOrderAsComplete, { isLoading }] = useMarkOrderAsCompleteMutation();
+  const [completeOrderWithoutReview,{isLoading:skipping}]=useCompleteOrderWithoutReviewMutation()
+  
 
   const {
     register,
@@ -32,19 +29,48 @@ export default function ReviewModal({ close }) {
     resolver: yupResolver(schema),
     defaultValues: {
       reviewPhotos: true,
+      rating: 0,
     },
   });
 
+
   const showImages = watch("reviewPhotos");
-  const onSubmit =async (data) => {
-    try{
-      console.log("Form Data:", data);
-      await markOrderAsComplete(data).unwrap()
+  const handleSkipClick = React.useCallback(async () => {
+    try {
+      await completeOrderWithoutReview(orderId).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: "Order Completed!",
+        text: "The order has been marked as complete without a review.",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Completion Failed",
+        text: "An error occurred while completing the order. Please try again later.",
+      });
+    } finally {
+      close();
     }
-    catch(err){
-      console.log("err :", err);
+  }, [completeOrderWithoutReview,orderId, close]);
+  const onSubmit = React.useCallback(async (data) => {
+    try {
+      await markOrderAsComplete({ ...data, order_id: orderId }).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: "Review Submitted!",
+        text: "Thank you for your feedback.",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An error occurred while submitting your review. Please try again later.",
+      });
+    } finally {
+      close();
     }
-  };
+  }, [markOrderAsComplete, orderId, close]);
 
   return (
     <div className="rounded-[12px] bg-white p-3">
@@ -53,17 +79,14 @@ export default function ReviewModal({ close }) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col items-center">
-          <div>
-            <img className="size-16 object-contain" src={logo} alt="logo" />
-          </div>
           <p className="text-[#101828] text-lg font-medium">Leave a Review</p>
           <div className="flex items-center gap-1 mt-2">
             <img
               className="size-12 aspect-square object-cover rounded-full"
-              src={before1}
+              src={getImageUrl(orderDetails.order.personal_image)}
               alt="provider"
             />
-            <p className="font-medium text-lg">Provider Name</p>
+            <p className="font-medium text-lg">{orderDetails.order.name}</p>
           </div>
           <p className="text-[#535862] mt-2 text-sm">
             How would you rate your service?
@@ -72,7 +95,10 @@ export default function ReviewModal({ close }) {
             <Rating
               precision={0.5}
               sx={{ fontSize: "40px", gap: "16px" }}
-              {...register("rating")}
+              value={watch("rating")}
+              onChange={(event, newValue) => {
+                setValue("rating", newValue);
+              }}
             />
             {errors.rating && (
               <p className="text-red-500 text-sm mt-1">{errors.rating.message}</p>
@@ -97,28 +123,28 @@ export default function ReviewModal({ close }) {
               Attach before & after photos to review?
             </label>
             <BlueSwitch
-              id="reviewPhotos"
+              id="attach_photo"
               defaultChecked={showImages}
-              onChange={(e) => setValue('reviewPhotos',e.target.checked)}
-
+              onChange={(e) => setValue('attach_photo', e.target.checked)}
             />
           </div>
           {showImages && (
             <div className="mt-4">
-              <ImagesList copy={"Before Photos"} images={beforeimgs} />
-              <ImagesList copy={"After Photos"} images={afterimgs} />
+              <ImagesList copy={"Before Photos"} images={allBeforeImages} />
+              <ImagesList copy={"After Photos"} images={allAfterImages} />
             </div>
           )}
           <div className="my-4 grid grid-cols-2 gap-3">
             <button
+            disabled={skipping}
               className="bg-white text-[#343434] text-sm font-semibold border border-[#D7D7D7] p-2 rounded-[8px] shadow-[0px_2px_4px_0px_#2E2E2E0F]"
-              onClick={close}
+              onClick={handleSkipClick}
               type="button"
             >
-              Skip
+              {skipping?"Skipping":"Skip"}
             </button>
             <button disabled={isLoading} type="submit" className="bg-[#0F91D2] text-white text-sm font-semibold border border-[#0F91D2] p-2 rounded-[8px] shadow-[0px_2px_4px_0px_#2E2E2E0F]">
-              {isLoading?"Submitting":"Submit"}
+              {isLoading ? "Submitting" : "Submit"}
             </button>
           </div>
         </div>

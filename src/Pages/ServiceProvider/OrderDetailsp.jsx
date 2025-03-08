@@ -63,7 +63,7 @@ export default function OrderDetailsp() {
 
     console.log()
     const isOrderDelivered=['completed','delivered'].includes(data?.GetOrderDetails?.order_status)
-    console.log(data?.GetOrderDetails)
+
 if (data?.GetOrderDetails)
     return (
       <div>
