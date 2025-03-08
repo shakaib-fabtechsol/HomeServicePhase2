@@ -4,10 +4,9 @@ import UploadPhotos from "../UploadPhotos";
 import { useAddOrderBeforeImagesMutation } from "../../../services/order";
 import Swal from "sweetalert2";
 
-function OrderBeforeImagesModal({ isOpen, onClose, orderId }) {
+function OrderBeforeImagesModal({ isOpen, onClose, orderId,oldImages }) {
   const [addOrderBeforeImages, { isLoading }] =
     useAddOrderBeforeImagesMutation();
-
   const handleBeforeImagesUpload = React.useCallback(
     async (images) => {
       try {
@@ -48,6 +47,7 @@ function OrderBeforeImagesModal({ isOpen, onClose, orderId }) {
           isLoading={isLoading}
           onUpload={handleBeforeImagesUpload}
           title={"Before Photos"}
+          oldImages={oldImages}
           close={onClose}
         />
       </div>

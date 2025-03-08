@@ -1,80 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { BsSliders } from "react-icons/bs";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { FiDownload } from "react-icons/fi";
 import { LuPhone } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-import ServiceDet from "../../assets/img/service-det.png";
 import { Modal } from "@mui/material";
 import ReviewModal from "../../Components/Provider/ReviewModal";
 import LoadingSpinner from "../../Components/Common/LoadingSpinner.jsx";
-import { useGetCustomerOrdersQuery } from "../../services/order/index.js";
+import { useGetMyOrdersAsCustomerQuery } from "../../services/order";
 import RemoteError from "../../Components/Common/RemoteError.jsx";
-
-const orders = [
-  {
-    id: 1,
-    serviceName: "Service Name",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    price: "$200",
-    provider: "Tatiana Dorwart",
-    date: "Dec 21, 2024 7:59 pm",
-    status: "New",
-  },
-  {
-    id: 2,
-    serviceName: "Another Service",
-    description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-    price: "$150",
-    provider: "John Doe",
-    date: "Jan 10, 2025 3:45 pm",
-    status: "Scheduled",
-  },
-  {
-    id: 2,
-    serviceName: "Another Service",
-    description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-    price: "$150",
-    provider: "John Doe",
-    date: "Jan 10, 2025 3:45 pm",
-    status: "In Progress",
-  },
-  {
-    id: 3,
-    serviceName: "Another Service",
-    description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-    price: "$150",
-    provider: "John Doe",
-    date: "Jan 10, 2025 3:45 pm",
-    status: "Completed",
-  },
-  {
-    id: 4,
-    serviceName: "Another Service",
-    description: "Praesent tincidunt consectetur justo, at fermentum metus.",
-    price: "$150",
-    provider: "John Doe",
-    date: "Jan 10, 2025 3:45 pm",
-    status: "Completed",
-  },
-];
+import { getImageUrl } from "../../utils";
+import OrderStatus from "../../Components/Common/OrderStatus.jsx";
 
 const Order = () => {
-  const { data, isFetching, error, isError } = useGetCustomerOrdersQuery();
+  const { data, isFetching, error, isError } = useGetMyOrdersAsCustomerQuery();
   const [photosopen, setphotosOpen] = useState(false);
   React.useEffect(() => {
     document.title = "Orders";
   }, []);
 
-  // if (isFetching) return <LoadingSpinner />;
-  // if (isError)
-  //   return <RemoteError hasError={isError} message={error?.message} />;
+  if (isFetching) return <LoadingSpinner />;
+  if (isError)
+    return <RemoteError hasError={isError} message={error?.message} />;
   
 
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);
 
+  if(data)
   return (
     <div>
       <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-2">
@@ -107,7 +61,7 @@ const Order = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {data?.orders?.map((order, index) => (
               <tr
                 key={order.id}
                 className={
@@ -119,12 +73,12 @@ const Order = () => {
                 <td className="p-3">
                   <div className="flex gap-2">
                     <img
-                      src={ServiceDet}
+                      src={JSON.parse(order?.order?.images)?.at(0)}
                       alt=""
                       className="size-24 max-w-24 rounded-lg object-cover"
                     />
                     <div>
-                      <h6>{order.serviceName}</h6>
+                      <h6>{order.order.service_title}</h6>
                       <p className="text-xs text-[#535862]">
                         {order.description}
                       </p>
@@ -132,7 +86,7 @@ const Order = () => {
                         <p className="text-[10px] text-[#535862]">
                           Starting Price:
                         </p>
-                        <p className="font-extrabold text-lg">{order.price}</p>
+                        <p className="font-extrabold text-lg">{order.order.total_amount}$</p>
                       </div>
                     </div>
                   </div>
@@ -140,19 +94,19 @@ const Order = () => {
                 <td className="p-3">
                   <div className="flex items-center gap-2">
                     <img
-                      src={ServiceDet}
+                      src={getImageUrl(order?.order?.personal_image)}
                       alt=""
                       className="size-12 max-w-12 rounded-full object-cover"
                     />
                     <div>
-                      <h6>{order.provider}</h6>
+                      <h6>{order.order.name}</h6>
                       <div className="flex items-center gap-1">
-                        <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+                        <Link to={`tel:${order.order.phone}`} className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                           <LuPhone /> Phone Call
-                        </button>
-                        <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
+                        </Link>
+                        <Link to={`mailto:${order.order.email}`} className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                           <MdOutlineMailOutline /> Email
-                        </button>
+                        </Link>
                         <button className="bg-white text-nowrap text-[10px] border flex gap-2 py-1 px-3 items-center rounded-md shadow-sm">
                           <CiLocationOn /> Address
                         </button>
@@ -161,21 +115,7 @@ const Order = () => {
                   </div>
                 </td>
                 <td className="p-3">
-                  <p
-                    className={`inline text-xs py-1 text-nowrap px-2 rounded-[4px] ${
-                      order.status === "New"
-                        ? "bg-[#0F91D21A]  text-[#0F91D2]"
-                        : order.status === "Scheduled"
-                          ? "bg-[#D20F8A1A]  text-[#D20F8A]"
-                          : order.status === "In Progress"
-                            ? "bg-[#FB86031A]  text-[#FB8603]"
-                            : order.status === "Completed"
-                              ? "bg-[#4CB53C1A]  text-[#4CB53C]"
-                              : ""
-                    }`}
-                  >
-                    {order.status}
-                  </p>
+                  <OrderStatus status={order.order.status}/>
                 </td>
                 <td className="p-3 text-nowrap">{order.date}</td>
                 <td className="p-3">
