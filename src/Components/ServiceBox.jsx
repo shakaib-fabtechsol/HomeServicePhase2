@@ -58,7 +58,7 @@ function ServiceBox({
   const defaultImage = "/service1.png"; 
 
   const image2 = userimg 
-  ? `https://marketplace.thefabulousshow.com/uploads/${userimg}` 
+  ? `https://homerservice-ph2.netlify.app/uploads/${userimg}` 
   : defaultImage;
 
   const imageArray = parseJsonArray(image);
@@ -68,12 +68,12 @@ function ServiceBox({
   const mediaSet = new Set([
     ...(imageArray?.length
       ? imageArray.map(
-          (img) => `https://marketplace.thefabulousshow.com/uploads/${img}`
+          (img) => `https://homerservice-ph2.netlify.app/uploads/${img}`
         )
       : []),
     ...(videoArray?.length
       ? videoArray.map(
-          (vid) => `https://marketplace.thefabulousshow.com/uploads/${vid}`
+          (vid) => `https://homerservice-ph2.netlify.app/uploads/${vid}`
         )
       : []),
   ]);

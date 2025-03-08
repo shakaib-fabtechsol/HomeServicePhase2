@@ -23,7 +23,7 @@ console.log("user", user)
     setLoading(true);
 
     axios
-      .get("https://marketplace.thefabulousshow.com/api/Customer/ListDeals", {
+      .get("https://homerservice-ph2.netlify.app/api/Customer/ListDeals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
