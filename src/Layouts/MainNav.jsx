@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
-import { IoMdNotifications } from "react-icons/io";
+import { NavLink, Link, useLocation, useNavigate, useNavigate } from "react-router-dom";
+
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { IoLocationOutline } from "react-icons/io5";
@@ -15,7 +15,7 @@ import { BASE_URL } from "../../config";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/reducers/authSlice";
 const MainNav = ({ toggleSidebar, logolink }) => {
-  const location = useLocation();
+    const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
@@ -23,6 +23,12 @@ const MainNav = ({ toggleSidebar, logolink }) => {
   console.log("role", role?.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const locationParam = searchParams.get("location");
+    const serviceParam = searchParams.get("service");
+  const [locationser, setLocation] = useState(locationParam||"");
+  const [service, setService] = useState(serviceParam||"");
+
   const isHomeOrCatalog =
     location.pathname === "/" ||
     location.pathname === "/catalogResult" ||
@@ -57,35 +63,47 @@ const MainNav = ({ toggleSidebar, logolink }) => {
           <img src={logo} alt="logo" className="w-[60px]" />
         </NavLink>
       </div>
-
       <div className="ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
-        <form action="/catalogResult" className="w-full">
-          <div className="md:flex hidden ms-auto md:mx-auto lg:w-full ">
-            <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
-              <div className="w-[40%]">
-                <input
-                  type="text"
-                  placeholder="Search for any service..."
-                  className="py-[6px] bg-transparent focus-none w-full border-r px-3"
-                />
-              </div>
-              <div className="flex w-[60%] items-center px-3">
-                <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
-                <input
-                  type="text"
-                  placeholder="Location for the service..."
-                  className="py-[6px] bg-transparent focus-none"
-                />
-              </div>
+
+        <div className="md:flex hidden ms-auto md:mx-auto lg:w-full ">
+          <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
+            <div className="w-[40%]">
+              <input
+                type="text"
+                placeholder="Search for any service..."
+                value={service}
+                onChange={(e) => {
+                  setService(e.target.value)
+                }}
+                className="py-[6px] bg-transparent focus-none w-full border-r px-3"
+              />
             </div>
-            <button
-              type="submit"
-              className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1"
-            >
-              <FaSearch />
-            </button>
+            <div className="flex w-[60%] items-center px-3">
+              <IoLocationOutline className="me-2 text-2xl text-[#6B6B6B]" />
+              <input
+                type="text"
+                placeholder="Location for the service..."
+                className="py-[6px] bg-transparent focus-none"
+                value={locationser}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                }}
+              />
+            </div>
           </div>
-        </form>
+          <button
+            onClick={() => {
+
+              navigate(`/catalogResult?location=${locationser}&service=${service}`)
+
+            }}
+
+            className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1"
+          >
+            <FaSearch />
+          </button>
+        </div>
+
       </div>
 
       <div className="flex items-center">
