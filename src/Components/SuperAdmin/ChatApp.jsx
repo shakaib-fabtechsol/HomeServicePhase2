@@ -10,9 +10,16 @@ import io from "socket.io-client";
 import { BASE_URL, socketUrl } from "../../../config";
 import { useSelector } from "react-redux";
 import logo from "../../assets/img/logo.png";
+import { OfferModal } from "./OfferModal";
+import { useCreateOfferMutation } from "../../services/order";
+import Swal from "sweetalert2";
 
 // const socket = io(socketUrl); // Replace with your socket server URL
 const ChatApp = () => {
+  const [createOffer, { isLoading, isSuccess }] = useCreateOfferMutation()
+  const [modalopen, setmodalOpen] = React.useState(false);
+  const handleOpen = () => setmodalOpen(true);
+  const handleClose = () => setmodalOpen(false);
   const [chats, setChats] = useState([]);
   const [filteredChats, setFilteredChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
@@ -55,6 +62,11 @@ const ChatApp = () => {
         console.log("receive-message:", message);
         console.log(" activeChat rin:", activeChatRef.current);
         console.log("activeChat", message.message.chat === activeChatRef.current);
+        if (chats.some(chat => chat.chatId !== message.message.chat)) {
+          console.log(" again fetch-user-chats .........")
+          socket.current.emit("fetch-user-chats");
+          return
+        }
         if (message.message.chat === activeChatRef.current) {
           console.log("activeChat :", activeChatRef.current);
           setMessages((prevMessages) => [...prevMessages, message.message]);
@@ -149,18 +161,77 @@ const ChatApp = () => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
-    
+
     if (query.trim() === "") {
       setFilteredChats(chats); // Reset to full list when search is empty
     } else {
       setFilteredChats(
-        chats.filter(chat => 
+        chats.filter(chat =>
           chat?.receiver?.name?.toLowerCase().includes(query) // Assuming chat has a `name` field
         )
       );
     }
   };
-  return (
+  const currentCustomer = (chatId, userId) => {
+    const customerId = chats.find(chat => chat.chatId === chatId).
+      participants
+      .find(participant => participant.id !== userId)?.id;
+    return customerId
+  }
+
+  const onSubmit = async (data) => {
+    try {
+
+
+      console.log("data", data)
+
+      const orderDetails = {
+        provider_id: user?.id,
+        customer_id: currentCustomer(activeChatRef.current, user?.id),
+        total_amount: data?.price,
+        deal_id: data?.service,
+        notes: data?.description,
+        scheduleDate: data?.date,
+      };
+      const formData = new FormData();
+      Object.entries(orderDetails).forEach(([key, value]) => {
+        formData.append(key, value);
+      })
+      const order = await createOffer(formData)
+      console.log("order", order)
+
+
+      if (order?.data?.Offer) {
+
+        socket.current.emit("send-message", {
+          chatId: activeChatRef.current,
+          contentType: "order",
+          content: order?.data?.Offer?.notes,
+          orderId: order?.data?.Offer?.id,
+        });
+        // reset();
+        handleClose();
+        Swal.fire({
+          icon: "success",
+          title: `Offer created successfully`,
+        });
+
+      }
+    } catch (error) {
+      console.log("error", error)
+      handleClose();
+
+      Swal.fire({
+        icon: "error",
+        title: `failed to create offer`,
+      });
+    } finally {
+      handleClose();
+
+    }
+  };
+
+  return (<>
     <div className="lg:flex relative">
       {/* Sidebar */}
       <div className="w-full lg:max-w-[250px] border h-[calc(100dvh-240px)]">
@@ -170,8 +241,8 @@ const ChatApp = () => {
               <CiSearch className="text-[#717680] text-xl" />
             </label>
             <input type="search" placeholder="Search" className="w-full px-2"
-             value={searchQuery}
-             onChange={handleSearch}
+              value={searchQuery}
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -190,7 +261,7 @@ const ChatApp = () => {
               <div className="flex items-center justify-start ">
                 <div className=" ">
                   <img
-                    src={`${BASE_URL}/uploads/${chat?.receiver?.personal_image}` || ClientTwo}
+                    src={chat?.receiver?.personal_image ? `${BASE_URL}/uploads/${chat?.receiver?.personal_image}` : ClientTwo}
                     alt=""
                     className="rounded-full sm:size-9 sm:max-w-9 size-6 max-w-[6] object-cover"
                   />
@@ -211,7 +282,7 @@ const ChatApp = () => {
                 </div>
                 <div className=" w-full">
                   <p className="text-[#535862] text-xs truncate">
-                    {chat.latestMessage.slice(0, 20)} {chat.latestMessage?.length > 20 ? "..." : ""}
+                    {chat?.latestMessage?.slice(0, 20)} {chat?.latestMessage?.length > 20 ? "..." : ""}
                   </p>
                 </div>
               </div>
@@ -227,7 +298,7 @@ const ChatApp = () => {
         >
           <div>
             <div className="flex justify-between gap-2 items-center border-b p-2">
-             
+
               <div className="flex gap-2 items-center relative">
                 <div className="relative">
                   <img
@@ -252,7 +323,9 @@ const ChatApp = () => {
               </div>
               <div className="flex items-center gap-2">
                 <div className="hidden md:block">
-                  <button className="text-white flex justify-center items-center gap-2 font-semibold rounded-[8px] bg-[#0F91D2] border-[#0F91D2] p-2">
+                  <button
+                    onClick={handleOpen}
+                    className="text-white flex justify-center items-center gap-2 font-semibold rounded-[8px] bg-[#0F91D2] border-[#0F91D2] p-2">
                     Create Offer
                     <img className="size-5 object-contain" src={hand} alt="img" />
                   </button>
@@ -279,62 +352,72 @@ const ChatApp = () => {
                     key={index}
                     className={`flex gap-3 mb-3 ${isUser ? "justify-end" : ""}`}
                   >
+                    {
+                      message?.contentType === "order" ? (
+                        <div className="p-2 flex justify-end">
+                          <div className= "   p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-80 shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
+                            <div>
+                              <div className="flex justify-between items-center ">
+                                <p className="font-semibold">Created Offer</p>
+                                <p className="font-bold text-xl">$ {message?.orderDetails?.total_amount}</p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <HiCalendar className="text-sm" />
+                                <p className="text-xs font-medium text-[#181D27]">
+                                  {new Date(message?.orderDetails?.createdAt).toLocaleDateString()}
+                                </p>
+                              </div>
+                              <div className="mt-4">
+                                <p className="text-[#34A853] text-sm font-medium bg-[#34A8531A] py-1 px-2 rounded-full inline">
+                                  Cleaning
+                                </p>
+                                <p className="mt-4 text-[#535862] text-sm   ">
+                                {message?.orderDetails?.notes}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) :
+                        (
+                          <>
+                            {!isUser && (
+                              <img
+                                src={message?.sender?.personal_image ? `${BASE_URL}/uploads/${message?.sender?.personal_image}` : ClientTwo}
+                                // src={`${BASE_URL}/uploads/${message.sender.personal_image}` || ClientTwo}
+                                alt={message.sender.name}
+                                className={`rounded-full sm:size-9 size-6 object-cover `}
+                              />
+                            )}
+
+                            {/* Message Content */}
+                            <div className="max-w-[80%] sm:max-w-[60%] lg:max-w-[45%] w-full">
+                              <div className="flex justify-between">
+                                <h6 className={`font-medium ${isUser ? "text-[#414651]" : "text-[#181D27]"}`}>
+                                  {message.sender.name}
+                                </h6>
+                                <p className="text-[#535862] text-xs">
+                                  {new Date(message?.latestMessageSentAt)?.toLocaleTimeString() || new Date(message?.createdAt)?.toLocaleTimeString()}
+                                </p>
+                              </div>
+
+                              {/* Message Bubble */}
+                              <div className={`p-4 rounded-xl mt-2 ${isUser ? "bg-[#535862]" : "bg-[#F5F5F5]"}`}>
+                                <p className={`${isUser ? "text-white" : "text-black"} w-full  sm:text-base text-xs whitespace-normal break-words `}>
+                                  {message.content}
+                                </p>
+                              </div>
+                            </div>
+                          </>
+                        )
+                    }
                     {/* Sender Avatar */}
-                    {!isUser && (
-                      <img
-                        src={`${BASE_URL}/uploads/${message.sender.personal_image}` || ClientTwo}
-                        alt={message.sender.name}
-                        className={`rounded-full sm:size-9 size-6 object-cover `}
-                      />
-                    )}
 
-                    {/* Message Content */}
-                    <div className="max-w-[80%] sm:max-w-[60%] lg:max-w-[45%] w-full">
-                      <div className="flex justify-between">
-                        <h6 className={`font-medium ${isUser ? "text-[#414651]" : "text-[#181D27]"}`}>
-                          {message.sender.name}
-                        </h6>
-                        <p className="text-[#535862] text-xs">
-                          {new Date(message?.latestMessageSentAt)?.toLocaleTimeString() || new Date(message?.createdAt)?.toLocaleTimeString()}
-                        </p>
-                      </div>
-
-                      {/* Message Bubble */}
-                      <div className={`p-4 rounded-xl mt-2 ${isUser ? "bg-[#535862]" : "bg-[#F5F5F5]"}`}>
-                        <p className={`${isUser ? "text-white" : "text-black"} w-full  sm:text-base text-xs whitespace-normal break-words `}>
-                          {message.content}
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 );
               })}
 
-              {/* <div className="p-2 flex justify-end">
-                <div className="p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-full shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
-                  <div>
-                    <div className="flex justify-between items-center">
-                      <p className="font-semibold">Created Offer</p>
-                      <p className="font-bold text-xl">$ 200</p>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <HiCalendar className="text-sm" />
-                      <p className="text-xs font-medium text-[#181D27]">
-                        Dec 16, 2024 8:13 pm
-                      </p>
-                    </div>
-                    <div className="mt-4">
-                      <p className="text-[#34A853] text-sm font-medium bg-[#34A8531A] py-1 px-2 rounded-full inline">
-                        Cleaning
-                      </p>
-                      <p className="mt-4 text-[#535862] text-sm">
-                        Aliquam erat volutpat. Ut semper ipsum in vestibulum
-                        laoreet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
+
             </div>
           </div>
 
@@ -424,8 +507,13 @@ const ChatApp = () => {
         )}
 
     </div>
-  );
+
+    <OfferModal isLoading={isLoading} isSuccess={isSuccess} handleClose={handleClose} handleOpen={handleOpen} modalopen={modalopen} onSubmit={onSubmit} userId={user?.id} />
+
+  </>);
 };
+
+
 
 export default ChatApp;
 

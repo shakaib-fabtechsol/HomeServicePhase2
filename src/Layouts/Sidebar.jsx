@@ -5,12 +5,13 @@ import user from "../assets/img/user.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/reducers/authSlice";
 import { persistor } from "../redux/store";
+import { BASE_URL } from "../../config";
 
 
 
 const SidebarItem = ({ to, icon: Icon, label, toChild, toChild2 }) => {
 
- 
+
   const resolved = useResolvedPath(to);
   const isActive = useMatch({ path: resolved.pathname, end: false });
 
@@ -58,7 +59,7 @@ const Sidebar = ({ isSidebarOpen, sidebarData, userInfo }) => {
   // console.log("userInfo", userInfo)
   const image = userInfo?.personal_image;
   const personal_image = image
-    ? `https://marketplace.thefabulousshow.com/uploads/${image} `
+    ? `${BASE_URL}/uploads/${image}`
     : "/service1.png";
   return (
     <div

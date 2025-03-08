@@ -34,6 +34,7 @@ export const END_POINTS = {
   CUSTOMER_SUPPORT: "/CustomerSupport",
   UPDATE_CUSTOMER_SUPPORT: "/UpdateSupport",
   GET_SUPPORT: "/GetSupport",
+  CREATE_OFFER: "/CreateOffer",
 };
 
 export const PRO_POINTS = {
@@ -63,7 +64,8 @@ export const SALEREP_POINTS = {
     GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
-    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider",
+    SALES_REPOS:"/salesrep"
 
 }
 export const SALE_POINTS = {
@@ -87,6 +89,7 @@ export const SALE_POINTS = {
     SEND_INSTANT_MESSAGE:"/api/contact-pro/send-instant-chat",
     SEND_EMAIL:"/api/contact-pro/send-email",
     SEND_GET_DIRECTION:"/api/contact-pro/send-get-direction",
+    PROVIDER_DEALS:"/api/contact-pro/deals",
     }
    
   
