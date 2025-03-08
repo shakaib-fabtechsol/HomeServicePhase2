@@ -20,11 +20,7 @@ import Swal from "sweetalert2";
 
 import Loader from "../../Components/MUI/Loader";
 
-import {
-  useGetDealQuery,
-  useGetUserDetailsQuery,
-  useDeleteDealMutation,
-} from "../../services/base-api/index";
+
 import { ContactProModal } from "./ContactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
@@ -57,7 +53,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail() {
+function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMutation}) {
   const { dealid } = useParams();
   const [callPro] = useCallProApiMutation();
   const [textPro] = useTextProApiMutation();
