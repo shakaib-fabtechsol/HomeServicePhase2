@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
 import { useGethomeorderQuery, useGetrecentdealsQuery } from "../../services/dashboard";
 import Loader from "../MUI/Loader";
+import { useSelector } from "react-redux";
 const CommonDashboard = ({ orderto, conversationto}) => {
   useEffect(() => {
     document.title = "Home";
@@ -12,7 +13,8 @@ const CommonDashboard = ({ orderto, conversationto}) => {
 
   const { data: orderData, isLoading} = useGetrecentdealsQuery();
   const { data: orderInprogress, isLoading: homeorderloading } = useGethomeorderQuery()
-
+  const role = useSelector((state) => state.auth.user);
+  console.log("role", role?.role);
 
 
   const getBgColor = (status) => {
@@ -30,25 +32,34 @@ const CommonDashboard = ({ orderto, conversationto}) => {
     }
   };
 
+  const redirectTo =
+  role?.role === 1
+    ? "/customer/dealDetails"
+    : role?.role === 2
+      ? "/provider/dealDetails"
+      : role?.role === 3
+        ? "/sales/recentdeals"
+        : role?.role === 0
+          ? "/superadmin/prodetails"
+          : "/dealDetails";
 
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        budgetDropdownRef.current &&
-        !budgetDropdownRef.current.contains(event.target) &&
-        locationDropdownRef.current &&
-        !locationDropdownRef.current.contains(event.target)
-      ) {
-        setIsBudgetDropdownOpen(false);
-        setIsLocationDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (
+  //       budgetDropdownRef?.current &&
+  //       !budgetDropdownRef?.current.contains(event.target) &&
+  //       locationDropdownRef.current &&
+  //       !locationDropdownRef.current.contains(event.target)
+  //     ) {
+  //       setIsBudgetDropdownOpen(false);
+  //       setIsLocationDropdownOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
 
 
@@ -114,7 +125,7 @@ const CommonDashboard = ({ orderto, conversationto}) => {
                 </p>
               </div>
               <div>
-                <FaArrowRight className="text-lg" />
+                <FaArrowRight className="text-lg" />  
               </div>
             </Link>
           </div>
@@ -144,7 +155,7 @@ const CommonDashboard = ({ orderto, conversationto}) => {
                 dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                serviceDetailTo={`${redirectTo}/${service.id}`}
                 videos={service.videos}
                 imgs={service.images}
                 Days={

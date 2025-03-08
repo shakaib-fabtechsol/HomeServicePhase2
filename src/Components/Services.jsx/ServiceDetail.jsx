@@ -54,8 +54,20 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMutation}) {
+function ServiceDetail({ useGetUserDetailsQuery, useGetDealQuery, useDeleteDealMutation, hide }) {
   const { dealid } = useParams();
+  const role = useSelector((state) => state.auth.user);
+  console.log("role", role?.role);
+  const redirectTo =
+    role?.role === 1
+      ? "/customer/Deals"
+      : role?.role === 2
+        ? "/provider/services"
+        : role?.role === 3
+          ? "/sales/recentdeals"
+          : role?.role === 0
+            ? "/superadmin/prodetails"
+            : "/";
   const [callPro] = useCallProApiMutation();
   const [textPro] = useTextProApiMutation();
   const [chatPro] = useChatProApiMutation();
@@ -250,7 +262,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
     <div className="pmain">
       <div className="navv">
         <div className="flex items-center">
-          <Link to="/provider/services">
+          <Link to={redirectTo}>
             <FaArrowLeft className="me-4 text-xl" />
           </Link>
           <h2 className="text-2xl font-semibold">Service Details</h2>
@@ -264,7 +276,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
           <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
             {serviceDetails?.service_title || "N/A"}
           </h2>
-          <div className="flex items-center justify-end mt-3 lg:mt-0">
+          {!hide && <div className="flex items-center justify-end mt-3 lg:mt-0">
             <button
               className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
               onClick={() => handleDelete(dealid)}
@@ -277,7 +289,7 @@ function ServiceDetail({useGetUserDetailsQuery,useGetDealQuery,useDeleteDealMuta
             >
               <FaPencilAlt />
             </Link>
-          </div>
+          </div>}
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-12 xl:col-span-8">

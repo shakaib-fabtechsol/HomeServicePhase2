@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useGetservicebysearchQuery } from "../services/dashboard";
 import Loader from "../Components/MUI/Loader";
 import RemoteError from "../Components/Common/RemoteError";
+import { useSelector } from "react-redux";
 
 function CatalogResult() {
   const location = useLocation();
@@ -18,7 +19,8 @@ function CatalogResult() {
   const [selectedReviews, setSelectedReviews] = useState();
   const [selectedDeliveryTime, setSelectedDeliveryTime] = useState("");
   const { data, isLoading, isError, error, isFetching } = useGetservicebysearchQuery({ service: serviceParam || "", location: locationParam || "", reviews: selectedReviews || "", estimate_time: selectedDeliveryTime || "", distance: distance || "", budget: budget || "" });
-
+  const role = useSelector((state) => state.auth.user);
+  console.log("role", role?.role);
   useEffect(() => {
     document.title = "CatalogResults";
   }, []);
@@ -41,6 +43,16 @@ function CatalogResult() {
   if (isError) {
     return <RemoteError hasError={isError} message={error?.message} />;
   }
+  const redirectTo =
+  role?.role === 1
+    ? "/customer/dealDetails"
+    : role?.role === 2
+      ? "/provider/dealDetails"
+      : role?.role === 3
+        ? "/sales/dealdetails"
+        : role?.role === 0
+          ? "/superadmin/dealDetails"
+          : "/";
 
   return (
     <>
@@ -221,7 +233,7 @@ function CatalogResult() {
                         dealid={service.id}
                         Rating={service.rating}
                         Liked={service.Liked}
-                        serviceDetailTo={`/dealdetails`}
+                        serviceDetailTo={`${redirectTo}/${service?.id}`}
                         videos={service.videos}
                         imgs={service.images}
                         Days={

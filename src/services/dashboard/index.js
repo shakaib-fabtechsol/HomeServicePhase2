@@ -27,6 +27,12 @@ export const dashboardAPIs = BASE_API.injectEndpoints({
                 url: `/FilterHomeDeals?service=${data?.service}&location=${data?.location}&budget=${data?.budget}&distance=${data?.distance}&estimate_time=${data?.estimate_time}&reviews=${data?.reviews}`,
             })
         }),
+        getlandingpage:builder.query({
+
+            query: (data) => ({
+                url: `/GetAllDeals?service=${data?.service||""}&location=${data?.location||""}&budget=${data?.budget||""}&distance=${data?.distance||""}&estimate_time=${data?.estimate_time||""}&reviews=${data?.reviews||""}`,
+            })
+        }),
         gethomeorder:builder.query({
 
             query: (d) => ({
@@ -43,4 +49,4 @@ export const dashboardAPIs = BASE_API.injectEndpoints({
     }),
 });
 
-export const { useGetSuperDashboardQuery,useGetSalesdashboardQuery,useGetallsalesdealsbuilderQuery,useGetservicebysearchQuery,useGethomeorderQuery,useGetrecentdealsQuery } = dashboardAPIs;
+export const { useGetSuperDashboardQuery,useGetSalesdashboardQuery,useGetallsalesdealsbuilderQuery,useGetservicebysearchQuery,useGethomeorderQuery,useGetrecentdealsQuery,useGetlandingpageQuery } = dashboardAPIs;

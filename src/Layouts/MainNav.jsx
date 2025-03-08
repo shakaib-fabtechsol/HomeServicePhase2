@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link, useLocation, useNavigate, useNavigate } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate} from "react-router-dom";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiLogoutBoxRLine } from "react-icons/ri";

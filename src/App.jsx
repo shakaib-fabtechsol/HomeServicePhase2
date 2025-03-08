@@ -82,6 +82,8 @@ import { PrivateRoute } from "./PrivateRoute";
 import Prodetailssr1 from "./Pages/Sales/Prodetailssr1";
 import EditProvider from "./Pages/SuperAdmin/EditProvider";
 import EditsaleProvider from "./Pages/Sales/EditsaleProvider";
+import DealDetails2 from "./Pages/Customer/DealDetails2";
+import LandingDetails from "./Pages/Customer/LandingDetails";
 function App() {
   return (
     <Router>
@@ -139,7 +141,7 @@ function App() {
             <Route path="/customer/notification" element={<Notificationc />} />
             <Route path="/customer/favourites1" element={<FavouritesC1 />} />
             <Route path="/customer/payments" element={<Payments />} />
-            <Route path="/customer/dealDetails/:dealid" element={<DealDetailsC />} />
+            <Route path="/customer/dealDetails/:dealid" element={<DealDetails2 />} />
             <Route path="/customer/reports" element={<ReportsC />} />
         </Route>
 
@@ -202,6 +204,7 @@ function App() {
         </Route>
         <Route path={ROUTES.PUBLIC.HOME} element={<HomeLayout />}>
           <Route index element={<LandingPage />} />
+          <Route path="/dealDetails/:dealid" element={<LandingDetails />} />
           <Route
             path={ROUTES.PUBLIC.CATALOG_RESULT}
             element={<CatalogResult />}
