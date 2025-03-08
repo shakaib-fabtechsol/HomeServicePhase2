@@ -36,6 +36,11 @@ const PricingPackaging = ({ serviceId, setValue }) => {
   const [loading, setLoading] = useState(false);
   const [publishValue, setPublishValue] = useState(1);
   const [publishLoading, setPublishLoading] = useState(false);
+  const [tierVisibility, setTierVisibility] = useState({
+    tier1: true,
+    tier2: true,
+    tier3: true,
+  });
 
   const user_id = localStorage.getItem("id");
   const [formdata, setFormData] = useState({
@@ -69,6 +74,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     final_list_price3: "",
     estimated_service_timing3: "",
   });
+ 
   const [selectedRate, setSelectedRate] = useState("Flat");
 
   useEffect(() => {}, [serviceId]);
@@ -139,6 +145,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     }));
   };
 
+  
   const formatCurrency = (value, key) => {
     if (!value) return "";
     const numericValue = value.toString().replace(/[^0-9.]/g, "");
@@ -258,6 +265,12 @@ const PricingPackaging = ({ serviceId, setValue }) => {
     });
   };
 
+  const handleDeleteTier = (tierNumber) => {
+    setTierVisibility((prev) => ({
+      ...prev,
+      [`tier${tierNumber}`]: false, // Hide the tier
+    }));
+  };
   const handleHourlyInputChange = (e, key) => {
     const rawValue = parseCurrency(e.target.value);
     setFormData((prev) => {
@@ -474,7 +487,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="flat_rate_price"
-                      placeholder="Fixed Rate price should be 200%"
+                      placeholder="200%"
                       value={formatCurrency(formdata.flat_rate_price || "")}
                       onChange={(e) => handleInputChange(e, "flat_rate_price")}
                       className="myinput focus-none"
@@ -491,7 +504,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="flat_by_now_discount"
-                      placeholder="By Now Discount 10%"
+                      placeholder=" 10%"
                       value={formatCurrency(
                         formdata.flat_by_now_discount,
                         "flat_by_now_discount"
@@ -514,7 +527,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="flat_final_list_price"
-                      placeholder="Final List Price 180%"
+                      placeholder="180%"
                       value={formatCurrency(
                         formdata.flat_final_list_price || ""
                       )}
@@ -589,7 +602,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="hourly_rate"
-                      placeholder="Hour rate should be$25/hour"
+                      placeholder="$25/hour"
                       value={formatCurrency(formdata.hourly_rate || "")}
                       onChange={(e) =>
                         handleHourlyInputChange(e, "hourly_rate")
@@ -608,7 +621,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="discount"
-                      placeholder="By Now Discount 10 %"
+                      placeholder="10 %"
                       value={formatCurrency(formdata.discount, "discount")}
                       onChange={(e) => handleHourlyInputChange(e, "discount")}
                       className="myinput focus-none"
@@ -624,7 +637,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                     <input
                       type="text"
                       id="hourly_final_list_price"
-                      placeholder="Final List Price should be $22.25"
+                      placeholder="$22.25"
                       value={formatCurrency(
                         formdata.hourly_final_list_price || ""
                       )}
@@ -692,16 +705,19 @@ const PricingPackaging = ({ serviceId, setValue }) => {
             )}
 
             {formdata.pricing_model === "Custom" && (
-              <>
-                <div className="col-span-12 mt-6">
-                  <p className="text-lg font-semibold">Pricing Packages</p>
-                  <div className="bg-[#FAFAFA] rounded-[12px] p-5 mt-6">
-                    <div>
-                      <div className="grid lg:grid-cols-3 gap-5">
+              <div className="col-span-12 mt-6">
+                <p className="text-lg font-semibold">Pricing Packages</p>
+                <div className="bg-[#FAFAFA] rounded-[12px] p-5 mt-6">
+                  <div>
+                    <div className="grid lg:grid-cols-3 gap-5">
+                      {tierVisibility.tier1 && (
                         <div>
                           <div className="flex justify-between items-center">
                             <p className="text-lg font-medium">Tier 1</p>
-                            <HiOutlineTrash className="text-[20px]" />
+                            <HiOutlineTrash
+                              className="text-[20px] cursor-pointer"
+                              onClick={() => handleDeleteTier(1)}
+                            />
                           </div>
                           <div className="flex flex-col mt-4">
                             <label
@@ -727,27 +743,26 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                           <div className="flex flex-col mt-4">
                             <label
                               className="text-sm font-medium ps-2"
-                              htmlFor="deliverable"
+                              htmlFor="deliverable1"
                             >
                               Deliverable 1
                             </label>
                             <textarea
                               className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              name="deliverable"
-                              id="deliverable"
-                              value={formdata.deliverable}
+                              name="deliverable1"
+                              id="deliverable1"
+                              value={formdata.deliverable1 || ""}
                               onChange={(e) =>
                                 setFormData((prev) => ({
                                   ...prev,
-                                  deliverable: e.target.value,
+                                  deliverable1: e.target.value,
                                 }))
                               }
-                              onFocus={handleBulletFocus("deliverable")}
-                              onKeyDown={handleBulletKeyDown("deliverable")}
+                              onFocus={handleBulletFocus("deliverable1")}
+                              onKeyDown={handleBulletKeyDown("deliverable1")}
                               placeholder="Write here..."
                             ></textarea>
                           </div>
-
                           <div className="flex flex-col mt-4">
                             <label
                               className="text-sm font-medium ps-2"
@@ -766,7 +781,6 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                               value={formatCurrency(formdata.price1 || "")}
                             />
                           </div>
-
                           <div className="flex flex-col mt-4">
                             <label
                               className="text-sm font-medium ps-2"
@@ -777,18 +791,16 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                             <input
                               className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                               type="text"
-                              placeholder=" Buy Now Discount 10 %"
+                              placeholder="Buy Now Discount 10 %"
                               id="by_now_discount1"
                               onChange={(e) =>
                                 handlePriceInputChange(e, "by_now_discount1")
                               }
                               value={formatCurrency(
-                                formdata.by_now_discount1,
-                                "by_now_discount1"
+                                formdata.by_now_discount1 || ""
                               )}
                             />
                           </div>
-
                           <div className="flex flex-col mt-4">
                             <label
                               className="text-sm font-medium ps-2"
@@ -799,7 +811,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                             <input
                               className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
                               type="text"
-                              placeholder="  Final List Price $45"
+                              placeholder="Final List Price $45"
                               id="final_list_price1"
                               value={formatCurrency(
                                 formdata.final_list_price1 || ""
@@ -823,9 +835,7 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                               className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
                               name="estimated_service_timing1"
                               id="estimated_service_timing1"
-                              value={formatCurrency(
-                                formdata.estimated_service_timing1
-                              )}
+                              value={formdata.estimated_service_timing1 || ""}
                               onChange={(e) =>
                                 setFormData((prev) => ({
                                   ...prev,
@@ -843,294 +853,295 @@ const PricingPackaging = ({ serviceId, setValue }) => {
                             </select>
                           </div>
                         </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <p className="text-lg font-medium">Tier 2</p>
-                            <HiOutlineTrash className="text-[20px]" />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="title2"
-                            >
-                              Title
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="Title"
-                              id="title2"
-                              value={formdata.title2 || ""}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  title2: e.target.value,
-                                }))
-                              }
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="deliverable2"
-                            >
-                              Deliverable 2
-                            </label>
-                            <textarea
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              name="deliverable2"
-                              id="deliverable2"
-                              value={formdata.deliverable2}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  deliverable2: e.target.value,
-                                }))
-                              }
-                              onFocus={handleBulletFocus("deliverable2")}
-                              onKeyDown={handleBulletKeyDown("deliverable2")}
-                              placeholder="Write here..."
-                            ></textarea>
-                          </div>
-
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="price2"
-                            >
-                              Price
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="Should be $100"
-                              id="price2"
-                              onChange={(e) =>
-                                handlePriceInputChanged(e, "price2")
-                              }
-                              value={formatCurrency(formdata.price2 || "")}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="by_now_discount2"
-                            >
-                              Buy Now Discount
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="  buy now discount 10%"
-                              id="by_now_discount2"
-                              onChange={(e) =>
-                                handlePriceInputChanged(e, "by_now_discount2")
-                              }
-                              value={formatCurrency(
-                                formdata.by_now_discount2,
-                                "by_now_discount2"
-                              )}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="final_list_price2"
-                            >
-                              Final List Price
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder=" final list price $90"
-                              id="final_list_price2"
-                              onChange={(e) =>
-                                handlePriceInputChanged(e, "final_list_price2")
-                              }
-                              value={formatCurrency(
-                                formdata.final_list_price2 || ""
-                              )}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="estimated_service_timing2"
-                            >
-                              Estimated Service Timing
-                            </label>
-                            <select
-                              style={{
-                                backgroundImage: `url(${down})`,
-                                backgroundPosition: "calc(100% - 10px) center",
-                                backgroundRepeat: "no-repeat",
-                              }}
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-                              name="estimated_service_timing2"
-                              id="estimated_service_timing2"
-                              value={formdata.estimated_service_timing2}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  estimated_service_timing2: e.target.value,
-                                }))
-                              }
-                            >
-                              <option value="" disabled hidden>
-                                How soon can you get it scheduled?
-                              </option>
-                              <option value="1">1 Day</option>
-                              <option value="2">2 Days</option>
-                              <option value="3">3 Days</option>
-                              <option value="4">4 Days</option>
-                            </select>
-                          </div>
+                      )}
+                      <div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-lg font-medium">Tier 2</p>
+                          <HiOutlineTrash
+                            className="text-[20px] cursor-pointer"
+                            onClick={() => handleDeleteTier(2)}
+                          />
                         </div>
-                        <div>
-                          <div className="flex justify-between items-center">
-                            <p className="text-lg font-medium">Tier 3</p>
-                            <HiOutlineTrash className="text-[20px]" />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="title3"
-                            >
-                              Title
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="Title"
-                              id="title3"
-                              value={formdata.title3 || ""}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  title3: e.target.value,
-                                }))
-                              }
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="deliverable3"
-                            >
-                              Deliverable 3
-                            </label>
-                            <textarea
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              name="deliverable3"
-                              id="deliverable3"
-                              value={formdata.deliverable3}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  deliverable3: e.target.value,
-                                }))
-                              }
-                              onFocus={handleBulletFocus("deliverable3")}
-                              onKeyDown={handleBulletKeyDown("deliverable3")}
-                              placeholder="Write here..."
-                            ></textarea>
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="price3"
-                            >
-                              Price
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="should be $200"
-                              id="price3"
-                              onChange={(e) => handlePriceInput(e, "price3")}
-                              value={formatCurrency(formdata.price3 || "")}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="by_now_discount3"
-                            >
-                              Buy Now Discount
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="buy now discount 10 %"
-                              id="by_now_discount3"
-                              onChange={(e) =>
-                                handlePriceInput(e, "by_now_discount3")
-                              }
-                              value={formatCurrency(
-                                formdata.by_now_discount3,
-                                "by_now_discount3"
-                              )}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="final_list_price3"
-                            >
-                              Final List Price
-                            </label>
-                            <input
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
-                              type="text"
-                              placeholder="final list price $90"
-                              id="final_list_price3"
-                              onChange={(e) =>
-                                handlePriceInput(e, "final_list_price3")
-                              }
-                              value={formatCurrency(
-                                formdata.final_list_price3 || ""
-                              )}
-                            />
-                          </div>
-                          <div className="flex flex-col mt-4">
-                            <label
-                              className="text-sm font-medium ps-2"
-                              htmlFor="estimated_service_timing3"
-                            >
-                              Estimated Service Timing
-                            </label>
-                            <select
-                              style={{
-                                backgroundImage: `url(${down})`,
-                                backgroundPosition: "calc(100% - 10px) center",
-                                backgroundRepeat: "no-repeat",
-                              }}
-                              className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
-                              name="estimated_service_timing3"
-                              id="estimated_service_timing3"
-                              value={formdata.estimated_service_timing3}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  estimated_service_timing3: e.target.value,
-                                }))
-                              }
-                            >
-                              <option value="" defaultValue hidden>
-                                How soon can you get it scheduled?
-                              </option>
-                              <option value="1">1 Day</option>
-                              <option value="2">2 Days</option>
-                              <option value="3">3 Days</option>
-                              <option value="4">4 Days</option>
-                            </select>
-                          </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="title2"
+                          >
+                            Title
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Title"
+                            id="title2"
+                            value={formdata.title2 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                title2: e.target.value,
+                              }))
+                            }
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="deliverable2"
+                          >
+                            Deliverable 2
+                          </label>
+                          <textarea
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            name="deliverable2"
+                            id="deliverable2"
+                            value={formdata.deliverable2 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                deliverable2: e.target.value,
+                              }))
+                            }
+                            onFocus={handleBulletFocus("deliverable2")}
+                            onKeyDown={handleBulletKeyDown("deliverable2")}
+                            placeholder="Write here..."
+                          ></textarea>
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="price2"
+                          >
+                            Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Should be $100"
+                            id="price2"
+                            onChange={(e) =>
+                              handlePriceInputChanged(e, "price2")
+                            }
+                            value={formatCurrency(formdata.price2 || "")}
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="by_now_discount2"
+                          >
+                            Buy Now Discount
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Buy Now Discount 10%"
+                            id="by_now_discount2"
+                            onChange={(e) =>
+                              handlePriceInputChanged(e, "by_now_discount2")
+                            }
+                            value={formatCurrency(
+                              formdata.by_now_discount2 || ""
+                            )}
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="final_list_price2"
+                          >
+                            Final List Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Final List Price $90"
+                            id="final_list_price2"
+                            value={formatCurrency(
+                              formdata.final_list_price2 || ""
+                            )}
+                            readOnly
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="estimated_service_timing2"
+                          >
+                            Estimated Service Timing
+                          </label>
+                          <select
+                            style={{
+                              backgroundImage: `url(${down})`,
+                              backgroundPosition: "calc(100% - 10px) center",
+                              backgroundRepeat: "no-repeat",
+                            }}
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
+                            name="estimated_service_timing2"
+                            id="estimated_service_timing2"
+                            value={formdata.estimated_service_timing2 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                estimated_service_timing2: e.target.value,
+                              }))
+                            }
+                          >
+                            <option value="" disabled hidden>
+                              How soon can you get it scheduled?
+                            </option>
+                            <option value="1">1 Day</option>
+                            <option value="2">2 Days</option>
+                            <option value="3">3 Days</option>
+                            <option value="4">4 Days</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-lg font-medium">Tier 3</p>
+                          <HiOutlineTrash
+                            className="text-[20px] cursor-pointer"
+                            onClick={() => handleDeleteTier(3)}
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="title3"
+                          >
+                            Title
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Title"
+                            id="title3"
+                            value={formdata.title3 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                title3: e.target.value,
+                              }))
+                            }
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="deliverable3"
+                          >
+                            Deliverable 3
+                          </label>
+                          <textarea
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            name="deliverable3"
+                            id="deliverable3"
+                            value={formdata.deliverable3 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                deliverable3: e.target.value,
+                              }))
+                            }
+                            onFocus={handleBulletFocus("deliverable3")}
+                            onKeyDown={handleBulletKeyDown("deliverable3")}
+                            placeholder="Write here..."
+                          ></textarea>
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="price3"
+                          >
+                            Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Should be $200"
+                            id="price3"
+                            onChange={(e) =>
+                              handlePriceInput(e, "price3")
+                            }
+                            value={formatCurrency(formdata.price3 || "")}
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="by_now_discount3"
+                          >
+                            Buy Now Discount
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Buy Now Discount 10%"
+                            id="by_now_discount3"
+                            onChange={(e) =>
+                              handlePriceInput(e, "by_now_discount3")
+                            }
+                            value={formatCurrency(
+                              formdata.by_now_discount3 || ""
+                            )}
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="final_list_price3"
+                          >
+                            Final List Price
+                          </label>
+                          <input
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none"
+                            type="text"
+                            placeholder="Final List Price $180"
+                            id="final_list_price3"
+                            value={formatCurrency(
+                              formdata.final_list_price3 || ""
+                            )}
+                            readOnly
+                          />
+                        </div>
+                        <div className="flex flex-col mt-4">
+                          <label
+                            className="text-sm font-medium ps-2"
+                            htmlFor="estimated_service_timing3"
+                          >
+                            Estimated Service Timing
+                          </label>
+                          <select
+                            style={{
+                              backgroundImage: `url(${down})`,
+                              backgroundPosition: "calc(100% - 10px) center",
+                              backgroundRepeat: "no-repeat",
+                            }}
+                            className="shadow-[0px_1px_2px_0px_#1018280D] py-2 mt-1 px-3 bg-white border border-[#D0D5DD] rounded-[8px] focus:outline-none appearance-none"
+                            name="estimated_service_timing3"
+                            id="estimated_service_timing3"
+                            value={formdata.estimated_service_timing3 || ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                estimated_service_timing3: e.target.value,
+                              }))
+                            }
+                          >
+                            <option value="" disabled hidden>
+                              How soon can you get it scheduled?
+                            </option>
+                            <option value="1">1 Day</option>
+                            <option value="2">2 Days</option>
+                            <option value="3">3 Days</option>
+                            <option value="4">4 Days</option>
+                          </select>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             <div className="col-span-12 mt-4 flex justify-end gap-4">

@@ -510,7 +510,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                           }}
                         >
                           <Tab label="Basic" {...a11yProps(0)} />
-                          {/* Only show Standard and Premium tabs if pricingModel is Custom */}
+                        
                           {formdata?.pricing_model === "Custom" && (
                             <>
                               <Tab label="Standard" {...a11yProps(1)} />

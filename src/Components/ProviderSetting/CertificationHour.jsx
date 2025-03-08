@@ -316,7 +316,7 @@ const userId=useSelector((state)=>state.auth.user);
                 title: "Success!",
                 text: "Setting Published successfully.",
                 confirmButtonColor: "#0F91D2",
-            }).then(() => handleTabChange(4));
+            }).then(() => handleTabChange(3));
         } else {
             throw new Error(response.data.message || "Failed to update deal.");
         }
@@ -667,7 +667,7 @@ const userId=useSelector((state)=>state.auth.user);
                 onClick={handlePublish}
                 disabled={publishLoading}
               >
-                {publishLoading ? "Publishing..." : "Publish"}
+                {publishLoading ? "Publishing..." : "Publish $ next"}
               </button>
 
               <button
