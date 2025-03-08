@@ -62,10 +62,6 @@ console.log("deals", deals)
                 {deals?.data?.map((deal) => (
                   <option key={deal._id} value={deal.id}>{deal?.service_title}</option>
                 ))}
-               {/* {isLoading &&  <option value="cleaning">isLoading</option>} */}
-                {/* <option value="" hidden>Select</option>
-                <option value="gardening">Gardening</option>
-                <option value="plumbing">Plumbing</option> */}
               </select>
               {errors.service && <p className="text-red-500 text-sm">{errors.service.message}</p>}
             </div>
