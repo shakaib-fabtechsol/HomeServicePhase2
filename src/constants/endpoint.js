@@ -64,7 +64,8 @@ export const SALEREP_POINTS = {
     GET_REVENUE_SUMMARY:"SaleRep/quarterlyReport",
     GET_PROVIDER_ALL:"/SaleRep/SaleAllProviders",
     GET_ASSIGNED_PROVIDER:"/SaleRep/SaleAssignProviders",
-    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider"
+    EDIT_SALE_PROS:"/SaleRep/UpdateSaleProvider",
+    SALES_REPOS:"/salesrep"
 
 }
 export const SALE_POINTS = {

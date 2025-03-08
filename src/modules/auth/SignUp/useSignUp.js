@@ -36,7 +36,8 @@ export const useSignUp = () => {
         email: data.email,
         phone: data.phone,
         password: data.password,
-        role: userType,
+        role: Number(userType),
+        assign_sales_rep: Number(data.assign_sales_rep),
       }).unwrap();
 
       if (response?.user) {
