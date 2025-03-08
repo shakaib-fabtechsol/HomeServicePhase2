@@ -8,17 +8,43 @@ import Swal from "sweetalert2";
 import {
   LoadScript,
   GoogleMap,
-  Marker,
   Circle,
   Autocomplete,
 } from "@react-google-maps/api";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const GOOGLE_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0";
-const libraries = ["places"];
+const libraries = ["places", "marker"];
 
-const ServiceArea = ({handleTabChange}) => {
+// Custom AdvancedMarker component that uses the new AdvancedMarkerElement API
+const AdvancedMarker = ({ map, position, title }) => {
+  useEffect(() => {
+    let advancedMarker;
+    if (
+      map &&
+      window.google &&
+      window.google.maps &&
+      window.google.maps.marker &&
+      window.google.maps.marker.AdvancedMarkerElement
+    ) {
+      advancedMarker = new window.google.maps.marker.AdvancedMarkerElement({
+        position,
+        map,
+        title,
+      });
+    }
+    return () => {
+      if (advancedMarker) {
+        advancedMarker.setMap(null);
+      }
+    };
+  }, [map, position, title]);
+
+  return null;
+};
+
+const ServiceArea = ({ handleTabChange }) => {
   const [serviceType, setServiceType] = useState("location");
   const [location, setLocation] = useState("");
   const [locations, setLocations] = useState([]);
@@ -31,16 +57,17 @@ const ServiceArea = ({handleTabChange}) => {
   const [locationsList, setLocationsList] = useState([]);
   const [value2, setValue2] = useState(10);
   const [lat, setLat] = useState(31.5204);
-  const [errorMessage, setErrorMessage] = useState(null);
   const [lng, setLng] = useState(74.3587);
-  const {formdata,setFormData}=useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  // Corrected the useState destructuring for formData
+  const [formData, setFormData] = useState({});
   const [map, setMap] = useState(null);
   const businessAutoCompleteRef = useRef(null);
-  
-const userid=useSelector((state)=>state.auth.user);
-console.log(userid);
-const token =useSelector((state)=>state.auth.token);
- 
+
+  const userid = useSelector((state) => state.auth.user);
+  console.log(userid);
+  const token = useSelector((state) => state.auth.token);
+
   const resetForm = () => {
     setServiceType("location");
     setLocation("");
@@ -50,8 +77,8 @@ const token =useSelector((state)=>state.auth.token);
     setBulkText("");
     setLocationsList([]);
     setValue2(10);
-    setLat(null);
-    setLng(null);
+    setLat(31.5204);
+    setLng(74.3587);
   };
 
   const onPlaceSelected = () => {
@@ -67,12 +94,6 @@ const token =useSelector((state)=>state.auth.token);
     setLocation(address);
     setLat(latitude);
     setLng(longitude);
-  };
-
-  const handleChange2 = (event, newValue) => {
-    if (typeof newValue === "number") {
-      setValue2(newValue);
-    }
   };
 
   const handleBulkTextChange = (e) => {
@@ -100,6 +121,7 @@ const token =useSelector((state)=>state.auth.token);
       setInputValue("");
     }
   };
+
   const handleBulkChange = (e) => {
     setIsBulk(e.target.checked);
     setBulkText("");
@@ -184,7 +206,7 @@ const token =useSelector((state)=>state.auth.token);
     };
 
     fetchData();
-  }, [userid?.id, serviceType]);
+  }, [userid?.id, serviceType, token]);
 
   const fetchAndDrawBuildings = (map, lat, lng, radius) => {
     if (!window.google || !window.google.maps || !window.google.maps.places) {
@@ -200,7 +222,8 @@ const token =useSelector((state)=>state.auth.token);
     service.nearbySearch(request, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         results.forEach((place) => {
-          new window.google.maps.Marker({
+          // Use AdvancedMarkerElement for nearby building markers
+          new window.google.maps.marker.AdvancedMarkerElement({
             position: place.geometry.location,
             map: map,
             title: place.name,
@@ -235,13 +258,11 @@ const token =useSelector((state)=>state.auth.token);
     lat: typeof lat === "number" && !isNaN(lat) ? lat : 31.5204,
     lng: typeof lng === "number" && !isNaN(lng) ? lng : 74.3587,
   };
+
   const handlePublish = async (e) => {
     e.preventDefault();
-  
-    // Prevent multiple submissions if already loading
+
     if (publishLoading) return;
-  
-    // Validate required user ID and token
     if (!userid?.id) {
       Swal.fire({
         icon: "error",
@@ -250,7 +271,7 @@ const token =useSelector((state)=>state.auth.token);
       });
       return;
     }
-  
+
     if (!token) {
       Swal.fire({
         icon: "error",
@@ -259,17 +280,17 @@ const token =useSelector((state)=>state.auth.token);
       });
       return;
     }
-  
+
     setPublishLoading(true);
-  
+
     try {
       const response = await axios.get(
         `https://marketplace.thefabulousshow.com/api/SettingPublish/${userid?.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       console.log("API Response:", response);
-  
+
       if (response.data?.setting?.publish === 1) {
         Swal.fire({
           icon: "success",
@@ -305,10 +326,11 @@ const token =useSelector((state)=>state.auth.token);
       setPublishLoading(false);
     }
   };
-  
-  
-  
 
+  // Slider change handler
+  const handleChange2 = (event, newValue) => {
+    setValue2(newValue);
+  };
 
   const renderFormContent = () => (
     <>
@@ -391,7 +413,6 @@ const token =useSelector((state)=>state.auth.token);
 
               {isBulk ? (
                 <div className="relative flex flex-col mb-2 border rounded-lg px-3 py-2">
-                  {/* Autocomplete wrapper not required here if you are not using its functionality */}
                   <textarea
                     id="bulkLoc"
                     rows="4"
@@ -499,16 +520,22 @@ const token =useSelector((state)=>state.auth.token);
       </div>
 
       {(lat || serviceType === "location" || serviceType === "radius") && (
-        <div className="map-container">
+        <div className="map-container" style={{ marginTop: "20px" }}>
           <GoogleMap
             onLoad={(mapInstance) => setMap(mapInstance)}
             center={mapCenter}
             zoom={10}
             mapContainerStyle={{ width: "100%", height: "400px" }}
           >
-            {typeof lat === "number" && typeof lng === "number" && (
-              <Marker position={{ lat, lng }} />
-            )}
+            {map &&
+              typeof lat === "number" &&
+              typeof lng === "number" && (
+                <AdvancedMarker
+                  map={map}
+                  position={{ lat, lng }}
+                  title="Service Location"
+                />
+              )}
             {serviceType === "radius" && (
               <Circle
                 center={{ lat, lng }}
@@ -527,12 +554,12 @@ const token =useSelector((state)=>state.auth.token);
       )}
 
       <div className="col-span-12 mt-4 flex justify-end gap-4">
-      <button
-            onClick={resetForm}
-            className="border border-gray-300 rounded-lg w-[150px] py-[10px] font-semibold bg-white"
-          >
-            Cancel
-          </button>
+        <button
+          onClick={resetForm}
+          className="border border-gray-300 rounded-lg w-[150px] py-[10px] font-semibold bg-white"
+        >
+          Cancel
+        </button>
         <input
           type="text"
           id="Flatr"
@@ -556,7 +583,7 @@ const token =useSelector((state)=>state.auth.token);
         >
           {publishLoading ? "Publishing..." : "Publish & Next"}
         </button>
-       
+
         <button
           type="submit"
           className={`border rounded-lg w-[150px] py-[10px] text-white font-semibold bg-[#0F91D2] ${
@@ -570,26 +597,26 @@ const token =useSelector((state)=>state.auth.token);
     </>
   );
 
+  const renderMap = () => {
+    return <div>{renderFormContent()}</div>;
+  };
+
   return (
-    <>
-     <div>
-  <form onSubmit={handleSubmit}>
-    {/* Check if Google Maps API is already loaded */}
-    {!window.google ? (
-      <LoadScript
-        googleMapsApiKey={GOOGLE_API_KEY}
-        libraries={["places"]}
-        onLoad={() => console.log("Google Maps API Loaded")}
-      >
-        {renderFormContent()}
-      </LoadScript>
-    ) : (
-      
-      renderFormContent()
-    )}
-  </form>
-</div>
-    </>
+    <div>
+      <form onSubmit={handleSubmit}>
+        {!window.google ? (
+          <LoadScript
+            googleMapsApiKey={GOOGLE_API_KEY}
+            libraries={libraries}
+            onLoad={() => console.log("Google Maps API Loaded")}
+          >
+            {renderMap()}
+          </LoadScript>
+        ) : (
+          renderMap()
+        )}
+      </form>
+    </div>
   );
 };
 
