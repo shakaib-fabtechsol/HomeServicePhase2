@@ -355,9 +355,9 @@ const ChatApp = () => {
                     {
                       message?.contentType === "order" ? (
                         <div className="p-2 flex justify-end">
-                          <div className="p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-full shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
+                          <div className= "   p-4 rounded-xl mt-2 bg-[#F5F5F5] max-w-[450px] w-80 shadow-[0px_8px_8px_-4px_#10182808,0px_20px_24px_-4px_#10182814]">
                             <div>
-                              <div className="flex justify-between items-center">
+                              <div className="flex justify-between items-center ">
                                 <p className="font-semibold">Created Offer</p>
                                 <p className="font-bold text-xl">$ {message?.orderDetails?.total_amount}</p>
                               </div>
