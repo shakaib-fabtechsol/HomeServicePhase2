@@ -5,7 +5,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import logo from "../assets/img/logo.png";
-import profile from "../assets/img/profile.png";
+import profile from "../assets/img/service1.png";
 import { FaRegHeart } from "react-icons/fa6";
 import { GrNotification } from "react-icons/gr";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
@@ -83,7 +83,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
               <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
             </NavLink> */}
             <Link to="#">
-              <img src={`${BASE_URL}/uploads/${user?.personal_image}` || profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
+              <img src={ user?.personal_image ? `${BASE_URL}/uploads/${user?.personal_image}` : profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
             </Link>
           </>
         )}
