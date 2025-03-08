@@ -133,7 +133,7 @@ const token =useSelector((state)=>state.auth.token);
         };
       }
       const response = await axios.post(
-        "https://homerservice-ph2.netlify.app/api/AddBusinessLocation",
+        "https://marketplace.thefabulousshow.com/api/AddBusinessLocation",
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -161,7 +161,7 @@ const token =useSelector((state)=>state.auth.token);
 
       try {
         const response = await axios.get(
-          `https://homerservice-ph2.netlify.app/api/UserDetails`,
+          `https://marketplace.thefabulousshow.com/api/UserDetails`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -264,7 +264,7 @@ const token =useSelector((state)=>state.auth.token);
   
     try {
       const response = await axios.get(
-        `https://homerservice-ph2.netlify.app/api/SettingPublish/${userid?.id}`,
+        `https://marketplace.thefabulousshow.com/api/SettingPublish/${userid?.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
   

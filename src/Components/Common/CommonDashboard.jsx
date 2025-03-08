@@ -7,6 +7,7 @@ import Down from "../../assets/img/chevronDown.png";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import {useGetOrderQuery} from "../../services/sales/index"
+import Loader from "../../Components/MUI/Loader";
 const CommonDashboard = ({ orderto, conversationto, }) => {
   useEffect(() => {
     document.title = "Home";
@@ -20,7 +21,7 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
     setLoading(true);
 
     axios
-      .get("https://homerservice-ph2.netlify.app/api/Deals", {
+      .get("https://marketplace.thefabulousshow.com/api/Deals", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -261,25 +262,27 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
         </div>
       </div>
       <h2 className="text-xl font-semibold mt-5">Recently Viewed</h2>
-      <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {services.length > 0 ? (
-          services
-            .slice(0, 3)
-            .map((service) => (
+      {loading ? (
+          <div className="flex justify-center items-center mt-7">
+            <Loader />
+          </div>
+        ) : services.length > 0 ? (
+          <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {services.slice(0, 3).map((service) => (
               <ServiceBox
                 key={service.id}
                 title={service.service_title}
                 price={
                   service.pricing_model === "Flat"
                     ? service.flat_rate_price
-                    : service?.pricing_model == "Hourly"
+                    : service.pricing_model === "Hourly"
                     ? service.hourly_final_list_price
                     : service.price1
                 }
                 tags={service.search_tags}
                 image={service.images}
                 publish={service.publish}
-                userimg={service.userimg}
+                userimg={service.personal_image}
                 username={service.user_name}
                 description={service.service_description}
                 category={service.service_category}
@@ -288,22 +291,23 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
                 Liked={service.Liked}
                 serviceDetailTo={`/provider/dealDetails/${service.id}`}
                 videos={service.videos}
-                imgs={service.images}
+                imgs={service.personal_image}
                 Days={
                   service.pricing_model === "Flat"
                     ? service.flat_estimated_service_time
-                    : service?.pricing_model == "Hourly"
+                    : service.pricing_model === "Hourly"
                     ? service.hourly_estimated_service_time
                     : service.estimated_service_timing
                 }
                 totalReviews={service.totalReviews}
               />
-            ))
+            ))}
+          </div>
         ) : (
-          <p>No services found</p>
+          <p className="text-center mt-5">No services found</p>
         )}
       </div>
-    </div>
+    
   );
 };
 

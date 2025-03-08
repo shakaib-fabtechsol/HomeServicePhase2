@@ -206,7 +206,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     setLoading(true);
 
     axios
-      .get(`https://homerservice-ph2.netlify.app/api/Deal/${deal_id}`, {
+      .get(`https://marketplace.thefabulousshow.com/api/Deal/${deal_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -227,7 +227,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
             : "";
 
         const image = imagePath
-          ? `https://homerservice-ph2.netlify.app/uploads/${imagePath}`
+          ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
           : "/default.pnz";
         const updatedData = {
           id: deal?.id || "",
@@ -313,8 +313,8 @@ const ReviewPublish = ({ serviceId, setValue }) => {
 
     try {
       const url = isEdit
-        ? `https://homerservice-ph2.netlify.app/api/DealPublish/${dealid}`
-        : `https://homerservice-ph2.netlify.app/api/DealPublish/${serviceId}`;
+        ? `https://marketplace.thefabulousshow.com/api/DealPublish/${dealid}`
+        : `https://marketplace.thefabulousshow.com/api/DealPublish/${serviceId}`;
 
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -357,7 +357,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   const imagePath = userData?.businessProfile[0]?.business_logo;
 
   const imageUrl = imagePath
-  ? `https://homerservice-ph2.netlify.app/uploads/${imagePath}`
+  ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
   : "/service1.png";
 
   const regularHours =
