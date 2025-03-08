@@ -43,7 +43,7 @@ const CustomerLayout = () => {
           label: "Payments/Payout",
         },
         {
-          to: "/customer/favourites",
+          to: "/customer/favourites1",
           icon: FaRegHeart,
           label: "Favorites",
           toChild: "/customer/dealDetails",

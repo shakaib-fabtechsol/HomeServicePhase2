@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import React,{useState} from "react";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdNotifications } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoLocationOutline } from "react-icons/io5";
@@ -11,14 +11,30 @@ import { GrNotification } from "react-icons/gr";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../config";
-
+import {useDispatch} from 'react-redux';
+import logout from "../redux/reducers/authSlice";
 const MainNav = ({ toggleSidebar, logolink }) => {
   const location = useLocation();
-  const {user}= useSelector((state)=>state.auth)
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const {user}= useSelector((state)=>state.auth);
+  const dispatch = useDispatch();
+ const navigate=useNavigate();
   const isHomeOrCatalog =
     location.pathname === "/" ||
     location.pathname === "/catalogResult" ||
     location.pathname === "/dealdetails";
+
+    const redirectTo = location.pathname === "/" ? "/home" : "/dashboard";
+
+
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setDropdownOpen(false);
+    navigate("/");
+  };
 
   return (
     <div className="mainnav input-shadow p-4 flex justify-between items-center bg-white border-b-2 border-[#E4E4E4]">
@@ -59,35 +75,52 @@ const MainNav = ({ toggleSidebar, logolink }) => {
       </div>
 
       <div className="flex items-center">
-        {!user ? (
-          <>
-            <Link to="/login" className="me-3">
-              Sign In
-            </Link>
-            <Link to="/register" className="border-2 rounded-lg px-4 py-2">
-              Join Now
-            </Link>
-          </>
-        ) : (
-          <>
-           <button className="text-2xl md:hidden" onClick={toggleSidebar}>
-              <RxHamburgerMenu className="pointer me-2" />
-            </button>
-            {/*  <NavLink to="#">
-              <IoChatboxEllipsesOutline className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            <NavLink to="#">
-              <FaRegHeart className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            <NavLink to="#">
-              <GrNotification className="text-2xl text-[#535862] cursor-pointer me-3 sm:me-5" />
-            </NavLink>
-            {/* <Link to="#">
-              <img src={`${BASE_URL}/uploads/${user?.personal_image}` || profile} alt="Profile" className="w-10 h-10   rounded-3xl img-wade" />
-            </Link> */}
-          </>
-        )}
-      </div>
+      {!user ? (
+        <>
+          <Link to="/login" className="me-3">
+            Sign In
+          </Link>
+          <Link to="/register" className="border-2 rounded-lg px-4 py-2">
+            Join Now
+          </Link>
+        </>
+      ) : (
+        <>
+          <button className="text-2xl md:hidden" onClick={toggleSidebar}>
+            <RxHamburgerMenu className="pointer" />
+          </button>
+          <div className="relative">
+            <img
+              onClick={toggleDropdown}
+              src={
+                user?.personal_image
+                  ? `${BASE_URL}/uploads/${user.personal_image}`
+                  : profile
+              }
+              alt="Profile"
+              className="w-10 h-10 rounded-3xl cursor-pointer"
+            />
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                <Link
+                  to={redirectTo}
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </div>
     </div>
   );
 };
