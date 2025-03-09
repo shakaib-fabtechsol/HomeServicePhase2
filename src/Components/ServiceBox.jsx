@@ -134,7 +134,7 @@ function ServiceBox({
       </div>
      
       <div
-        onClick={() => navigate(serviceDetailTo)}
+        onClick={() => {console.log(serviceDetailTo); navigate(serviceDetailTo)}}
         className="px-3 pb-3 cursor-pointer"
       >
         <div className="flex items-center justify-between">

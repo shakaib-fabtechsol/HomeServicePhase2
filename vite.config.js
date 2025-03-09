@@ -17,13 +17,13 @@ export default defineConfig({
       process.env.VITE_BASE_URL_NODE
     ),
   },
-  server: {
-    proxy: {
-      "/socket.io": {
-        target: process.env.VITE_BASE_URL_NODE || import.meta.env.VITE_BASE_URL_NODE,
-        ws: true,
-      },
-    },
-  },
+  // // server: {
+  // //   proxy: {
+  // //     "/socket.io": {
+  // //       target: process.env.VITE_BASE_URL_NODE || import.meta.env.VITE_BASE_URL_NODE,
+  // //       ws: true,
+  // //     },
+  // //   },
+  // },
   plugins: [react()],
 });

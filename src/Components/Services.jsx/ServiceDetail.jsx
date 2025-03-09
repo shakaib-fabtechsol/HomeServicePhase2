@@ -29,7 +29,7 @@ import { ContactProModal } from "./ContactProModal";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
 import { sendInstantChatMessage } from "./sendInstantChatMessage";
-
+// console.log("user", user);
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -544,7 +544,8 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
+              {true
+              // {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
                   onClick={handlecontactOpen}

@@ -3,6 +3,7 @@ import ServiceBox2 from "../ServiceBox2";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import { useGetFavourite1Query } from "../../services/sales/index";
 import Loader from "../MUI/Loader";
+import { useSelector } from "react-redux";
 
 const CommonFavorites2 = () => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const CommonFavorites2 = () => {
 
   const services = order?.deals; 
   console.log(services);
+  const {user} = useSelector((state) => state.auth);
 
   if (isLoading) {
     return <Loader />;
@@ -77,6 +79,8 @@ const CommonFavorites2 = () => {
           services.map((service) => (
             <ServiceBox2
               key={service.id}
+              serviceDetailTo={`${user?.role === 1 ? "/customer" : "/provider" }/dealDetails/${service?.id}`}
+
               title={service.service_title}
               price={
                 service.pricing_model === "Flat"
