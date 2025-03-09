@@ -43,7 +43,7 @@ const ChatApp = () => {
     if (!socket.current) {
       socket.current = io(socketUrl, {
         // transports: ["websocket"],
-        secure: false,
+        secure: true,
         rejectUnauthorized: false,
         extraHeaders: {
           user_id: user?.id,

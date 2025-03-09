@@ -26,6 +26,7 @@ import {
 } from "../../services/base-api/index";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
+import { ContactProModal } from "../../Components/Services.jsx/ContactProModal";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -485,7 +486,7 @@ console.log(serviceDetails,"valueeee")
                   )}
                 </Box>
               </div>
-              {/* {userData?.user?.customer_notification 
+              {true
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -493,7 +494,7 @@ console.log(serviceDetails,"valueeee")
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>} */}
+                </button>}
             </div>
           </div>
         </div>

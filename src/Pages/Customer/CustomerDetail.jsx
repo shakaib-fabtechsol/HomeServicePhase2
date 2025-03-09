@@ -536,7 +536,7 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {userData?.user?.customer_notification 
+              {true
                 &&
                 <button
                   onClick={handlecontactOpen}
