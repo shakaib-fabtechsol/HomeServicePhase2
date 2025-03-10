@@ -7,4 +7,4 @@ function DealDetails2() {
 }
 
 export default DealDetails2;
-  
+    
