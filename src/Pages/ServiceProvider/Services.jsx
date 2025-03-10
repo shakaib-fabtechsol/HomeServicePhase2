@@ -17,10 +17,10 @@ function Services() {
   const [searchQuery, setSearchQuery] = useState("");
   const [services, setServices] = useState([]);
 
-  const { user, token } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    setLoading(true); // Show loader before fetching data
+    setLoading(true); 
 
     axios
       .get("https://marketplace.thefabulousshow.com/api/Deals", {
@@ -34,7 +34,7 @@ function Services() {
       })
       .catch((error) => {
         console.error("Error fetching deals:", error);
-        setLoading(false); // Hide loader even if there's an error
+        setLoading(false); 
       });
   }, []);
 

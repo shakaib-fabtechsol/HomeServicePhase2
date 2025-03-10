@@ -3,7 +3,8 @@ import { FaArrowRight, FaSearch } from "react-icons/fa";
 import ServiceBox2 from "../../Components/ServiceBox2";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
-import { useGethomeorderQuery, useGetrecentdealsQuery } from "../../services/dashboard";
+import { useGetOrderQuery,  } from "../../services/sales/index";
+import {useGetrecentdealsQuery} from "../../services/dashboard/index";
 import Loader from "../MUI/Loader";
 import { useSelector } from "react-redux";
 const CommonDashboard = ({ orderto, conversationto}) => {
@@ -12,7 +13,7 @@ const CommonDashboard = ({ orderto, conversationto}) => {
   }, []);
 
   const { data: orderData, isLoading} = useGetrecentdealsQuery();
-  const { data: orderInprogress, isLoading: homeorderloading } = useGethomeorderQuery()
+  const { data: orderInprogress, isLoading: homeorderloading } = useGetOrderQuery()
   const role = useSelector((state) => state.auth.user);
   console.log("role", role?.role);
 

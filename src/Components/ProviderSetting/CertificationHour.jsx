@@ -214,66 +214,83 @@ const userId=useSelector((state)=>state.auth.user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
-   
 
     if (!token) {
-      toast.error("No token found. Please log in.");
-      return;
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No token found. Please log in.",
+        });
+        return;
     }
 
     setLoading(true);
 
     try {
-      const formattedSchedule = schedule.map((item) => ({
-        day_name: item.day,
-        day_status: item.closed ? "closed" : "open",
-        Open24Hours: item.Open24Hours,
-        regular_hour: item.closed
-          ? []
-          : item.slots.map((slot) => ({
-              start_time: slot.start,
-              end_time: slot.end,
-            })),
-      }));
+        const formattedSchedule = schedule.map((item) => ({
+            day_name: item.day,
+            day_status: item.closed ? "closed" : "open",
+            Open24Hours: item.Open24Hours,
+            regular_hour: item.closed
+                ? []
+                : item.slots.map((slot) => ({
+                    start_time: slot.start,
+                    end_time: slot.end,
+                })),
+        }));
 
-      const payload = specialSchedule.map((item) => ({
-        text: item.text,
-        date: item.date,
-        closed: item.closed,
-        hour: item.hour,
-        Open24Hours: item.Open24Hours,
-      }));
-      const data = new FormData();
+        const payload = specialSchedule.map((item) => ({
+            text: item.text,
+            date: item.date,
+            closed: item.closed,
+            hour: item.hour,
+            Open24Hours: item.Open24Hours,
+        }));
 
-      data.append("regular_hour", JSON.stringify(formattedSchedule));
-      data.append("special_hour", JSON.stringify(payload));
+        const data = new FormData();
 
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          data.append(key, value);
-        }
-      });
+        data.append("regular_hour", JSON.stringify(formattedSchedule));
+        data.append("special_hour", JSON.stringify(payload));
 
-      const response = await axios.post(
-        "https://marketplace.thefabulousshow.com/api/AddCertificateHours",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        Object.entries(formData).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                data.append(key, value);
+            }
+        });
 
-      console.log("Success:", response.data);
-      toast.success("Profile updated successfully!");
+        const response = await axios.post(
+            "https://marketplace.thefabulousshow.com/api/AddCertificateHours",
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        console.log("Success:", response.data);
+
+        Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Profile updated successfully!",
+            confirmButtonColor: "#0F91D2",
+        }).then(() => handleTabChange(4)); 
+
     } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Failed to update profile. Please try again.");
+        console.error("Error submitting form:", error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to update profile. Please try again.",
+        });
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   const handlePublish = async (e) => {
     e.preventDefault();
@@ -316,7 +333,7 @@ const userId=useSelector((state)=>state.auth.user);
                 title: "Success!",
                 text: "Setting Published successfully.",
                 confirmButtonColor: "#0F91D2",
-            }).then(() => handleTabChange(3));
+            }).then(() => handleTabChange(4));
         } else {
             throw new Error(response.data.message || "Failed to update deal.");
         }

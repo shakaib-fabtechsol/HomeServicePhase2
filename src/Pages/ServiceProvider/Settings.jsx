@@ -11,20 +11,19 @@ import ChannelConversation from "../../Components/ProviderSetting/ChannelConvers
 import Payment from "../../Components/ProviderSetting/Payment";
 import TabComponent from "../../Components/TabComponent";
 import Publish from "../../Components/ProviderSetting/Publish";
-import { useAddPaymentDetailsMutation, useGetMyDetailsQuery, useGetUserDetailsQuery } from "../../services/settings";
+import {
+  useAddPaymentDetailsMutation,
+  useGetMyDetailsQuery,
+  useGetUserDetailsQuery,
+} from "../../services/settings";
 import { setUser } from "../../redux/reducers/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-
+import Loader from "../../Components/MUI/Loader";
 function Settings() {
   const userData = useSelector((state) => state.auth.user);
-  const [activeTab, setActiveTab] = useState(0);
-  const { data, isLoading } = useGetUserDetailsQuery(userData?.id);
-  console.log("userData...............", data);
+  const { data, isLoading } = useGetUserDetailsQuery(userData?.id); // Use isLoading from API call
   const dispatch = useDispatch();
-
-  const handleTabChange = (newValue) => {
-    setActiveTab(newValue);
-  };
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     document.title = "Settings";
@@ -41,6 +40,11 @@ function Settings() {
       dispatch(setUser(payload));
     }
   }, [data, dispatch]);
+
+  const handleTabChange = (newValue) => {
+    setActiveTab(newValue);
+  };
+
   const tabData = [
     {
       label: "Personal Profile",
@@ -76,7 +80,13 @@ function Settings() {
     },
     {
       label: "Payment/Payout Info",
-      content: <Payment handleTabChange={handleTabChange} useGetMyDetailsQuery={useGetMyDetailsQuery} useAddPaymentDetailsMutation={useAddPaymentDetailsMutation} />,
+      content: (
+        <Payment
+          handleTabChange={handleTabChange}
+          useGetMyDetailsQuery={useGetMyDetailsQuery}
+          useAddPaymentDetailsMutation={useAddPaymentDetailsMutation}
+        />
+      ),
     },
     {
       label: "Publish",
@@ -93,15 +103,24 @@ function Settings() {
           payment settings
         </p>
       </div>
+
       <div>
-        <TabComponent
-          tabs={tabData}
-          value={activeTab}
-          onChange={handleTabChange}
-        />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-40">
+            <Loader />
+          </div>
+        ) : (
+          <TabComponent
+            tabs={tabData}
+            value={activeTab}
+            onChange={handleTabChange}
+          />
+        )}
       </div>
     </div>
   );
 }
 
 export default Settings;
+
+

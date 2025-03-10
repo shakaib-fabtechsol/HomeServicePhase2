@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
-import {useSelector} from "react-redux";
-import {useFavouriteMutation} from "../../src/services/sales/index"
+import { useSelector } from "react-redux";
+import { useFavourite1Mutation } from "../../src/services/sales/index";
 function ServiceBox({
   tags = [],
   image,
@@ -27,45 +27,45 @@ function ServiceBox({
 }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
-  const user=useSelector((state)=>state.auth.user);
+  const user = useSelector((state) => state.auth.user);
 
-
-  const [favourite] = useFavouriteMutation();
-
+  const [favourite] = useFavourite1Mutation();
 
   const handleFavourite = async () => {
-   
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     const payload = {
-      
-      deal_id:dealid,
-      user_id:user?.id, 
-     
+      deal_id: dealid,
+      user_id: user?.id,
     };
-  
+
     try {
       await favourite(payload).unwrap();
-      setLiked(!liked);
+      setLiked((prev) => !prev);
     } catch (error) {
       console.error("Favourite action failed", error);
     }
   };
+
   const parseJsonArray = (data) => {
     try {
-      return typeof data === "string"?JSON.parse(data) : data;
+      return typeof data === "string" ? JSON.parse(data) : data;
     } catch (error) {
       console.error("Error parsing JSON:", error);
       return [];
     }
   };
-  const defaultImage = "/service1.png"; 
+  const defaultImage = "/service1.png";
 
-  const image2 = userimg 
-  ? `https://marketplace.thefabulousshow.com/uploads/${userimg}` 
-  : defaultImage;
+  const image2 = userimg
+    ? `https://marketplace.thefabulousshow.com/uploads/${userimg}`
+    : defaultImage;
 
   const imageArray = parseJsonArray(image);
   const videoArray = parseJsonArray(videos);
- 
 
   const mediaSet = new Set([
     ...(imageArray?.length
@@ -81,30 +81,27 @@ function ServiceBox({
   ]);
 
   const mediaItems = mediaSet.size ? Array.from(mediaSet) : [defaultImage];
-  
 
- 
-
-    
   return (
     <div className="border rounded-lg overflow-hidden">
       <div className="relative px-3 pt-3">
         <ServiceSlider mediaItems={mediaItems} />
 
         <div
-         onClick={(e) => {
-          e.stopPropagation();
-          handleFavourite();
-        }}
-          className="absolute top-5 left-6 z-10"
-        >
-         <button
-      onClick={() => {
-        setLiked(!liked);
-        navigate("/provider/dashboard")
-      }}
-    >
+          onClick={(e) => {
+            e.stopPropagation();
+            handleFavourite();
             
+          }}
+          disabled={!user}
+          className={!user ? " absolute top-5 left-6 z-10 " : ""}
+        >
+          <button
+            onClick={() => {
+              setLiked(!liked);
+              navigate("/customer/dashboard");
+            }}
+          >
             <svg
               width="20"
               height="20"
@@ -134,13 +131,12 @@ function ServiceBox({
           </button>
         </div>
       </div>
-     
+
       <div
         onClick={() => navigate(serviceDetailTo)}
         className="px-3 pb-3 cursor-pointer"
       >
         <div className="flex items-center justify-between">
-         
           <div className="flex items-center gap-2">
             <img
               className="size-8 rounded-full object-cover"
@@ -149,7 +145,7 @@ function ServiceBox({
             />
             <p className="text-sm font-semibold">{username || "User Name"}</p>
           </div>
-        
+
           <div className="flex items-center gap-1">
             <FaStar className="text-[#F6AD3C]" />
             <p className="text-sm">{Rating || 2}</p>
@@ -164,17 +160,15 @@ function ServiceBox({
             )}
           </div>
         </div>
-      
+
         <div className="flex justify-between items-center mt-2">
           <h2 className="text-lg font-semibold">{title ?? "N/A"}</h2>
           <p className="text-lg font-extrabold">{price ?? "N/A"}</p>
         </div>
-        <div>
-            {tags}
-          </div>
+        <div>{tags}</div>
         <div className="flex flex-wrap items-center justify-between text-sm text-black mt-4">
           <div className="bg-[#0F91D2] px-2 py-2 rounded-2xl  text-black">
-          {cateogory}
+            {cateogory}
           </div>
           <div className="flex items-center">
             <FaCalendarAlt className="text-[#0F91D2] text-[14px] mx-1" />

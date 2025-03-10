@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ServiceBox from "../ServiceBox";
+import ServiceBox2 from "../ServiceBox2";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import {useGetFavouriteQuery} from '../../services/sales/index';
 import { useSelector } from "react-redux";
@@ -72,7 +72,7 @@ const CommonFavorites = () => {
       >
         {services?.length > 0 ? (
           services.map((service) => (
-            <ServiceBox
+            <ServiceBox2
             key={service.id}
             serviceDetailTo={`${user?.role === 1 ? "/customer" : "/provider" }/dealDetails/${service?.id}`}
             title={service.service_title}

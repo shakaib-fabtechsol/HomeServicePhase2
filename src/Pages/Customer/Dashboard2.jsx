@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import CommonDashboard from "../../Components/Common/CommonDashboard";
+import CommonDashboard2 from "../../Components/Common/CommonDashboard2";
 
-function Dashboard() {
+function Dashboard2() {
   useEffect(() => {
     document.title = "Dashboard2";
   }, []);
   return (
-    <CommonDashboard
+    <CommonDashboard2
       orderto="/customer/order"
       conversationto="/customer/message"
       serviceDetailTo="/customer/dealDetails"
@@ -14,4 +14,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Dashboard2;
