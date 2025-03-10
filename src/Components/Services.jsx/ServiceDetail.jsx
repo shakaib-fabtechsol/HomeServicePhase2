@@ -252,6 +252,11 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/service1.png";
+
+    const tabLabels =
+    serviceDetails?.pricing_model === "Custom"
+      ? ["Basic", "Standard", "Premium"]
+      : ["Basic"];
   return (<>
     <div className="pmain">
       <div className="navv">
@@ -393,159 +398,147 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
           </div>
           <div className="col-span-12 xl:col-span-4">
             <div className="flex flex-col h-full gap-5">
-              <div className="py-5 bg-[#FAFAFA] h-full border rounded-lg lg:px-6 px-4">
-                <Box sx={{ width: "100%" }}>
-                  <Box
-                    sx={{
-                      border: "1px solid #E9EAEB",
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                      variant="scrollable"
-                      TabIndicatorProps={{ sx: { display: "none" } }}
-                      sx={{
-                        backgroundColor: "#ffffff",
-                        "& .MuiTab-root": {
-                          color: "#535862",
-                          textTransform: "capitalize",
-                          fontFamily: "inter",
-                        },
-                        "& .Mui-selected": {
-                          color: "#181D27",
-                          fontWeight: "700",
-                        },
-                      }}
-                    >
-                      <Tab label="Basic" {...a11yProps(0)} />
-                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                        <Tab label="Standard" {...a11yProps(1)} />
-                      )}
-                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                        <Tab label="Premium" {...a11yProps(2)} />
-                      )}
-                    </Tabs>
-                  </Box>
-                  <CustomTabPanel value={value} index={0}>
-                    <div className="flex justify-between">
-                      <h2 className="text-2xl font-medium myhead">
-                        {serviceDetails?.pricing_model}
-                      </h2>
-                      <p className="text-3xl myhead font-bold">
-                        {serviceDetails?.pricing_model === "Hourly"
-                          ? serviceDetails.hourly_final_list_price
-                          : serviceDetails?.pricing_model === "Flat"
-                            ? serviceDetails.flat_rate_price
-                            : serviceDetails?.pricing_model === "Custom"
-                              ? serviceDetails.price1
-                              : "$200"}
-                      </p>
-                    </div>
-                    <p className="text-sm myblack mt-2">
-                      {serviceDetails?.fine_print
-                        ?.split("\n")
-                        .map((line, index) => (
-                          <React.Fragment key={index}>
-                            {line}
-                            <br />
-                          </React.Fragment>
-                        ))}
-                    </p>
-                    <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                      {serviceDetails?.pricing_model === "Hourly" && (
-                        <li>{serviceDetails?.hourly_estimated_service_time}</li>
-                      )}
-                      {serviceDetails?.pricing_model === "Flat" && (
-                        <li>{serviceDetails?.flat_estimated_service_time}</li>
-                      )}
-                      {serviceDetails?.pricing_model === "Custom" && (
-                        <li>{serviceDetails?.estimated_service_timing1}</li>
-                      )}
-                    </ul>
-                  </CustomTabPanel>
-
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={1}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price2}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing2}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={1}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price2}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing2}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={2}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price3}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing3}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-                </Box>
-              </div>
+              <div className="flex flex-col h-full gap-5">
+                               <div className="py-5 bg-[#FAFAFA] h-full border rounded-lg lg:px-6 px-4">
+                                 <Box sx={{ width: "100%" }}>
+                                   <Box
+                                     sx={{
+                                       border: "1px solid #E9EAEB",
+                                       borderRadius: "12px",
+                                       overflow: "hidden",
+                                     }}
+                                   >
+                                     {/* Render tabs dynamically */}
+                                     <Tabs
+                                       value={value}
+                                       onChange={handleChange}
+                                       aria-label="pricing tabs"
+                                       variant="scrollable"
+                                       TabIndicatorProps={{ sx: { display: "none" } }}
+                                       sx={{
+                                         backgroundColor: "#ffffff",
+                                         "& .MuiTab-root": {
+                                           color: "#535862",
+                                           textTransform: "capitalize",
+                                           fontFamily: "inter",
+                                         },
+                                         "& .Mui-selected": {
+                                           color: "#181D27",
+                                           fontWeight: "700",
+                                         },
+                                       }}
+                                     >
+                                       {tabLabels.map((label, index) => (
+                                         <Tab
+                                           key={index}
+                                           label={label}
+                                           {...a11yProps(index)}
+                                         />
+                                       ))}
+                                     </Tabs>
+                                   </Box>
+             
+                                   {/* Render corresponding tab panels */}
+                                   {tabLabels.map((label, index) => (
+                                     <CustomTabPanel value={value} index={index} key={index}>
+                                       {label === "Basic" && (
+                                         <div>
+                                           <div className="flex justify-between">
+                                             <h2 className="text-2xl font-medium myhead">
+                                               {serviceDetails?.pricing_model}
+                                             </h2>
+                                             <p className="text-3xl myhead font-bold">
+                                               {serviceDetails?.pricing_model === "Hourly"
+                                                 ? serviceDetails.hourly_final_list_price
+                                                 : serviceDetails?.pricing_model === "Flat"
+                                                   ? serviceDetails.flat_rate_price
+                                                   : serviceDetails?.pricing_model === "Custom"
+                                                     ? serviceDetails.price1
+                                                     : "$200"}
+                                             </p>
+                                           </div>
+                                           <p className="text-sm myblack mt-2">
+                                             {serviceDetails?.fine_print
+                                               ?.split("\n")
+                                               .map((line, idx) => (
+                                                 <React.Fragment key={idx}>
+                                                   {line}
+                                                   <br />
+                                                 </React.Fragment>
+                                               ))}
+                                           </p>
+                                           <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                             {serviceDetails?.pricing_model === "Hourly" && (
+                                               <li>
+                                                 {serviceDetails?.hourly_estimated_service_time}
+                                               </li>
+                                             )}
+                                             {serviceDetails?.pricing_model === "Flat" && (
+                                               <li>
+                                                 {serviceDetails?.flat_estimated_service_time}
+                                               </li>
+                                             )}
+                                             {serviceDetails?.pricing_model === "Custom" && (
+                                               <li>{serviceDetails?.estimated_service_timing1}</li>
+                                             )}
+                                           </ul>
+                                         </div>
+                                       )}
+                                       {label === "Standard" && (
+                                         <div>
+                                           <div className="flex justify-between">
+                                             <h2 className="text-2xl font-medium myhead">
+                                               Standard
+                                             </h2>
+                                             <p className="text-3xl myhead font-bold">
+                                               {serviceDetails?.price2}
+                                             </p>
+                                           </div>
+                                           <p className="text-sm myblack mt-2">
+                                             {serviceDetails?.fine_print
+                                               ?.split("\n")
+                                               .map((line, idx) => (
+                                                 <React.Fragment key={idx}>
+                                                   {line}
+                                                   <br />
+                                                 </React.Fragment>
+                                               ))}
+                                           </p>
+                                           <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                             <li>{serviceDetails?.estimated_service_timing2}</li>
+                                           </ul>
+                                         </div>
+                                       )}
+                                       {label === "Premium" && (
+                                         <div>
+                                           <div className="flex justify-between">
+                                             <h2 className="text-2xl font-medium myhead">
+                                               Premium
+                                             </h2>
+                                             <p className="text-3xl myhead font-bold">
+                                               {serviceDetails?.price3}
+                                             </p>
+                                           </div>
+                                           <p className="text-sm myblack mt-2">
+                                             {serviceDetails?.fine_print
+                                               ?.split("\n")
+                                               .map((line, idx) => (
+                                                 <React.Fragment key={idx}>
+                                                   {line}
+                                                   <br />
+                                                 </React.Fragment>
+                                               ))}
+                                           </p>
+                                           <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                             <li>{serviceDetails?.estimated_service_timing3}</li>
+                                           </ul>
+                                         </div>
+                                       )}
+                                     </CustomTabPanel>
+                                   ))}
+                                 </Box>
+                               </div>
+                             </div>
               {/* {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button

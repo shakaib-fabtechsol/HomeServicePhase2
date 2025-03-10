@@ -94,7 +94,7 @@ function ServiceBox({
             
           }}
           disabled={!user}
-          className={!user ? " absolute top-5 left-6 z-10 " : ""}
+          className= "absolute top-5 left-6 z-10 "
         >
           <button
             onClick={() => {

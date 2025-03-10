@@ -20,9 +20,14 @@ import Swal from "sweetalert2";
 
 import Loader from "../../Components/MUI/Loader";
 
-
 import { ContactProModal } from "./ContactProModal";
-import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
+import {
+  useCallProApiMutation,
+  useTextProApiMutation,
+  useChatProApiMutation,
+  useEmailProApiMutation,
+  useGetDirectionsApiMutation,
+} from "../../services/providerContactPro";
 import { toast } from "react-toastify";
 import { sendInstantChatMessage } from "./sendInstantChatMessage";
 
@@ -54,7 +59,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
+function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
   const { dealid } = useParams();
   const role = useSelector((state) => state.auth.user);
   console.log("role", role?.role);
@@ -81,20 +86,17 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
-  const {
-    data: dealData,
-    isLoading: dealLoading,
-  } = useGetDealQuery(dealid, { skip: !dealid });
+  const { data: dealData, isLoading: dealLoading } = useGetDealQuery(dealid, {
+    skip: !dealid,
+  });
   const serviceDetails = dealData?.deal;
 
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
- 
 
   const provider = dealData?.businessProfile || {};
-  const reviews=dealData?.reviews || {};
+  const reviews = dealData?.reviews || {};
   console.log(provider, "valueeeeeeeeeeeee");
-  console.log("dealData", dealData,);
- 
+  console.log("dealData", dealData);
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -134,26 +136,29 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
   const [contactModal, setContactModal] = useState("");
   const handlecontactOpen = () => setContactOpen(true);
   const handlecontactClose = () => setContactOpen(false);
-  const handleModalClose = (e) => { setContactModal(""); setLoading(false) };
+  const handleModalClose = (e) => {
+    setContactModal("");
+    setLoading(false);
+  };
   const handleSubmitApi = async (modalType, formData) => {
-    console.log("formData", formData)
+    console.log("formData", formData);
     if (!formData || !formData?.providerId) {
-      toast.info("Invalid Data")
-      return
+      toast.info("Invalid Data");
+      return;
     }
     if (!formData?.providerId) {
-      toast.info("Invalid Request")
-      return
+      toast.info("Invalid Request");
+      return;
     }
     if (!formData?.userId) {
-      toast.info("Invalid userId")
-      return
+      toast.info("Invalid userId");
+      return;
     }
     if (!formData?.dealId) {
-      toast.info("Invalid DealId")
-      return
+      toast.info("Invalid DealId");
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     let location;
     try {
       switch (modalType) {
@@ -165,7 +170,7 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
           break;
         case "Instant Chat":
           await chatPro(formData).unwrap();
-          await sendInstantChatMessage(formData)
+          await sendInstantChatMessage(formData);
           break;
         case "Email Pro":
           await emailPro(formData).unwrap();
@@ -174,37 +179,35 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
           const responseLocation = await getDirections(formData).unwrap();
           if (responseLocation?.success) {
             // setLocation(responseLocation?.data?.location)
-            location = responseLocation?.data?.location
+            location = responseLocation?.data?.location;
           }
           break;
         default:
           console.error("Invalid modal type");
       }
-      setLoading(false)
+      setLoading(false);
       Swal.fire({
         icon: "success",
         title: `${modalType} submitted`,
-        text: location || '',
+        text: location || "",
       });
       handleModalClose();
     } catch (error) {
       console.error("API request failed:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const modalContacts = [
     { Icon: <FiPhone />, title: "Call Pro" },
     {
-
       Icon: <BiMessageSquareDetail />,
       title: "Text Pro",
     },
     { Icon: <BiMessageAltDetail />, title: "Instant Chat" },
     { Icon: <TbMailDown />, title: "Email Pro" },
     {
-
       Icon: <IoLocationOutline />,
       title: "Get Directions",
     },
@@ -216,7 +219,6 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
   if (!serviceDetails) {
     return <div>No service details available.</div>;
   }
-
 
   const imagePath = provider?.business_logo;
   const imageUrl = imagePath
@@ -255,301 +257,308 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
   const imageUrl1 = imagePath1
     ? `https://marketplace.thefabulousshow.com/uploads/${imagePath1}`
     : "/service1.png";
-  return (<>
-    <div className="pmain">
-      <div className="navv">
-        <div className="flex items-center">
-          <Link to={redirectTo}>
-            <FaArrowLeft className="me-4 text-xl" />
-          </Link>
-          <h2 className="text-2xl font-semibold">Service Details</h2>
-        </div>
-        <p className="text-[#535862] mt-4 ms-8">
-          Stay Updated on Your Active Deals.
-        </p>
-      </div>
-      <div className="btm">
-        <div className="flex flex-col lg:flex-row justify-between ">
-          <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
-            {serviceDetails?.service_title || "N/A"}
-          </h2>
-          {!hide && <div className="flex items-center justify-end mt-3 lg:mt-0">
-            <button
-              className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
-              onClick={() => handleDelete(dealid)}
-            >
-              <FaRegTrashCan />
-            </button>
-            <Link
-              to={`/provider/NewDeals/${dealid}`}
-              className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
-            >
-              <FaPencilAlt />
+
+  const tabLabels =
+    serviceDetails?.pricing_model === "Custom"
+      ? ["Basic", "Standard", "Premium"]
+      : ["Basic"];
+  return (
+    <>
+      <div className="pmain">
+        <div className="navv">
+          <div className="flex items-center">
+            <Link to={redirectTo}>
+              <FaArrowLeft className="me-4 text-xl" />
             </Link>
-          </div>}
+            <h2 className="text-2xl font-semibold">Service Details</h2>
+          </div>
+          <p className="text-[#535862] mt-4 ms-8">
+            Stay Updated on Your Active Deals.
+          </p>
         </div>
-        <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="col-span-12 xl:col-span-8">
-            <div className="">
-              <div className="flex flex-wrap items-center">
-                <img
-                  onClick={() => navigate("/provider/ProfileDetails")}
-                  src={imageUrl}
-                  alt=""
-                  className="me-2 my-2 rounded-lg object-cover w-[100px] h-[100px] cursor-pointer"
-                  style={{ aspectRatio: "1/1" }}
-                />
-                <div className="my-2">
-                  <div className="flex">
-                    <Link to="/provider/ProfileDetails">
-                      <p className="font-semibold myhead me-2">
-                        {provider?.business_name}
-                      </p>
-                    </Link>
+        <div className="btm">
+          <div className="flex flex-col lg:flex-row justify-between ">
+            <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
+              {serviceDetails?.service_title || "N/A"}
+            </h2>
+            {!hide && (
+              <div className="flex items-center justify-end mt-3 lg:mt-0">
+                <button
+                  className="bg-[#FA2841] px-3 py-3 text-[#fff] rounded-md me-2"
+                  onClick={() => handleDelete(dealid)}
+                >
+                  <FaRegTrashCan />
+                </button>
+                <Link
+                  to={`/provider/NewDeals/${dealid}`}
+                  className="bg-[#0F91D2] px-3 py-3 text-[#fff] rounded-md"
+                >
+                  <FaPencilAlt />
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="col-span-12 xl:col-span-8">
+              <div className="">
+                <div className="flex flex-wrap items-center">
+                  <img
+                    onClick={() => navigate("/provider/ProfileDetails")}
+                    src={imageUrl}
+                    alt=""
+                    className="me-2 my-2 rounded-lg object-cover w-[100px] h-[100px] cursor-pointer"
+                    style={{ aspectRatio: "1/1" }}
+                  />
+                  <div className="my-2">
                     <div className="flex">
-                      <IoIosStar className="me-2 text-[#F8C600]" />
-                      <p className="myblack text-sm">
-                        <span className="myhead font-semibold">{ reviews.total}</span>({reviews.average})
-                      </p>
+                      <Link to="/provider/ProfileDetails">
+                        <p className="font-semibold myhead me-2">
+                          {provider?.business_name}
+                        </p>
+                      </Link>
+                      <div className="flex">
+                        <IoIosStar className="me-2 text-[#F8C600]" />
+                        <p className="myblack text-sm">
+                          <span className="myhead font-semibold">
+                            {reviews.total}
+                          </span>
+                          ({reviews.average})
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">{provider?.business_primary_category}</p>
-                    <div className="flex items-center">
-                      <IoLocationOutline className="me-2 myblack" />
-                      <p className="myblack ">{provider?.service_location}</p>
+                    <div className="flex flex-wrap mt-2">
+                      <p className="myblack pe-3 me-3 border-e">
+                        {provider?.business_primary_category}
+                      </p>
+                      <div className="flex items-center">
+                        <IoLocationOutline className="me-2 myblack" />
+                        <p className="myblack ">{provider?.service_location}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex mt-2 items-center">
-                    <div className="flex me-2">
-                      <FaRegCalendarAlt className="me-2" />
-                      <p className="text-sm myblack">
-                        {currentDayData ? (
-                          <>{currentDayData.day_name}:&nbsp;</>
-                        ) : (
-                          "No data available for today."
-                        )}
-                      </p>
-                      <p className="text-sm text-[#34A853] font-[300]">
-                        {currentDayData?.day_status === "open"
-                          ? "Available"
-                          : "Unavailable"}
-                      </p>
-                      <p className="text-sm ml-2 lg:ml-10 myblack">
-                        {currentDayData?.day_status === "open" ? (
-                          <>
-                            Closed {currentDayData.regular_hour[0].end_time}{" "}
-                            {currentDayData.regular_hour.end_time?.includes(
-                              "AM"
-                            ) ||
+                    <div className="flex mt-2 items-center">
+                      <div className="flex me-2">
+                        <FaRegCalendarAlt className="me-2" />
+                        <p className="text-sm myblack">
+                          {currentDayData ? (
+                            <>{currentDayData.day_name}:&nbsp;</>
+                          ) : (
+                            "No data available for today."
+                          )}
+                        </p>
+                        <p className="text-sm text-[#34A853] font-[300]">
+                          {currentDayData?.day_status === "open"
+                            ? "Available"
+                            : "Unavailable"}
+                        </p>
+                        <p className="text-sm ml-2 lg:ml-10 myblack">
+                          {currentDayData?.day_status === "open" ? (
+                            <>
+                              Closed {currentDayData.regular_hour[0].end_time}{" "}
+                              {currentDayData.regular_hour.end_time?.includes(
+                                "AM"
+                              ) ||
                               currentDayData.regular_hour[0].end_time?.includes(
                                 "PM"
                               )
-                              ? ""
-                              : currentDayData.regular_hour[0].end_time >= 12
-                                ? "PM"
-                                : "AM"}
-                          </>
-                        ) : (
-                          "Closed"
-                        )}
-                      </p>
+                                ? ""
+                                : currentDayData.regular_hour[0].end_time >= 12
+                                  ? "PM"
+                                  : "AM"}
+                            </>
+                          ) : (
+                            "Closed"
+                          )}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <Modal
+                  open={contactopen}
+                  onClose={handlecontactClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  sx={{ m: 2 }}
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
+                    <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto">
+                      <p className="text-lg font-semibold">Contact Pro</p>
+                      <div className="flex flex-col gap-3 mt-4">
+                        {modalContacts.map((contact, index) => (
+                          <div
+                            onClick={() => {
+                              setContactModal(contact?.title);
+                              handlecontactClose();
+                            }}
+                            key={index}
+                            className="bg-[#FB8803] cursor-pointer text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
+                            // to={contact.path}
+                          >
+                            <span className="text-[24px]">{contact.Icon}</span>
+                            <span>{contact.title}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
               </div>
-              <Modal
-                open={contactopen}
-                onClose={handlecontactClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{ m: 2 }}
-              >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] outline-none">
-                  <div className="bg-white rounded-[12px] p-4 max-h-[calc(100dvh-200px)] overflow-y-auto">
-                    <p className="text-lg font-semibold">Contact Pro</p>
-                    <div className="flex flex-col gap-3 mt-4">
-                      {modalContacts.map((contact, index) => (
-                        <div
-                          onClick={() => {
-                            setContactModal(contact?.title)
-                            handlecontactClose()
-                          }}
-                          key={index}
-                          className="bg-[#FB8803] cursor-pointer text-white flex items-center justify-center gap-2 p-3 rounded-[8px] text-sm font-medium"
-                        // to={contact.path}
-                        >
-                          <span className="text-[24px]">{contact.Icon}</span>
-                          <span>{contact.title}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Modal>
+              <img
+                src={imageUrl1}
+                alt=""
+                className="rounded-xl object-cover w-[1000px] h-[350px]"
+              />
             </div>
-            <img
-              src={imageUrl1}
-              alt=""
-              className="rounded-xl object-cover w-[1000px] h-[350px]"
-            />
-          </div>
-          <div className="col-span-12 xl:col-span-4">
-            <div className="flex flex-col h-full gap-5">
-              <div className="py-5 bg-[#FAFAFA] h-full border rounded-lg lg:px-6 px-4">
-                <Box sx={{ width: "100%" }}>
-                  <Box
-                    sx={{
-                      border: "1px solid #E9EAEB",
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                      variant="scrollable"
-                      TabIndicatorProps={{ sx: { display: "none" } }}
+            <div className="col-span-12 xl:col-span-4">
+              <div className="flex flex-col h-full gap-5">
+                <div className="py-5 bg-[#FAFAFA] h-full border rounded-lg lg:px-6 px-4">
+                  <Box sx={{ width: "100%" }}>
+                    <Box
                       sx={{
-                        backgroundColor: "#ffffff",
-                        "& .MuiTab-root": {
-                          color: "#535862",
-                          textTransform: "capitalize",
-                          fontFamily: "inter",
-                        },
-                        "& .Mui-selected": {
-                          color: "#181D27",
-                          fontWeight: "700",
-                        },
+                        border: "1px solid #E9EAEB",
+                        borderRadius: "12px",
+                        overflow: "hidden",
                       }}
                     >
-                      <Tab label="Basic" {...a11yProps(0)} />
-                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                        <Tab label="Standard" {...a11yProps(1)} />
-                      )}
-                      {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                        <Tab label="Premium" {...a11yProps(2)} />
-                      )}
-                    </Tabs>
-                  </Box>
-                  <CustomTabPanel value={value} index={0}>
-                    <div className="flex justify-between">
-                      <h2 className="text-2xl font-medium myhead">
-                        {serviceDetails[0]?.pricing_model}
-                      </h2>
-                      <p className="text-3xl myhead font-bold">
-                        {serviceDetails?.pricing_model === "Hourly"
-                          ? serviceDetails.hourly_final_list_price
-                          : serviceDetails?.pricing_model === "Flat"
-                            ? serviceDetails.flat_rate_price
-                            : serviceDetails?.pricing_model === "Custom"
-                              ? serviceDetails.price1
-                              : "$200"}
-                      </p>
-                    </div>
-                    <p className="text-sm myblack mt-2">
-                      {serviceDetails?.fine_print
-                        ?.split("\n")
-                        .map((line, index) => (
-                          <React.Fragment key={index}>
-                            {line}
-                            <br />
-                          </React.Fragment>
+                      {/* Render tabs dynamically */}
+                      <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="pricing tabs"
+                        variant="scrollable"
+                        TabIndicatorProps={{ sx: { display: "none" } }}
+                        sx={{
+                          backgroundColor: "#ffffff",
+                          "& .MuiTab-root": {
+                            color: "#535862",
+                            textTransform: "capitalize",
+                            fontFamily: "inter",
+                          },
+                          "& .Mui-selected": {
+                            color: "#181D27",
+                            fontWeight: "700",
+                          },
+                        }}
+                      >
+                        {tabLabels.map((label, index) => (
+                          <Tab
+                            key={index}
+                            label={label}
+                            {...a11yProps(index)}
+                          />
                         ))}
-                    </p>
-                    <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                      {serviceDetails?.pricing_model === "Hourly" && (
-                        <li>{serviceDetails?.hourly_estimated_service_time}</li>
-                      )}
-                      {serviceDetails?.pricing_model === "Flat" && (
-                        <li>{serviceDetails?.flat_estimated_service_time}</li>
-                      )}
-                      {serviceDetails?.pricing_model === "Custom" && (
-                        <li>{serviceDetails?.estimated_service_timing1}</li>
-                      )}
-                    </ul>
-                  </CustomTabPanel>
+                      </Tabs>
+                    </Box>
 
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={1}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails[0]?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails[0]?.price2}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails[0]?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing2}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={1}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails[0]?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails[0]?.price2}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails[0]?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails[0]?.estimated_service_timing2}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-
-                  {pricingModel !== "Flat" && pricingModel !== "Hourly" && (
-                    <CustomTabPanel value={value} index={2}>
-                      <div className="flex justify-between">
-                        <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
-                        </h2>
-                        <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price3}
-                        </p>
-                      </div>
-                      <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
-                          ?.split("\n")
-                          .map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </p>
-                      <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing3}</li>
-                      </ul>
-                    </CustomTabPanel>
-                  )}
-                </Box>
-              </div>
-              {/* {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
+                    {/* Render corresponding tab panels */}
+                    {tabLabels.map((label, index) => (
+                      <CustomTabPanel value={value} index={index} key={index}>
+                        {label === "Basic" && (
+                          <div>
+                            <div className="flex justify-between">
+                              <h2 className="text-2xl font-medium myhead">
+                                {serviceDetails?.pricing_model}
+                              </h2>
+                              <p className="text-3xl myhead font-bold">
+                                {serviceDetails?.pricing_model === "Hourly"
+                                  ? serviceDetails.hourly_final_list_price
+                                  : serviceDetails?.pricing_model === "Flat"
+                                    ? serviceDetails.flat_rate_price
+                                    : serviceDetails?.pricing_model === "Custom"
+                                      ? serviceDetails.price1
+                                      : "$200"}
+                              </p>
+                            </div>
+                            <p className="text-sm myblack mt-2">
+                              {serviceDetails?.fine_print
+                                ?.split("\n")
+                                .map((line, idx) => (
+                                  <React.Fragment key={idx}>
+                                    {line}
+                                    <br />
+                                  </React.Fragment>
+                                ))}
+                            </p>
+                            <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                              {serviceDetails?.pricing_model === "Hourly" && (
+                                <li>
+                                  {
+                                    serviceDetails?.hourly_estimated_service_time
+                                  }
+                                </li>
+                              )}
+                              {serviceDetails?.pricing_model === "Flat" && (
+                                <li>
+                                  {serviceDetails?.flat_estimated_service_time}
+                                </li>
+                              )}
+                              {serviceDetails?.pricing_model === "Custom" && (
+                                <li>
+                                  {serviceDetails?.estimated_service_timing1}
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                        {label === "Standard" && (
+                          <div>
+                            <div className="flex justify-between">
+                              <h2 className="text-2xl font-medium myhead">
+                                Standard
+                              </h2>
+                              <p className="text-3xl myhead font-bold">
+                                {serviceDetails?.price2}
+                              </p>
+                            </div>
+                            <p className="text-sm myblack mt-2">
+                              {serviceDetails?.fine_print
+                                ?.split("\n")
+                                .map((line, idx) => (
+                                  <React.Fragment key={idx}>
+                                    {line}
+                                    <br />
+                                  </React.Fragment>
+                                ))}
+                            </p>
+                            <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                              <li>
+                                {serviceDetails?.estimated_service_timing2}
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                        {label === "Premium" && (
+                          <div>
+                            <div className="flex justify-between">
+                              <h2 className="text-2xl font-medium myhead">
+                                Premium
+                              </h2>
+                              <p className="text-3xl myhead font-bold">
+                                {serviceDetails?.price3}
+                              </p>
+                            </div>
+                            <p className="text-sm myblack mt-2">
+                              {serviceDetails?.fine_print
+                                ?.split("\n")
+                                .map((line, idx) => (
+                                  <React.Fragment key={idx}>
+                                    {line}
+                                    <br />
+                                  </React.Fragment>
+                                ))}
+                            </p>
+                            <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                              <li>
+                                {serviceDetails?.estimated_service_timing3}
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </CustomTabPanel>
+                    ))}
+                  </Box>
+                </div>
+                {/* {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -558,41 +567,47 @@ function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
                 </button>} */}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="">
-          <div className="flex flex-wrap mt-3">
+          <div className="">
             <div className="flex flex-wrap mt-3">
-              {serviceDetails?.search_tags &&
+              <div className="flex flex-wrap mt-3">
+                {serviceDetails?.search_tags &&
                 serviceDetails?.search_tags.length > 0
-                ? serviceDetails?.search_tags.split(",").map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
-                  >
-                    {tag.trim()}
-                  </span>
-                ))
-                : "No tags available"}
+                  ? serviceDetails?.search_tags.split(",").map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-[#E7F4FB] text-[#0F91D2] px-4 py-2 rounded-full text-sm me-2"
+                      >
+                        {tag.trim()}
+                      </span>
+                    ))
+                  : "No tags available"}
+              </div>
             </div>
+            <h2 className="mt-4 text-xl myhead font-semibold">
+              Deal Description
+            </h2>
+            <p className="mt-2 myblack">
+              {serviceDetails?.service_description ||
+                "No description available."}
+            </p>
           </div>
-          <h2 className="mt-4 text-xl myhead font-semibold">
-            Deal Description
-          </h2>
-          <p className="mt-2 myblack">
-            {serviceDetails?.service_description || "No description available."}
-          </p>
         </div>
       </div>
-    </div>
-    {
-      contactModal && <ContactProModal providerId={userData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
-        submitApi={handleSubmitApi}
-
-      />
-    }
-  </>);
+      {contactModal && (
+        <ContactProModal
+          providerId={userData?.user?.id}
+          loading={loading}
+          dealid={dealid}
+          activeModal={contactModal}
+          handleModalClose={handleModalClose}
+          submitApi={handleSubmitApi}
+        />
+      )}
+    </>
+  );
 }
 
 export default ServiceDetail;

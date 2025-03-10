@@ -46,9 +46,8 @@ const CustomerLayout = () => {
           to: "/customer/favourites1",
           icon: FaRegHeart,
           label: "Favorites",
-          toChild: "/customer/dealDetails",
         },
-        // { to: "/customer/reports", icon: PiFiles, label: "Reports" },
+       
       ],
     },
     {

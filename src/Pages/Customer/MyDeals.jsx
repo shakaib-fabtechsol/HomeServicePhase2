@@ -103,7 +103,7 @@ console.log("user", user)
                     ? service.flat_estimated_service_time
                     : service.pricing_model === "Hourly"
                     ? service.hourly_estimated_service_time
-                    : service.estimated_service_timing
+                    : service.estimated_service_timing1
                 }
                 totalReviews={service.totalReviews}
               />

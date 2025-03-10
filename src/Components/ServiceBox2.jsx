@@ -92,7 +92,7 @@ console.log(user,"user");
             e.stopPropagation();
           }}
           disabled={!user}
-          className={!user ? " absolute top-5 left-6 z-10 " : ""}
+          className= "absolute top-5 left-6 z-10 "
         >
           <button
             onClick={(e) => {

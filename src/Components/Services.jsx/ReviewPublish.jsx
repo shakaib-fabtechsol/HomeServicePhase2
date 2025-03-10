@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {  FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 
-
 import PropTypes from "prop-types";
-import { Box,  Tab, Tabs } from "@mui/material";
-
+import { Box, Tab, Tabs } from "@mui/material";
 
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -65,19 +63,13 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   } = useGetDealQuery(deal_id, {
     skip: !deal_id || !token,
   });
-  const {
-     data: userData,
-     isLoading: userLoading,
- 
-   } = useGetUserDetailsQuery();
+  const { data: userData, isLoading: userLoading } = useGetUserDetailsQuery();
   const handleChange = (event, newValue) => {
     setValued(newValue);
   };
 
   const navigate = useNavigate();
   useEffect(() => {}, [serviceId]);
-
- 
 
   const [formdata, setFormData] = useState({
     service_title: "",
@@ -117,7 +109,6 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     final_list_price3: "",
     estimated_service_timing3: "",
   });
- 
 
   useEffect(() => {
     if (dealResponse?.deal) {
@@ -193,7 +184,6 @@ const ReviewPublish = ({ serviceId, setValue }) => {
       setFormData(updatedData);
     }
   }, [dealResponse]);
-  
 
   useEffect(() => {
     if (!dealid) return;
@@ -352,19 +342,17 @@ const ReviewPublish = ({ serviceId, setValue }) => {
   };
 
   const provider = userData?.businessProfile[0] || {};
-  console.log(userData?.businessProfile[0],"valueeeeeeeee")
-  console.log(provider,"value");
+  console.log(userData?.businessProfile[0], "valueeeeeeeee");
+  console.log(provider, "value");
   const imagePath = userData?.businessProfile[0]?.business_logo;
 
   const imageUrl = imagePath
-  ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
-  : "/service1.png";
+    ? `https://marketplace.thefabulousshow.com/uploads/${imagePath}`
+    : "/service1.png";
 
-  const regularHours =
-  userData?.businessProfile[0]?.regular_hour
+  const regularHours = userData?.businessProfile[0]?.regular_hour
     ? JSON.parse(userData.businessProfile[0].regular_hour || "[]")
     : [];
-
 
   const days = [
     "Sunday",
@@ -380,7 +368,11 @@ const ReviewPublish = ({ serviceId, setValue }) => {
     (item) => item.day_name === currentDay
   );
 
- console.log(regularHours)
+  const tabLabels =
+    formdata?.pricing_model === "Custom"
+      ? ["Basic", "Standard", "Premium"]
+      : ["Basic"];
+  console.log(regularHours);
   return (
     <>
       {dealid && !isApiLoaded ? (
@@ -408,9 +400,9 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                     />
                     <div className="my-2">
                       <div className="flex">
-                          <p className="font-semibold myhead me-2">
-                            {provider?.business_name}
-                          </p>
+                        <p className="font-semibold myhead me-2">
+                          {provider?.business_name}
+                        </p>
                         <div className="flex">
                           <IoIosStar className="me-2 text-[#F8C600]" />
                           <p className="myblack text-sm">
@@ -426,7 +418,7 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                         <div className="flex items-center">
                           <IoLocationOutline className="me-2 myblack" />
                           <p className="myblack ">
-                          {provider?.business_location}
+                            {provider?.business_location}
                           </p>
                         </div>
                       </div>
@@ -490,10 +482,11 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                           overflow: "hidden",
                         }}
                       >
+                        {/* Render tabs dynamically */}
                         <Tabs
                           value={value}
                           onChange={handleChange}
-                          aria-label="basic tabs example"
+                          aria-label="pricing tabs"
                           variant="scrollable"
                           TabIndicatorProps={{ sx: { display: "none" } }}
                           sx={{
@@ -509,111 +502,116 @@ const ReviewPublish = ({ serviceId, setValue }) => {
                             },
                           }}
                         >
-                          <Tab label="Basic" {...a11yProps(0)} />
-                        
-                          {formdata?.pricing_model === "Custom" && (
-                            <>
-                              <Tab label="Standard" {...a11yProps(1)} />
-                              <Tab label="Premium" {...a11yProps(2)} />
-                            </>
-                          )}
+                          {tabLabels.map((label, index) => (
+                            <Tab
+                              key={index}
+                              label={label}
+                              {...a11yProps(index)}
+                            />
+                          ))}
                         </Tabs>
                       </Box>
 
-                      <CustomTabPanel value={value} index={0}>
-                        <div className="flex justify-between">
-                          <h2 className="text-2xl font-medium myhead">
-                            {formdata?.pricing_model}
-                          </h2>
-                          <p className="text-3xl myhead font-bold">
-                            {formdata?.pricing_model === "Hourly"
-                              ? "" + formdata.hourly_final_list_price
-                              : formdata?.pricing_model === "Flat"
-                                ? "" + formdata.flat_rate_price
-                                : formdata?.pricing_model === "Custom"
-                                  ? "" + formdata.price1
-                                  : "$200"}
-                          </p>
-                        </div>
-                        <p className="text-sm myblack mt-2">
-                          {formdata?.fine_print
-                            ?.split("\n")
-                            .map((line, index) => (
-                              <React.Fragment key={index}>
-                                {line}
-                                <br />
-                              </React.Fragment>
-                            ))}
-                        </p>
-
-                        <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                          {formdata?.pricing_model === "Hourly" && (
-                            <li>{formdata?.hourly_estimated_service_time}</li>
-                          )}
-                          {formdata?.pricing_model === "Flat" && (
-                            <li>{formdata?.flat_estimated_service_time}</li>
-                          )}
-                          {formdata?.pricing_model === "Custom" && (
-                            <li>{formdata?.estimated_service_timing1}</li>
-                          )}
-                        </ul>
-                      </CustomTabPanel>
-
-                      {/* Only show Standard and Premium CustomTabPanels if pricingModel is Custom */}
-                      {formdata?.pricing_model === "Custom" && (
-                        <>
-                          <CustomTabPanel value={value} index={1}>
-                            <div className="flex justify-between">
-                              <h2 className="text-2xl font-medium myhead">
-                                {formdata?.pricing_model}
-                              </h2>
-                              <p className="text-3xl myhead font-bold">
-                                {formdata?.price2}
+                      {/* Render corresponding tab panels */}
+                      {tabLabels.map((label, index) => (
+                        <CustomTabPanel value={value} index={index} key={index}>
+                          {label === "Basic" && (
+                            <div>
+                              <div className="flex justify-between">
+                                <h2 className="text-2xl font-medium myhead">
+                                  {formdata?.pricing_model}
+                                </h2>
+                                <p className="text-3xl myhead font-bold">
+                                  {formdata?.pricing_model === "Hourly"
+                                    ? formdata.hourly_final_list_price
+                                    : formdata?.pricing_model === "Flat"
+                                      ? formdata.flat_rate_price
+                                      : formdata?.pricing_model === "Custom"
+                                        ? formdata.price1
+                                        : "$200"}
+                                </p>
+                              </div>
+                              <p className="text-sm myblack mt-2">
+                                {formdata?.fine_print
+                                  ?.split("\n")
+                                  .map((line, idx) => (
+                                    <React.Fragment key={idx}>
+                                      {line}
+                                      <br />
+                                    </React.Fragment>
+                                  ))}
                               </p>
+                              <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                {formdata?.pricing_model === "Hourly" && (
+                                  <li>
+                                    {formdata?.hourly_estimated_service_time}
+                                  </li>
+                                )}
+                                {formdata?.pricing_model === "Flat" && (
+                                  <li>
+                                    {formdata?.flat_estimated_service_time}
+                                  </li>
+                                )}
+                                {formdata?.pricing_model === "Custom" && (
+                                  <li>{formdata?.estimated_service_timing1}</li>
+                                )}
+                              </ul>
                             </div>
-                            <p className="text-sm myblack mt-2">
-                              {formdata?.fine_print
-                                ?.split("\n")
-                                .map((line, index) => (
-                                  <React.Fragment key={index}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
-                            </p>
-                            <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                              <li>{formdata?.estimated_service_timing2}</li>
-                            </ul>
-                          </CustomTabPanel>
-
-                          <CustomTabPanel value={value} index={2}>
-                            <div className="flex justify-between">
-                              <h2 className="text-2xl font-medium myhead">
-                                {formdata?.pricing_model}
-                              </h2>
-                              <p className="text-3xl myhead font-bold">
-                                {formdata?.price3}
+                          )}
+                          {label === "Standard" && (
+                            <div>
+                              <div className="flex justify-between">
+                                <h2 className="text-2xl font-medium myhead">
+                                  Standard
+                                </h2>
+                                <p className="text-3xl myhead font-bold">
+                                  {formdata?.price2}
+                                </p>
+                              </div>
+                              <p className="text-sm myblack mt-2">
+                                {formdata?.fine_print
+                                  ?.split("\n")
+                                  .map((line, idx) => (
+                                    <React.Fragment key={idx}>
+                                      {line}
+                                      <br />
+                                    </React.Fragment>
+                                  ))}
                               </p>
+                              <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                <li>{formdata?.estimated_service_timing2}</li>
+                              </ul>
                             </div>
-                            <p className="text-sm myblack mt-2">
-                              {formdata?.fine_print
-                                ?.split("\n")
-                                .map((line, index) => (
-                                  <React.Fragment key={index}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
-                            </p>
-                            <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                              <li>{formdata?.estimated_service_timing3}</li>
-                            </ul>
-                          </CustomTabPanel>
-                        </>
-                      )}
+                          )}
+                          {label === "Premium" && (
+                            <div>
+                              <div className="flex justify-between">
+                                <h2 className="text-2xl font-medium myhead">
+                                  Premium
+                                </h2>
+                                <p className="text-3xl myhead font-bold">
+                                  {formdata?.price3}
+                                </p>
+                              </div>
+                              <p className="text-sm myblack mt-2">
+                                {formdata?.fine_print
+                                  ?.split("\n")
+                                  .map((line, idx) => (
+                                    <React.Fragment key={idx}>
+                                      {line}
+                                      <br />
+                                    </React.Fragment>
+                                  ))}
+                              </p>
+                              <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
+                                <li>{formdata?.estimated_service_timing3}</li>
+                              </ul>
+                            </div>
+                          )}
+                        </CustomTabPanel>
+                      ))}
                     </Box>
                   </div>
-                 
                 </div>
               </div>
             </div>

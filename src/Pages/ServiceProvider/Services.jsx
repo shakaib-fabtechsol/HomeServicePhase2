@@ -102,7 +102,7 @@ function Services() {
               dealid={service.id}
               Rating={service.avg_rating}
               Liked={service.Liked}
-              serviceDetailTo={`/dealDetails/${service.id}`}
+              serviceDetailTo={`/provider/dealDetails/${service.id}`}
               videos={service.videos}
               imgs={service.personal_image}
               Days={
