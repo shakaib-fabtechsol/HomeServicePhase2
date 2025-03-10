@@ -99,7 +99,7 @@ function Services() {
                   userimg={service.personal_image}
                   username={service.user_name}
                   description={service.service_description}
-                  category={service.service_category}
+                  cateogory={service.service_category}
                   dealid={service.id}
                   Rating={service.rating}
                   Liked={service.Liked}
