@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useGetlandingpageQuery } from "../services/dashboard";
-import ServiceBox from "../Components/ServiceBox";
+import ServiceBox2 from "../Components/ServiceBox2";
 import HeroSection from "../Components/Common/HeroSection";
 import Loader from "../Components/MUI/Loader";
 import Down from "../assets/img/chevronDown.png";
@@ -127,7 +127,7 @@ function LandingPage() {
             </select>
           </div>
 
-          {/* Delivery Time Filter */}
+          
           <div className="relative">
             <select
               value={selectedDeliveryTime}
@@ -167,34 +167,43 @@ function LandingPage() {
             )}
           </div>
         </div>
-
-        {/* Services List */}
+       
         <h2 className="text-xl font-semibold mt-5">All Deals</h2>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
           {isLoading ? (
             <Loader />
           ) : filteredDeals?.length > 0 ? (
             filteredDeals.map((service) => (
-              <ServiceBox
-                key={service.id}
-                title={service.service_title}
-                price={service.flat_rate_price}
-                tags={service.search_tags}
-                image={service.images}
-                publish={service.publish}
-                userimg={service.personal_image}
-                username={service.user_name}
-                description={service.service_description}
-                category={service.service_category}
-                dealid={service.id}
-                Rating={service.rating}
-                Liked={service.Liked}
-                serviceDetailTo={`/dealDetails/${service.id}`}
-                videos={service.videos}
-                imgs={service.personal_image}
-                Days={service.estimated_service_timing}
-                totalReviews={service.totalReviews}
-              />
+              <ServiceBox2
+              key={service.id}
+              title={service.service_title}
+              price={
+                service.flat_rate_price ||
+                service.hourly_rate ||
+                service.price1 ||
+                "Price not available"
+              }
+              tags={service.search_tags}
+              image={service.images}
+              publish={service.publish}
+              userimg={service.personal_image}
+              username={service.user_name}
+              description={service.service_description}
+              cateogory={service.service_category}
+              dealid={service.id}
+              Rating={service.avg_rating}
+              Liked={service.Liked}
+              serviceDetailTo={`/dealDetails/${service.id}`}
+              videos={service.videos}
+              imgs={service.personal_image}
+              Days={
+                service.flat_estimated_service_time ||
+                service.hourly_estimated_service_time ||
+                service.estimated_service_timing1 ||
+                "N/A"
+              }
+              totalReviews={service.total_reviews} 
+            />
             ))
           ) : (
             <p>No services found</p>

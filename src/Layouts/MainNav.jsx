@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link, useLocation, useNavigate} from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -15,7 +15,7 @@ import { BASE_URL } from "../../config";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/reducers/authSlice";
 const MainNav = ({ toggleSidebar, logolink }) => {
-    const location = useLocation();
+  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
@@ -23,11 +23,11 @@ const MainNav = ({ toggleSidebar, logolink }) => {
   console.log("role", role?.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const searchParams = new URLSearchParams(location.search);
-    const locationParam = searchParams.get("location");
-    const serviceParam = searchParams.get("service");
-  const [locationser, setLocation] = useState(locationParam||"");
-  const [service, setService] = useState(serviceParam||"");
+  const searchParams = new URLSearchParams(location.search);
+  const locationParam = searchParams.get("location");
+  const serviceParam = searchParams.get("service");
+  const [locationser, setLocation] = useState(locationParam || "");
+  const [service, setService] = useState(serviceParam || "");
 
   const isHomeOrCatalog =
     location.pathname === "/" ||
@@ -64,7 +64,6 @@ const MainNav = ({ toggleSidebar, logolink }) => {
         </NavLink>
       </div>
       <div className="ms-auto md:mx-auto lg:w-full lg:max-w-[700px]">
-
         <div className="md:flex hidden ms-auto md:mx-auto lg:w-full ">
           <div className="flex me-3 rounded-lg w-full border-[#E4E4E4] border-2 py-1">
             <div className="w-[40%]">
@@ -73,7 +72,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
                 placeholder="Search for any service..."
                 value={service}
                 onChange={(e) => {
-                  setService(e.target.value)
+                  setService(e.target.value);
                 }}
                 className="py-[6px] bg-transparent focus-none w-full border-r px-3"
               />
@@ -93,17 +92,15 @@ const MainNav = ({ toggleSidebar, logolink }) => {
           </div>
           <button
             onClick={() => {
-
-              navigate(`/catalogResult?location=${locationser}&service=${service}`)
-
+              navigate(
+                `/catalogResult?location=${locationser}&service=${service}`
+              );
             }}
-
             className="rounded-lg flex items-center bg-[#0F91D2] px-4 text-xl text-white py-1"
           >
             <FaSearch />
           </button>
         </div>
-
       </div>
 
       <div className="flex items-center">
@@ -133,17 +130,18 @@ const MainNav = ({ toggleSidebar, logolink }) => {
                 className="w-10 h-10 rounded-3xl cursor-pointer"
               />
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-blue-100 rounded-md shadow-lg z-1000">
+               <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-2xl z-50">
+
                   <Link
                     to={redirectTo}
-                    className="block px-4 py-2 text-black hover:bg-gray-200"
+                    className="block px-4 py-2 text-black cursor-pointer hover:text-white hover:bg-[#0F91D2]"
                     onClick={() => setDropdownOpen(false)}
                   >
                     Go to Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left flex items-center px-4 py-2 text-black hover:bg-gray-200"
+                    className="w-full text-left flex items-center px-4 py-2 text-black  hover:text-white cursor-pointer hover:bg-[#0F91D2]"
                   >
                     <RiLogoutBoxRLine className="w-5 h-5 mr-2" />
                     Logout

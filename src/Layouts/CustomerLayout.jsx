@@ -34,7 +34,7 @@ const CustomerLayout = () => {
         {
           to: "/customer/Deals",
           icon: FiBarChart2,
-          label: "My Customer/Deals",
+          label: "All Services",
           toChild: "/customer/dealDetails",
         },
         {
