@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import { useEffect, useState } from "react";
-import ServiceBox from "../Components/ServiceBox";
+import React, { useEffect, useState, useRef } from "react";
+import { useGetlandingpageQuery } from "../services/dashboard";
+import ServiceBox2 from "../Components/ServiceBox2";
 import HeroSection from "../Components/Common/HeroSection";
 import Down from "../assets/img/chevronDown.png";
 import axios from "axios";
@@ -109,131 +109,134 @@ function LandingPage() {
           <HeroSection />
         </div>
       </div>
-      <div>
-        <div className="mycontainer">
-          <h2 className="text-lg mt-8">Filters</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] mt-2">
-            <div ref={budgetDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleBudgetDropdown}
-                className="border w-full text-start focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Budget
-              </button>
-              {isBudgetDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {Budget >= 10000
-                      ? `${(Budget / 1000).toFixed(0)}K`
-                      : Budget}{" "}
-                    $
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100000"
-                    value={Budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
+
+      <div className="mycontainer">
+        <h2 className="text-lg mt-8">Filters</h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] mt-2">
+          
+          {/* Budget Filter */}
+          <div ref={budgetDropdownRef} className="relative">
+            <button
+              onClick={() => setIsBudgetDropdownOpen(prev => !prev)}
+              className="border w-full text-start focus-none border-gray-300 rounded-lg px-3 py-2"
+            >
+              Budget
+            </button>
+            {isBudgetDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-md shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {budget ? `$${budget}` : "Any Budget"}
                 </div>
-              )}
-            </div>
-            {selects.map((select, index) => (
-              <div key={index} className="me-3 my-1">
-                <select
-                  name={select.name}
-                  id={select.id}
-                  style={{
-                    backgroundImage: `url(${Down})`,
-                    backgroundPosition: "calc(100% - 5px)",
-                  }}
-                  className="border w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2 appearance-none bg-no-repeat pe-5"
-                >
-                  {select.options.map((option, index) => (
-                    <option
-                      className="first:hidden"
-                      key={index}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  type="range"
+                  min="0"
+                  max="100000"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  className="w-full cursor-pointer"
+                />
               </div>
-            ))}
-            <div ref={locationDropdownRef} className="me-3 my-1 relative">
-              <button
-                onClick={toggleLocationDropdown}
-                className="border text-start w-full focus-none border-[#E4E4E4] rounded-lg px-3 py-2"
-              >
-                Location/Distance
-              </button>
-              {isLocationDropdownOpen && (
-                <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-[12px] shadow-md">
-                  <div className="text-center text-gray-700 text-sm font-medium">
-                    {distance} km
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    value={distance}
-                    onChange={(e) => setDistance(e.target.value)}
-                    className="w-full cursor-pointer custom-slider"
-                  />
-                </div>
-              )}
-            </div>
+            )}
           </div>
-          <h2 className="text-xl font-semibold mt-5">Recent Deals</h2>
-          <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-    {loading  ? (
-      <div className="w-full flex justify-center items-center">
-        <p className="text-gray-500 text-lg">Loading...</p>
-      </div>
-    ) : services.length > 0 ? (
-      services.map((service) => (
-        <ServiceBox
-          key={service.id}
-          title={service.service_title}
-          price={
-            service.pricing_model === "Flat"
-              ? service.flat_rate_price
-              : service?.pricing_model == "Hourly"
-              ? service.hourly_final_list_price
-              : service.price1
-          }
-          tags={service.search_tags}
-          image={service.images}
-          publish={service.publish}
-          userimg={service.personal_image}
-          username={service.user_name}
-          description={service.service_description}
-          category={service.service_category}
-          dealid={service.id}
-          Rating={service.rating}
-          Liked={service.Liked}
-          serviceDetailTo={`/provider/dealDetails/${service.id}`}
-          videos={service.videos}
-          imgs={service.personal_image}
-          Days={
-            service.pricing_model === "Flat"
-              ? service.flat_estimated_service_time
-              : service?.pricing_model == "Hourly"
-              ? service.hourly_estimated_service_time
-              : service.estimated_service_timing
-          }
-          totalReviews={service.totalReviews}
-        />
-      ))
-    ) : (
-      <p>No services found</p>
-    )}
-  </div>
+
+          {/* Reviews Filter */}
+          <div className="relative">
+            <select
+              value={selectedReviews}
+              onChange={(e) => setSelectedReviews(e.target.value)}
+              className="border w-full focus-none border-gray-300 rounded-lg px-3 py-2"
+            >
+              {reviewOptions.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          
+          <div className="relative">
+            <select
+              value={selectedDeliveryTime}
+              onChange={(e) => setSelectedDeliveryTime(e.target.value)}
+              className="border w-full focus-none border-gray-300 rounded-lg px-3 py-2"
+            >
+              {deliveryOptions.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Location/Distance Filter */}
+          <div ref={locationDropdownRef} className="relative">
+            <button
+              onClick={() => setIsLocationDropdownOpen(prev => !prev)}
+              className="border w-full text-start focus-none border-gray-300 rounded-lg px-3 py-2"
+            >
+              Location/Distance
+            </button>
+            {isLocationDropdownOpen && (
+              <div className="absolute w-full top-full left-0 border p-2 bg-white rounded-md shadow-md">
+                <div className="text-center text-gray-700 text-sm font-medium">
+                  {distance ? `${distance} km` : "Any Distance"}
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                  className="w-full cursor-pointer"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+       
+        <h2 className="text-xl font-semibold mt-5">All Deals</h2>
+        <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+          {isLoading ? (
+            <Loader />
+          ) : filteredDeals?.length > 0 ? (
+            filteredDeals.map((service) => (
+              <ServiceBox2
+              key={service.id}
+              title={service.service_title}
+              price={
+                service.flat_rate_price ||
+                service.hourly_rate ||
+                service.price1 ||
+                "Price not available"
+              }
+              tags={service.search_tags}
+              image={service.images}
+              publish={service.publish}
+              userimg={service.personal_image}
+              username={service.user_name}
+              description={service.service_description}
+              cateogory={service.service_category}
+              dealid={service.id}
+              Rating={service.avg_rating}
+              Liked={service.Liked}
+              serviceDetailTo={`/dealDetails/${service.id}`}
+              videos={service.videos}
+              imgs={service.personal_image}
+              Days={
+                service.flat_estimated_service_time ||
+                service.hourly_estimated_service_time ||
+                service.estimated_service_timing1 ||
+                "N/A"
+              }
+              totalReviews={service.total_reviews} 
+            />
+            ))
+          ) : (
+            <p>No services found</p>
+          )}
         </div>
       </div>
-    
     </>
   );
 }

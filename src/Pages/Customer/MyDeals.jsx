@@ -91,9 +91,9 @@ console.log("user", user)
                 userimg={service.personal_image}
                 username={service.user_name}
                 description={service.service_description}
-                category={service.service_category}
+                cateogory={service.service_category}
                 dealid={service.id}
-                Rating={service.rating}
+                Rating={service.review_rating}
                 Liked={service.Liked}
                 serviceDetailTo={`/customer/dealDetails/${service.id}`}
                 videos={service.videos}

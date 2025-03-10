@@ -95,11 +95,12 @@ const CommonFavorites2 = () => {
               userimg={service.userimg}
               username={service.user_name}
               description={service.service_description}
-              category={service.service_category}
+              cateogory={service.service_category}
               dealid={service.id}
               Rating={service.rating}
               Liked={service.Liked}
               videos={service.videos}
+              serviceDetailTo={`/customer/dealDetails/${service.id}`}
               imgs={service.personal_image}
               Days={
                 service.pricing_model === "Flat"
