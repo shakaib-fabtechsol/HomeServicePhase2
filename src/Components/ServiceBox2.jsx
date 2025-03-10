@@ -4,7 +4,7 @@ import defaultuser from "../assets/img/client1.png";
 import { FaEllipsisV, FaStar, FaCalendarAlt } from "react-icons/fa";
 import ServiceSlider from "./ServiceSlider";
 import { useSelector } from "react-redux";
-import { useFavourite1Mutation } from "../../src/services/sales/index";
+import { useFavouriteMutation } from "../../src/services/sales/index";
 function ServiceBox2({
   tags = [],
   image,
@@ -28,15 +28,20 @@ function ServiceBox2({
   const navigate = useNavigate();
   const [liked, setLiked] = useState(Liked);
   const user = useSelector((state) => state.auth.user);
-
-  const [favourite] = useFavourite1Mutation();
+console.log(user,"user");
+  const [favourite] = useFavouriteMutation();
 
   const handleFavourite = async () => {
+    if (!user) {
+      navigate("/login"); 
+      return;
+    }
+  
     const payload = {
       deal_id: dealid,
       user_id: user?.id,
     };
-
+  
     try {
       await favourite(payload).unwrap();
       setLiked((prev) => !prev);
@@ -44,6 +49,7 @@ function ServiceBox2({
       console.error("Favourite action failed", error);
     }
   };
+  
   const parseJsonArray = (data) => {
     try {
       return typeof data === "string" ? JSON.parse(data) : data;
@@ -85,13 +91,15 @@ function ServiceBox2({
           onClick={(e) => {
             e.stopPropagation();
           }}
-          className="absolute top-5 left-6 z-10"
+          disabled={!user}
+          className= "absolute top-5 left-6 z-10 "
         >
           <button
             onClick={(e) => {
-              e.stopPropagation(); // Prevent parent div click
+              e.stopPropagation(); 
               setLiked((prev) => !prev);
-              handleFavourite(); // Call API when clicked
+              handleFavourite(); 
+              navigate("/provider/dashboard");
             }}
           >
             <svg

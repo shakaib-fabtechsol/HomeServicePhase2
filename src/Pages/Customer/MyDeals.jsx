@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
-import ServiceBox2 from "../../Components/ServiceBox2"
+import ServiceBox from "../../Components/ServiceBox"
 import Loader from "../../Components/MUI/Loader";
 
 import axios from "axios";
@@ -75,7 +75,7 @@ console.log("user", user)
         ) : filteredServices.length > 0 ? (
           <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
             {filteredServices.slice(0, 3).map((service) => (
-              <ServiceBox2
+              <ServiceBox
                 key={service.id}
                 title={service.service_title}
                 price={
@@ -103,7 +103,7 @@ console.log("user", user)
                     ? service.flat_estimated_service_time
                     : service.pricing_model === "Hourly"
                     ? service.hourly_estimated_service_time
-                    : service.estimated_service_timing
+                    : service.estimated_service_timing1
                 }
                 totalReviews={service.totalReviews}
               />

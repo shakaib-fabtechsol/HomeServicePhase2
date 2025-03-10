@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CommonDashboard from "../../Components/Common/CommonDashboard";
+import CommonDashboard from "../../Components/Common/CommonDashboard2";
 
 function Dashboard() {
   useEffect(() => {

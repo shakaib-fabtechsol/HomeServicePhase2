@@ -3,23 +3,19 @@ import { useGetlandingpageQuery } from "../services/dashboard";
 import ServiceBox2 from "../Components/ServiceBox2";
 import HeroSection from "../Components/Common/HeroSection";
 import Loader from "../Components/MUI/Loader";
-import Down from "../assets/img/chevronDown.png";
+
 
 function LandingPage() {
   useEffect(() => {
     document.title = "Landing Page";
   }, []);
 
-  
-  // Filter States
   const [budget, setBudget] = useState("");
   const [distance, setDistance] = useState("");
   const [selectedReviews, setSelectedReviews] = useState("");
   const [selectedDeliveryTime, setSelectedDeliveryTime] = useState("");
 
   const { data, isLoading } = useGetlandingpageQuery({  reviews: selectedReviews || "", estimate_time: selectedDeliveryTime || "", distance: distance || "", budget: budget || "" });
-  
-  // Dropdown states
   const [isBudgetDropdownOpen, setIsBudgetDropdownOpen] = useState(false);
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
 
@@ -53,11 +49,7 @@ function LandingPage() {
     { value: "4", label: "4 Stars" },
     { value: "5", label: "5 Stars" },
   ];
-  // "Same day",
-  // "2 days",
-  // "3 days",
-  // "1 week",
-  // "2 weeks",
+ 
   const deliveryOptions = [
     { value: "", label: "All Delivery Times" },
     { value: "Same day", label: "Same day" },
@@ -67,7 +59,6 @@ function LandingPage() {
     { value: "2 weeks", label: "2 weeks" },,
   ];
 
-  // Function to apply filters
   const filteredDeals = data?.deals?.filter(service => {
     return (
       (!budget || service.flat_rate_price <= budget) &&
@@ -86,8 +77,6 @@ function LandingPage() {
       <div className="mycontainer">
         <h2 className="text-lg mt-8">Filters</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] mt-2">
-          
-          {/* Budget Filter */}
           <div ref={budgetDropdownRef} className="relative">
             <button
               onClick={() => setIsBudgetDropdownOpen(prev => !prev)}
@@ -111,8 +100,7 @@ function LandingPage() {
               </div>
             )}
           </div>
-
-          {/* Reviews Filter */}
+          
           <div className="relative">
             <select
               value={selectedReviews}
@@ -141,8 +129,7 @@ function LandingPage() {
               ))}
             </select>
           </div>
-
-          {/* Location/Distance Filter */}
+         
           <div ref={locationDropdownRef} className="relative">
             <button
               onClick={() => setIsLocationDropdownOpen(prev => !prev)}

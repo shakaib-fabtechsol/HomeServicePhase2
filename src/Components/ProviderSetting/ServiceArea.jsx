@@ -184,6 +184,17 @@ const ServiceArea = ({ handleTabChange }) => {
   };
 
 
+  const handleAddLocation = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      console.log("Added locations:", bulkText.split("\n").filter((line) => line.trim() !== ""));
+      setBulkText("");
+    }
+  };
+  
+  const handleBulkTextChange = (e) => {
+    setBulkText(e.target.value);
+  };
   const resetForm = () => {
     setServiceType("location");
     setLocation("");

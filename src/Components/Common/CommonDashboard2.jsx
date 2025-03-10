@@ -282,11 +282,11 @@ const CommonDashboard1 = ({ orderto, conversationto, }) => {
                 userimg={service.userimg}
                 username={service.user_name}
                 description={service.service_description}
-                category={service.service_category}
+                cateogory={service.service_category}
                 dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                serviceDetailTo={`/customer/dealDetails/${service.id}`}
                 videos={service.videos}
                 imgs={service.images}
                 Days={
@@ -294,7 +294,7 @@ const CommonDashboard1 = ({ orderto, conversationto, }) => {
                     ? service.flat_estimated_service_time
                     : service?.pricing_model == "Hourly"
                     ? service.hourly_estimated_service_time
-                    : service.estimated_service_timing
+                    : service.estimated_service_timing1
                 }
                 totalReviews={service.totalReviews}
               />

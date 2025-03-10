@@ -45,7 +45,7 @@ const MainNav = ({ toggleSidebar, logolink }) => {
             ? "/service/dashboard"
             : role?.role === 0
               ? "/superadmin/dashboard"
-              : "/customer/dashboard";
+              : "/";
 
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
@@ -130,7 +130,8 @@ const MainNav = ({ toggleSidebar, logolink }) => {
                 className="w-10 h-10 rounded-3xl cursor-pointer"
               />
               {dropdownOpen && (
-               <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-2xl z-50">
+            <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-[9999]">
+
 
                   <Link
                     to={redirectTo}

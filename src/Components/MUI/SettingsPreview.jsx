@@ -138,15 +138,7 @@ export default function SettingsPreview({
         </div>
       )}
 
-      {showPreview && filePreview && (
-        <div className="image-preview mt-4">
-          <img
-            src={filePreview}
-            alt="Preview"
-            className="rounded-lg border border-gray-200 w-[200px]"
-          />
-        </div>
-      )}
+      
     </div>
   );
 }

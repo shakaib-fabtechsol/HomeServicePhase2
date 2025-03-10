@@ -40,6 +40,7 @@ console.log(user?.GetPriceDetails?.call_pro);
         userData?.businessProfile[0]?.conversation_text_number,
       conversation_email: userData?.businessProfile[0]?.conversation_email,
       conversation_address: userData?.businessProfile[0]?.conversation_address,
+      conversation_chat:userData?.businessProfile[0].conversation_chat,
     },
   });
 
@@ -59,6 +60,7 @@ console.log(user?.GetPriceDetails?.call_pro);
         text: "conversation_text_number",
         email: "conversation_email",
         address: "conversation_address",
+        chat:"conversation_chat",
       };
 
       if (!newState[field]) {
@@ -69,7 +71,7 @@ console.log(user?.GetPriceDetails?.call_pro);
     });
   };
 
-  // Validation patterns
+
   const patterns = {
     phone: {
       value: /^\+?[1-9]\d{9,14}$/,
@@ -85,23 +87,26 @@ console.log(user?.GetPriceDetails?.call_pro);
     try {
       const formData = new FormData();
       formData.append("id", userID?.id);
-
-      // Only append values for enabled toggles
+  
+      // Append values only for enabled toggles
       if (toggles.call)
-        formData.append(
-          "conversation_call_number",
-          data.conversation_call_number
-        );
+        formData.append("conversation_call_number", data.conversation_call_number);
+  
       if (toggles.text)
-        formData.append(
-          "conversation_text_number",
-          data.conversation_text_number
-        );
+        formData.append("conversation_text_number", data.conversation_text_number);
+  
+      if (toggles.chat) {
+        formData.append("conversation_chat", 1); 
+      } else {
+        formData.append("conversation_chat", 0); 
+      }
+  
       if (toggles.email)
         formData.append("conversation_email", data.conversation_email);
+  
       if (toggles.address)
         formData.append("conversation_address", data.conversation_address);
-
+  
       const response = await addConversation(formData);
       if (response) {
         handleTabChange(8);
@@ -121,6 +126,7 @@ console.log(user?.GetPriceDetails?.call_pro);
       });
     }
   };
+  
 
   if (isLoading) {
     return <Loader />;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ServiceBox2 from "../ServiceBox2";
+import ServiceBox from "../ServiceBox";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import { useGetFavourite1Query } from "../../services/sales/index";
 import Loader from "../MUI/Loader";
@@ -75,7 +75,7 @@ const CommonFavorites2 = () => {
       >
         {services?.length > 0 ? (
           services.map((service) => (
-            <ServiceBox2
+            <ServiceBox
               key={service.id}
               title={service.service_title}
               price={

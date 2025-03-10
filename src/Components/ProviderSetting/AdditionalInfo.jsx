@@ -16,11 +16,11 @@ const AdditionalInfo = ({ handleTabChange}) => {
 const userId=useSelector((state)=>state.auth.user);
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
-      about_video: userData?.businessProfile?.[0].about_video || "",
-      technician_photo: userData?.businessProfile?.[0].technician_photo || "",
-      vehicle_photo: userData?.businessProfile?.[0].vehicle_photo || "",
-      facility_photo: userData?.businessProfile?.[0].facility_photo || "",
-      project_photo: userData?.businessProfile?.[0].project_photo || "",
+      about_video: userData?.businessProfile?.about_video || "",
+      technician_photo: userData?.businessProfile?.technician_photo || "",
+      vehicle_photo: userData?.businessProfile?.vehicle_photo || "",
+      facility_photo: userData?.businessProfile?.facility_photo || "",
+      project_photo: userData?.businessProfile?.project_photo || "",
     },
   });
 
