@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useGetlandingpageQuery } from "../services/dashboard";
 import ServiceBox from "../Components/ServiceBox";
 import HeroSection from "../Components/Common/HeroSection";
 import Down from "../assets/img/chevronDown.png";

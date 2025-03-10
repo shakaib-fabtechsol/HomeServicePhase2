@@ -264,28 +264,51 @@ function CatalogResult() {
                 </div>
               </div>
             </div>
-            <div className="filter-other ">
-              <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((service, index) => (
-                  <ServiceBox
-                    key={index}
-                    title={service.title}
-                    price={service.price}
-                    description={service.description}
-                    tags={service.tags}
-                    image={service.image}
-                    publish={service.publish}
-                    serviceDetailTo="/dealdetails"
-                    videos={service.videos}
-                    imgs={service.images}
-                    username={service.username}
-                    userimg={service.userimg}
-                    Rating={service.rating}
-                    Liked={service.rating}
-                    totalReviews={service.totalReviews}
-                  />
-                ))}
-              </div>
+            <div className="filter-other">
+              {(isFetching || isLoading) ? <Loader /> : (
+                <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                  {data?.deals?.length > 0 ? (
+                    data?.deals?.map((service) => (
+                      <ServiceBox
+                        key={service.id}
+                        title={service.service_title}
+                        price={
+                          service.pricing_model === "Flat"
+                            ? service.flat_rate_price
+                            : service?.pricing_model === "Hourly"
+                              ? service.hourly_final_list_price
+                              : service.price1
+                        }
+                        tags={service.search_tags}
+                        image={service.images}
+                        publish={service.publish}
+                        userimg={service.userimg}
+                        username={service.user_name}
+                        description={service.service_description}
+                        category={service.service_category}
+                        dealid={service.id}
+                        Rating={service.rating}
+                        Liked={service.Liked}
+                        serviceDetailTo={`${redirectTo}/${service?.id}`}
+                        videos={service.videos}
+                        imgs={service.images}
+                        Days={
+                          service.pricing_model === "Flat"
+                            ? service.flat_estimated_service_time
+                            : service?.pricing_model === "Hourly"
+                              ? service.hourly_estimated_service_time
+                              : service.estimated_service_timing
+                        }
+                        totalReviews={service.totalReviews}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center w-full h-full">
+                      <p>No services found</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

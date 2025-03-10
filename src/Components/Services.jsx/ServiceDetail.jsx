@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -58,7 +59,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail() {
+function ServiceDetail({ useGetUserDetailsQuery, useGetDealQuery, useDeleteDealMutation, hide }) {
   const { dealid } = useParams();
   const [callPro] = useCallProApiMutation();
   const [textPro] = useTextProApiMutation();

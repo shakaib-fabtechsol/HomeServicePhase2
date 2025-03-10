@@ -82,7 +82,18 @@ import { PrivateRoute } from "./PrivateRoute";
 import Prodetailssr1 from "./Pages/Sales/Prodetailssr1";
 import EditProvider from "./Pages/SuperAdmin/EditProvider";
 import EditsaleProvider from "./Pages/Sales/EditsaleProvider";
+import DealDetails2 from "./Pages/Customer/DealDetails2";
+import LandingDetails from "./Pages/Customer/LandingDetails";
+import { useJsApiLoader } from "@react-google-maps/api";
+const libraries = ["places", "marker"];
+const GOOGLE_MAPS_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0"; // Replace with your actual key
 function App() {
+  
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
   return (
     <Router>
       <Routes>
