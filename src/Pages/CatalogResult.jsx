@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import ServiceBox2 from "../Components/ServiceBox2";
+import ServiceBox from "../Components/ServiceBox";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import cardvideo from "../assets/img/cardvideo.mp4";
 import slideimg from "../assets/img/service1new.jpeg";
@@ -264,49 +264,28 @@ function CatalogResult() {
                 </div>
               </div>
             </div>
-            <div className="filter-other">
-              {(isFetching || isLoading) ? <Loader /> : (
-                <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-                  {data?.deals?.length > 0 ? (
-                    data?.deals?.map((service) => (
-                      <ServiceBox2
-              key={service.id}
-              title={service.service_title}
-              price={
-                service.flat_rate_price ||
-                service.hourly_rate ||
-                service.price1 ||
-                "Price not available"
-              }
-              tags={service.search_tags}
-              image={service.images}
-              publish={service.publish}
-              userimg={service.personal_image}
-              username={service.user_name}
-              description={service.service_description}
-              cateogory={service.service_category}
-              dealid={service.id}
-              Rating={service.avg_rating}
-              Liked={service.Liked}
-              serviceDetailTo={`/dealDetails/${service.id}`}
-              videos={service.videos}
-              imgs={service.personal_image}
-              Days={
-                service.flat_estimated_service_time ||
-                service.hourly_estimated_service_time ||
-                service.estimated_service_timing1 ||
-                "N/A"
-              }
-              totalReviews={service.total_reviews} 
-            />
-                    ))
-                  ) : (
-                    <div className="flex justify-center items-center w-full h-full">
-                      <p>No services found</p>
-                    </div>
-                  )}
-                </div>
-              )}
+            <div className="filter-other ">
+              <div className="grid mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {services.map((service, index) => (
+                  <ServiceBox
+                    key={index}
+                    title={service.title}
+                    price={service.price}
+                    description={service.description}
+                    tags={service.tags}
+                    image={service.image}
+                    publish={service.publish}
+                    serviceDetailTo="/dealdetails"
+                    videos={service.videos}
+                    imgs={service.images}
+                    username={service.username}
+                    userimg={service.userimg}
+                    Rating={service.rating}
+                    Liked={service.rating}
+                    totalReviews={service.totalReviews}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

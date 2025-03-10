@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaArrowRight, FaSearch } from "react-icons/fa";
-import ServiceBox2 from "../../Components/ServiceBox2";
+import ServiceBox from "../../Components/ServiceBox";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
 import Down from "../../assets/img/chevronDown.png";
@@ -262,43 +262,49 @@ const CommonDashboard = ({ orderto, conversationto, }) => {
         </div>
       </div>
       <h2 className="text-xl font-semibold mt-5">Recently Viewed</h2>
-      <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {orderData?.recentDeal?.length > 0 ? (
-         orderData?.recentDeal?.map((service) => (
-          <ServiceBox2
-          key={service.id}
-          title={service.service_title}
-          price={
-            service.flat_rate_price ||
-            service.hourly_rate ||
-            service.price1 ||
-            "Price not available"
-          }
-          tags={service.search_tags}
-          image={service.images}
-          publish={service.publish}
-          userimg={service.personal_image}
-          username={service.user_name}
-          description={service.service_description}
-          cateogory={service.service_category}
-          dealid={service.id}
-          Rating={service.avg_rating}
-          Liked={service.Liked}
-          serviceDetailTo={`${redirectTo}/${service.id}`}
-          videos={service.videos}
-          imgs={service.personal_image}
-          Days={
-            service.flat_estimated_service_time ||
-            service.hourly_estimated_service_time ||
-            service.estimated_service_timing1 ||
-            "N/A"
-          }
-          totalReviews={service.total_reviews} 
-        />
-            ))
+      {loading ? (
+          <div className="flex justify-center items-center mt-7">
+            <Loader />
+          </div>
+        ) : services.length > 0 ? (
+          <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            {services.slice(0, 3).map((service) => (
+              <ServiceBox
+                key={service.id}
+                title={service.service_title}
+                price={
+                  service.pricing_model === "Flat"
+                    ? service.flat_rate_price
+                    : service.pricing_model === "Hourly"
+                    ? service.hourly_final_list_price
+                    : service.price1
+                }
+                tags={service.search_tags}
+                image={service.images}
+                publish={service.publish}
+                userimg={service.personal_image}
+                username={service.user_name}
+                description={service.service_description}
+                category={service.service_category}
+                dealid={service.id}
+                Rating={service.rating}
+                Liked={service.Liked}
+                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                videos={service.videos}
+                imgs={service.personal_image}
+                Days={
+                  service.pricing_model === "Flat"
+                    ? service.flat_estimated_service_time
+                    : service.pricing_model === "Hourly"
+                    ? service.hourly_estimated_service_time
+                    : service.estimated_service_timing
+                }
+                totalReviews={service.totalReviews}
+              />
+            ))}
+          </div>
         ) : (
-          <p>No services found</p>
-         
+          <p className="text-center mt-5">No services found</p>
         )}
       </div>
     

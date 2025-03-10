@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
-import ServiceBox2 from "../../Components/ServiceBox2";
+import ServiceBox from "../../Components/ServiceBox";
 import Loader from "../../Components/MUI/Loader"; // Import Loader
 
 import axios from "axios";
@@ -83,36 +83,38 @@ function Services() {
           <div className="grid mt-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
             {filteredServices.length > 0 ? (
               filteredServices.map((service) => (
-                <ServiceBox2
-              key={service.id}
-              title={service.service_title}
-              price={
-                service.flat_rate_price ||
-                service.hourly_rate ||
-                service.price1 ||
-                "Price not available"
-              }
-              tags={service.search_tags}
-              image={service.images}
-              publish={service.publish}
-              userimg={service.personal_image}
-              username={service.user_name}
-              description={service.service_description}
-              cateogory={service.service_category}
-              dealid={service.id}
-              Rating={service.avg_rating}
-              Liked={service.Liked}
-              serviceDetailTo={`/dealDetails/${service.id}`}
-              videos={service.videos}
-              imgs={service.personal_image}
-              Days={
-                service.flat_estimated_service_time ||
-                service.hourly_estimated_service_time ||
-                service.estimated_service_timing1 ||
-                "N/A"
-              }
-              totalReviews={service.total_reviews} 
-            />
+                <ServiceBox
+                  key={service.id}
+                  title={service.service_title}
+                  price={
+                    service.pricing_model === "Flat"
+                      ? service.flat_rate_price
+                      : service?.pricing_model === "Hourly"
+                      ? service.hourly_final_list_price
+                      : service.price1
+                  }
+                  tags={service.search_tags}
+                  image={service.images}
+                  publish={service.publish}
+                  userimg={service.personal_image}
+                  username={service.user_name}
+                  description={service.service_description}
+                  category={service.service_category}
+                  dealid={service.id}
+                  Rating={service.rating}
+                  Liked={service.Liked}
+                  serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                  videos={service.videos}
+                  imgs={service.personal_image}
+                  Days={
+                    service.pricing_model === "Flat"
+                      ? service.flat_estimated_service_time
+                      : service?.pricing_model === "Hourly"
+                      ? service.hourly_estimated_service_time
+                      : service.estimated_service_timing
+                  }
+                  totalReviews={service.totalReviews}
+                />
               ))
             ) : (
               <p>No services found</p>
