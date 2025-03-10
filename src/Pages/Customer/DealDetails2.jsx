@@ -20,13 +20,14 @@ import Swal from "sweetalert2";
 import Loader from "../../Components/MUI/Loader";
 
 import {
-    useGetDeal1Query,
+  useGetDeal1Query,
   useGetUserDetailsQuery,
   useDeleteDealMutation,
 } from "../../services/base-api/index";
 import { useCallProApiMutation, useTextProApiMutation, useChatProApiMutation, useEmailProApiMutation, useGetDirectionsApiMutation } from "../../services/providerContactPro";
 import { toast } from "react-toastify";
 import { ContactProModal } from "../../Components/Services.jsx/ContactProModal";
+import { sendInstantChatMessage } from "../../Components/Services.jsx/sendInstantChatMessage";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +57,7 @@ function a11yProps(index) {
   };
 }
 
+const contact_pro_feilds = ['conversation_address', 'conversation_email', 'conversation_text_number', 'conversation_call_number' , 'conversation_chat']
 function ServiceDetail() {
   const { dealid } = useParams();
   const [callPro] = useCallProApiMutation();
@@ -73,17 +75,23 @@ function ServiceDetail() {
   const {
     data: dealData,
     isLoading: dealLoading,
-  } =  useGetDeal1Query(dealid, { skip: !token || !dealid });
-  const serviceDetails = dealData?.deal[0];
-  const service=dealData?.businessProfile;
-console.log(serviceDetails,"valueeee")
-  const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
+  } = useGetDeal1Query(dealid, { skip: !token || !dealid });
+
+  console.log("dealData", dealData)
+
+  const serviceDetails = dealData?.deal;
+  const service = dealData?.businessProfile;
+  console.log(serviceDetails, "valueeee")
+  const isContactPro = contact_pro_feilds.some(key => {
+    const value = service?.[key];
+    return value !== undefined && value !== null && value !== '';
+  }); const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
- 
+
 
   const [contactopen, setContactOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -92,16 +100,25 @@ console.log(serviceDetails,"valueeee")
   const handlecontactClose = () => setContactOpen(false);
   const handleModalClose = (e) => { setContactModal("") };
   const handleSubmitApi = async (modalType, formData) => {
+    console.log("formData", formData)
+    
     if (!formData || !formData?.providerId) {
       toast.info("Invalid Data")
+      console.log("Invalid Data")
       return
     }
     if (!formData?.providerId) {
-      toast.info("Invalid Request")
+      console.log("Invalid Request")
+      return
+    }
+    if (!formData?.userId) {
+      toast.info("Invalid userId")
+      console.log("Invalid userId")
       return
     }
     if (!formData?.dealId) {
       toast.info("Invalid DealId")
+      console.log("Invalid DealId")
       return
     }
     setLoading(true)
@@ -116,6 +133,7 @@ console.log(serviceDetails,"valueeee")
           break;
         case "Instant Chat":
           await chatPro(formData).unwrap();
+          await sendInstantChatMessage(formData)
           break;
         case "Email Pro":
           await emailPro(formData).unwrap();
@@ -145,19 +163,11 @@ console.log(serviceDetails,"valueeee")
   };
 
   const modalContacts = [
-    { Icon: <FiPhone />, title: "Call Pro" },
-    {
-
-      Icon: <BiMessageSquareDetail />,
-      title: "Text Pro",
-    },
-    { Icon: <BiMessageAltDetail />, title: "Instant Chat" },
-    { Icon: <TbMailDown />, title: "Email Pro" },
-    {
-
-      Icon: <IoLocationOutline />,
-      title: "Get Directions",
-    },
+    { Icon: <FiPhone />, title: "Call Pro", key: "conversation_call_number" },
+    { Icon: <BiMessageSquareDetail />, title: "Text Pro", key: "conversation_text_number" },
+    { Icon: <BiMessageAltDetail />, title: "Instant Chat", key: "conversation_chat" },
+    { Icon: <TbMailDown />, title: "Email Pro", key: "conversation_email" },
+    { Icon: <IoLocationOutline />, title: "Get Directions", key: "conversation_address" },
   ];
 
   if (dealLoading) {
@@ -174,7 +184,7 @@ console.log(serviceDetails,"valueeee")
     : "/service1.png";
 
   const regularHours =
-  service && service.regular_hour
+    service && service.regular_hour
       ? JSON.parse(service.regular_hour || "[]")
       : [];
   const days = [
@@ -223,7 +233,7 @@ console.log(serviceDetails,"valueeee")
           <h2 className="text-xl lg:text-[23px] myhead font-semibold lg:me-2">
             {serviceDetails?.service_title || "N/A"}
           </h2>
-         
+
         </div>
         <div className="grid mt-4 grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-12 xl:col-span-8">
@@ -240,7 +250,7 @@ console.log(serviceDetails,"valueeee")
                   <div className="flex">
                     <Link to="/customer/Deals">
                       <p className="font-semibold myhead me-2">
-                        { service?.business_name}
+                        {service?.business_name}
                       </p>
                     </Link>
                     <div className="flex">
@@ -251,10 +261,10 @@ console.log(serviceDetails,"valueeee")
                     </div>
                   </div>
                   <div className="flex flex-wrap mt-2">
-                    <p className="myblack pe-3 me-3 border-e">{ service?.business_primary_category}</p>
+                    <p className="myblack pe-3 me-3 border-e">{service?.business_primary_category}</p>
                     <div className="flex items-center">
                       <IoLocationOutline className="me-2 myblack" />
-                      <p className="myblack ">{ service?.business_location}</p>
+                      <p className="myblack ">{service?.business_location}</p>
                     </div>
                   </div>
                   <div className="flex mt-2 items-center">
@@ -307,6 +317,7 @@ console.log(serviceDetails,"valueeee")
                     <p className="text-lg font-semibold">Contact Pro</p>
                     <div className="flex flex-col gap-3 mt-4">
                       {modalContacts.map((contact, index) => (
+                        service?.[contact?.key] !== undefined && service?.[contact?.key] !== null && service?.[contact?.key] !== '' &&
                         <div
                           onClick={() => {
                             setContactModal(contact?.title)
@@ -319,6 +330,7 @@ console.log(serviceDetails,"valueeee")
                           <span className="text-[24px]">{contact.Icon}</span>
                           <span>{contact.title}</span>
                         </div>
+
                       ))}
                     </div>
                   </div>
@@ -486,7 +498,7 @@ console.log(serviceDetails,"valueeee")
                   )}
                 </Box>
               </div>
-              {true
+              {isContactPro
                 &&
                 <button
                   onClick={handlecontactOpen}
@@ -524,7 +536,7 @@ console.log(serviceDetails,"valueeee")
       </div>
     </div>
     {
-      contactModal && <ContactProModal loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
+      contactModal && <ContactProModal providerId={service?.user_id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
         submitApi={handleSubmitApi}
 
       />

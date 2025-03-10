@@ -9,7 +9,7 @@ export const ContactProModal = ({providerId,  activeModal, handleModalClose, sub
     dealId: Number(dealid),
     subject: "",
     location: "",
-    userId: 5,
+    userId: user?.id,
     providerId,
   });
 

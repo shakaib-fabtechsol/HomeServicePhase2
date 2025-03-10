@@ -8,7 +8,7 @@ import { useGetProviderDealsQuery } from "../../services/providerContactPro";
 
 const schema = yup.object().shape({
   service: yup.string().required("Service is required"),
-  // pricePlan: yup.string().required("Pricing Plan is required"),
+  pricePlan: yup.string().required("Pricing Plan is required"),
   description: yup.string().required("Description is required"),
   price: yup
     .number()
@@ -30,25 +30,19 @@ const style = {
   borderRadius: 4,
 };
 
-
 export const OfferModal = ({ handleClose, modalopen, onSubmit, userId, isLoading }) => {
-  const [selectedPlan, setSelectedPlan] = React.useState("");
+  const [selectedPlan, setSelectedPlan] = React.useState(null);
   const [description, setDescription] = React.useState("");
   const [price, setPrice] = React.useState("");
 
   const { data: deals } = useGetProviderDealsQuery(userId);
-  
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
-  console.log("deals", deals)
-  console.log("errors", errors)
   const selectedServiceId = watch("service"); 
   const selectedDeal = deals?.data?.find(deal => deal.id === Number(selectedServiceId));
-  console.log("selectedDeal", selectedDeal)
-  console.log("price", watch("price"))
-
   // Update description and price when plan changes
   const handlePlanChange = (e) => {
     const selectedValue = e.target.value;
@@ -56,7 +50,7 @@ export const OfferModal = ({ handleClose, modalopen, onSubmit, userId, isLoading
     
     if (selectedDeal?.pricing_model === "Custom") {
       setDescription(selectedDeal[`deliverable${selectedValue}`] || "");
-      setPrice(Number(selectedDeal[`price${selectedValue}`]?.split("$")[1]) || 0);
+      setPrice(selectedDeal[`price${selectedValue}`]?.split("$")[1] || "");
     }
   };
 
@@ -65,16 +59,21 @@ export const OfferModal = ({ handleClose, modalopen, onSubmit, userId, isLoading
     if (selectedDeal) {
       if (selectedDeal.pricing_model === "Custom" && selectedPlan) {
         setDescription(selectedDeal[`deliverable${selectedPlan}`] || "");
-        setPrice(Number(selectedDeal[`price${selectedPlan}`]?.split("$")[1]) || 0);
+        setPrice(selectedDeal[`price${selectedPlan}`]?.split("$")[1] || "");
       } else {
         setDescription(selectedDeal.service_description || "");
-        setPrice(Number(selectedDeal.hourly_final_list_price?.split("$")[1]) || 0);
+        setPrice(selectedDeal.hourly_final_list_price?.split("$")[1] || "");
       }
     }
   }, [selectedDeal, selectedPlan]);
 
   return (
-    <Modal open={modalopen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+    <Modal
+      open={modalopen}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
       <Box sx={style}>
         <Typography sx={{ fontFamily: "inter", p: 2 }} id="modal-modal-title" variant="h6" component="h2">
           Create Offer
@@ -90,33 +89,30 @@ export const OfferModal = ({ handleClose, modalopen, onSubmit, userId, isLoading
               </select>
               {errors.service && <p className="text-red-500 text-sm">{errors.service.message}</p>}
             </div>
-
-            <div className="flex flex-col gap-2 mt-3 cursor-not-allowed">
-              <label htmlFor="description" className="text-sm">Price Model</label>
-              <input type="text" readOnly value={selectedDeal?.pricing_model || ""} className="border p-2 rounded-lg cursor-not-allowed" />
+            <div className="flex flex-col gap-2 mt-3 cursor-not-allowed ">
+              <label htmlFor="description" className="text-sm">Price Modal</label>
+              <input type="text" readOnly={true} value={selectedDeal?.pricing_model} className="border p-2 rounded-lg cursor-not-allowed" />
             </div>
-
-            {selectedDeal?.pricing_model === "Custom" && (
-              <div className="flex flex-col gap-2 mt-3">
-                <label htmlFor="pricePlan" className="text-sm">Select Pricing Plan</label>
-                <select onChange={handlePlanChange} className="border p-2 bg-white rounded-lg">
-                  <option value="" hidden>Select</option>
-                  <option value="1">{selectedDeal?.title1}</option>
-                  <option value="2">{selectedDeal?.title2}</option>
-                  <option value="3">{selectedDeal?.title3}</option>
-                </select>
-              </div>
-            )}
+            {selectedDeal?.pricing_model === "Custom" && <div className="flex flex-col gap-2 mt-3">
+              <label htmlFor="pricePlan" className="text-sm">Select Pricing Plan</label>
+              <select onChange={(e) => { setSelectedPlan(e.target.value) }} className="border p-2 bg-white rounded-lg">
+                <option value="" hidden>Select</option>
+                <option value="1">{selectedDeal?.title1}</option>
+                <option value="2">{selectedDeal?.title2}</option>
+                <option value="3">{selectedDeal?.title3}</option>
+              </select>
+              {/* {errors.pricePlan && <p className="text-red-500 text-sm">{errors.pricePlan.message}</p>} */}
+            </div>}
 
             <div className="flex flex-col gap-2 mt-3">
               <label htmlFor="description" className="text-sm">Description and Deliverables</label>
-              <textarea {...register("description")} value={description} onChange={(e) => setDescription(e.target.value)} cols="30" rows="4" className="border p-2 rounded-lg"></textarea>
+              <textarea {...register("description")} value={selectedDeal?.pricing_model === "Custom" ? selectedDeal?.[`deliverable${selectedPlan}`] : selectedDeal?.service_description} cols="30" rows="4" className="border p-2 rounded-lg"></textarea>
               {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2 mt-3">
               <label htmlFor="price" className="text-sm">Price</label>
-              <input type="number" {...register("price")} value={price} onChange={(e) => setPrice(e.target.value)} className="border p-2 rounded-lg" />
+              <input type="number" {...register("price")} value={selectedDeal?.pricing_model === "Custom" ? selectedDeal?.[`price${selectedPlan}`]?.split("$")[1] : selectedDeal?.hourly_final_list_price?.split("$")[1]} className="border p-2 rounded-lg" />
               {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
             </div>
 

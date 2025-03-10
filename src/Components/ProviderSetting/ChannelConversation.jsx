@@ -1,36 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useAddConversationMutation,useGetMyDetailsQuery } from "../../services/settings";
-import { useGetpricing1Query,useUpdatePricingMutation  } from "../../services/pricing";
+import { useAddConversationMutation, useGetMyDetailsQuery } from "../../services/settings";
+import { useGetpricing1Query, useUpdatePricingMutation } from "../../services/pricing";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/authSlice";
 import Loader from "../MUI/Loader";
 
 const ChannelConversation = ({ handleTabChange }) => {
-  const userID= useSelector((state)=>state.auth.user);
+  const userID = useSelector((state) => state.auth.user);
   const { data: userData, isLoading: isFetching } = useGetMyDetailsQuery();
-const {data:user}= useGetpricing1Query();
-console.log(user?.GetPriceDetails?.call_pro);
-  console.log(userData?.businessProfile);
+  const { data: user } = useGetpricing1Query();
+  console.log(user?.GetPriceDetails?.call_pro);
+  console.log("userData?.businessProfile", userData?.businessProfile);
   const dispatch = useDispatch();
   const [addConversation, { isLoading }] = useAddConversationMutation();
-  const [toggles, setToggles] = useState({
-    call: !!userData?.businessProfile[0]?.conversation_call_number,
-    text: !!userData?.businessProfile[0]?.conversation_text_number,
-    email: !!userData?.businessProfile[0]?.conversation_email,
-    address: !!userData?.businessProfile[0]?.conversation_address,
-    chat: !!userData?.businessProfile[0]?.conversation_chat,
-    form: false,
-  });
+  const [toggles, setToggles] = useState({});
 
+  useEffect(() => {
+    setToggles({
+      call: !!userData?.businessProfile[0]?.conversation_call_number,
+      text: !!userData?.businessProfile[0]?.conversation_text_number,
+      email: !!userData?.businessProfile[0]?.conversation_email,
+      address: !!userData?.businessProfile[0]?.conversation_address,
+      chat: !!userData?.businessProfile[0]?.conversation_chat,
+      form: false,
+    })
+  }, [userData?.businessProfile[0]?.conversation_call_number , userData?.businessProfile[0]?.conversation_text_number , userData?.businessProfile[0]?.conversation_email , userData?.businessProfile[0]?.conversation_chat , userData?.businessProfile[0]?.conversation_address])
+  console.log("zero", !!0)
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -40,10 +45,11 @@ console.log(user?.GetPriceDetails?.call_pro);
         userData?.businessProfile[0]?.conversation_text_number,
       conversation_email: userData?.businessProfile[0]?.conversation_email,
       conversation_address: userData?.businessProfile[0]?.conversation_address,
+      conversation_chat: userData?.businessProfile[0]?.conversation_chat,
     },
   });
 
-  const handlereset=()=>{
+  const handlereset = () => {
     setToggles("");
     setValue(null);
   }
@@ -53,12 +59,13 @@ console.log(user?.GetPriceDetails?.call_pro);
         ...prev,
         [field]: !prev[field],
       };
-     
+      console.log("newState", newState)
       const fieldMap = {
         call: "conversation_call_number",
         text: "conversation_text_number",
         email: "conversation_email",
         address: "conversation_address",
+        chat: "conversation_chat",
       };
 
       if (!newState[field]) {
@@ -82,6 +89,8 @@ console.log(user?.GetPriceDetails?.call_pro);
   };
 
   const onSubmit = async (data) => {
+    console.log("data", data)
+
     try {
       const formData = new FormData();
       formData.append("id", userID?.id);
@@ -91,6 +100,11 @@ console.log(user?.GetPriceDetails?.call_pro);
         formData.append(
           "conversation_call_number",
           data.conversation_call_number
+        );
+      if (toggles.chat)
+        formData.append(
+          "conversation_chat",
+          toggles?.chat ? 1 : 0
         );
       if (toggles.text)
         formData.append(
@@ -102,9 +116,11 @@ console.log(user?.GetPriceDetails?.call_pro);
       if (toggles.address)
         formData.append("conversation_address", data.conversation_address);
 
-      const response = await addConversation(formData);
+      const response = await addConversation(formData).unwrap();
       if (response) {
-        handleTabChange(8);
+        console.log("response", response?.conversation?.conversation_address)
+        // reset({}, { keepValues: true });
+        // handleTabChange(8);
         Swal.fire({
           icon: "success",
           title: "Success!",
@@ -243,7 +259,7 @@ console.log(user?.GetPriceDetails?.call_pro);
                     <input
                       type="checkbox"
                       defaultChecked={
-                        toggles.chat || watch("conversation_chat")
+                        toggles?.chat || watch("conversation_chat")
                       }
                       onChange={() => handleToggle("chat")}
                       className="hidden peer"

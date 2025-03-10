@@ -81,13 +81,14 @@ function ServiceDetail() {
 
   const pricingModel = serviceDetails ? serviceDetails?.pricing_model : "";
   const {
-    data: userData,
+    data: userData, 
     isLoading: userLoading,
 
   } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
+  // } = useGetUserDetailsQuery(dealid, { skip: !token || !dealid });
 
-  const provider = userData?.businessProfile[0] || {};
-  console.log(provider, "valueeeeeeeeeeeee");
+  const provider = userData?.businessProfile || {};
+  // console.log(provider, "valueeeeeeeeeeeee");
   console.log("dealData", dealData,);
   console.log("userData", userData,);
 
@@ -298,7 +299,7 @@ function ServiceDetail() {
                   <div className="flex">
                     <Link to="/provider/ProfileDetails">
                       <p className="font-semibold myhead me-2">
-                        {provider?.business_name}
+                        {provider?.business_name} 
                       </p>
                     </Link>
                     <div className="flex">
@@ -544,7 +545,7 @@ function ServiceDetail() {
                   )}
                 </Box>
               </div>
-              {true
+              {/* {true
               // {user?.role === 1 && (userData?.user?.customer_notification === 1 || userData?.user?.customer_notification === true)
                 &&
                 <button
@@ -553,7 +554,7 @@ function ServiceDetail() {
                 >
                   <IoChatbubbleEllipsesOutline className="me-2 text-[#fff] text-xl" />
                   <span>Contact Pro</span>
-                </button>}
+                </button>} */}
             </div>
           </div>
         </div>
@@ -582,12 +583,12 @@ function ServiceDetail() {
         </div>
       </div>
     </div>
-    {
+    {/* {
       contactModal && <ContactProModal providerId={userData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
         submitApi={handleSubmitApi}
 
       />
-    }
+    } */}
   </>);
 }
 

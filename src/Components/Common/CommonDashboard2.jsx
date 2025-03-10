@@ -286,7 +286,7 @@ const CommonDashboard1 = ({ orderto, conversationto, }) => {
                 dealid={service.id}
                 Rating={service.rating}
                 Liked={service.Liked}
-                serviceDetailTo={`/provider/dealDetails/${service.id}`}
+                serviceDetailTo={`/customer/dealDetails/${service.id}`}
                 videos={service.videos}
                 imgs={service.images}
                 Days={

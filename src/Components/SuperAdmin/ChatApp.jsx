@@ -36,9 +36,9 @@ const ChatApp = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { user } = useSelector((state) => state.auth)
-  console.log("chats =>>>>>>>>>", chats)
-  console.log("messages =>>>>>>>>>", messages)
-  console.log("activeChat =>>>>>>>>>", activeChat)
+  // console.log("chats =>>>>>>>>>", chats)
+  // console.log("messages =>>>>>>>>>", messages)
+  // console.log("activeChat =>>>>>>>>>", activeChat)
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(socketUrl, {
@@ -50,27 +50,27 @@ const ChatApp = () => {
         },
       });
 
-      socket.current.on("connect", () => {
+      socket.current.on("connect", () => {  
         console.log("Socket connected:", socket.current.id);
       });
 
       socket.current.on("user-chats", (data) => {
-        console.log("user-chats received", data);
+        // console.log("user-chats received", data);
         setChats(data.chats);
         setFilteredChats(data.chats);
       });
 
       socket.current.on("receive-message", (message) => {
-        console.log("receive-message:", message);
-        console.log(" activeChat rin:", activeChatRef.current);
-        console.log("activeChat", message.message.chat === activeChatRef.current);
+        // console.log("receive-message:", message);
+        // console.log(" activeChat rin:", activeChatRef.current);
+        // console.log("activeChat", message.message.chat === activeChatRef.current);
         if (chats.some(chat => chat.chatId !== message.message.chat)) {
-          console.log(" again fetch-user-chats .........")
+          // console.log(" again fetch-user-chats .........")
           socket.current.emit("fetch-user-chats");
           return
         }
         if (message.message.chat === activeChatRef.current) {
-          console.log("activeChat :", activeChatRef.current);
+          // console.log("activeChat :", activeChatRef.current);
           setMessages((prevMessages) => [...prevMessages, message.message]);
         }
       });
@@ -90,15 +90,15 @@ const ChatApp = () => {
   }, [user?.id]);
 
   useEffect(() => {
-    console.log("fetch-chat-messages aaa")
-    console.log(activeChatRef.current, socket.current)
+    // console.log("fetch-chat-messages aaa")
+    // console.log(activeChatRef.current, socket.current)
     if (activeChatRef.current && socket.current) {
-      console.log("came into")
+      // console.log("came into")
 
       socket.current.emit("fetch-user-chat-messages", { chatId: activeChatRef.current });
 
       const messageListener = (data) => {
-        console.log("fetch-chat-messages", data)
+        // console.log("fetch-chat-messages", data)
         setMessages(data?.messages);
 
 
@@ -126,7 +126,7 @@ const ChatApp = () => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() || attachedFile) {
-      console.log("send-message",)
+      // console.log("send-message",)
       socket.current.emit("send-message", {
         chatId: activeChatRef.current,
         content: newMessage,
@@ -185,21 +185,23 @@ const ChatApp = () => {
 
 
       console.log("data", data)
-
+      
       const orderDetails = {
         provider_id: user?.id,
         customer_id: currentCustomer(activeChatRef.current, user?.id),
         total_amount: data?.price,
-        deal_id: data?.service,
+        deal_id: Number(data?.service),
         notes: data?.description,
-        scheduleDate: data?.date,
+        date: data?.date,
       };
+      console.log("orderDetails", orderDetails)
+
       const formData = new FormData();
       Object.entries(orderDetails).forEach(([key, value]) => {
         formData.append(key, value);
       })
       const order = await createOffer(formData)
-      console.log("order", order)
+      // console.log("order", order)
 
 
       if (order?.data?.Offer) {
@@ -219,7 +221,7 @@ const ChatApp = () => {
 
       }
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       handleClose();
 
       Swal.fire({
@@ -323,17 +325,17 @@ const ChatApp = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="hidden md:block">
+                {user?.role === 2 && <div className="hidden md:block">
                   <button
                     onClick={handleOpen}
                     className="text-white flex justify-center items-center gap-2 font-semibold rounded-[8px] bg-[#0F91D2] border-[#0F91D2] p-2">
                     Create Offer
                     <img className="size-5 object-contain" src={hand} alt="img" />
                   </button>
-                </div>
-                <button>
+                </div> }
+                {/* <button>
                   <BsThreeDotsVertical />
-                </button>
+                </button> */}
                 <div className="lg:hidden">
                   <button onClick={() => setOpen(false)} className="text-red-500">
                     <IoCloseCircle className="text-lg" />
