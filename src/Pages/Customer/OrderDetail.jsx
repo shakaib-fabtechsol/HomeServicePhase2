@@ -16,7 +16,8 @@ import { useMyOrderDetailsAsCustomerQuery } from "../../services/order/index.js"
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../Components/Common/LoadingSpinner.jsx";
 import RemoteError from "../../Components/Common/RemoteError.jsx";
-
+const BASE_URL = import.meta.env.VITE_BASE_URL
+import camera from "../../assets/img/userprofile.png";
 const style = {
   position: "absolute",
   top: "50%",
@@ -31,21 +32,19 @@ const style = {
 
 const OrderDetail = () => {
   const { id } = useParams();
-  
+
   const [images, setImages] = useState([]);
   const [open, setOpen] = React.useState(false);
 
-  const {isFetching,data,isError,error}=useMyOrderDetailsAsCustomerQuery(id)
+  const { isFetching, data, isError, error } = useMyOrderDetailsAsCustomerQuery(id)
 
   console.log("+++++++++++++++++++++++++++=")
-  console.log(data)
+  console.log(data, "this is detail of the page")
 
   useEffect(() => {
     document.title = "OederDetails";
   }, []);
-  if (isFetching) return <LoadingSpinner />;
-  if (isError)
-    return <RemoteError hasError={isError} message={error?.message} />;
+
 
   const deliveryImages = [
     DeliveryOne,
@@ -71,7 +70,21 @@ const OrderDetail = () => {
   const [photosopen, setphotosOpen] = useState(false);
   const handlephotosOpen = () => setphotosOpen(true);
   const handlephotosClose = () => setphotosOpen(false);
+  const getimage = (imgs) => {
+    const allimgs = JSON.parse(imgs)
+    return allimgs?.length ? allimgs[0] : ""
+  }
 
+  const getallimgs = (imgs) => {
+    const allimgs = JSON.parse(imgs)
+    return allimgs?.length ? allimgs : []
+  }
+
+
+
+  if (isFetching) return <LoadingSpinner />;
+  if (isError)
+    return <RemoteError hasError={isError} message={error?.message} />;
   return (
     <div>
       <div className="flex items-center sm:gap-4 gap-2 sm:mt-4">
@@ -93,7 +106,7 @@ const OrderDetail = () => {
         <div className="flex lg:flex-row flex-col gap-3">
           <div>
             <img
-              src={ServiceDet}
+              src={data?.GetOrderDetails?.images ? `${BASE_URL}/uploads/${getimage(data?.GetOrderDetails?.images)}` : ""}
               alt=""
               className="lg:size-52 w-full h-full object-cover rounded-2xl"
             />
@@ -102,43 +115,41 @@ const OrderDetail = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="text-[#181D27] sm:text-xl text-sm font-normal">
-                  Service Name
+                  {data?.GetOrderDetails?.service_title || "NA"}
                 </h4>
               </div>
               <div className="flex items-center gap-2">
                 <p className="text-xs font-medium text-[#494A4B]">
                   Basic plan:
                 </p>
-                <h3 className="text-2xl font-extrabold">$200</h3>
+                <h3 className="text-2xl font-extrabold">${data?.GetOrderDetails?.total_amount}</h3>
               </div>
             </div>
             <p className="text-[#535862] mt-4 lg:text-base text-xs">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-              tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus.
-              Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim
-              augue sed orci interdum vehicula.
+              {data?.GetOrderDetails?.notes}
             </p>
             <div className="flex sm:flex-row flex-col sm:items-center gap-3 sm:justify-between mt-4">
               <div className="flex items-center gap-3">
                 <div>
                   <img
-                    src={ClientTwo}
+                    src={data?.GetOrderDetails?.personal_image ? `${BASE_URL}/uploads/${data?.GetOrderDetails?.personal_image}` : camera}
                     alt=""
                     className="sm:size-16 size-12 sm:max-w-16 max-w-12[] rounded-full"
                   />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[#494A4B]">
-                    Frances Swann
+                    {data?.GetOrderDetails?.name || "NA"}
                   </p>
                   <h3 className="text-xs text-[#535862]">
-                    1851 Lynch Street, New Berlin, WI 53151
+                    {
+                      data?.GetOrderDetails?.location || "NA"}
                   </h3>
                 </div>
               </div>
               <div className="text-end sm:text-start">
                 <p className="text-sm font-medium text-[#494A4B]">Scheduled</p>
-                <h3 className="text-xs text-[#535862]">Dec 21, 2024 7:59 pm</h3>
+                <h3 className="text-xs text-[#535862]">{data?.GetOrderDetails?.scheduleDate?new Date(data?.GetOrderDetails?.scheduleDate)?.toLocaleString():""}</h3>
               </div>
             </div>
           </div>
@@ -148,32 +159,31 @@ const OrderDetail = () => {
         <div className="w-full">
           <div>
             <h4 className="text-[#181D27] sm:text-xl text-sm font-normal">
-              Service Name
+              {data?.GetOrderDetails?.service_title || "NA"}
             </h4>
             <h4 className="mt-4 text-[#181D27] font-medium sm:text-xl">
               Description and Deliverables{" "}
             </h4>
             <p className="text-[#535862] mt-2 lg:text-sm text-xs">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-              tellus diam, dignissim tincidunt quam vel, rutrum egestas lacus.
-              Phasellus accumsan fermentum dolor eu gravida. Vivamus dignissim
-              augue sed orci interdum vehicula.
+              {data?.GetOrderDetails?.notes || "Na"}
             </p>
           </div>
           <div className="flex items-center gap-3 mt-6">
             <div>
               <img
-                src={ClientTwo}
+                src={data?.GetOrderDetails?.personal_image ? `${BASE_URL}/uploads/${data?.GetOrderDetails?.personal_image}` : camera}
+
                 alt=""
                 className="sm:size-16 size-12 sm:max-w-16 max-w-12[] rounded-full"
               />
             </div>
             <div>
               <p className="text-sm font-medium text-[#494A4B]">
-                Frances Swann
+                {data?.GetOrderDetails?.name || "NA"}
               </p>
               <h3 className="text-xs text-[#535862]">
-                1851 Lynch Street, New Berlin, WI 53151
+                {
+                  data?.GetOrderDetails?.location || "NA"}
               </h3>
             </div>
           </div>
@@ -188,20 +198,20 @@ const OrderDetail = () => {
               </h4>
             </div>
             <div className="flex items-center gap-3">
-              <p className="text-[#181D27] text-sm">2/17/2025</p>
-              <p className="text-[#181D27] text-sm">3:29 PM</p>
+              {data?.GetOrderBeforeImages?.Schedule_date_time ? new Date(data?.GetOrderBeforeImages?.Schedule_date_time) : ""}
             </div>
           </div>
           <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 grid-cols-2 gap-4 mt-4">
-            {deliveryImages.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt=""
-                  className="w-full h-full object-cover rounded-2xl"
-                />
-              </div>
-            ))}
+            {
+             data?.GetOrderBeforeImages[0]?.before_images && getallimgs(data?.GetOrderBeforeImages[0]?.before_images)?.map((image, index) => (
+                <div key={index}>
+                  <img
+                    src={image ? `${BASE_URL}/uploads/${image}` : ""}
+                    alt=""
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                </div>
+              ))}
           </div>
         </div>
         <div className="bg-[#F4F4F4] p-4 rounded-2xl">
@@ -212,15 +222,19 @@ const OrderDetail = () => {
               </h4>
             </div>
             <div className="flex items-center gap-3">
-              <p className="text-[#181D27] text-sm">2/17/2025</p>
-              <p className="text-[#181D27] text-sm">3:29 PM</p>
+              {data?.
+GetOrderAfterImages?.Schedule_date_time ? new Date(data?.GetOrderBeforeImages?.Schedule_date_time) : ""}
             </div>
           </div>
           <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 grid-cols-2 gap-4 mt-4">
-            {deliveryImages.map((image, index) => (
+            {data?.
+GetOrderAfterImages
+[0]?.after_images && getallimgs(data?.
+GetOrderAfterImages
+[0]?.after_images)?.map((image, index) => (
               <div key={index}>
                 <img
-                  src={image}
+                  src={image ? `${BASE_URL}/uploads/${image}` : ""}
                   alt=""
                   className="w-full h-full object-cover rounded-2xl"
                 />
@@ -228,14 +242,14 @@ const OrderDetail = () => {
             ))}
           </div>
         </div>
-        <div className="bg-[#F4F4F4] p-4 rounded-2xl sm:col-start-1 sm:col-end-3">
+        {/* <div className="bg-[#F4F4F4] p-4 rounded-2xl sm:col-start-1 sm:col-end-3">
           <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between gap-1">
             <div>
               <h4 className="text-[#181D27] text-xl ">Before Photos:</h4>
             </div>
             <div className="flex items-center gap-3">
-              <p className="text-[#181D27] text-sm">2/17/2025</p>
-              <p className="text-[#181D27] text-sm">3:29 PM</p>
+              <p className="text-[#181D27] text-sm">{data?.GetOrderBeforeImages?.Schedule_date_time ? new Date(data?.GetOrderBeforeImages?.Schedule_date_time) : ""}</p>
+
             </div>
           </div>
           <div className="mt-3">
@@ -257,7 +271,7 @@ const OrderDetail = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex xl:flex-row flex-col justify-between gap-3 xl:items-center border rounded-xl p-4 mt-5">
         <div>
