@@ -55,7 +55,7 @@ const userId=useSelector((state)=>state.auth.user);
     const uploadedFile = e.target.files[0];
     setFormData((prevState) => ({
       ...prevState,
-      [fieldName]: uploadedFile,
+      [!fieldName]: uploadedFile,
     }));
   };
 
@@ -390,7 +390,7 @@ const userId=useSelector((state)=>state.auth.user);
                   <SettingsPreview
                     onFileSelect={handleFileChange}
                     fieldName="license_certificate"
-                    existingImage={formData.license_certificate || profileImg}
+                    existingImage={formData.license_certificate}
                   />
                 </div>
               </div>
@@ -406,7 +406,8 @@ const userId=useSelector((state)=>state.auth.user);
                   <SettingsPreview
                     onFileSelect={handleFileChange}
                     fieldName="award_certificate"
-                    existingImage={formData.award_certificate || profileImg}
+                    existingImage={formData.award_certificate}
+                    
                   />
                 </div>
               </div>
@@ -684,7 +685,7 @@ const userId=useSelector((state)=>state.auth.user);
                 onClick={handlePublish}
                 disabled={publishLoading}
               >
-                {publishLoading ? "Publishing..." : "Publish $ next"}
+                {publishLoading ? "Publishing..." : "Publish & next"}
               </button>
 
               <button

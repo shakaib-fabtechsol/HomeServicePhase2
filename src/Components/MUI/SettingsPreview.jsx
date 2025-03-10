@@ -8,11 +8,10 @@ export default function SettingsPreview({
   existingImage,
 }) {
   const [file, setFile] = useState(null);
-  const [filePreview, setFilePreview] = useState(existingImage || null);
+  const [filePreview, setFilePreview] = useState(existingImage);
   const [showPreview, setShowPreview] = useState(false);
 
   console.log("filePreview......", file);
-  // Update filePreview when existingImage changes
   useEffect(() => {
     if (!file) {
       console.log("existingImage", existingImage);
@@ -22,21 +21,18 @@ export default function SettingsPreview({
       setShowPreview(true);
     }
   }, [existingImage]);
-
-  // Handle file drop from drag-and-drop
+ 
   const handleFileDrop = (e) => {
     e.preventDefault();
     const uploadedFile = e.dataTransfer.files[0];
     if (uploadedFile) {
       setFile(uploadedFile);
-      setFilePreview(URL.createObjectURL(uploadedFile)); // Set the preview image
-      setShowPreview(true); // Show preview
-      // Pass the file back to the parent component
+      setFilePreview(URL.createObjectURL(uploadedFile)); 
+      setShowPreview(true); 
       onFileSelect(e, fieldName);
     }
   };
-
-  // Handle file selection via file input
+ 
   const handleFileClick = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -138,7 +134,15 @@ export default function SettingsPreview({
         </div>
       )}
 
-      
+      {showPreview && filePreview && (
+        <div className="image-preview mt-4">
+          <img
+            src={filePreview}
+            alt=""
+            className="rounded-lg border border-gray-200 w-[200px]"
+          />
+        </div>
+      )}
     </div>
   );
 }

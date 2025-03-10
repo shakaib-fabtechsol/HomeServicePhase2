@@ -76,7 +76,7 @@ function LandingPage() {
 
       <div className="mycontainer">
         <h2 className="text-lg mt-8">Filters</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] mt-2">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 max-w-[800px] gap-3 mt-2">
           <div ref={budgetDropdownRef} className="relative">
             <button
               onClick={() => setIsBudgetDropdownOpen(prev => !prev)}
