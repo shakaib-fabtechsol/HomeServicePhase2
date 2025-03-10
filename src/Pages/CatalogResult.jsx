@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import ServiceBox from "../Components/ServiceBox";
+import ServiceBox2 from "../Components/ServiceBox2";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useLocation } from "react-router-dom";
 import { useGetservicebysearchQuery } from "../services/dashboard";
@@ -213,38 +213,36 @@ function CatalogResult() {
                 <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
                   {data?.deals?.length > 0 ? (
                     data?.deals?.map((service) => (
-                      <ServiceBox
-                        key={service.id}
-                        title={service.service_title}
-                        price={
-                          service.pricing_model === "Flat"
-                            ? service.flat_rate_price
-                            : service?.pricing_model === "Hourly"
-                              ? service.hourly_final_list_price
-                              : service.price1
-                        }
-                        tags={service.search_tags}
-                        image={service.images}
-                        publish={service.publish}
-                        userimg={service.userimg}
-                        username={service.user_name}
-                        description={service.service_description}
-                        category={service.service_category}
-                        dealid={service.id}
-                        Rating={service.rating}
-                        Liked={service.Liked}
-                        serviceDetailTo={`${redirectTo}/${service?.id}`}
-                        videos={service.videos}
-                        imgs={service.images}
-                        Days={
-                          service.pricing_model === "Flat"
-                            ? service.flat_estimated_service_time
-                            : service?.pricing_model === "Hourly"
-                              ? service.hourly_estimated_service_time
-                              : service.estimated_service_timing
-                        }
-                        totalReviews={service.totalReviews}
-                      />
+                      <ServiceBox2
+              key={service.id}
+              title={service.service_title}
+              price={
+                service.flat_rate_price ||
+                service.hourly_rate ||
+                service.price1 ||
+                "Price not available"
+              }
+              tags={service.search_tags}
+              image={service.images}
+              publish={service.publish}
+              userimg={service.personal_image}
+              username={service.user_name}
+              description={service.service_description}
+              cateogory={service.service_category}
+              dealid={service.id}
+              Rating={service.avg_rating}
+              Liked={service.Liked}
+              serviceDetailTo={`/dealDetails/${service.id}`}
+              videos={service.videos}
+              imgs={service.personal_image}
+              Days={
+                service.flat_estimated_service_time ||
+                service.hourly_estimated_service_time ||
+                service.estimated_service_timing1 ||
+                "N/A"
+              }
+              totalReviews={service.total_reviews} 
+            />
                     ))
                   ) : (
                     <div className="flex justify-center items-center w-full h-full">

@@ -15,6 +15,7 @@ function ServiceBox({
   cateogory,
   serviceDetailTo,
   review,
+  description,
   userimg,
   username,
   Rating,

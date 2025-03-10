@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegTrashCan } from "react-icons/fa6";
 import { FaPencilAlt, FaRegCalendarAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Box, Modal, Tab, Tabs } from "@mui/material";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
+// import  logo from "../../src/assets/img/before.1.jpg";
 import {
+  IoChatbubbleEllipsesOutline,
   IoLocationOutline,
 } from "react-icons/io5";
 import { IoIosStar } from "react-icons/io";
 import { BiMessageAltDetail, BiMessageSquareDetail } from "react-icons/bi";
 import { FiPhone } from "react-icons/fi";
 import { TbMailDown } from "react-icons/tb";
+import { PiChats } from "react-icons/pi";
 import Swal from "sweetalert2";
 
 import Loader from "../../Components/MUI/Loader";
@@ -52,7 +54,7 @@ function a11yProps(index) {
   };
 }
 
-function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
+function ServiceDetail({  useGetDealQuery, useDeleteDealMutation, hide }) {
   const { dealid } = useParams();
   const role = useSelector((state) => state.auth.user);
   console.log("role", role?.role);
@@ -92,6 +94,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
   const reviews=dealData?.reviews || {};
   console.log(provider, "valueeeeeeeeeeeee");
   console.log("dealData", dealData,);
+ 
 
   const [deleteDeal] = useDeleteDealMutation();
 
@@ -207,7 +210,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
     },
   ];
 
-  if (dealLoading ) {
+  if (dealLoading) {
     return <Loader />;
   }
   if (!serviceDetails) {
@@ -306,7 +309,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
                     <div className="flex">
                       <IoIosStar className="me-2 text-[#F8C600]" />
                       <p className="myblack text-sm">
-                      <span className="myhead font-semibold">{ reviews.total}</span>({reviews.average})
+                        <span className="myhead font-semibold">{ reviews.total}</span>({reviews.average})
                       </p>
                     </div>
                   </div>
@@ -433,7 +436,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
                   <CustomTabPanel value={value} index={0}>
                     <div className="flex justify-between">
                       <h2 className="text-2xl font-medium myhead">
-                        {serviceDetails?.pricing_model}
+                        {serviceDetails[0]?.pricing_model}
                       </h2>
                       <p className="text-3xl myhead font-bold">
                         {serviceDetails?.pricing_model === "Hourly"
@@ -472,14 +475,14 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
                     <CustomTabPanel value={value} index={1}>
                       <div className="flex justify-between">
                         <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
+                          {serviceDetails[0]?.pricing_model}
                         </h2>
                         <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price2}
+                          {serviceDetails[0]?.price2}
                         </p>
                       </div>
                       <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
+                        {serviceDetails[0]?.fine_print
                           ?.split("\n")
                           .map((line, index) => (
                             <React.Fragment key={index}>
@@ -497,14 +500,14 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
                     <CustomTabPanel value={value} index={1}>
                       <div className="flex justify-between">
                         <h2 className="text-2xl font-medium myhead">
-                          {serviceDetails?.pricing_model}
+                          {serviceDetails[0]?.pricing_model}
                         </h2>
                         <p className="text-3xl myhead font-bold">
-                          {serviceDetails?.price2}
+                          {serviceDetails[0]?.price2}
                         </p>
                       </div>
                       <p className="text-sm myblack mt-2">
-                        {serviceDetails?.fine_print
+                        {serviceDetails[0]?.fine_print
                           ?.split("\n")
                           .map((line, index) => (
                             <React.Fragment key={index}>
@@ -514,7 +517,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
                           ))}
                       </p>
                       <ul className="mt-4 myblack text-sm list-disc space-y-1 pl-5">
-                        <li>{serviceDetails?.estimated_service_timing2}</li>
+                        <li>{serviceDetails[0]?.estimated_service_timing2}</li>
                       </ul>
                     </CustomTabPanel>
                   )}
@@ -584,7 +587,7 @@ function ServiceDetail({ useGetDealQuery, useDeleteDealMutation, hide }) {
       </div>
     </div>
     {
-      contactModal && <ContactProModal providerId={dealData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
+      contactModal && <ContactProModal providerId={userData?.user?.id} loading={loading} dealid={dealid} activeModal={contactModal} handleModalClose={handleModalClose}
         submitApi={handleSubmitApi}
 
       />

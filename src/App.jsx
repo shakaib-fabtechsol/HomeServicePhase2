@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProviderLayout from "./Layouts/ProviderLayout";
+import { useEffect,useState } from "react";
 import Dashboard from "./Pages/ServiceProvider/Dashboard";
 import Clients from "./Pages/SuperAdmin/Clients";
 import Sales from "./Pages/SuperAdmin/Sales";
@@ -84,9 +85,10 @@ import EditProvider from "./Pages/SuperAdmin/EditProvider";
 import EditsaleProvider from "./Pages/Sales/EditsaleProvider";
 import DealDetails2 from "./Pages/Customer/DealDetails2";
 import LandingDetails from "./Pages/Customer/LandingDetails";
+import Loader from "./Components/MUI/Loader"
 import { useJsApiLoader } from "@react-google-maps/api";
 const libraries = ["places", "marker"];
-const GOOGLE_MAPS_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0"; // Replace with your actual key
+const GOOGLE_MAPS_API_KEY = "AIzaSyAu1gwHCSzLG9ACacQqLk-LG8oJMkarNF0"; 
 function App() {
   
   const { isLoaded } = useJsApiLoader({
@@ -94,7 +96,19 @@ function App() {
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500); 
+  }, []);
   return (
+    <>
+    {loading ? (
+      <Loader /> 
+    ) : (
     <Router>
       <Routes>
         <Route
@@ -234,7 +248,9 @@ function App() {
         <Route path={ROUTES.PUBLIC.NEW_PASSWORD} element={<NewPassword />} />
       </Routes>
     </Router>
-  );
+  )}
+  </>
+)
 }
 
 export default App;
